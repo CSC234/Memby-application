@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1025054520064",
+    "project_id": "memby-application",
+    "storage_bucket": "memby-application.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1025054520064:android:2b5893fe2dadd590b139e5",
+        "android_client_info": {
+          "package_name": "com.example.memby"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1025054520064-dea053ufdaf1hc39gi8dgcdvima61u83.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZDK0WPBwc8EMoUpRWI9fl3IPERgNLQFc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1025054520064-dea053ufdaf1hc39gi8dgcdvima61u83.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
