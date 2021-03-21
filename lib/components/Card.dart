@@ -5,7 +5,7 @@ class CardButton extends StatelessWidget {
   final String text;
   final Function press;
   final double fontsize;
-  final Color color, textColor;
+  final Color colorCircle, textColor;
   final double buttonSize;
   final Icon icon;
 
@@ -13,7 +13,7 @@ class CardButton extends StatelessWidget {
       {Key key,
       this.text,
       this.press,
-      this.color,
+      this.colorCircle,
       this.textColor,
       this.buttonSize,
       this.icon,
@@ -54,7 +54,8 @@ class CardButton extends StatelessWidget {
                   height: 80,
                   child: icon,
                   decoration: BoxDecoration(
-                      shape: BoxShape.circle, color: Color(0xFF4941BB)),
+                    // 0xFF4941BB
+                      shape: BoxShape.circle, color: colorCircle),
                 ),
                 Container(
                     child: Flexible(

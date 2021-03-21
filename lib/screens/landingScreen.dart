@@ -87,6 +87,7 @@ class Landing extends StatelessWidget {
                                       ),
                                     );
                                   },
+                                  colorCircle: Color(0xFF4941BB),
                                 ),
                                 CardButton(
                                   text: 'Create Order',
@@ -104,6 +105,7 @@ class Landing extends StatelessWidget {
                                       ),
                                     );
                                   },
+                                  colorCircle: Color(0xFF6961D6),
                                 ),
                                 CardButton(
                                   text: 'Add Product List',
@@ -121,6 +123,7 @@ class Landing extends StatelessWidget {
                                       ),
                                     );
                                   },
+                                  colorCircle: Color(0xFF7971E7),
                                 ),
                                 CardButton(
                                   text: 'View Dashboard',
@@ -138,6 +141,7 @@ class Landing extends StatelessWidget {
                                       ),
                                     );
                                   },
+                                  colorCircle: Color(0xFF8983DB),
                                 )
                               ],
                             ),
