@@ -18,11 +18,9 @@ class _LoginState extends State<Login> {
     Size size = MediaQuery.of(context).size;
     String _value;
     return Scaffold(
-      // resizeToAvoidBottomInset: false,
       backgroundColor: kPrimaryColor,
       body: SingleChildScrollView(
         child: Column(
-          // mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             SizedBox(
               height: 100,
