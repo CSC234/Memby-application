@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:memby/login.dart';
+import 'package:memby/screens/homeScreen.dart';
 
-void main() => runApp(MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: HomePage(),
-    ));
+void main() => runApp(MembyApp());
 
-class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
+class MembyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Login();
+    return MaterialApp(
+      home: HomeScreen(),
+    );
   }
 }
