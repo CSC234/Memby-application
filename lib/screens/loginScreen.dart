@@ -47,7 +47,6 @@ class _LoginState extends State<Login> {
                         image: AssetImage('assets/images/Invest.png'),
                       )),
                     )),
-<<<<<<< HEAD
                   ],
                 )),
             SizedBox(
@@ -79,76 +78,6 @@ class _LoginState extends State<Login> {
                 decoration: BoxDecoration(
                   color: Colors.black12,
                   borderRadius: BorderRadius.circular(30),
-=======
-                  )),
-                ],
-              )),
-          SizedBox(
-            height: 40,
-          ),
-          Container(
-              margin: EdgeInsets.symmetric(vertical: 10),
-              padding: EdgeInsets.symmetric(horizontal: 14, vertical: 5),
-              width: 325,
-              height: 60,
-              decoration: BoxDecoration(
-                color: Colors.black12,
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: TextFormField(
-                decoration: InputDecoration(
-                    hintText: 'Email Address',
-                    icon: Icon(
-                      Icons.person_rounded,
-                      color: Colors.black54,
-                    ),
-                    border: InputBorder.none),
-              )),
-          Container(
-              margin: EdgeInsets.symmetric(vertical: 10),
-              padding: EdgeInsets.symmetric(horizontal: 14, vertical: 5),
-              width: 325,
-              height: 60,
-              decoration: BoxDecoration(
-                color: Colors.black12,
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: TextFormField(
-                autofocus: true,
-                obscureText: true,
-                onChanged: (String value) {
-                  setState(() {
-                    // _value = value;
-                  });
-                  // widget.onChanged(value);
-                },
-                decoration: InputDecoration(
-                    hintText: 'Password',
-                    icon: Icon(
-                      Icons.lock,
-                      color: Colors.black54,
-                    ),
-                    suffixIcon: Icon(
-                      Icons.visibility,
-                      color: Colors.black54,
-                    ),
-                    border: InputBorder.none),
-              )),
-          RoundedButton(
-            color: kPrimaryLightColor,
-            buttonHight: 60,
-            fontsize: 15,
-            buttonSize: 0.4,
-            textColor: Colors.white,
-            text: "Login",
-            press: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    // return LoginScreen();
-                  },
->>>>>>> dev
                 ),
                 child: TextField(
                   obscureText: true,
