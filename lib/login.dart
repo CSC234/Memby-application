@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:memby/constants.dart';
 import 'package:memby/components/rounded_button.dart';
-
 
 class Login extends StatefulWidget {
   @override
@@ -19,58 +18,52 @@ class _LoginState extends State<Login> {
     Size size = MediaQuery.of(context).size;
     String _value;
     return Scaffold(
+      backgroundColor: kPrimaryColor,
       body: Column(
+        // mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           SizedBox(
             height: 100,
           ),
+          Text(
+            'Memby ',
+            style: TextStyle(
+                color: kPrimaryFont,
+                fontWeight: FontWeight.bold,
+                fontSize: 28,
+                fontFamily: 'Alef-Regular'),
+          ),
           Container(
-            height: 150,
-            decoration: BoxDecoration(
-                image: DecorationImage(
-              image: AssetImage('assets/images/recycling5.png'),
-            )),
-          ),
+              padding: EdgeInsets.all(50),
+              height: 280,
+              child: Stack(
+                children: <Widget>[
+                  Positioned(
+                      child: Container(
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                      image: AssetImage('assets/images/Invest.png'),
+                    )),
+                  )),
+                ],
+              )),
           SizedBox(
-            height: 30,
-          ),
-          Center(
-            child: Container(
-              height: 50,
-              width: 325,
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Text('Regenarate',
-                    style:
-                        TextStyle(fontFamily: 'quicksandBold', fontSize: 25)),
-              ),
-            ),
-          ),
-          Center(
-            child: Container(
-              height: 50,
-              width: 325,
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Text('login with email to start regenarate your items',
-                    style: TextStyle(fontFamily: 'quicksand', fontSize: 15)),
-              ),
-            ),
+            height: 40,
           ),
           Container(
               margin: EdgeInsets.symmetric(vertical: 10),
               padding: EdgeInsets.symmetric(horizontal: 14, vertical: 5),
-              width: size.width * 0.8,
-              height: 50,
+              width: 325,
+              height: 60,
               decoration: BoxDecoration(
                 color: Colors.black12,
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(30),
               ),
               child: TextField(
                 decoration: InputDecoration(
-                    hintText: 'Email',
+                    hintText: 'Email Address',
                     icon: Icon(
-                      Icons.perm_identity_rounded,
+                      Icons.person_rounded,
                       color: Colors.black54,
                     ),
                     border: InputBorder.none),
@@ -78,19 +71,19 @@ class _LoginState extends State<Login> {
           Container(
               margin: EdgeInsets.symmetric(vertical: 10),
               padding: EdgeInsets.symmetric(horizontal: 14, vertical: 5),
-              width: size.width * 0.8,
-              height: 50,
+              width: 325,
+              height: 60,
               decoration: BoxDecoration(
                 color: Colors.black12,
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(30),
               ),
               child: TextField(
                 obscureText: true,
                 onChanged: (String value) {
                   setState(() {
-                    _value = value;
+                    // _value = value;
                   });
-                  widget.onChanged(value);
+                  // widget.onChanged(value);
                 },
                 decoration: InputDecoration(
                     hintText: 'Password',
@@ -104,32 +97,19 @@ class _LoginState extends State<Login> {
                     ),
                     border: InputBorder.none),
               )),
-          Center(
-            child: Container(
-              height: 25,
-              width: 300,
-              child: Align(
-                alignment: Alignment.bottomRight,
-                child: Text("Forgot password?"),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
           RoundedButton(
-            text: "Login",
-            fontsize: 14,
-            buttonHight: 57,
+            color: kPrimaryLightColor,
+            buttonHight: 60,
+            fontsize: 15,
             buttonSize: 0.4,
             textColor: Colors.white,
-            color: Color(0xFF96A64F),
+            text: "Login",
             press: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    // return InsertPage();
+                    // return LoginScreen();
                   },
                 ),
               );
