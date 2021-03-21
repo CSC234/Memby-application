@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:memby/constants.dart';
 import 'package:memby/components/rounded_button.dart';
+import 'package:memby/screens/landingScreen.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -109,7 +110,7 @@ class _LoginState extends State<Login> {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      // return LoginScreen();
+                      return Landing();
                     },
                   ),
                 );
