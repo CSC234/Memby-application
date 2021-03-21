@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:memby/constants.dart';
 import 'package:memby/components/rounded_button.dart';
+import 'package:memby/screens/viewDashboard.dart';
 
 class Landing extends StatelessWidget {
   @override
@@ -77,7 +78,7 @@ class Landing extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return Landing();
+                    return Dashboard();
                   },
                 ),
               );
