@@ -29,7 +29,7 @@ class Landing extends StatelessWidget {
                   )),
             ),
             Positioned(
-              height: 350,
+              height: 300,
               child: SizedBox(
                   width: width,
                   height: 350,
@@ -45,108 +45,120 @@ class Landing extends StatelessWidget {
             ),
             Positioned(
                 left: 15,
-                top: 300,
-                height: height,
+                top: 240,
+                height: 500,
                 child: SizedBox(
                     width: width - 30,
-                    height: 350,
                     child: DecoratedBox(
-                        decoration: const BoxDecoration(
-                          color: kPrimaryColor,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(40),
-                            topRight: Radius.circular(40),
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey,
-                              spreadRadius: 3,
-                              blurRadius: 5,
-                              offset:
-                                  Offset(0, 10), // changes position of shadow
-                            ),
-                          ],
+                      decoration: const BoxDecoration(
+                        color: kPrimaryColor,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(40),
+                          topRight: Radius.circular(40),
+                          bottomLeft: Radius.circular(40),
+                          bottomRight: Radius.circular(40),
                         ),
-                        child: SingleChildScrollView(
-                          child: Container(
-                            child: Column(
-                              children: <Widget>[
-                                CardButton(
-                                  text: 'Register Member',
-                                  icon: Icon(
-                                    Icons.person_add,
-                                    color: Colors.white,
-                                  ),
-                                  press: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) {
-                                          return Landing();
-                                        },
-                                      ),
-                                    );
-                                  },
-                                  colorCircle: Color(0xFF4941BB),
-                                ),
-                                CardButton(
-                                  text: 'Create Order',
-                                  icon: Icon(
-                                    Icons.shopping_cart,
-                                    color: Colors.white,
-                                  ),
-                                  press: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) {
-                                          return Landing();
-                                        },
-                                      ),
-                                    );
-                                  },
-                                  colorCircle: Color(0xFF6961D6),
-                                ),
-                                CardButton(
-                                  text: 'Add Product List',
-                                  icon: Icon(
-                                    Icons.add_shopping_cart,
-                                    color: Colors.white,
-                                  ),
-                                  press: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) {
-                                          return Landing();
-                                        },
-                                      ),
-                                    );
-                                  },
-                                  colorCircle: Color(0xFF7971E7),
-                                ),
-                                CardButton(
-                                  text: 'View Dashboard',
-                                  icon: Icon(
-                                    Icons.dashboard_rounded,
-                                    color: Colors.white,
-                                  ),
-                                  press: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) {
-                                          return Dashboard();
-                                        },
-                                      ),
-                                    );
-                                  },
-                                  colorCircle: Color(0xFF8983DB),
-                                )
-                              ],
-                            ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey,
+                            spreadRadius: 3,
+                            blurRadius: 5,
+                            offset: Offset(0, 10), // changes position of shadow
                           ),
-                        )))),
+                        ],
+                      ),
+                      child: Container(
+                        padding: EdgeInsets.only(
+                            // borderRadius: BorderRadius.only(
+                            //   topLeft: Radius.circular(40),
+                            //   topRight: Radius.circular(40),
+                            //   bottomLeft: Radius.circular(40),
+                            //   bottomRight: Radius.circular(40),
+                            // ),
+                            ),
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: <Widget>[
+                              CardButton(
+                                text: 'Register Member',
+                                icon: Icon(
+                                  Icons.person_add,
+                                  color: Colors.white,
+                                ),
+                                press: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return Landing();
+                                      },
+                                    ),
+                                  );
+                                },
+                                colorCircle: Color(0xFF4941BB),
+                              ),
+                              CardButton(
+                                text: 'Create Order',
+                                icon: Icon(
+                                  Icons.shopping_cart,
+                                  color: Colors.white,
+                                ),
+                                press: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return Landing();
+                                      },
+                                    ),
+                                  );
+                                },
+                                colorCircle: Color(0xFF6961D6),
+                              ),
+                              CardButton(
+                                text: 'Add Product List',
+                                icon: Icon(
+                                  Icons.add_shopping_cart,
+                                  color: Colors.white,
+                                ),
+                                press: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return Landing();
+                                      },
+                                    ),
+                                  );
+                                },
+                                colorCircle: Color(0xFF7971E7),
+                              ),
+                              CardButton(
+                                text: 'View Dashboard',
+                                icon: Icon(
+                                  Icons.dashboard_rounded,
+                                  color: Colors.white,
+                                ),
+                                press: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return Dashboard();
+                                      },
+                                    ),
+                                  );
+                                },
+                                colorCircle: Color(0xFF8983DB),
+                              ),
+                              SizedBox(
+                                height: 25,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ))),
           ],
         ),
       ),
