@@ -1,35 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:memby/constants.dart';
+
+import '../constants.dart';
+import '../constants.dart';
 
 class Dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-home: DefaultTabController(
-  length: choices.length,
-  child: Scaffold(
-    appBar: AppBar(
-    title: const Text('View Dashboard'),
-    bottom: TabBar(
-      isScrollable: true,
-      tabs: choices.map<Widget>((Choice choice){
-        return Tab(
-          text: choice.title,
-        );
-      }).toList(),
-    ),
-  ),
-  body: TabBarView(
-    children: choices.map((Choice choice){
-      return Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: ChoicePage(
-          choice: choice,
-        )
-      );
-    }).toList(),
-  ),
-  ),
-),
+      home: DefaultTabController(
+        length: choices.length,
+        child: Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            backgroundColor: kPrimaryMain,
+            title: Text(
+              'View Dashboard',
+              style: TextStyle(
+                  color: kPrimaryColor,
+                  fontSize: 48,
+                  fontFamily: 'Alef-Regular'),
+            ),
+            bottom: TabBar(
+              isScrollable: true,
+              tabs: choices.map<Widget>((Choice choice) {
+                return Tab(
+                  text: choice.title,
+                );
+              }).toList(),
+            ),
+          ),
+          body: TabBarView(
+            children: choices.map((Choice choice) {
+              return Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: ChoicePage(
+                    choice: choice,
+                  ));
+            }).toList(),
+          ),
+        ),
+      ),
     );
   }
 }
@@ -60,7 +71,7 @@ class ChoicePage extends StatelessWidget {
           children: <Widget>[
             Text(
               choice.title,
-              style:textStyle,
+              style: textStyle,
             )
           ],
         ),
