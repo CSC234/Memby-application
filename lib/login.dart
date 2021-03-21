@@ -60,7 +60,7 @@ class _LoginState extends State<Login> {
                 color: Colors.black12,
                 borderRadius: BorderRadius.circular(30),
               ),
-              child: TextField(
+              child: TextFormField(
                 decoration: InputDecoration(
                     hintText: 'Email Address',
                     icon: Icon(
@@ -78,7 +78,8 @@ class _LoginState extends State<Login> {
                 color: Colors.black12,
                 borderRadius: BorderRadius.circular(30),
               ),
-              child: TextField(
+              child: TextFormField(
+                autofocus: true,
                 obscureText: true,
                 onChanged: (String value) {
                   setState(() {
