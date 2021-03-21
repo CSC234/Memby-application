@@ -35,7 +35,7 @@ class Landing extends StatelessWidget {
             fontsize: 15,
             buttonSize: 0.4,
             textColor: Colors.white,
-            text: "Login",
+            text: "Create Order",
             press: () {
               Navigator.push(
                 context,
@@ -53,7 +53,7 @@ class Landing extends StatelessWidget {
             fontsize: 15,
             buttonSize: 0.4,
             textColor: Colors.white,
-            text: "Login",
+            text: "Add Product List",
             press: () {
               Navigator.push(
                 context,
