@@ -30,7 +30,7 @@ class Landing extends StatelessWidget {
                   )),
             ),
             Positioned(
-              height: 300,
+              height: height * (40 / 100),
               child: SizedBox(
                   width: width,
                   height: 350,
@@ -46,8 +46,8 @@ class Landing extends StatelessWidget {
             ),
             Positioned(
                 left: 15,
-                top: 240,
-                height: 500,
+                top: height * (32 / 100),
+                height: height * (65 / 100),
                 child: SizedBox(
                     width: width - 30,
                     child: DecoratedBox(
@@ -69,14 +69,6 @@ class Landing extends StatelessWidget {
                         ],
                       ),
                       child: Container(
-                        padding: EdgeInsets.only(
-                            // borderRadius: BorderRadius.only(
-                            //   topLeft: Radius.circular(40),
-                            //   topRight: Radius.circular(40),
-                            //   bottomLeft: Radius.circular(40),
-                            //   bottomRight: Radius.circular(40),
-                            // ),
-                            ),
                         child: SingleChildScrollView(
                           child: Column(
                             children: <Widget>[
