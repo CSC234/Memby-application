@@ -29,9 +29,20 @@ class _AddProductList extends State<AddProductList> {
       product.add(Product(question: 'aasdg', answer: [val]));
       val += 1;
       // print(val);
-      for (var i = 0; i < product.length; i++) {
-        print(product[i].answer.toString());
-      }
+      // for (var i = 0; i < product.length; i++) {
+      //   print(product[i].answer.toString());
+      // }
+      print(product.length);
+      print('---------------------');
+    });
+  }
+
+  void changeDecrease(i) {
+    setState(() {
+      if (product.length > 1) product.removeAt(i);
+      val -= 1;
+      // print(val);
+      print(product.length);
       print('---------------------');
     });
   }
@@ -67,17 +78,16 @@ class _AddProductList extends State<AddProductList> {
                     SizedBox(
                       height: 15,
                     ),
-                    CardProductButton(
-                      press: () {
-                        change();
-                      },
-                    ),
-                    
-                    CardProductButton(
-                      press: () {
-                        change();
-                      },
-                    ),
+                    for (var i = 0; i < product.length; i++)
+                      CardProductButton(
+                        text: "Product " + (i + 1).toString(),
+                        press: () {
+                          change();
+                        },
+                        press1: () {
+                          changeDecrease(i);
+                        },
+                      ),
                   ],
                 ),
               ),

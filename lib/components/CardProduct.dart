@@ -7,7 +7,7 @@ class CardProductButton extends StatelessWidget {
   final double fontsize;
   final Color colorCircle, textColor;
   final double buttonSize;
-  final Icon icon;
+  final Function press1;
 
   const CardProductButton(
       {Key key,
@@ -16,7 +16,7 @@ class CardProductButton extends StatelessWidget {
       this.colorCircle,
       this.textColor,
       this.buttonSize,
-      this.icon,
+      this.press1,
       this.fontsize})
       : super(key: key);
 
@@ -55,7 +55,7 @@ class CardProductButton extends StatelessWidget {
                           ),
                           Row(children: [
                             Text(
-                              'Product 1',
+                              text,
                               style: TextStyle(
                                   fontSize: 20,
                                   color: kPrimaryMain,
@@ -99,6 +99,7 @@ class CardProductButton extends StatelessWidget {
                                           shape: BoxShape.circle,
                                           color: Color(0xFF6961D6)),
                                     ),
+                                    onPressed: press1,
                                   ),
                                 ])),
                           ]),
