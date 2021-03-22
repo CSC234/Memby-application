@@ -3,6 +3,7 @@ import 'package:memby/components/Card.dart';
 import 'package:memby/screens/viewDashboard.dart';
 import 'package:memby/screens/createOrderScreen.dart';
 import 'package:memby/constants.dart';
+import 'package:memby/screens/registerScreen.dart';
 
 class Landing extends StatelessWidget {
   @override
@@ -89,7 +90,7 @@ class Landing extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) {
-                                        return Landing();
+                                        return RegisterScreen();
                                       },
                                     ),
                                   );
