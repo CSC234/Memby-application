@@ -42,6 +42,12 @@ class Landing extends StatelessWidget {
                         bottomRight: Radius.circular(40),
                       ),
                     ),
+                    child: Stack(
+                      children: <Widget>[
+                        Positioned(top: 50, child: Text('test')),
+                        Positioned(top: 70, child: Text('test'))
+                      ],
+                    ),
                   )),
             ),
             Positioned(

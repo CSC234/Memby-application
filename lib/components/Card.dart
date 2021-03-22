@@ -30,10 +30,9 @@ class CardButton extends StatelessWidget {
         top: 20,
       ),
       onPressed: press,
-     
       child: SizedBox(
         width: width - 60,
-        height: 100,
+        height: height * (13 / 100),
         child: DecoratedBox(
             decoration: BoxDecoration(
                 color: kPrimaryCard,
@@ -54,8 +53,9 @@ class CardButton extends StatelessWidget {
                   height: 80,
                   child: icon,
                   decoration: BoxDecoration(
-                    // 0xFF4941BB
-                      shape: BoxShape.circle, color: colorCircle),
+                      // 0xFF4941BB
+                      shape: BoxShape.circle,
+                      color: colorCircle),
                 ),
                 Container(
                     child: Flexible(
