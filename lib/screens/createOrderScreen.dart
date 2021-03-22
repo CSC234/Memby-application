@@ -41,17 +41,41 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    ProductBox(img: 'product1', title: 'product1'),
-                    ProductBox(img: 'product1', title: 'product1'),
-                    ProductBox(img: 'product1', title: 'product1'),
+                    ProductBox(
+                      img: 'product1',
+                      title: 'product1',
+                      isFilled: true,
+                    ),
+                    ProductBox(
+                      img: 'product1',
+                      title: 'product1',
+                      isFilled: false,
+                    ),
+                    ProductBox(
+                      img: 'product1',
+                      title: 'product1',
+                      isFilled: false,
+                    ),
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    ProductBox(img: 'product1', title: 'product1'),
-                    ProductBox(img: 'product1', title: 'product1'),
-                    ProductBox(img: 'product1', title: 'product1'),
+                    ProductBox(
+                      img: 'product1',
+                      title: 'product1',
+                      isFilled: false,
+                    ),
+                    ProductBox(
+                      img: 'product1',
+                      title: 'product1',
+                      isFilled: true,
+                    ),
+                    ProductBox(
+                      img: 'product1',
+                      title: 'product1',
+                      isFilled: false,
+                    ),
                   ],
                 ),
               ],
@@ -64,24 +88,36 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
 }
 
 class ProductBox extends StatelessWidget {
-  ProductBox({this.img, this.title});
+  ProductBox({this.img, this.title, this.isFilled});
   final String img;
   final String title;
+  final bool isFilled;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(5),
       child: Container(
-        padding: EdgeInsets.all(3),
-        child: Column(
-          children: [
-            Image.asset(
-              'assets/images/$img.jpg',
-              width: 100,
-            ),
-            Text(title),
-          ],
+        child: Container(
+          padding: EdgeInsets.all(8),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10.0),
+                child: Image.asset(
+                  'assets/images/$img.jpg',
+                  width: 100,
+                ),
+              ),
+              Text(title),
+            ],
+          ),
+          height: 150,
+          decoration: BoxDecoration(
+            color: isFilled ? Color(0xFFDDDDDD) : null,
+            borderRadius: BorderRadius.circular(10),
+          ),
         ),
         decoration: DottedDecoration(
           shape: Shape.box,
