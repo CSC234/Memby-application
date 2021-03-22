@@ -13,14 +13,27 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            Text(
-              'Create Order',
-              style: TextStyle(
-                  color: kPrimaryFont,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 48,
-                  fontFamily: 'Alef-Regular'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Create Order',
+                  style: kPrimaryHeadingTextStyle,
+                ),
+              ],
             ),
+            Column(
+              children: [
+                Container(
+                  child: Column(
+                    children: [
+                      Image.asset('assets/images/product1.png'),
+                      Text('product1')
+                    ],
+                  ),
+                )
+              ],
+            )
           ],
         ),
       ),
