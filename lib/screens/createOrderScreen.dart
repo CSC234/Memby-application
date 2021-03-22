@@ -201,6 +201,9 @@ class OrderCard extends StatelessWidget {
                           ),
                         ),
                       ),
+                      SizedBox(
+                        width: 10,
+                      ),
                       Container(
                         child: TextField(
                           keyboardType: TextInputType.number,
