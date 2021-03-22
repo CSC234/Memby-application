@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:memby/constants.dart';
+import 'package:memby/components/CardProduct.dart';
 
 class AddProductList extends StatefulWidget {
   @override
@@ -8,7 +9,14 @@ class AddProductList extends StatefulWidget {
     Key key,
     this.onChanged,
   }) : super(key: key);
+
   _AddProductList createState() => _AddProductList();
+}
+
+class Product {
+  String question;
+  List<String> answer;
+  Product({this.question, this.answer});
 }
 
 class _AddProductList extends State<AddProductList> {
@@ -17,7 +25,36 @@ class _AddProductList extends State<AddProductList> {
     return Scaffold(
         backgroundColor: kPrimaryColor,
         body: Container(
-          child: Text('Add Product List'),
+          child: Align(
+            alignment: Alignment.center,
+            child: Container(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 50,
+                  ),
+                  Text(
+                    'Add Product',
+                    style: TextStyle(
+                        color: kPrimaryFont,
+                        fontSize: 45,
+                        fontFamily: 'Alef-Regular'),
+                  ),
+                  Text(
+                    'insert your product list',
+                    style: TextStyle(
+                        color: kPrimaryFont,
+                        fontSize: 20,
+                        fontFamily: 'Alef-Regular'),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  CardProductButton(),
+                ],
+              ),
+            ),
+          ),
         ));
   }
 }

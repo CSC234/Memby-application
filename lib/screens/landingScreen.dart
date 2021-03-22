@@ -208,7 +208,7 @@ class Landing extends StatelessWidget {
                   decoration: BoxDecoration(
                       image: DecorationImage(
                     image: AssetImage('assets/images/Invest.png'),
-                  )),
+                  ))
                 )),
           ],
         ),
