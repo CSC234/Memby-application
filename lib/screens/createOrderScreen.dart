@@ -24,18 +24,47 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
             ),
             Column(
               children: [
-                Container(
-                  child: Column(
-                    children: [
-                      Image.asset('assets/images/product1.png'),
-                      Text('product1')
-                    ],
-                  ),
-                )
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ProductBox(img: 'product1', title: 'product1'),
+                    ProductBox(img: 'product1', title: 'product1'),
+                    ProductBox(img: 'product1', title: 'product1'),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ProductBox(img: 'product1', title: 'product1'),
+                    ProductBox(img: 'product1', title: 'product1'),
+                    ProductBox(img: 'product1', title: 'product1'),
+                  ],
+                ),
               ],
             )
           ],
         ),
+      ),
+    );
+  }
+}
+
+class ProductBox extends StatelessWidget {
+  ProductBox({this.img, this.title});
+  final String img;
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        children: [
+          Image.asset(
+            'assets/images/$img.jpg',
+            width: 100,
+          ),
+          Text(title),
+        ],
       ),
     );
   }
