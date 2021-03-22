@@ -18,7 +18,6 @@ class Landing extends StatelessWidget {
               height: height,
               child: SizedBox(
                   width: width,
-                  height: 350,
                   child: DecoratedBox(
                     decoration: const BoxDecoration(
                       color: kPrimaryColor,
@@ -45,7 +44,7 @@ class Landing extends StatelessWidget {
                     child: Stack(
                       children: <Widget>[
                         Positioned(
-                            top: 50,
+                            top: height * (7 / 100),
                             left: 20,
                             child: Text(
                               'Welcome to Your Business',
@@ -55,7 +54,7 @@ class Landing extends StatelessWidget {
                                   fontFamily: 'Alef-Regular'),
                             )),
                         Positioned(
-                            top: 80,
+                            top: height * (11 / 100),
                             left: 20,
                             child: Text(
                               'Godchapong',
@@ -65,7 +64,7 @@ class Landing extends StatelessWidget {
                                   fontFamily: 'Alef-Regular'),
                             )),
                         Positioned(
-                            top: 165,
+                            top: height * (23 / 100),
                             left: 20,
                             child: Text(
                               'Company',
@@ -200,10 +199,10 @@ class Landing extends StatelessWidget {
                       ),
                     ))),
             Positioned(
-                height: 170,
-                width: 170,
-                left: width * (53 / 100),
-                top: height * (17 / 100),
+                height: height * (40 / 100),
+                width: width * (40 / 100),
+                left: width * (52 / 100),
+                top: height * (10 / 100),
                 child: Container(
                   decoration: BoxDecoration(
                       image: DecorationImage(

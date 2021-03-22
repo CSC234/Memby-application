@@ -60,7 +60,7 @@ class CardButton extends StatelessWidget {
                         child: Column(
                   children: [
                     SizedBox(
-                      height: 10,
+                      height: height * (1.5 / 100),
                     ),
                     Container(
                         child: Container(
