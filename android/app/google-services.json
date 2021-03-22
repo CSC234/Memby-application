@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "1025054520064",
+    "firebase_url": "https://memby-application-default-rtdb.firebaseio.com",
     "project_id": "memby-application",
     "storage_bucket": "memby-application.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "1025054520064-vkr66h2l9ulatml03d0sk0qsvg2fnodd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.memby",
+            "certificate_hash": "6e15e0c333c94dc451015f46a588966a2651bec9"
+          }
+        },
         {
           "client_id": "1025054520064-dea053ufdaf1hc39gi8dgcdvima61u83.apps.googleusercontent.com",
           "client_type": 3
@@ -29,6 +38,13 @@
             {
               "client_id": "1025054520064-dea053ufdaf1hc39gi8dgcdvima61u83.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "1025054520064-4o23k8a2ocbhn74e2hu51d5n6nd7se39.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.memby"
+              }
             }
           ]
         }
