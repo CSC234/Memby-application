@@ -44,8 +44,36 @@ class Landing extends StatelessWidget {
                     ),
                     child: Stack(
                       children: <Widget>[
-                        Positioned(top: 50, child: Text('test')),
-                        Positioned(top: 70, child: Text('test'))
+                        Positioned(
+                            top: 50,
+                            left: 20,
+                            child: Text(
+                              'Welcome to Your Business',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontFamily: 'Alef-Regular'),
+                            )),
+                        Positioned(
+                            top: 80,
+                            left: 20,
+                            child: Text(
+                              'Godchapong',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: width * (16 / 100),
+                                  fontFamily: 'Alef-Regular'),
+                            )),
+                        Positioned(
+                            top: 165,
+                            left: 20,
+                            child: Text(
+                              'Company',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: width * (10 / 100),
+                                  fontFamily: 'Alef-Regular'),
+                            )),
                       ],
                     ),
                   )),
@@ -78,6 +106,19 @@ class Landing extends StatelessWidget {
                         child: SingleChildScrollView(
                           child: Column(
                             children: <Widget>[
+                              Container(
+                                margin: EdgeInsets.only(left: 30, top: 15),
+                                child: Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    'Manage Business',
+                                    style: TextStyle(
+                                      color: kPrimaryFont,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                ),
+                              ),
                               CardButton(
                                 text: 'Register Member',
                                 icon: Icon(
@@ -158,6 +199,17 @@ class Landing extends StatelessWidget {
                         ),
                       ),
                     ))),
+            Positioned(
+                height: 170,
+                width: 170,
+                left: width * (53 / 100),
+                top: height * (17 / 100),
+                child: Container(
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                    image: AssetImage('assets/images/Invest.png'),
+                  )),
+                )),
           ],
         ),
       ),
