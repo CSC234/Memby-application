@@ -58,10 +58,12 @@ class CardButton extends StatelessWidget {
                 Container(
                     child: Flexible(
                         child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
-                      height: height * (1.5 / 100),
-                    ),
+                    // SizedBox(
+                    //   height: height * (1.5 / 100),
+                    // ),
+
                     Container(
                         child: Container(
                       alignment: Alignment.topLeft,
@@ -72,6 +74,7 @@ class CardButton extends StatelessWidget {
                     SizedBox(
                       height: 0,
                     ),
+                    //center ครอบจะได้กลางๆ
                     Container(
                         child: Container(
                       alignment: Alignment.topLeft,
