@@ -29,7 +29,7 @@ class CardProductButton extends StatelessWidget {
       onPressed: press,
       child: SizedBox(
         width: width - 25,
-        height: height * (35 / 100),
+        height: height * (46 / 100),
         child: DecoratedBox(
             decoration: BoxDecoration(
                 color: Colors.white,
@@ -95,8 +95,108 @@ class CardProductButton extends StatelessWidget {
                                         color: Color(0xFF6961D6)),
                                   ),
                                 ),
-                              ]))
-                        ])
+                              ])),
+                        ]),
+                        Row(
+                          children: [
+                            Column(
+                              children: [
+                                Container(
+                                    margin: EdgeInsets.symmetric(vertical: 10),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 15, vertical: 5),
+                                    width: width * (50 / 100),
+                                    height: 60,
+                                    decoration: BoxDecoration(
+                                      color: Colors.black12,
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    child: TextField(
+                                      // controller: passwordController,
+                                      decoration: InputDecoration(
+                                          hintText: 'product name...',
+                                          border: InputBorder.none),
+                                    )),
+                                Container(
+                                    margin: EdgeInsets.symmetric(vertical: 10),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 15, vertical: 5),
+                                    width: width * (50 / 100),
+                                    height: height * (20 / 100),
+                                    decoration: BoxDecoration(
+                                      color: Colors.black12,
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    child: TextField(
+                                      // controller: passwordController,
+                                      obscureText: true,
+                                      onChanged: (String value) {
+                                        // setState(() {
+                                        // _value = value;
+                                        // });
+                                        // widget.onChanged(value);
+                                      },
+                                      decoration: InputDecoration(
+                                          hintText: 'detail of product...',
+                                          border: InputBorder.none),
+                                    )),
+                              ],
+                            ),
+                            SizedBox(
+                              width: 15,
+                            ),
+                            Column(
+                              children: [
+                                Container(
+                                    margin: EdgeInsets.symmetric(vertical: 10),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 15, vertical: 5),
+                                    width: width * (30 / 100),
+                                    height: height * (20 / 100),
+                                    decoration: BoxDecoration(
+                                      color: Colors.black12,
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    child: TextField(
+                                      // controller: passwordController,
+                                      obscureText: true,
+                                      onChanged: (String value) {
+                                        // setState(() {
+                                        // _value = value;
+                                        // });
+                                        // widget.onChanged(value);
+                                      },
+                                      decoration: InputDecoration(
+                                          hintText: 'Add picture',
+                                          border: InputBorder.none),
+                                    )),
+                                Container(
+                                    margin: EdgeInsets.symmetric(vertical: 10),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 15, vertical: 5),
+                                    width: width * (30 / 100),
+                                    height: 60,
+                                    decoration: BoxDecoration(
+                                      color: Colors.black12,
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    child: TextField(
+                                      // controller: passwordController,
+                                      obscureText: true,
+                                      onChanged: (String value) {
+                                        // setState(() {
+                                        // _value = value;
+                                        // });
+                                        // widget.onChanged(value);
+                                      },
+                                      decoration: InputDecoration(
+                                          hintText: 'price...',
+                                          border: InputBorder.none),
+                                    )),
+                              ],
+                            )
+                          ],
+                        )
                       ],
                     )))
               ],
