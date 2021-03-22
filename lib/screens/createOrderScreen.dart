@@ -9,17 +9,21 @@ class CreateOrderScreen extends StatefulWidget {
 class _CreateOrderScreenState extends State<CreateOrderScreen> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          'Create Order',
-          style: TextStyle(
-              color: kPrimaryFont,
-              fontWeight: FontWeight.bold,
-              fontSize: 28,
-              fontFamily: 'Alef-Regular'),
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          children: [
+            Text(
+              'Create Order',
+              style: TextStyle(
+                  color: kPrimaryFont,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 48,
+                  fontFamily: 'Alef-Regular'),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
