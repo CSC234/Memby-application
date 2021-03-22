@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:memby/constants.dart';
 import 'package:memby/components/rounded_button.dart';
-import 'package:memby/screens/landingScreen.dart';
+import 'package:provider/provider.dart';
+import 'package:memby/firebase.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -14,6 +15,8 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -61,6 +64,7 @@ class _LoginState extends State<Login> {
                   borderRadius: BorderRadius.circular(30),
                 ),
                 child: TextField(
+                  controller: emailController,
                   decoration: InputDecoration(
                       hintText: 'Email Address',
                       icon: Icon(
@@ -79,6 +83,7 @@ class _LoginState extends State<Login> {
                   borderRadius: BorderRadius.circular(30),
                 ),
                 child: TextField(
+                  controller: passwordController,
                   obscureText: true,
                   onChanged: (String value) {
                     setState(() {
@@ -99,26 +104,37 @@ class _LoginState extends State<Login> {
                       border: InputBorder.none),
                 )),
             RoundedButton(
-              color: kPrimaryLightColor,
-              buttonHight: 60,
-              fontsize: 15,
-              buttonSize: 0.4,
-              textColor: Colors.white,
-              text: "Login",
-              press: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return Landing();
-                    },
-                  ),
-                );
-              },
-            ),
+                color: kPrimaryLightColor,
+                buttonHight: 60,
+                fontsize: 15,
+                buttonSize: 0.4,
+                textColor: Colors.white,
+                text: "Login",
+                press: () {
+                  context.read<FlutterFireAuthService>().signIn(
+                        email: emailController.text.trim(),
+                        password: passwordController.text.trim(),
+                        context: context,
+                      );
+                }),
+            buildButtonGoogle(context),
           ],
         ),
       ),
     );
   }
+}
+
+Widget buildButtonGoogle(BuildContext context) {
+  return InkWell(
+      child: Container(
+          constraints: BoxConstraints.expand(height: 50),
+          child: Text("Login with Google ",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 18, color: Colors.blue[600])),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16), color: Colors.white),
+          margin: EdgeInsets.only(top: 12),
+          padding: EdgeInsets.all(12)),
+      onTap: () => context.read<FlutterFireAuthService>().signInWithGoogle());
 }

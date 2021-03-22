@@ -32,7 +32,7 @@ class CardButton extends StatelessWidget {
       onPressed: press,
       child: SizedBox(
         width: width - 60,
-        height: height * (13 / 100),
+        height: height * (12 / 100),
         child: DecoratedBox(
             decoration: BoxDecoration(
                 color: kPrimaryCard,
@@ -49,21 +49,21 @@ class CardButton extends StatelessWidget {
               children: [
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 15),
-                  width: 80,
-                  height: 80,
+                  width: 60,
+                  height: 60,
                   child: icon,
-                  decoration: BoxDecoration(
-                      // 0xFF4941BB
-                      shape: BoxShape.circle,
-                      color: colorCircle),
+                  decoration:
+                      BoxDecoration(shape: BoxShape.circle, color: colorCircle),
                 ),
                 Container(
                     child: Flexible(
                         child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
-                      height: 13,
-                    ),
+                    // SizedBox(
+                    //   height: height * (1.5 / 100),
+                    // ),
+
                     Container(
                         child: Container(
                       alignment: Alignment.topLeft,
@@ -72,8 +72,9 @@ class CardButton extends StatelessWidget {
                               fontSize: 23, fontFamily: 'Alef-Regular')),
                     )),
                     SizedBox(
-                      height: 5,
+                      height: 0,
                     ),
+                    //center ครอบจะได้กลางๆ
                     Container(
                         child: Container(
                       alignment: Alignment.topLeft,

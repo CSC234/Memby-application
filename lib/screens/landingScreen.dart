@@ -3,13 +3,26 @@ import 'package:memby/components/Card.dart';
 import 'package:memby/screens/viewDashboard.dart';
 import 'package:memby/screens/createOrderScreen.dart';
 import 'package:memby/constants.dart';
+import 'package:memby/screens/addProductScreen.dart';
 import 'package:memby/screens/registerScreen.dart';
+import 'package:memby/screens/homeScreen.dart';
+import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:memby/firebase.dart';
 
 class Landing extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+
+    final firebaseUser = context.watch<User>();
+
+    if (firebaseUser == null) {
+      print("Not Authenticated");
+      print("Return To Home Page");
+      return HomeScreen();
+    }
 
     return Container(
       child: Scaffold(
@@ -19,7 +32,6 @@ class Landing extends StatelessWidget {
               height: height,
               child: SizedBox(
                   width: width,
-                  height: 350,
                   child: DecoratedBox(
                     decoration: const BoxDecoration(
                       color: kPrimaryColor,
@@ -45,8 +57,50 @@ class Landing extends StatelessWidget {
                     ),
                     child: Stack(
                       children: <Widget>[
-                        Positioned(top: 50, child: Text('test')),
-                        Positioned(top: 70, child: Text('test'))
+                        Positioned(
+                            top: height * (7 / 100),
+                            left: 20,
+                            child: Text(
+                              'Welcome to Your Business',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontFamily: 'Alef-Regular'),
+                            )),
+                        Positioned(
+                            top: height * (11 / 100),
+                            left: 20,
+                            child: Text(
+                              'Godchapong',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: width * (16 / 100),
+                                  fontFamily: 'Alef-Regular'),
+                            )),
+                        Positioned(
+                            top: height * (23 / 100),
+                            left: 20,
+                            child: Text(
+                              'Company',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: width * (10 / 100),
+                                  fontFamily: 'Alef-Regular'),
+                            )),
+                        IconButton(
+                          onPressed: () {
+                            print("Sign Out Pressed");
+                            context.read<FlutterFireAuthService>().signOut();
+                            if (Navigator.of(context).canPop()) {
+                              Navigator.of(context).pop();
+                            }
+                          },
+                          icon: Icon(
+                            Icons.exit_to_app,
+                            color: Colors.black,
+                            size: 35,
+                          ),
+                        ),
                       ],
                     ),
                   )),
@@ -79,6 +133,19 @@ class Landing extends StatelessWidget {
                         child: SingleChildScrollView(
                           child: Column(
                             children: <Widget>[
+                              Container(
+                                margin: EdgeInsets.only(left: 30, top: 15),
+                                child: Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    'Manage Business',
+                                    style: TextStyle(
+                                      color: kPrimaryFont,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                ),
+                              ),
                               CardButton(
                                 text: 'Register Member',
                                 icon: Icon(
@@ -126,7 +193,7 @@ class Landing extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) {
-                                        return Landing();
+                                        return AddProductList();
                                       },
                                     ),
                                   );
@@ -159,6 +226,16 @@ class Landing extends StatelessWidget {
                         ),
                       ),
                     ))),
+            Positioned(
+                height: height * (40 / 100),
+                width: width * (40 / 100),
+                left: width * (52 / 100),
+                top: height * (10 / 100),
+                child: Container(
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                  image: AssetImage('assets/images/Invest.png'),
+                )))),
           ],
         ),
       ),
