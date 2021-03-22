@@ -61,13 +61,41 @@ class CardProductButton extends StatelessWidget {
                                 fontWeight: FontWeight.bold),
                           ),
                           Container(
-                            margin: EdgeInsets.symmetric(horizontal: 15),
-                            width: 60,
-                            height: 60,
-                            child: icon,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle, color: kPrimaryMain),
-                          ),
+                              margin: EdgeInsets.only(left: width * (25 / 100)),
+                              child: Row(children: [
+                                TextButton(
+                                  child: Container(
+                                    margin: EdgeInsets.symmetric(horizontal: 1),
+                                    width: 50,
+                                    height: 50,
+                                    child: Center(
+                                        child: Text(
+                                      '+',
+                                      style: TextStyle(
+                                          fontSize: 15, color: Colors.white),
+                                    )),
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: kPrimaryMain),
+                                  ),
+                                ),
+                                TextButton(
+                                  child: Container(
+                                    margin: EdgeInsets.symmetric(horizontal: 1),
+                                    width: 50,
+                                    height: 50,
+                                    child: Center(
+                                        child: Text(
+                                      '-',
+                                      style: TextStyle(
+                                          fontSize: 15, color: Colors.white),
+                                    )),
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Color(0xFF6961D6)),
+                                  ),
+                                ),
+                              ]))
                         ])
                       ],
                     )))
