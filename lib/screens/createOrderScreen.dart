@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:memby/constants.dart';
+import 'package:dotted_decoration/dotted_decoration.dart';
 
 class CreateOrderScreen extends StatefulWidget {
   @override
@@ -19,6 +20,19 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
                 Text(
                   'Create Order',
                   style: kPrimaryHeadingTextStyle,
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'crate order customer',
+                  style: kPrimaryHeadingTextStyle.copyWith(
+                      fontSize: 20, fontWeight: FontWeight.normal),
                 ),
               ],
             ),
@@ -56,16 +70,31 @@ class ProductBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          Image.asset(
-            'assets/images/$img.jpg',
-            width: 100,
-          ),
-          Text(title),
-        ],
+    return Padding(
+      padding: const EdgeInsets.all(5),
+      child: Container(
+        padding: EdgeInsets.all(3),
+        child: Column(
+          children: [
+            Image.asset(
+              'assets/images/$img.jpg',
+              width: 100,
+            ),
+            Text(title),
+          ],
+        ),
+        decoration: DottedDecoration(
+          shape: Shape.box,
+          color: Color(0xFFB3ABBC),
+          borderRadius:
+              BorderRadius.circular(10), //remove this to get plane rectange
+        ),
       ),
     );
   }
 }
+
+// BoxDecoration(
+//           border: Border.all(color: Color(0xFFB3ABBC), width: 1),
+//           borderRadius: BorderRadius.circular(12),
+//         ),
