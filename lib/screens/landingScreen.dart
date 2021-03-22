@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:memby/components/Card.dart';
 import 'package:memby/screens/viewDashboard.dart';
+import 'package:memby/screens/createOrderScreen.dart';
 import 'package:memby/constants.dart';
 
 class Landing extends StatelessWidget {
@@ -108,7 +109,7 @@ class Landing extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) {
-                                        return Landing();
+                                        return CreateOrderScreen();
                                       },
                                     ),
                                   );
