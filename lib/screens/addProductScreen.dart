@@ -155,7 +155,15 @@ class _AddProductList extends State<AddProductList> {
                       indent: 25,
                       endIndent: 25,
                     ),
-                    Text('Product List'),
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      alignment: Alignment.topLeft,
+                      margin: EdgeInsets.only(left: 15),
+                      child: Text(
+                        'Product List',
+                        style: TextStyle(fontSize: 25),
+                      ),
+                    ),
                     for (var i = 0; i < product.length; i++)
                       ProductList(
                         product: product[i].product,

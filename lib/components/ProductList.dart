@@ -15,63 +15,72 @@ class ProductList extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    return Container(
-      height: 100,
-      width: width * (90 / 100),
-      child: Container(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10.0),
-              // child: Image.asset(
-              // 'assets/images/$img.jpg',
-              // width: 100,
-              // ),
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  product,
-                  style: TextStyle(fontWeight: FontWeight.bold),
+    return Column(children: [
+      Container(
+        height: 100,
+        width: width * (90 / 100),
+        child: Container(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10.0),
+                child: Image.asset(
+                  'assets/images/product1.jpg',
+                  width: 70,
                 ),
-                Container(
-                  child: Container(
-                    alignment: Alignment.topLeft,
-                    width: 200,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding:
+                        EdgeInsets.only(bottom: 5, left: 5, right: 5, top: 10),
                     child: Text(
-                      description,
+                      "name: " + product,
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                     ),
                   ),
-                ),
-                Row(
-                  children: [
-                    Container(
-                      height: 40,
-                      width: 100,
-                      child: Text(price.toString()),
+                  Container(
+                    child: Container(
+                      padding: EdgeInsets.all(5),
+                      alignment: Alignment.topLeft,
+                      width: 200,
+                      child: Text(
+                        description,
+                      ),
                     ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ],
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(5),
+                        height: 40,
+                        width: 100,
+                        child: Text("pirce: " + price.toString()),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ],
+          ),
+          height: 150,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+          ),
         ),
-        height: 150,
-        decoration: BoxDecoration(
+        decoration: DottedDecoration(
+          shape: Shape.box,
+          color: Color(0xFFB3ABBC),
           borderRadius: BorderRadius.circular(10),
         ),
       ),
-      decoration: DottedDecoration(
-        shape: Shape.box,
-        color: Color(0xFFB3ABBC),
-        borderRadius: BorderRadius.circular(10),
-      ),
-    );
+      SizedBox(
+        height: 10,
+      )
+    ]);
   }
 }
