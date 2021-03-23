@@ -149,7 +149,7 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
                             MaterialStateProperty.resolveWith<Color>(
                           (Set<MaterialState> states) {
                             if (states.contains(MaterialState.pressed))
-                              return Colors.green;
+                              return Colors.lightBlueAccent;
                             return null; // Use the component's default.
                           },
                         ),
@@ -180,55 +180,66 @@ class OrderCard extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Container(
         child: Container(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10.0),
-                child: Image.asset(
-                  'assets/images/$img.jpg',
-                  width: 100,
-                ),
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    child: Container(
-                      alignment: Alignment.topLeft,
-                      width: 200,
-                      child: Text(
-                        description,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  flex: 4,
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10.0),
+                      child: Image.asset(
+                        'assets/images/$img.jpg',
                       ),
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                ),
+                Expanded(
+                  flex: 6,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('$price Baht'),
-                      Container(
-                        child: TextField(
-                          keyboardType: TextInputType.number,
-                          textAlign: TextAlign.center,
-                          decoration:
-                              kTextFieldDecoration.copyWith(hintText: 'amount'),
-                        ),
-                        width: 100,
-                        height: 40,
+                      Text(
+                        title,
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        child: Container(
+                          alignment: Alignment.topLeft,
+                          width: 200,
+                          child: Text(
+                            description,
+                          ),
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('$price Baht'),
+                          Container(
+                            child: TextField(
+                              keyboardType: TextInputType.number,
+                              textAlign: TextAlign.center,
+                              decoration: kTextFieldDecoration.copyWith(
+                                  hintText: 'amount'),
+                            ),
+                            width: 100,
+                            height: 40,
+                          ),
+                        ],
+                      )
                     ],
-                  )
-                ],
-              ),
-            ],
+                  ),
+                ),
+              ],
+            ),
           ),
           height: 150,
           decoration: BoxDecoration(
