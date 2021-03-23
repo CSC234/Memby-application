@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:memby/components/imagePicker.dart';
 import 'package:memby/constants.dart';
 import 'package:memby/components/rounded_button.dart';
 import 'package:memby/components/ProductList.dart';
@@ -31,6 +32,28 @@ class Product {
 
 class _AddProductList extends State<AddProductList> {
   List<Product> product = [];
+  final _imageUrlController = TextEditingController();
+  final _imageUrlFocusNode = FocusNode();
+
+  @override
+  void initState() {
+    _imageUrlFocusNode.addListener(_updateImageUrl);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _imageUrlFocusNode.removeListener(_updateImageUrl);
+    _imageUrlController.dispose();
+    _imageUrlFocusNode.dispose();
+    super.dispose();
+  }
+
+  void _updateImageUrl() {
+    if (!_imageUrlFocusNode.hasFocus) {
+      setState(() {});
+    }
+  }
 
   void addProduct(productName, description, price) {
     setState(() {
@@ -132,13 +155,11 @@ class _AddProductList extends State<AddProductList> {
                           min: 1,
                           max: 5,
                         ),
-                        Textfield(
-                          text: 'Picture',
-                          width: 350,
-                          min: 3,
-                          max: 5,
-                        ),
                       ],
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[UserImagePicker()],
                     ),
                     Container(
                       margin: EdgeInsets.only(right: 10),

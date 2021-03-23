@@ -10,7 +10,6 @@ class CreateOrderScreen extends StatefulWidget {
 class _CreateOrderScreenState extends State<CreateOrderScreen> {
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -133,7 +132,33 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
                   ],
                 ),
               ),
-            )
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 40),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        print('Clicked');
+                      },
+                      child: Text('ORDER'),
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.resolveWith<Color>(
+                          (Set<MaterialState> states) {
+                            if (states.contains(MaterialState.pressed))
+                              return Colors.green;
+                            return null; // Use the component's default.
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -186,25 +211,9 @@ class OrderCard extends StatelessWidget {
                     ),
                   ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        alignment: Alignment.center,
-                        height: 40,
-                        width: 100,
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                        child: Text('$price Baht'),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                            color: Color(0xFFC0C0C0),
-                            width: 1,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
+                      Text('$price Baht'),
                       Container(
                         child: TextField(
                           keyboardType: TextInputType.number,
