@@ -26,8 +26,7 @@ dependencies:
 
 
   firebase_core: "^0.7.0"
-  firebase_auth: "^0.20.1"
-  cloud_firestore: "^0.16.0+1"
+
   google_sign_in: ^4.5.3
   dotted_decoration: ^1.2.2
   provider: ^5.0.0
@@ -38,7 +37,12 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_svg: ^0.19.1
   image_picker: ^0.6.5+3
+  firebase_auth: "^0.20.1"
 
+  cloud_firestore: "^0.16.0+1"
+ 
+  firebase_storage: "^7.0.0"
+  
 
 dev_dependencies:
   flutter_test:

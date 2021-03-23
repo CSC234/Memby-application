@@ -3,7 +3,7 @@ import 'package:dotted_decoration/dotted_decoration.dart';
 import 'package:memby/constants.dart';
 
 class ProductList extends StatelessWidget {
-  final double fontsize;
+  final String picture;
   final String product;
   final String description;
   final int price;
@@ -11,7 +11,7 @@ class ProductList extends StatelessWidget {
 
   const ProductList(
       {Key key,
-      this.fontsize,
+      this.picture,
       this.product,
       this.description,
       this.price,
@@ -32,12 +32,9 @@ class ProductList extends StatelessWidget {
               children: [
                 Container(
                   padding: EdgeInsets.all(20),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10.0),
-                    child: Image.asset(
-                      'assets/images/product1.jpg',
-                      width: 70,
-                    ),
+                  child: Image.asset(
+                    'assets/images/product1.jpg',
+                    width: 70,
                   ),
                 ),
                 Column(

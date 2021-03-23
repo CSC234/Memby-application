@@ -1,8 +1,16 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:memby/screens/homeScreen.dart';
 
 class UserImagePicker extends StatefulWidget {
+  final Function press;
+   final File pickedImage;
+  const UserImagePicker({
+    Key key,
+    this.press,
+    this.pickedImage
+  }) : super(key: key);
   @override
   _UserImagePickerState createState() => _UserImagePickerState();
 }
@@ -16,8 +24,10 @@ class _UserImagePickerState extends State<UserImagePicker> {
     setState(() {
       if (PickedFile != null) {
         _pickedImage = File(pickedImageFile.path);
+        print("filename" + _pickedImage.toString());
       } else {
         print('No image selected');
+        return HomeScreen();
       }
     });
   }
@@ -33,13 +43,13 @@ class _UserImagePickerState extends State<UserImagePicker> {
               radius: 40,
               backgroundColor: Colors.grey.withOpacity(.5),
               backgroundImage:
-                  _pickedImage != null ? FileImage(_pickedImage) : null,
+                  widget.pickedImage != null ? FileImage(widget.pickedImage) : null,
             ),
           ),
         ),
         FlatButton.icon(
           textColor: Colors.grey.withOpacity(.8),
-          onPressed: _pickImage,
+          onPressed: widget.press,
           icon: Icon(Icons.image),
           label: Text('Add Image'),
         ),
