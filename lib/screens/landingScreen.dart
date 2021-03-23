@@ -87,20 +87,6 @@ class Landing extends StatelessWidget {
                                   fontSize: width * (10 / 100),
                                   fontFamily: 'Alef-Regular'),
                             )),
-                        IconButton(
-                          onPressed: () {
-                            print("Sign Out Pressed");
-                            context.read<FlutterFireAuthService>().signOut();
-                            if (Navigator.of(context).canPop()) {
-                              Navigator.of(context).pop();
-                            }
-                          },
-                          icon: Icon(
-                            Icons.exit_to_app,
-                            color: Colors.black,
-                            size: 35,
-                          ),
-                        ),
                       ],
                     ),
                   )),
@@ -220,7 +206,36 @@ class Landing extends StatelessWidget {
                               ),
                               SizedBox(
                                 height: 25,
-                              )
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  print("Sign Out Pressed");
+                                  context
+                                      .read<FlutterFireAuthService>()
+                                      .signOut();
+                                  if (Navigator.of(context).canPop()) {
+                                    Navigator.of(context).pop();
+                                  }
+                                },
+                                icon: Icon(
+                                  Icons.exit_to_app,
+                                  color: Colors.black,
+                                  size: 35,
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  print("Add product");
+                                  context
+                                      .read<FlutterFireAuthService>()
+                                      .addProduct('test', 'test', 500, '');
+                                },
+                                icon: Icon(
+                                  Icons.plus_one,
+                                  color: Colors.black,
+                                  size: 35,
+                                ),
+                              ),
                             ],
                           ),
                         ),

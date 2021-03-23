@@ -21,6 +21,21 @@ class FlutterFireAuthService {
     }
   }
 
+  Future<void> addProduct(name, description, price, img) async {
+    final user = _firebaseAuth.currentUser;
+    final userId = user.uid;
+    final product = {
+      'name': name,
+      'description': description,
+      'price': price,
+      'product_img': img
+    };
+    DocumentReference targetCompany =
+        _firestore.collection('company').doc(userId);
+    CollectionReference productCollection = targetCompany.collection('product');
+    await productCollection.add(product);
+  }
+
   Future<String> signIn(
       {String email, String password, BuildContext context}) async {
     try {
