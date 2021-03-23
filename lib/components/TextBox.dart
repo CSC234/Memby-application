@@ -45,6 +45,7 @@ class TextBox extends StatelessWidget {
             fillColor: formColor,
             filled: true,
             border: new OutlineInputBorder(
+                
                 borderRadius: const BorderRadius.all(
               const Radius.circular(25.0),
             )),

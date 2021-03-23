@@ -23,7 +23,7 @@ class Body extends StatelessWidget {
                       )),
                 ),
                 Positioned(
-                  top: 0,
+                  top: -5,
                   left: 30,
                   child: Text(
                     'View Dashboard',
@@ -34,7 +34,7 @@ class Body extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                  top: 64,
+                  top: 58,
                   left: 120,
                   child: Text(
                     'insight information',
