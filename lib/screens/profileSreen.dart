@@ -38,6 +38,31 @@ class Profile extends StatelessWidget {
                 ),
               ),
             ),
+            Positioned(
+              height: height * (40 / 100),
+              left: 220,
+              child: IconButton(
+                onPressed: () {
+                  print("Sign Out Pressed");
+                  context.read<FlutterFireAuthService>().addCustomer(
+                      'Toei',
+                      'Kung',
+                      'toei@mail.com',
+                      '086666666',
+                      '',
+                      'Male',
+                      'kmutt');
+                  if (Navigator.of(context).canPop()) {
+                    Navigator.of(context).pop();
+                  }
+                },
+                icon: Icon(
+                  Icons.people,
+                  color: Colors.black,
+                  size: 35,
+                ),
+              ),
+            ),
           ],
         ),
       ),

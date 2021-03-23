@@ -33,7 +33,31 @@ class FlutterFireAuthService {
     DocumentReference targetCompany =
         _firestore.collection('company').doc(userId);
     CollectionReference productCollection = targetCompany.collection('product');
-    await productCollection.add(product);
+    await productCollection.add(product).catchError((e) {
+      print(e.toString());
+    });
+  }
+
+  Future<void> addCustomer(
+      firstName, lastName, email, phone, birthdate, gender, address) async {
+    final user = _firebaseAuth.currentUser;
+    final userId = user.uid;
+    final customer = {
+      'firstname': firstName,
+      'lastname': lastName,
+      'email': email,
+      "phone_no": phone,
+      'birthdate': birthdate,
+      'gender': gender,
+      'address': address
+    };
+    DocumentReference targetCompany =
+        _firestore.collection('company').doc(userId);
+    CollectionReference productCollection =
+        targetCompany.collection('customer');
+    await productCollection.add(customer).catchError((e) {
+      print(e.toString());
+    });
   }
 
   Future<String> signIn(
