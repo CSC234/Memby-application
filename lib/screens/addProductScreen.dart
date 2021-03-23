@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:memby/constants.dart';
 import 'package:memby/components/CardProduct.dart';
 
+import 'package:memby/components/Textfield.dart';
+
 class AddProductList extends StatefulWidget {
   @override
   final ValueChanged<String> onChanged;
@@ -21,17 +23,16 @@ class Product {
 
 class _AddProductList extends State<AddProductList> {
   double val = 0;
+// [{question:'',answer:[],{},{}]
+
   List<Product> product = [
     Product(question: "test", answer: [0])
   ];
+
   void change() {
     setState(() {
       product.add(Product(question: 'aasdg', answer: [val]));
       val += 1;
-      // print(val);
-      // for (var i = 0; i < product.length; i++) {
-      //   print(product[i].answer.toString());
-      // }
       print(product.length);
       print('---------------------');
     });
@@ -41,7 +42,6 @@ class _AddProductList extends State<AddProductList> {
     setState(() {
       if (product.length > 1) product.removeAt(i);
       val -= 1;
-      // print(val);
       print(product.length);
       print('---------------------');
     });
@@ -78,16 +78,48 @@ class _AddProductList extends State<AddProductList> {
                     SizedBox(
                       height: 15,
                     ),
-                    for (var i = 0; i < product.length; i++)
-                      CardProductButton(
-                        text: "Product " + (i + 1).toString(),
-                        press: () {
-                          change();
-                        },
-                        press1: () {
-                          changeDecrease(i);
-                        },
-                      ),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Column(
+                          children: [
+                            Textfield(
+                              text: 'Product name...',
+                              width: 210,
+                              min: 1,
+                              max: 5,
+                            ),
+                            Textfield(
+                              text: 'Description...',
+                              width: 210,
+                              min: 5,
+                              max: 5,
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Column(
+                          children: [
+                            Textfield(
+                              width: 150,
+                              text: 'Price',
+                              min: 1,
+                              max: 5,
+                            ),
+                            Textfield(
+                              text: 'Picture',
+                              width: 150,
+                              min: 5,
+                              max: 5,
+                            )
+                          ],
+                        )
+                      ],
+                    ),
                   ],
                 ),
               ),
