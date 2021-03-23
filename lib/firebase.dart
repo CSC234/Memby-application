@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:memby/screens/landingScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FlutterFireAuthService {
   final FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   FlutterFireAuthService(this._firebaseAuth);
 
   Stream<User> get authStateChanges => _firebaseAuth.idTokenChanges();
@@ -50,15 +53,35 @@ class FlutterFireAuthService {
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
-    await FirebaseAuth.instance.signInWithCredential(credential);
+    UserCredential authUser =
+        await FirebaseAuth.instance.signInWithCredential(credential);
+    if (authUser.additionalUserInfo.isNewUser) {
+      var bussinessProfile = authUser.additionalUserInfo.profile;
+
+      await _firestore.collection('company').doc(authUser.user.uid).set({
+        'id': authUser.user.uid,
+        'name': bussinessProfile['given_name'],
+        'logo': bussinessProfile['picture']
+      });
+    }
     return "Success";
   }
 
   Future<String> signUp(
-      {String email, String password, BuildContext context}) async {
+      {String email,
+      String password,
+      String bussinessName,
+      BuildContext context}) async {
     try {
-      await _firebaseAuth.createUserWithEmailAndPassword(
-          email: email, password: password);
+      UserCredential authResult = await _firebaseAuth
+          .createUserWithEmailAndPassword(email: email, password: password);
+      User newUser = authResult.user;
+      await _firestore.collection('company').doc(newUser.uid).set({
+        'id': newUser.uid,
+        'name': bussinessName,
+        'logo':
+            "https://firebasestorage.googleapis.com/v0/b/memby-application.appspot.com/o/Group%2051.png?alt=media&token=be571d82-c69e-4bad-b200-a12d977e813d"
+      });
       Navigator.push(
         context,
         MaterialPageRoute(
