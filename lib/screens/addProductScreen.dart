@@ -3,6 +3,11 @@ import 'package:memby/constants.dart';
 import 'package:memby/components/rounded_button.dart';
 import 'package:memby/components/ProductList.dart';
 import 'package:memby/components/Textfield.dart';
+import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:memby/firebase.dart';
+import 'package:memby/screens/homeScreen.dart';
+import 'package:memby/components/emptyItem.dart';
 
 class AddProductList extends StatefulWidget {
   @override
@@ -44,12 +49,27 @@ class _AddProductList extends State<AddProductList> {
     });
   }
 
+  void addProductToFireStore() {
+    setState(() {
+      for (var i = 0; i < product.length; i++) {
+        context.read<FlutterFireAuthService>().addProduct(
+            product[i].description, product[i].product, product[i].price, '');
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final _productnameController = TextEditingController();
     final _descriptionController = TextEditingController();
     final _priceController = TextEditingController();
+    final firebaseUser = context.watch<User>();
 
+    if (firebaseUser == null) {
+      print("Not Authenticated");
+      print("Return To Home Page");
+      return HomeScreen();
+    }
     return Scaffold(
         backgroundColor: kPrimaryColor,
         body: SingleChildScrollView(
@@ -130,7 +150,7 @@ class _AddProductList extends State<AddProductList> {
                             fontsize: 15,
                             buttonSize: 0.4,
                             textColor: Colors.white,
-                            text: "Add to prodct",
+                            text: "add to prodct",
                             press: () {
                               addProduct(
                                   _productnameController.text,
@@ -154,15 +174,36 @@ class _AddProductList extends State<AddProductList> {
                         style: TextStyle(fontSize: 25),
                       ),
                     ),
-                    for (int i = 0; i < product.length; i++)
-                      ProductList(
-                        product: product[i].product,
-                        description: product[i].description,
-                        price: product[i].price,
-                        press: () {
-                          removeProduct(i);
-                        },
+                    if (product.length != 0)
+                      for (int i = 0; i < product.length; i++)
+                        ProductList(
+                          product: product[i].product,
+                          description: product[i].description,
+                          price: product[i].price,
+                          press: () {
+                            removeProduct(i);
+                          },
+                        ),
+                    if (product.length == 0)
+                      EmptyList(
+                          text:
+                              'Customer Product is empty please choose the product'),
+                    Container(
+                      margin: EdgeInsets.only(right: 10),
+                      child: Align(
+                        alignment: Alignment.topRight,
+                        child: RoundedButton(
+                            color: kPrimaryLightColor,
+                            buttonHight: 50,
+                            fontsize: 15,
+                            buttonSize: 0.4,
+                            textColor: Colors.white,
+                            text: "confirm",
+                            press: () {
+                              addProductToFireStore();
+                            }),
                       ),
+                    ),
                   ],
                 ),
               ),
