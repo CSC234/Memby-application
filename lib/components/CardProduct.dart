@@ -6,7 +6,7 @@ class CardProductButton extends StatelessWidget {
   final Function press;
   final double fontsize;
   final Color colorCircle, textColor;
-  final double buttonSize;
+  final TextEditingController controller;
   final Function press1;
 
   const CardProductButton(
@@ -15,7 +15,7 @@ class CardProductButton extends StatelessWidget {
       this.press,
       this.colorCircle,
       this.textColor,
-      this.buttonSize,
+      this.controller,
       this.press1,
       this.fontsize})
       : super(key: key);
@@ -119,7 +119,7 @@ class CardProductButton extends StatelessWidget {
                                         borderRadius: BorderRadius.circular(5),
                                       ),
                                       child: TextField(
-                                        // controller: passwordController,
+                                        controller: controller,
                                         decoration: InputDecoration(
                                             hintText: 'product name...',
                                             border: InputBorder.none),

@@ -2,6 +2,39 @@ import 'package:flutter/material.dart';
 import 'package:memby/constants.dart';
 import 'package:dotted_decoration/dotted_decoration.dart';
 
+class Product {
+  final String img;
+  final String productName;
+  final bool isFilled;
+
+  Product({this.img, this.isFilled, this.productName});
+}
+
+List<Product> Products = [
+  Product(img: 'product1', productName: 'Product 1', isFilled: false),
+  Product(img: 'product1', productName: 'Product 2', isFilled: false),
+  Product(img: 'product1', productName: 'Product 3', isFilled: true),
+  Product(img: 'product1', productName: 'Product 4', isFilled: false),
+  Product(img: 'product1', productName: 'Product 5', isFilled: false),
+];
+
+ListView makeProductCard() {
+  List<ProductBox> productCards = [];
+  for (Product p in Products) {
+    productCards.add(
+      ProductBox(
+        img: p.img,
+        title: p.productName,
+        isFilled: p.isFilled,
+      ),
+    );
+  }
+  return ListView(
+    scrollDirection: Axis.horizontal,
+    children: productCards,
+  );
+}
+
 class CreateOrderScreen extends StatefulWidget {
   @override
   _CreateOrderScreenState createState() => _CreateOrderScreenState();
@@ -38,42 +71,8 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
             ),
             Container(
               margin: EdgeInsets.symmetric(vertical: 20.0),
-              height: 200.0,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: <Widget>[
-                  ProductBox(
-                    img: 'product1',
-                    title: 'product1',
-                    isFilled: false,
-                  ),
-                  ProductBox(
-                    img: 'product1',
-                    title: 'product2',
-                    isFilled: true,
-                  ),
-                  ProductBox(
-                    img: 'product1',
-                    title: 'product3',
-                    isFilled: false,
-                  ),
-                  ProductBox(
-                    img: 'product1',
-                    title: 'product4',
-                    isFilled: false,
-                  ),
-                  ProductBox(
-                    img: 'product1',
-                    title: 'product5',
-                    isFilled: true,
-                  ),
-                  ProductBox(
-                    img: 'product1',
-                    title: 'product6',
-                    isFilled: false,
-                  ),
-                ],
-              ),
+              height: 170.0,
+              child: makeProductCard(),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 20),
@@ -89,6 +88,7 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
               ),
             ),
             Expanded(
+              flex: 8,
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: ListView(
@@ -132,8 +132,63 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
                   ],
                 ),
               ),
-            )
+            ),
           ],
+        ),
+      ),
+      bottomNavigationBar: Container(
+        height: 95,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+                color: Colors.black54,
+                blurRadius: 15.0,
+                offset: Offset(0.0, 0.75))
+          ],
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 40),
+        child: Row(
+          children: [
+            Expanded(
+              child: RoundedButton(
+                color: kPrimaryLightColor,
+                title: 'ORDER',
+                onPress: () {
+                  print('Clicked');
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class RoundedButton extends StatelessWidget {
+  final Function onPress;
+  final String title;
+  final Color color;
+
+  RoundedButton({this.color, this.onPress, this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: onPress,
+      child: Text(title),
+      style: ButtonStyle(
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+        ),
+        backgroundColor: MaterialStateProperty.resolveWith<Color>(
+          (Set<MaterialState> states) {
+            if (states.contains(MaterialState.pressed)) return color;
+            return color; // Use the component's default.
+          },
         ),
       ),
     );
@@ -154,71 +209,66 @@ class OrderCard extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Container(
         child: Container(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10.0),
-                child: Image.asset(
-                  'assets/images/$img.jpg',
-                  width: 100,
-                ),
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    child: Container(
-                      alignment: Alignment.topLeft,
-                      width: 200,
-                      child: Text(
-                        description,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 20, left: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  flex: 4,
+                  child: Container(
+                    padding: EdgeInsets.all(10),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10.0),
+                      child: Image.asset(
+                        'assets/images/$img.jpg',
                       ),
                     ),
                   ),
-                  Row(
+                ),
+                Expanded(
+                  flex: 6,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Text(
+                        title,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Container(
-                        alignment: Alignment.center,
-                        height: 40,
-                        width: 100,
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                        child: Text('$price Baht'),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                            color: Color(0xFFC0C0C0),
-                            width: 1,
+                        child: Container(
+                          alignment: Alignment.topLeft,
+                          width: 200,
+                          child: Text(
+                            description,
                           ),
                         ),
                       ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Container(
-                        child: TextField(
-                          keyboardType: TextInputType.number,
-                          textAlign: TextAlign.center,
-                          decoration:
-                              kTextFieldDecoration.copyWith(hintText: 'amount'),
-                        ),
-                        width: 100,
-                        height: 40,
-                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('$price Baht'),
+                          Container(
+                            child: TextField(
+                              keyboardType: TextInputType.number,
+                              textAlign: TextAlign.center,
+                              decoration: kTextFieldDecoration.copyWith(
+                                  hintText: 'amount'),
+                            ),
+                            width: 100,
+                            height: 40,
+                          ),
+                        ],
+                      )
                     ],
-                  )
-                ],
-              ),
-            ],
+                  ),
+                ),
+              ],
+            ),
           ),
           height: 150,
           decoration: BoxDecoration(

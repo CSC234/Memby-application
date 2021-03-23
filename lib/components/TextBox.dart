@@ -56,6 +56,7 @@ class _TextBoxState extends State<TextBox> {
             fillColor: widget.formColor,
             filled: true,
             border: new OutlineInputBorder(
+                
                 borderRadius: const BorderRadius.all(
               const Radius.circular(10.0),
             )),
