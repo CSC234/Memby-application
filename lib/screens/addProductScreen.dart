@@ -85,49 +85,45 @@ class _AddProductList extends State<AddProductList> {
                     SizedBox(
                       height: 15,
                     ),
-                    Row(
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Column(
                       children: [
-                        SizedBox(
-                          width: 10,
+                        Textfield(
+                          controller: _productnameController,
+                          text: 'Product name...',
+                          width: 350,
+                          min: 1,
+                          max: 5,
                         ),
-                        Column(
-                          children: [
-                            Textfield(
-                              controller: _productnameController,
-                              text: 'Product name...',
-                              width: 210,
-                              min: 1,
-                              max: 5,
-                            ),
-                            Textfield(
-                              controller: _descriptionController,
-                              text: 'Description...',
-                              width: 210,
-                              min: 5,
-                              max: 5,
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Column(
-                          children: [
-                            Textfield(
-                              controller: _priceController,
-                              width: 150,
-                              text: 'Price',
-                              min: 1,
-                              max: 5,
-                            ),
-                            Textfield(
-                              text: 'Picture',
-                              width: 150,
-                              min: 5,
-                              max: 5,
-                            ),
-                          ],
+                        Textfield(
+                          controller: _descriptionController,
+                          text: 'Description...',
+                          width: 350,
+                          min: 3,
+                          max: 5,
                         )
+                      ],
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Column(
+                      children: [
+                        Textfield(
+                          controller: _priceController,
+                          width: 350,
+                          text: 'Price',
+                          min: 1,
+                          max: 5,
+                        ),
+                        Textfield(
+                          text: 'Picture',
+                          width: 350,
+                          min: 3,
+                          max: 5,
+                        ),
                       ],
                     ),
                     Container(
