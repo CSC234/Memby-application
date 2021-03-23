@@ -38,7 +38,7 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
             ),
             Container(
               margin: EdgeInsets.symmetric(vertical: 20.0),
-              height: 200.0,
+              height: 170.0,
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: <Widget>[
@@ -89,6 +89,7 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
               ),
             ),
             Expanded(
+              flex: 8,
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: ListView(
@@ -133,36 +134,44 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        print('Clicked');
-                      },
-                      child: Text('ORDER'),
-                      style: ButtonStyle(
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18.0),
-                          ),
-                        ),
-                        backgroundColor:
-                            MaterialStateProperty.resolveWith<Color>(
-                          (Set<MaterialState> states) {
-                            if (states.contains(MaterialState.pressed))
-                              return kPrimaryLightColor;
-                            return kPrimaryLightColor; // Use the component's default.
-                          },
-                        ),
-                      ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: Container(
+        height: 95,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+                color: Colors.black54,
+                blurRadius: 15.0,
+                offset: Offset(0.0, 0.75))
+          ],
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 40),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Expanded(
+              child: ElevatedButton(
+                onPressed: () {
+                  print('Clicked');
+                },
+                child: Text('ORDER'),
+                style: ButtonStyle(
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
                     ),
                   ),
-                ],
+                  backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                    (Set<MaterialState> states) {
+                      if (states.contains(MaterialState.pressed))
+                        return kPrimaryLightColor;
+                      return kPrimaryLightColor; // Use the component's default.
+                    },
+                  ),
+                ),
               ),
             ),
           ],
@@ -187,14 +196,14 @@ class OrderCard extends StatelessWidget {
       child: Container(
         child: Container(
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.only(right: 20, left: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
                   flex: 4,
-                  child: Padding(
-                    padding: const EdgeInsets.all(5.0),
+                  child: Container(
+                    padding: EdgeInsets.all(10),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10.0),
                       child: Image.asset(
