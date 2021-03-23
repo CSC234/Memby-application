@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:memby/constants.dart';
 import 'package:memby/components/rounded_button.dart';
-
+import 'package:memby/components/ProductList.dart';
 import 'package:memby/components/Textfield.dart';
 
 class AddProductList extends StatefulWidget {
   @override
   final ValueChanged<String> onChanged;
+
   const AddProductList({
     Key key,
     this.onChanged,
@@ -16,39 +17,45 @@ class AddProductList extends StatefulWidget {
 }
 
 class Product {
-  String question;
-  List<double> answer;
-  Product({this.question, this.answer});
+  String product;
+  String description;
+  int price;
+
+  Product({this.product, this.description, this.price});
 }
 
 class _AddProductList extends State<AddProductList> {
   double val = 0;
-// [{question:'',answer:[],{},{}]
+  List<Product> product = [];
 
-  List<Product> product = [
-    Product(question: "test", answer: [0])
-  ];
-
-  void change() {
+  void addProduct(productName, description, price) {
     setState(() {
-      product.add(Product(question: 'aasdg', answer: [val]));
+      print(productName);
+      print(description);
+      print(price);
+
+      product.add(new Product(
+          product: productName,
+          description: description,
+          price: int.parse(price)));
       val += 1;
       print(product.length);
-      print('---------------------');
-    });
-  }
 
-  void changeDecrease(i) {
-    setState(() {
-      if (product.length > 1) product.removeAt(i);
-      val -= 1;
-      print(product.length);
-      print('---------------------');
+      for (var i = 0; i < product.length; i++) {
+        print("Product name: " + product[i].product);
+        print("Description: " + product[i].description);
+        print("price" + product[i].price.toString());
+        print('---------------------');
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final _productnameController = TextEditingController();
+    final _descriptionController = TextEditingController();
+    final _priceController = TextEditingController();
+
     return Scaffold(
         backgroundColor: kPrimaryColor,
         body: SingleChildScrollView(
@@ -86,12 +93,14 @@ class _AddProductList extends State<AddProductList> {
                         Column(
                           children: [
                             Textfield(
+                              controller: _productnameController,
                               text: 'Product name...',
                               width: 210,
                               min: 1,
                               max: 5,
                             ),
                             Textfield(
+                              controller: _descriptionController,
                               text: 'Description...',
                               width: 210,
                               min: 5,
@@ -105,6 +114,7 @@ class _AddProductList extends State<AddProductList> {
                         Column(
                           children: [
                             Textfield(
+                              controller: _priceController,
                               width: 150,
                               text: 'Price',
                               min: 1,
@@ -131,7 +141,12 @@ class _AddProductList extends State<AddProductList> {
                             buttonSize: 0.4,
                             textColor: Colors.white,
                             text: "Add to prodct",
-                            press: () {}),
+                            press: () {
+                              addProduct(
+                                  _productnameController.text,
+                                  _descriptionController.text,
+                                  _priceController.text);
+                            }),
                       ),
                     ),
                     Divider(
@@ -140,6 +155,13 @@ class _AddProductList extends State<AddProductList> {
                       indent: 25,
                       endIndent: 25,
                     ),
+                    Text('Product List'),
+                    for (var i = 0; i < product.length; i++)
+                      ProductList(
+                        product: product[i].product,
+                        description: product[i].description,
+                        price: product[i].price,
+                      ),
                   ],
                 ),
               ),

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class Textfield extends StatelessWidget {
   final String text;
-  final Function press;
+  final TextEditingController controller;
   final double fontsize;
   final Color colorCircle, textColor;
   final int min;
@@ -16,7 +16,7 @@ class Textfield extends StatelessWidget {
       {Key key,
       this.width,
       this.text,
-      this.press,
+      this.controller,
       this.colorCircle,
       this.textColor,
       this.min,
@@ -35,6 +35,7 @@ class Textfield extends StatelessWidget {
           minLines: min,
           maxLines: max,
           keyboardType: TextInputType.multiline,
+          controller: controller,
           decoration: InputDecoration(
             labelText: text,
             border: OutlineInputBorder(
