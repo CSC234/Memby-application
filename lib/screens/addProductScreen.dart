@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:memby/constants.dart';
-import 'package:memby/components/CardProduct.dart';
+import 'package:memby/components/rounded_button.dart';
 
 import 'package:memby/components/Textfield.dart';
 
@@ -115,10 +115,30 @@ class _AddProductList extends State<AddProductList> {
                               width: 150,
                               min: 5,
                               max: 5,
-                            )
+                            ),
                           ],
                         )
                       ],
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(right: 10),
+                      child: Align(
+                        alignment: Alignment.topRight,
+                        child: RoundedButton(
+                            color: kPrimaryLightColor,
+                            buttonHight: 50,
+                            fontsize: 15,
+                            buttonSize: 0.4,
+                            textColor: Colors.white,
+                            text: "Add to prodct",
+                            press: () {}),
+                      ),
+                    ),
+                    Divider(
+                      height: 10,
+                      thickness: 2,
+                      indent: 25,
+                      endIndent: 25,
                     ),
                   ],
                 ),
