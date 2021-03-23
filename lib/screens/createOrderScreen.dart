@@ -2,6 +2,39 @@ import 'package:flutter/material.dart';
 import 'package:memby/constants.dart';
 import 'package:dotted_decoration/dotted_decoration.dart';
 
+class Product {
+  final String img;
+  final String productName;
+  final bool isFilled;
+
+  Product({this.img, this.isFilled, this.productName});
+}
+
+List<Product> Products = [
+  Product(img: 'product1', productName: 'Product 1', isFilled: false),
+  Product(img: 'product1', productName: 'Product 2', isFilled: false),
+  Product(img: 'product1', productName: 'Product 3', isFilled: true),
+  Product(img: 'product1', productName: 'Product 4', isFilled: false),
+  Product(img: 'product1', productName: 'Product 5', isFilled: false),
+];
+
+ListView makeProductCard() {
+  List<ProductBox> productCards = [];
+  for (Product p in Products) {
+    productCards.add(
+      ProductBox(
+        img: p.img,
+        title: p.productName,
+        isFilled: p.isFilled,
+      ),
+    );
+  }
+  return ListView(
+    scrollDirection: Axis.horizontal,
+    children: productCards,
+  );
+}
+
 class CreateOrderScreen extends StatefulWidget {
   @override
   _CreateOrderScreenState createState() => _CreateOrderScreenState();
@@ -39,41 +72,7 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
             Container(
               margin: EdgeInsets.symmetric(vertical: 20.0),
               height: 170.0,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: <Widget>[
-                  ProductBox(
-                    img: 'product1',
-                    title: 'product1',
-                    isFilled: false,
-                  ),
-                  ProductBox(
-                    img: 'product1',
-                    title: 'product2',
-                    isFilled: true,
-                  ),
-                  ProductBox(
-                    img: 'product1',
-                    title: 'product3',
-                    isFilled: false,
-                  ),
-                  ProductBox(
-                    img: 'product1',
-                    title: 'product4',
-                    isFilled: false,
-                  ),
-                  ProductBox(
-                    img: 'product1',
-                    title: 'product5',
-                    isFilled: true,
-                  ),
-                  ProductBox(
-                    img: 'product1',
-                    title: 'product6',
-                    isFilled: false,
-                  ),
-                ],
-              ),
+              child: makeProductCard(),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 20),
@@ -150,31 +149,46 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
         ),
         padding: EdgeInsets.symmetric(horizontal: 40),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Expanded(
-              child: ElevatedButton(
-                onPressed: () {
+              child: RoundedButton(
+                color: kPrimaryLightColor,
+                title: 'ORDER',
+                onPress: () {
                   print('Clicked');
                 },
-                child: Text('ORDER'),
-                style: ButtonStyle(
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                  ),
-                  backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                    (Set<MaterialState> states) {
-                      if (states.contains(MaterialState.pressed))
-                        return kPrimaryLightColor;
-                      return kPrimaryLightColor; // Use the component's default.
-                    },
-                  ),
-                ),
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class RoundedButton extends StatelessWidget {
+  final Function onPress;
+  final String title;
+  final Color color;
+
+  RoundedButton({this.color, this.onPress, this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: onPress,
+      child: Text(title),
+      style: ButtonStyle(
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+        ),
+        backgroundColor: MaterialStateProperty.resolveWith<Color>(
+          (Set<MaterialState> states) {
+            if (states.contains(MaterialState.pressed)) return color;
+            return color; // Use the component's default.
+          },
         ),
       ),
     );
