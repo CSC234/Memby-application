@@ -25,28 +25,22 @@ class Product {
 }
 
 class _AddProductList extends State<AddProductList> {
-  double val = 0;
   List<Product> product = [];
 
   void addProduct(productName, description, price) {
     setState(() {
-      print(productName);
-      print(description);
-      print(price);
-
       product.add(new Product(
           product: productName,
           description: description,
           price: int.parse(price)));
-      val += 1;
-      print(product.length);
+    });
+  }
 
-      for (var i = 0; i < product.length; i++) {
-        print("Product name: " + product[i].product);
-        print("Description: " + product[i].description);
-        print("price" + product[i].price.toString());
-        print('---------------------');
-      }
+  void removeProduct(int index) {
+    print("index" + index.toString());
+    print("size of product" + product.length.toString());
+    setState(() {
+      product.removeAt(index);
     });
   }
 
@@ -160,11 +154,14 @@ class _AddProductList extends State<AddProductList> {
                         style: TextStyle(fontSize: 25),
                       ),
                     ),
-                    for (var i = 0; i < product.length; i++)
+                    for (int i = 0; i < product.length; i++)
                       ProductList(
                         product: product[i].product,
                         description: product[i].description,
                         price: product[i].price,
+                        press: () {
+                          removeProduct(i);
+                        },
                       ),
                   ],
                 ),

@@ -7,9 +7,15 @@ class ProductList extends StatelessWidget {
   final String product;
   final String description;
   final int price;
+  final Function press;
 
   const ProductList(
-      {Key key, this.fontsize, this.product, this.description, this.price})
+      {Key key,
+      this.fontsize,
+      this.product,
+      this.description,
+      this.price,
+      this.press})
       : super(key: key);
 
   @override
@@ -88,7 +94,7 @@ class ProductList extends StatelessWidget {
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle, color: Colors.grey),
                             ),
-                            // onPressed: press,
+                            onPressed: press,
                           ),
                         ),
                       ],
