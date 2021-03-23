@@ -63,10 +63,10 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
         selectedProduct.removeAt(deletedIndex);
       }
 
-      for (Product p in selectedProduct) {
-        print(p.productName);
-      }
-      print('======');
+      // for (Product p in selectedProduct) {
+      //   print(p.productName);
+      // }
+      // print('======');
     });
   }
 
