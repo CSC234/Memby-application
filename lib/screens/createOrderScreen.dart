@@ -145,12 +145,18 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
                       },
                       child: Text('ORDER'),
                       style: ButtonStyle(
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0),
+                          ),
+                        ),
                         backgroundColor:
                             MaterialStateProperty.resolveWith<Color>(
                           (Set<MaterialState> states) {
                             if (states.contains(MaterialState.pressed))
-                              return Colors.lightBlueAccent;
-                            return null; // Use the component's default.
+                              return kPrimaryLightColor;
+                            return kPrimaryLightColor; // Use the component's default.
                           },
                         ),
                       ),
