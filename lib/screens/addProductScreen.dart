@@ -64,12 +64,13 @@ class _AddProductList extends State<AddProductList> {
     }
   }
 
-  void addProduct(productName, description, price) {
+  void addProduct(productName, description, price, picture) {
     setState(() {
       product.add(new Product(
           product: productName,
           description: description,
-          price: int.parse(price)));
+          price: int.parse(price),
+          picture: _pickedImage));
     });
   }
 
@@ -88,10 +89,11 @@ class _AddProductList extends State<AddProductList> {
             product[i].description,
             product[i].product,
             product[i].price,
-            product[i].picture);
+            "picture.test");
+        print("picturename" + product[i].picture.toString());
       }
     });
-    uploadPic(_pickedImage);
+    // uploadPic(_pickedImage);
   }
 
   void _pickImage() async {
@@ -137,6 +139,8 @@ class _AddProductList extends State<AddProductList> {
     final _productnameController = TextEditingController();
     final _descriptionController = TextEditingController();
     final _priceController = TextEditingController();
+    final _pictureController = TextEditingController();
+
     final firebaseUser = context.watch<User>();
 
     if (firebaseUser == null) {
@@ -230,7 +234,8 @@ class _AddProductList extends State<AddProductList> {
                               addProduct(
                                   _productnameController.text,
                                   _descriptionController.text,
-                                  _priceController.text);
+                                  _priceController.text,
+                                  _pictureController.text);
                             }),
                       ),
                     ),
@@ -252,7 +257,7 @@ class _AddProductList extends State<AddProductList> {
                     if (product.length != 0)
                       for (int i = 0; i < product.length; i++)
                         ProductList(
-                          picture: product[i].picture.toString(),
+                          picture: product[i].picture,
                           product: product[i].product,
                           description: product[i].description,
                           price: product[i].price,
