@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:memby/screens/landingScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FlutterFireAuthService {
   final FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   FlutterFireAuthService(this._firebaseAuth);
 
   Stream<User> get authStateChanges => _firebaseAuth.idTokenChanges();
@@ -16,6 +19,45 @@ class FlutterFireAuthService {
     if (isSignedWithGoogle) {
       await _googleSignIn.signOut();
     }
+  }
+
+  Future<void> addProduct(name, description, price, img) async {
+    final user = _firebaseAuth.currentUser;
+    final userId = user.uid;
+    final product = {
+      'name': name,
+      'description': description,
+      'price': price,
+      'product_img': img
+    };
+    DocumentReference targetCompany =
+        _firestore.collection('company').doc(userId);
+    CollectionReference productCollection = targetCompany.collection('product');
+    await productCollection.add(product).catchError((e) {
+      print(e.toString());
+    });
+  }
+
+  Future<void> addCustomer(
+      firstName, lastName, email, phone, birthdate, gender, address) async {
+    final user = _firebaseAuth.currentUser;
+    final userId = user.uid;
+    final customer = {
+      'firstname': firstName,
+      'lastname': lastName,
+      'email': email,
+      "phone_no": phone,
+      'birthdate': birthdate,
+      'gender': gender,
+      'address': address
+    };
+    DocumentReference targetCompany =
+        _firestore.collection('company').doc(userId);
+    CollectionReference productCollection =
+        targetCompany.collection('customer');
+    await productCollection.add(customer).catchError((e) {
+      print(e.toString());
+    });
   }
 
   Future<String> signIn(
@@ -50,15 +92,35 @@ class FlutterFireAuthService {
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
-    await FirebaseAuth.instance.signInWithCredential(credential);
+    UserCredential authUser =
+        await FirebaseAuth.instance.signInWithCredential(credential);
+    if (authUser.additionalUserInfo.isNewUser) {
+      var bussinessProfile = authUser.additionalUserInfo.profile;
+
+      await _firestore.collection('company').doc(authUser.user.uid).set({
+        'id': authUser.user.uid,
+        'name': bussinessProfile['given_name'],
+        'logo': bussinessProfile['picture']
+      });
+    }
     return "Success";
   }
 
   Future<String> signUp(
-      {String email, String password, BuildContext context}) async {
+      {String email,
+      String password,
+      String bussinessName,
+      BuildContext context}) async {
     try {
-      await _firebaseAuth.createUserWithEmailAndPassword(
-          email: email, password: password);
+      UserCredential authResult = await _firebaseAuth
+          .createUserWithEmailAndPassword(email: email, password: password);
+      User newUser = authResult.user;
+      await _firestore.collection('company').doc(newUser.uid).set({
+        'id': newUser.uid,
+        'name': bussinessName,
+        'logo':
+            "https://firebasestorage.googleapis.com/v0/b/memby-application.appspot.com/o/Group%2051.png?alt=media&token=be571d82-c69e-4bad-b200-a12d977e813d"
+      });
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -72,92 +134,3 @@ class FlutterFireAuthService {
     }
   }
 }
-
-
-//   Future<User> _handleSignIn() async {
-//     User user;
-//     bool userSignedIn = await _googleSignIn.isSignedIn();
-
-//     setState(() {
-//       isUserSignedIn = userSignedIn;
-//     });
-
-//     if (isUserSignedIn) {
-//       user = _auth.currentUser;
-//     } else {
-//       final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-//       final GoogleSignInAuthentication googleAuth =
-//           await googleUser.authentication;
-
-//       final AuthCredential credential = GoogleAuthProvider.credential(
-//         accessToken: googleAuth.accessToken,
-//         idToken: googleAuth.idToken,
-//       );
-
-//       user = (await _auth.signInWithCredential(credential)).user;
-//       userSignedIn = await _googleSignIn.isSignedIn();
-//       setState(() {
-//         isUserSignedIn = userSignedIn;
-//       });
-//     }
-
-//     return user;
-//   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:firebase_core/firebase_core.dart';
-// import 'package:google_sign_in/google_sign_in.dart';
-
-
-// class Authentication {
-//   static Future<User> signInWithGoogle({ context}) async {
-//     FirebaseAuth auth = FirebaseAuth.instance;
-//     User user;
-
-//     final GoogleSignIn googleSignIn = GoogleSignIn();
-
-//     final GoogleSignInAccount googleSignInAccount =
-//         await googleSignIn.signIn();
-
-//     if (googleSignInAccount != null) {
-//       final GoogleSignInAuthentication googleSignInAuthentication =
-//           await googleSignInAccount.authentication;
-
-//       final AuthCredential credential = GoogleAuthProvider.credential(
-//         accessToken: googleSignInAuthentication.accessToken,
-//         idToken: googleSignInAuthentication.idToken,
-//       );
-
-//       try {
-//         final UserCredential userCredential =
-//             await auth.signInWithCredential(credential);
-
-//         user = userCredential.user;
-//       } on FirebaseAuthException catch (e) {
-//         if (e.code == 'account-exists-with-different-credential') {
-//           // handle the error here
-//         }
-//         else if (e.code == 'invalid-credential') {
-//           // handle the error here
-//         }
-//       } catch (e) {
-//         // handle the error here
-//       }
-//     }
-
-//     return user;
-//   }
-// }
-

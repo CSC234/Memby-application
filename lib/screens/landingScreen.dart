@@ -4,6 +4,13 @@ import 'package:memby/screens/viewDashboard.dart';
 import 'package:memby/screens/createOrderScreen.dart';
 import 'package:memby/constants.dart';
 import 'package:memby/screens/addProductScreen.dart';
+import 'package:memby/screens/registerScreen.dart';
+import 'package:memby/screens/homeScreen.dart';
+import 'package:memby/screens/profileSreen.dart';
+
+import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:memby/firebase.dart';
 
 import 'package:memby/screens/homeScreen.dart';
 import 'package:provider/provider.dart';
@@ -57,6 +64,31 @@ class Landing extends StatelessWidget {
                     ),
                     child: Stack(
                       children: <Widget>[
+                        Positioned(
+                            height: 90,
+                            width: 90,
+                            top: height * (3 / 100),
+                            left: width * (75 / 100),
+                            child: FlatButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return Profile();
+                                    },
+                                  ),
+                                );
+                              },
+                              child: CircleAvatar(
+                                radius: 100,
+                                child: CircleAvatar(
+                                  radius: 30,
+                                  backgroundImage:
+                                      AssetImage('assets/images/profile.png'),
+                                ),
+                              ),
+                            )),
                         Positioned(
                             top: height * (7 / 100),
                             left: 20,
@@ -157,7 +189,7 @@ class Landing extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) {
-                                        return Landing();
+                                        return Register();
                                       },
                                     ),
                                   );
@@ -220,7 +252,7 @@ class Landing extends StatelessWidget {
                               ),
                               SizedBox(
                                 height: 25,
-                              )
+                              ),
                             ],
                           ),
                         ),
@@ -232,11 +264,10 @@ class Landing extends StatelessWidget {
                 left: width * (52 / 100),
                 top: height * (10 / 100),
                 child: Container(
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                    image: AssetImage('assets/images/Invest.png'),
-                  )),
-                )),
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                  image: AssetImage('assets/images/Invest.png'),
+                )))),
           ],
         ),
       ),

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:memby/constants.dart';
 import 'package:memby/components/rounded_button.dart';
-import 'package:memby/screens/landingScreen.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
+import 'package:toggle_switch/toggle_switch.dart';
+import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -19,20 +17,27 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  bool isRegister = false;
+  int initialIndex = 0;
+  ScrollController _scrollController = ScrollController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
+  final TextEditingController bussinessNameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     String _value;
+
     return Scaffold(
       backgroundColor: kPrimaryColor,
       body: SingleChildScrollView(
+        controller: _scrollController,
         child: Column(
           children: <Widget>[
             SizedBox(
-              height: 100,
+              height: 80,
             ),
             Text(
               'Memby ',
@@ -56,8 +61,35 @@ class _LoginState extends State<Login> {
                     )),
                   ],
                 )),
+            ToggleSwitch(
+              minWidth: 100.0,
+              minHeight: 50,
+              initialLabelIndex: initialIndex,
+              cornerRadius: 30.0,
+              fontSize: 15,
+              activeFgColor: Colors.white,
+              inactiveBgColor: Color(0xFF61656D),
+              inactiveFgColor: Colors.white,
+              labels: ['Sign in', 'Sign up'],
+              activeBgColors: [kPrimaryLightColor, kPrimaryLightColor],
+              onToggle: (index) {
+                print('switched to: $index');
+                setState(() {
+                  initialIndex = index;
+                  isRegister = index == 1;
+                  if (isRegister) {
+                    Future.delayed(Duration(milliseconds: 100), () {
+                      _scrollController.animateTo(
+                          _scrollController.position.maxScrollExtent,
+                          duration: Duration(milliseconds: 500),
+                          curve: Curves.ease);
+                    });
+                  }
+                });
+              },
+            ),
             SizedBox(
-              height: 40,
+              height: 20,
             ),
             Container(
                 margin: EdgeInsets.symmetric(vertical: 10),
@@ -108,31 +140,101 @@ class _LoginState extends State<Login> {
                       ),
                       border: InputBorder.none),
                 )),
+            isRegister
+                ? Column(
+                    children: [
+                      Container(
+                          margin: EdgeInsets.symmetric(vertical: 10),
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 14, vertical: 5),
+                          width: 325,
+                          height: 60,
+                          decoration: BoxDecoration(
+                            color: Colors.black12,
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: TextField(
+                            controller: confirmPasswordController,
+                            obscureText: true,
+                            onChanged: (String value) {
+                              setState(() {
+                                // _value = value;
+                              });
+                              // widget.onChanged(value);
+                            },
+                            decoration: InputDecoration(
+                                hintText: 'Confirm Password',
+                                icon: Icon(
+                                  Icons.lock,
+                                  color: Colors.black54,
+                                ),
+                                suffixIcon: Icon(
+                                  Icons.visibility,
+                                  color: Colors.black54,
+                                ),
+                                border: InputBorder.none),
+                          )),
+                      Container(
+                          margin: EdgeInsets.symmetric(vertical: 10),
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 14, vertical: 5),
+                          width: 325,
+                          height: 60,
+                          decoration: BoxDecoration(
+                            color: Colors.black12,
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: TextField(
+                            controller: bussinessNameController,
+                            decoration: InputDecoration(
+                                hintText: 'Business Name',
+                                icon: Icon(
+                                  Icons.business,
+                                  color: Colors.black54,
+                                ),
+                                border: InputBorder.none),
+                          )),
+                    ],
+                  )
+                : Container(),
             RoundedButton(
                 color: kPrimaryLightColor,
-                buttonHight: 60,
+                buttonHight: 40,
                 fontsize: 15,
                 buttonSize: 0.4,
                 textColor: Colors.white,
-                text: "Login",
-                // press: () {
-                //   Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //       builder: (context) {
-                //         return Landing();
-                //       },
-                //     ),
-                //   );
-                // },
+                text: isRegister ? "Register" : "Login",
                 press: () {
-                  context.read<FlutterFireAuthService>().signIn(
-                        email: emailController.text.trim(),
-                        password: passwordController.text.trim(),
-                        context: context,
-                      );
+                  if (!isRegister)
+                    context.read<FlutterFireAuthService>().signIn(
+                          email: emailController.text.trim(),
+                          password: passwordController.text.trim(),
+                          context: context,
+                        );
+                  else {
+                    context.read<FlutterFireAuthService>().signUp(
+                          email: emailController.text.trim(),
+                          password: passwordController.text.trim(),
+                          bussinessName: bussinessNameController.text.trim(),
+                          context: context,
+                        );
+                  }
                 }),
-            buildButtonGoogle(context),
+            SizedBox(
+              height: 10,
+            ),
+            GoogleSignInButton(
+                onPressed: () {
+                  context.read<FlutterFireAuthService>().signInWithGoogle();
+                },
+                splashColor: Colors.white,
+                textStyle: TextStyle(
+                    color: kPrimaryFont,
+                    fontSize: 15,
+                    fontFamily: 'Alef-Regular')),
+            SizedBox(
+              height: 20,
+            ),
           ],
         ),
       ),
