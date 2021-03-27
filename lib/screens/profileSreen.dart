@@ -107,24 +107,26 @@ class Profile extends StatelessWidget {
       SizedBox(
         height: 10,
       ),
-      Container(
-        margin: EdgeInsets.only(left: 30),
-        child: Row(children: [
-          IconButton(
-            onPressed: () {
-              //////////////
-            },
-            icon: Icon(
-              Icons.create_rounded,
-              color: Colors.grey[500],
-              size: 30,
+      TextButton(
+        child: Container(
+          margin: EdgeInsets.only(left: 20),
+          child: Row(children: [
+            IconButton(
+              onPressed: () {
+                //////////////
+              },
+              icon: Icon(
+                Icons.create_rounded,
+                color: Colors.grey[500],
+                size: 30,
+              ),
             ),
-          ),
-          Text(
-            'Edit Profile',
-            style: TextStyle(color: Colors.grey[500], fontSize: 15),
-          )
-        ]),
+            Text(
+              'Edit Profile',
+              style: TextStyle(color: Colors.grey[500], fontSize: 15),
+            )
+          ]),
+        ),
       ),
       Divider(
         height: 10,
@@ -132,24 +134,26 @@ class Profile extends StatelessWidget {
         indent: 20,
         endIndent: 20,
       ),
-      Container(
-        margin: EdgeInsets.only(left: 30),
-        child: Row(children: [
-          IconButton(
-            onPressed: () {
-              ///////////////////
-            },
-            icon: Icon(
-              Icons.lock_open_rounded,
-              color: Colors.grey[500],
-              size: 30,
+      TextButton(
+        child: Container(
+          margin: EdgeInsets.only(left: 20),
+          child: Row(children: [
+            IconButton(
+              onPressed: () {
+                ///////////////////
+              },
+              icon: Icon(
+                Icons.lock_open_rounded,
+                color: Colors.grey[500],
+                size: 30,
+              ),
             ),
-          ),
-          Text(
-            'Change Password',
-            style: TextStyle(color: Colors.grey[500], fontSize: 15),
-          )
-        ]),
+            Text(
+              'Change Password',
+              style: TextStyle(color: Colors.grey[500], fontSize: 15),
+            )
+          ]),
+        ),
       ),
       Divider(
         height: 10,
@@ -157,32 +161,34 @@ class Profile extends StatelessWidget {
         indent: 20,
         endIndent: 20,
       ),
-      Container(
-        margin: EdgeInsets.only(left: 30),
-        child: Row(children: [
-          IconButton(
-            onPressed: () {
-              print("Sign Out Pressed");
-              context.read<FlutterFireAuthService>().signOut();
-              if (Navigator.of(context).canPop()) {
-                Navigator.of(context).pop();
-              }
-            },
-            icon: Icon(
-              Icons.exit_to_app,
-              color: Colors.grey[500],
-              size: 30,
-            ),
+      TextButton(
+          child: Container(
+            margin: EdgeInsets.only(left: 20),
+            child: Row(children: [
+              IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.exit_to_app,
+                  color: Colors.grey[500],
+                  size: 30,
+                ),
+              ),
+              Text(
+                'Log out',
+                style: TextStyle(color: Colors.grey[500], fontSize: 15),
+              )
+            ]),
           ),
-          Text(
-            'Log out',
-            style: TextStyle(color: Colors.grey[500], fontSize: 15),
-          )
-        ]),
-      ),
+          onPressed: () {
+            print("Sign Out Pressed");
+            context.read<FlutterFireAuthService>().signOut();
+            if (Navigator.of(context).canPop()) {
+              Navigator.of(context).pop();
+            }
+          }),
       Container(
           padding: EdgeInsets.all(50),
-          height: height * (40 / 100),
+          height: height * (35 / 100),
           child: Stack(
             children: <Widget>[
               Positioned(
