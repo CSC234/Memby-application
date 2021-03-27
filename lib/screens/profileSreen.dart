@@ -177,7 +177,21 @@ class Profile extends StatelessWidget {
             style: TextStyle(color: Colors.grey[500], fontSize: 15),
           )
         ]),
-      )
+      ),
+      Container(
+          padding: EdgeInsets.all(50),
+          height: 300,
+          child: Stack(
+            children: <Widget>[
+              Positioned(
+                  child: Container(
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                  image: AssetImage('assets/images/Employee.png'),
+                )),
+              )),
+            ],
+          )),
     ])));
   }
 }
