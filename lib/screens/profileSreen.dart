@@ -108,6 +108,7 @@ class Profile extends StatelessWidget {
         height: 10,
       ),
       TextButton(
+        onPressed: () {},
         child: Container(
           margin: EdgeInsets.only(left: 20),
           child: Row(children: [
@@ -135,6 +136,7 @@ class Profile extends StatelessWidget {
         endIndent: 20,
       ),
       TextButton(
+        onPressed: () {},
         child: Container(
           margin: EdgeInsets.only(left: 20),
           child: Row(children: [
