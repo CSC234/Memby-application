@@ -182,7 +182,7 @@ class Profile extends StatelessWidget {
       ),
       Container(
           padding: EdgeInsets.all(50),
-          height: 300,
+          height: height * (40 / 100),
           child: Stack(
             children: <Widget>[
               Positioned(
