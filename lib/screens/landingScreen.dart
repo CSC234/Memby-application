@@ -12,6 +12,11 @@ import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:memby/firebase.dart';
 
+import 'package:memby/screens/homeScreen.dart';
+import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:memby/firebase.dart';
+
 class Landing extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -114,6 +119,20 @@ class Landing extends StatelessWidget {
                                   fontSize: width * (10 / 100),
                                   fontFamily: 'Alef-Regular'),
                             )),
+                        IconButton(
+                          onPressed: () {
+                            print("Sign Out Pressed");
+                            context.read<FlutterFireAuthService>().signOut();
+                            if (Navigator.of(context).canPop()) {
+                              Navigator.of(context).pop();
+                            }
+                          },
+                          icon: Icon(
+                            Icons.exit_to_app,
+                            color: Colors.black,
+                            size: 35,
+                          ),
+                        ),
                       ],
                     ),
                   )),
