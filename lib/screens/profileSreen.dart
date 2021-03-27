@@ -48,12 +48,14 @@ class Profile extends StatelessWidget {
                         Row(
                           children: [
                             Container(
-                                margin: EdgeInsets.only(left: 10),
-                                height: 100,
-                                width: 100,
-                                child: CircleAvatar(
-                                  backgroundColor: Colors.grey[300],
-                                )),
+                              margin: EdgeInsets.only(left: 15),
+                              height: 110,
+                              width: 90,
+                              child: CircleAvatar(
+                                backgroundImage:
+                                    AssetImage('assets/images/profile.png'),
+                              ),
+                            ),
                             Container(
                               margin: EdgeInsets.only(left: 30),
                               // padding: EdgeInsets.all(10),
