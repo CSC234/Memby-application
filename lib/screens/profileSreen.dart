@@ -15,7 +15,7 @@ class Profile extends StatelessWidget {
         child: Scaffold(
             body: Column(children: [
       SizedBox(
-        height: 250,
+        height: 240,
         child: Positioned(
           height: height,
           child: SizedBox(
@@ -102,19 +102,81 @@ class Profile extends StatelessWidget {
                   ))),
         ),
       ),
-      IconButton(
-        onPressed: () {
-          print("Sign Out Pressed");
-          context.read<FlutterFireAuthService>().signOut();
-          if (Navigator.of(context).canPop()) {
-            Navigator.of(context).pop();
-          }
-        },
-        icon: Icon(
-          Icons.exit_to_app,
-          color: Colors.black,
-          size: 35,
-        ),
+      SizedBox(
+        height: 10,
+      ),
+      Container(
+        margin: EdgeInsets.only(left: 30),
+        child: Row(children: [
+          IconButton(
+            onPressed: () {
+              //////////////
+            },
+            icon: Icon(
+              Icons.create_rounded,
+              color: Colors.grey[500],
+              size: 30,
+            ),
+          ),
+          Text(
+            'Edit Profile',
+            style: TextStyle(color: Colors.grey[500], fontSize: 15),
+          )
+        ]),
+      ),
+      Divider(
+        height: 10,
+        thickness: 2,
+        indent: 20,
+        endIndent: 20,
+      ),
+      Container(
+        margin: EdgeInsets.only(left: 30),
+        child: Row(children: [
+          IconButton(
+            onPressed: () {
+              ///////////////////
+            },
+            icon: Icon(
+              Icons.lock_open_rounded,
+              color: Colors.grey[500],
+              size: 30,
+            ),
+          ),
+          Text(
+            'Change Password',
+            style: TextStyle(color: Colors.grey[500], fontSize: 15),
+          )
+        ]),
+      ),
+      Divider(
+        height: 10,
+        thickness: 2,
+        indent: 20,
+        endIndent: 20,
+      ),
+      Container(
+        margin: EdgeInsets.only(left: 30),
+        child: Row(children: [
+          IconButton(
+            onPressed: () {
+              print("Sign Out Pressed");
+              context.read<FlutterFireAuthService>().signOut();
+              if (Navigator.of(context).canPop()) {
+                Navigator.of(context).pop();
+              }
+            },
+            icon: Icon(
+              Icons.exit_to_app,
+              color: Colors.grey[500],
+              size: 30,
+            ),
+          ),
+          Text(
+            'Log out',
+            style: TextStyle(color: Colors.grey[500], fontSize: 15),
+          )
+        ]),
       )
     ])));
   }
