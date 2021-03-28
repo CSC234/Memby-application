@@ -20,6 +20,27 @@ class Product {
   });
 }
 
+class OrderDetail {
+  String id;
+  Product product;
+  double amount;
+  OrderDetail({this.amount, this.product, this.id});
+
+  void setAmount(double newAmount) {
+    this.amount = newAmount;
+  }
+}
+
+class Order {
+  String id;
+  List<OrderDetail> orders;
+
+  Order({
+    this.id,
+    this.orders,
+  });
+}
+
 List<Product> Products = [
   Product(
       img: 'product1',
@@ -95,7 +116,7 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
       } else {
         int deletedIndex;
         for (int i = 0; i < selectedProduct.length; i++) {
-          if (selectedProduct[i].productName == Products[index].productName) {
+          if (selectedProduct[i].id == Products[index].id) {
             deletedIndex = i;
           }
         }
@@ -110,26 +131,35 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
   }
 
   ListView makeOrderCard() {
+    Order order1 = Order(
+      id: '00001',
+      orders: [],
+    );
     List<OrderCard> orderCards = [];
     for (int i = 0; i < selectedProduct.length; i++) {
       var p = selectedProduct[i];
+      order1.orders.add(OrderDetail(
+        product: p,
+        amount: 0,
+      ));
+    }
+
+    for (OrderDetail o in order1.orders) {
+      Product p = o.product;
+      double a = o.amount;
+      // print(p.productName + "\n amount: " + a.toString());
       orderCards.add(
         OrderCard(
           title: p.productName,
           img: p.img,
           description: p.description,
           price: p.price.toString(),
+          amount: a,
+          setAmount: o.setAmount,
         ),
-        // ProductBox(
-        //   img: p.img,
-        //   title: p.productName,
-        //   isFilled: p.isFilled,
-        //   onPress: () {
-        //     handleClicked(i);
-        //   },
-        // ),
       );
     }
+    print('====');
     return ListView(
       scrollDirection: Axis.vertical,
       children: orderCards,
@@ -254,12 +284,20 @@ class RoundedButton extends StatelessWidget {
 }
 
 class OrderCard extends StatelessWidget {
-  OrderCard({this.title, this.img, this.description, this.price});
+  OrderCard(
+      {this.title,
+      this.img,
+      this.description,
+      this.price,
+      this.amount,
+      this.setAmount});
 
   final String title;
   final String img;
   final String price;
   final String description;
+  final double amount;
+  final Function setAmount;
 
   @override
   Widget build(BuildContext context) {
@@ -314,8 +352,12 @@ class OrderCard extends StatelessWidget {
                             child: TextField(
                               keyboardType: TextInputType.number,
                               textAlign: TextAlign.center,
+                              onChanged: (value) {
+                                setAmount(double.parse(value));
+                              },
                               decoration: kTextFieldDecoration.copyWith(
-                                  hintText: 'amount'),
+                                hintText: 'amount',
+                              ),
                             ),
                             width: 100,
                             height: 40,
