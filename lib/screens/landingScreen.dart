@@ -12,6 +12,11 @@ import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:memby/firebase.dart';
 
+import 'package:memby/screens/homeScreen.dart';
+import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:memby/firebase.dart';
+
 class Landing extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -121,6 +126,7 @@ class Landing extends StatelessWidget {
             Positioned(
                 left: 15,
                 top: height * (32 / 100),
+                
                 height: height * (65 / 100),
                 child: SizedBox(
                     width: width - 30,

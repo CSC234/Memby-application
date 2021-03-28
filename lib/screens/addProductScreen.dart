@@ -10,6 +10,11 @@ import 'package:memby/firebase.dart';
 import 'package:memby/screens/homeScreen.dart';
 import 'package:memby/components/emptyItem.dart';
 
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path/path.dart' as Path;
+
 class AddProductList extends StatefulWidget {
   @override
   final ValueChanged<String> onChanged;
@@ -26,11 +31,15 @@ class Product {
   String product;
   String description;
   int price;
+  File picture;
 
-  Product({this.product, this.description, this.price});
+  Product({this.product, this.description, this.price, this.picture});
 }
 
 class _AddProductList extends State<AddProductList> {
+  File _image;
+  String _uploadedFileURL;
+
   List<Product> product = [];
   final _imageUrlController = TextEditingController();
   final _imageUrlFocusNode = FocusNode();
@@ -55,12 +64,13 @@ class _AddProductList extends State<AddProductList> {
     }
   }
 
-  void addProduct(productName, description, price) {
+  void addProduct(productName, description, price, picture) {
     setState(() {
       product.add(new Product(
           product: productName,
           description: description,
-          price: int.parse(price)));
+          price: int.parse(price),
+          picture: _pickedImage));
     });
   }
 
@@ -76,9 +86,52 @@ class _AddProductList extends State<AddProductList> {
     setState(() {
       for (var i = 0; i < product.length; i++) {
         context.read<FlutterFireAuthService>().addProduct(
-            product[i].description, product[i].product, product[i].price, '');
+            product[i].description,
+            product[i].product,
+            product[i].price,
+            "picture.test");
+        print("picturename" + product[i].picture.toString());
       }
     });
+    // uploadPic(_pickedImage);
+  }
+
+  void _pickImage() async {
+    final pickedImageFile = await picker.getImage(source: ImageSource.gallery);
+    setState(() {
+      if (PickedFile != null) {
+        _pickedImage = File(pickedImageFile.path);
+        print("filename" + _pickedImage.toString());
+      } else {
+        print('No image selected');
+        return HomeScreen();
+      }
+    });
+  }
+
+  File _pickedImage;
+  final picker = ImagePicker();
+
+  Future chooseFile() async {
+    await ImagePicker.pickImage(source: ImageSource.gallery).then((image) {
+      setState(() {
+        _image = image;
+      });
+    });
+  }
+
+  Future uploadPic(File _image1) async {
+    FirebaseStorage storage = FirebaseStorage.instance;
+    String url;
+    Reference ref = storage.ref().child("image1" + DateTime.now().toString());
+    UploadTask uploadTask = ref.putFile(_image1);
+    uploadTask.whenComplete(() {
+      url = ref.getDownloadURL().toString();
+      print("url" + url);
+    }).catchError((onError) {
+      print(onError);
+    });
+    return url;
   }
 
   @override
@@ -86,6 +139,8 @@ class _AddProductList extends State<AddProductList> {
     final _productnameController = TextEditingController();
     final _descriptionController = TextEditingController();
     final _priceController = TextEditingController();
+    final _pictureController = TextEditingController();
+
     final firebaseUser = context.watch<User>();
 
     if (firebaseUser == null) {
@@ -122,8 +177,15 @@ class _AddProductList extends State<AddProductList> {
                     SizedBox(
                       height: 15,
                     ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[
+                        UserImagePicker(
+                            press: _pickImage, pickedImage: _pickedImage)
+                      ],
+                    ),
                     SizedBox(
-                      width: 10,
+                      height: 10,
                     ),
                     Column(
                       children: [
@@ -157,10 +219,6 @@ class _AddProductList extends State<AddProductList> {
                         ),
                       ],
                     ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: <Widget>[UserImagePicker()],
-                    ),
                     Container(
                       margin: EdgeInsets.only(right: 10),
                       child: Align(
@@ -176,7 +234,8 @@ class _AddProductList extends State<AddProductList> {
                               addProduct(
                                   _productnameController.text,
                                   _descriptionController.text,
-                                  _priceController.text);
+                                  _priceController.text,
+                                  _pictureController.text);
                             }),
                       ),
                     ),
@@ -198,6 +257,7 @@ class _AddProductList extends State<AddProductList> {
                     if (product.length != 0)
                       for (int i = 0; i < product.length; i++)
                         ProductList(
+                          picture: product[i].picture,
                           product: product[i].product,
                           description: product[i].description,
                           price: product[i].price,
