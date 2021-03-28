@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:memby/components/TextBox.dart';
-import 'package:memby/components/DatePicker.dart';
+import 'package:memby/components/CalendarPicker.dart';
+import 'package:memby/components/GenderPicker.dart';
 
 const grey = const Color(0xFF5A5A5A);
 const lightGrey = const Color(0xFFEAEAEA);
@@ -47,6 +48,19 @@ class _FormBoxesState extends State<FormBoxes> {
   final genderController = TextEditingController();
   final addressController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  DateTime selectedDate = DateTime.now();
+  String defaultGender = "Gender";
+
+  void changeDate(date) {
+    selectedDate = date;
+  }
+
+  void changeGender(newGender) {
+    setState(() {
+      defaultGender = newGender;
+    });
+    print(defaultGender);
+  }
 
   @override
   void initState() {
@@ -127,54 +141,43 @@ class _FormBoxesState extends State<FormBoxes> {
                     formColor: lightGrey,
                     textColor: fontColor,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: height * (5 / 100),
-                        width: width * (37.5 / 100),
-                        child: CalendarPicker(
-                            title: "Birthdate", color: themeBlue),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Container(
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 15.0),
-                            child: DropdownButtonHideUnderline(
-                              child: new DropdownButton<String>(
-                                items: <String>[
-                                  'Male',
-                                  'Female',
-                                  'Other',
-                                  'Prefer not to Say'
-                                ].map((String value) {
-                                  return new DropdownMenuItem<String>(
-                                    value: value,
-                                    child: new Text(value),
-                                  );
-                                }).toList(),
-                                onChanged: (_) {},
-                                hint: Text("Gender"),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: width * (37.5 / 100),
+                          child: CalendarPicker(
+                            title: "Birthdate",
+                            color: themeBlue,
+                            onPickDate: changeDate,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20.0),
+                          child: Container(
+                            height: height * (5 / 100),
+                            width: width * (37.5 / 100),
+                            child: GenderPicker(
+                              gender: defaultGender,
+                              onSelectGender: changeGender,
+                            ),
+                            decoration: ShapeDecoration(
+                              color: lightGrey,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                    width: 1.0,
+                                    style: BorderStyle.solid,
+                                    color: lightGrey),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10.0)),
                               ),
                             ),
                           ),
-                          height: height * (5 / 100),
-                          width: width * (40 / 100),
-                          decoration: ShapeDecoration(
-                            color: lightGrey,
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                  width: 1.0,
-                                  style: BorderStyle.solid,
-                                  color: lightGrey),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10.0)),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                        )
+                      ],
+                    ),
                   ),
                   TextBox(
                     text: "Address",

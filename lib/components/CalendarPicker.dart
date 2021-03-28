@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 class CalendarPicker extends StatefulWidget {
-  CalendarPicker({Key key, this.title, this.color}) : super(key: key);
+  CalendarPicker({Key key, this.title, this.color, this.onPickDate})
+      : super(key: key);
 
   String title;
   final Color color;
+  Function onPickDate;
 
   @override
   _CalendarPickerState createState() => _CalendarPickerState();
@@ -23,6 +25,7 @@ class _CalendarPickerState extends State<CalendarPicker> {
     if (picked != null && picked != selectedDate)
       setState(() {
         selectedDate = picked;
+        widget.onPickDate(selectedDate);
       });
   }
 
