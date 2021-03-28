@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:memby/components/Register/AcknowlwdgementBox.dart';
 import 'package:memby/components/imagePicker.dart';
 import 'package:memby/constants.dart';
 import 'package:memby/components/rounded_button.dart';
@@ -13,7 +14,7 @@ import 'package:memby/components/emptyItem.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:path/path.dart' as Path;
+// import 'package:path/path.dart';
 
 class AddProductList extends StatefulWidget {
   @override
@@ -31,7 +32,7 @@ class Product {
   String product;
   String description;
   int price;
-  File picture;
+  String picture;
 
   Product({this.product, this.description, this.price, this.picture});
 }
@@ -39,6 +40,18 @@ class Product {
 class _AddProductList extends State<AddProductList> {
   File _image;
   String _uploadedFileURL;
+  final picker = ImagePicker();
+
+  Future _pickImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    setState(() {
+      _image = File(pickedFile.path);
+    });
+    _uploadedFileURL = await context
+        .read<FlutterFireAuthService>()
+        .uploadImageToFirebase(_image);
+  }
 
   List<Product> product = [];
   final _imageUrlController = TextEditingController();
@@ -70,7 +83,7 @@ class _AddProductList extends State<AddProductList> {
           product: productName,
           description: description,
           price: int.parse(price),
-          picture: _pickedImage));
+          picture: ''));
     });
   }
 
@@ -96,43 +109,41 @@ class _AddProductList extends State<AddProductList> {
     // uploadPic(_pickedImage);
   }
 
-  void _pickImage() async {
-    final pickedImageFile = await picker.getImage(source: ImageSource.gallery);
-    setState(() {
-      if (PickedFile != null) {
-        _pickedImage = File(pickedImageFile.path);
-        print("filename" + _pickedImage.toString());
-      } else {
-        print('No image selected');
-        return HomeScreen();
-      }
-    });
-  }
+  // void _pickImage() async {
+  //   final pickedImageFile = await picker.getImage(source: ImageSource.gallery);
+  //   setState(() {
+  //     if (PickedFile != null) {
+  //       _pickedImage = File(pickedImageFile.path);
+  //       print("filename" + _pickedImage.toString());
+  //     } else {
+  //       print('No image selected');
+  //       return HomeScreen();
+  //     }
+  //   });
+  // }
 
-  File _pickedImage;
-  final picker = ImagePicker();
+  // File _pickedImage;
+  // final picker = ImagePicker();
 
-  Future chooseFile() async {
-    await ImagePicker.pickImage(source: ImageSource.gallery).then((image) {
-      setState(() {
-        _image = image;
-      });
-    });
-  }
+  // Future chooseFile() async {
+  //   await ImagePicker.pickImage(source: ImageSource.gallery).then((image) {
+  //     setState(() {
+  //       _image = image;
+  //     });
+  //   });
+  // }
 
-  Future uploadPic(File _image1) async {
-    FirebaseStorage storage = FirebaseStorage.instance;
-    String url;
-    Reference ref = storage.ref().child("image1" + DateTime.now().toString());
-    UploadTask uploadTask = ref.putFile(_image1);
-    uploadTask.whenComplete(() {
-      url = ref.getDownloadURL().toString();
-      print("url" + url);
-    }).catchError((onError) {
-      print(onError);
-    });
-    return url;
-  }
+  // Future<String> uploadPic(File _image1) async {
+  //   FirebaseStorage storage = FirebaseStorage.instance;
+  //   String url;
+  //   Reference ref = storage.ref().child("image1" + DateTime.now().toString());
+  //   UploadTask uploadTask = ref.putFile(_image1);
+
+  //   uploadTask.then((res) {
+  //     String url = res.ref.getDownloadURL().toString();
+  //   });
+  //   return url;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -180,8 +191,7 @@ class _AddProductList extends State<AddProductList> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
-                        UserImagePicker(
-                            press: _pickImage, pickedImage: _pickedImage)
+                        UserImagePicker(press: _pickImage, pickedImage: _image)
                       ],
                     ),
                     SizedBox(

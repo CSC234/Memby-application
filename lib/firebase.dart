@@ -4,6 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:path/path.dart';
+
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class FlutterFireAuthService {
   final FirebaseAuth _firebaseAuth;
@@ -133,4 +137,27 @@ class FlutterFireAuthService {
       return e.message;
     }
   }
+
+  Future<String> uploadImageToFirebase(img) async {
+    String fileName = DateTime.now().toString();
+
+    Reference firebaseStorageRef =
+        FirebaseStorage.instance.ref().child('products/$fileName');
+    UploadTask uploadTask = firebaseStorageRef.putFile(img);
+    String url;
+    await uploadTask.whenComplete(() async {
+      url = await uploadTask.snapshot.ref.getDownloadURL();
+    });
+    return url;
+  }
 }
+  // Future uploadImageToFirebase(BuildContext context) async {
+  //   String fileName = basename(_image.path);
+  //   StorageReference firebaseStorageRef =
+  //       FirebaseStorage.instance.ref().child('uploads/$fileName');
+  //   StorageUploadTask uploadTask = firebaseStorageRef.putFile(_imageFile);
+  //   StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+  //   taskSnapshot.ref.getDownloadURL().then(
+  //         (value) => print("Done: $value"),
+  //       );
+  // }
