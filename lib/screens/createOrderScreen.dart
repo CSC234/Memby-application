@@ -33,11 +33,11 @@ class OrderDetail {
 
 class Order {
   String id;
-  List<OrderDetail> orders;
+  List<OrderDetail> orderDetails;
 
   Order({
     this.id,
-    this.orders,
+    this.orderDetails,
   });
 }
 
@@ -88,7 +88,7 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
   List<Product> selectedProduct = [];
   Order order1 = Order(
     id: '00001',
-    orders: [],
+    orderDetails: [],
   );
 
   ListView makeProductCard() {
@@ -116,24 +116,16 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
     setState(() {
       Products[index].isFilled = !Products[index].isFilled;
       if (Products[index].isFilled == true) {
-        selectedProduct.add(Products[index]);
+        OrderDetail order = OrderDetail(product: Products[index],amount: 1);
+        order1.orderDetails.add(order);
       } else {
         int deletedIndex;
-        for (int i = 0; i < selectedProduct.length; i++) {
-          if (selectedProduct[i].id == Products[index].id) {
+        for (int i = 0; i < order1.orderDetails.length; i++) {
+          if (order1.orderDetails[i].product.id == Products[index].id) {
             deletedIndex = i;
           }
         }
-        selectedProduct.removeAt(deletedIndex);
-
-        int deletedIndex2;
-        for(int i =0; i<order1.orders.length; i++){
-          if (order1.orders[i].product.id == Products[index].id) {
-            print(order1.orders[i]);
-            deletedIndex2 = i;
-          }
-        }
-        order1.orders.removeAt(deletedIndex2);
+        order1.orderDetails.removeAt(deletedIndex);
       }
 
       // for (Product p in selectedProduct) {
@@ -145,17 +137,8 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
 
   ListView makeOrderCard() {
     List<OrderCard> orderCards = [];
-    for (int i = 0; i < selectedProduct.length; i++) {
-      var p = selectedProduct[i];
-      
-      
-      order1.orders.add(OrderDetail(
-        product: p,
-        amount: 1,
-      ));
-    }
 
-    for (OrderDetail o in order1.orders) {
+    for (OrderDetail o in order1.orderDetails) {
       Product p = o.product;
       int a = o.amount;
       // print(p.productName + "\n amount: " + a.toString());
@@ -227,7 +210,7 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
               flex: 8,
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: selectedProduct.isEmpty
+                child: order1.orderDetails.isEmpty
                     ? Text('Empty Order')
                     : makeOrderCard(),
               ),
@@ -254,11 +237,12 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
                 color: kPrimaryLightColor,
                 title: 'ORDER',
                 onPress: () {
-                  for (OrderDetail i in order1.orders) {
+                  for (OrderDetail i in order1.orderDetails) {
                     print(i.product.productName);
                     print(i.amount);
-                    print('=======');
                   }
+                  print('=======');
+                  print(selectedProduct.length);
                 },
               ),
             ),
