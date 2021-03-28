@@ -5,7 +5,6 @@ import 'package:memby/models/OrderDetail.dart';
 import 'package:memby/models/Order.dart';
 import 'package:memby/components/RoundedButton.dart';
 import 'package:memby/components/OrderCard.dart';
-import 'package:memby/components/ProductBox.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 class ConfirmOrderScreen extends StatefulWidget {
@@ -46,6 +45,10 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
   Widget build(BuildContext context) {
     int initialIndex = 0;
     bool isMember = false;
+
+    // double getTotalPrice(){
+
+    // }
 
     return Scaffold(
       body: SafeArea(
@@ -160,7 +163,9 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                     height: 40,
                   ),
                 ),
-                SizedBox(width: 15,),
+                SizedBox(
+                  width: 15,
+                ),
                 Expanded(
                   flex: 2,
                   child: Container(
@@ -170,11 +175,35 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                       size: 24.0,
                     ),
                     decoration: BoxDecoration(
-                      color: kPrimaryLightColor,
-                      borderRadius: BorderRadius.all(Radius.circular(10))
+                        color: kPrimaryLightColor,
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    height: 40,
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    child: TextField(
+                      keyboardType: TextInputType.number,
+                      textAlign: TextAlign.center,
+                      onChanged: (value) {},
+                      // controller: TextEditingController()
+                      //   ..text = amount.toString(),
+                      decoration: kTextFieldDecoration.copyWith(
+                        hintText: 'Discount(%)',
+                      ),
                     ),
                     height: 40,
                   ),
+                ),
+                SizedBox(
+                  width: 15,
+                ),
+                Expanded(
+                  child: Text('Total price: 1,234 Baht',style: TextStyle(color: Colors.red),),
                 ),
               ],
             ),
