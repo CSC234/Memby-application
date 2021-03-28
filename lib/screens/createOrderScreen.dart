@@ -1,46 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:memby/constants.dart';
 import 'package:dotted_decoration/dotted_decoration.dart';
+import 'package:memby/models/Product.dart';
+import 'package:memby/models/OrderDetail.dart';
+import 'package:memby/models/Order.dart';
 
-class Product {
-  String id;
-  String img;
-  String productName;
-  String description;
-  double price;
-  bool isFilled;
-
-  Product({
-    this.img,
-    this.isFilled,
-    this.productName,
-    this.description,
-    this.id,
-    this.price,
-  });
-}
-
-class OrderDetail {
-  String id;
-  Product product;
-  int amount;
-  OrderDetail({this.amount, this.product, this.id});
-
-  void setAmount(int newAmount) {
-    this.amount = newAmount;
-  }
-}
-
-class Order {
-  String id;
-  List<OrderDetail> orderDetails;
-
-  Order({
-    this.id,
-    this.orderDetails,
-  });
-}
-
+//Mock up data
 List<Product> Products = [
   Product(
       img: 'product1',
@@ -116,7 +81,7 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
     setState(() {
       Products[index].isFilled = !Products[index].isFilled;
       if (Products[index].isFilled == true) {
-        OrderDetail order = OrderDetail(product: Products[index],amount: 1);
+        OrderDetail order = OrderDetail(product: Products[index], amount: 1);
         order1.orderDetails.add(order);
       } else {
         int deletedIndex;
@@ -147,7 +112,7 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
           title: p.productName,
           img: p.img,
           description: p.description,
-          price: p.price.toString(),
+          price: p.price,
           amount: a,
           setAmount: o.setAmount,
         ),
@@ -293,7 +258,7 @@ class OrderCard extends StatelessWidget {
 
   final String title;
   final String img;
-  final String price;
+  final double price;
   final String description;
   final int amount;
   final Function setAmount;
@@ -316,7 +281,7 @@ class OrderCard extends StatelessWidget {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10.0),
                       child: Image.asset(
-                        'assets/images/$img.jpg',
+                        'assets/images/${img}.jpg',
                       ),
                     ),
                   ),
