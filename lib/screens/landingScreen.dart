@@ -126,6 +126,7 @@ class Landing extends StatelessWidget {
             Positioned(
                 left: 15,
                 top: height * (32 / 100),
+                
                 height: height * (65 / 100),
                 child: SizedBox(
                     width: width - 30,

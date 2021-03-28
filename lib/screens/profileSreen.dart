@@ -26,7 +26,7 @@ class _ProfileState extends State<Profile> {
         child: Scaffold(
             body: Column(children: [
       SizedBox(
-        height: height * (32 / 100),
+        height: height * (33 / 100),
         child: Positioned(
           height: height,
           child: SizedBox(
