@@ -86,10 +86,6 @@ class CreateOrderScreen extends StatefulWidget {
 
 class _CreateOrderScreenState extends State<CreateOrderScreen> {
   List<Product> selectedProduct = [];
-  Order order1 = Order(
-    id: '00001',
-    orders: [],
-  );
 
   ListView makeProductCard() {
     List<ProductBox> productCards = [];
@@ -125,15 +121,6 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
           }
         }
         selectedProduct.removeAt(deletedIndex);
-
-        int deletedIndex2;
-        for(int i =0; i<order1.orders.length; i++){
-          if (order1.orders[i].product.id == Products[index].id) {
-            print(order1.orders[i]);
-            deletedIndex2 = i;
-          }
-        }
-        order1.orders.removeAt(deletedIndex2);
       }
 
       // for (Product p in selectedProduct) {
@@ -144,11 +131,13 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
   }
 
   ListView makeOrderCard() {
+    Order order1 = Order(
+      id: '00001',
+      orders: [],
+    );
     List<OrderCard> orderCards = [];
     for (int i = 0; i < selectedProduct.length; i++) {
       var p = selectedProduct[i];
-      
-      
       order1.orders.add(OrderDetail(
         product: p,
         amount: 1,
@@ -254,11 +243,7 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
                 color: kPrimaryLightColor,
                 title: 'ORDER',
                 onPress: () {
-                  for (OrderDetail i in order1.orders) {
-                    print(i.product.productName);
-                    print(i.amount);
-                    print('=======');
-                  }
+                  print('Clicked');
                 },
               ),
             ),
@@ -370,8 +355,7 @@ class OrderCard extends StatelessWidget {
                               onChanged: (value) {
                                 setAmount(int.parse(value));
                               },
-                              controller: TextEditingController()
-                                ..text = amount.toString(),
+                              controller: TextEditingController()..text = amount.toString(),
                               decoration: kTextFieldDecoration.copyWith(
                                 hintText: 'amount',
                               ),
