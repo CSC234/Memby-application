@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class GenderPicker extends StatefulWidget {
   GenderPicker({Key key, this.gender, this.onSelectGender}) : super(key: key);
   String gender;
@@ -21,7 +22,7 @@ class _GenderPickerState extends State<GenderPicker> {
               widget.gender,
             ),
           ),
-          items: <String>['Female', 'Male', 'Others', 'No'].map((String value) {
+          items: <String>['Female', 'Male', 'Others'].map((String value) {
             return new DropdownMenuItem<String>(
               value: value,
               child: new Text(value),

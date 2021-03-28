@@ -1,13 +1,15 @@
+import 'package:memby/firebase.dart';
 import 'package:flutter/material.dart';
-import 'package:memby/components/TextBox.dart';
-import 'package:memby/components/CalendarPicker.dart';
-import 'package:memby/components/GenderPicker.dart';
+import 'package:provider/provider.dart';
+import 'package:memby/components/Register/TextBox.dart';
+import 'package:memby/components/Register/CalendarPicker.dart';
+import 'package:memby/components/Register/GenderPicker.dart';
+import 'package:memby/components/Register/AcknowlwdgementBox.dart';
 
 const grey = const Color(0xFF5A5A5A);
 const lightGrey = const Color(0xFFEAEAEA);
 const fontColor = const Color(0xFFB7B7B7);
 const themeBlue = const Color(0xFF6E7CE4);
-bool isCheck = false;
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -44,12 +46,11 @@ class _FormBoxesState extends State<FormBoxes> {
   final lastnameController = TextEditingController();
   final emailController = TextEditingController();
   final phoneNumberController = TextEditingController();
-  final birthdateController = TextEditingController();
-  final genderController = TextEditingController();
   final addressController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   DateTime selectedDate = DateTime.now();
   String defaultGender = "Gender";
+  bool defaultCheckState = false;
 
   void changeDate(date) {
     selectedDate = date;
@@ -59,7 +60,12 @@ class _FormBoxesState extends State<FormBoxes> {
     setState(() {
       defaultGender = newGender;
     });
-    print(defaultGender);
+  }
+
+  void handleCheckState(checkState) {
+    setState(() {
+      defaultCheckState = checkState;
+    });
   }
 
   @override
@@ -74,8 +80,6 @@ class _FormBoxesState extends State<FormBoxes> {
     lastnameController.dispose();
     emailController.dispose();
     phoneNumberController.dispose();
-    birthdateController.dispose();
-    genderController.dispose();
     addressController.dispose();
     super.dispose();
   }
@@ -189,21 +193,15 @@ class _FormBoxesState extends State<FormBoxes> {
                     minLine: 4,
                     maxLine: 5,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CheckBoxState(),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: Container(
-                          child: Text(
-                              'I ACKNOWLEDGE AND CONFIRM THAT I HAVE READ,'
-                              'UNDERSTAND AND ACCEPT THE ABOVE TERMS AND CONDITIONS.',
-                              style: TextStyle(fontSize: 11)),
-                          width: width * (75 / 100),
-                        ),
-                      )
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Container(
+                      height: height * (5 / 100),
+                      width: width * (90 / 100),
+                      child: AcknowledgementBox(
+                          isCheck: defaultCheckState,
+                          currentCheckState: handleCheckState),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
@@ -218,10 +216,21 @@ class _FormBoxesState extends State<FormBoxes> {
                               borderRadius: new BorderRadius.circular(30.0),
                             ),
                             padding: EdgeInsets.all(12.5)),
-                        onPressed: () {
-                          if (_formKey.currentState.validate() && isCheck) {
+                        onPressed: () async {
+                          if (_formKey.currentState.validate() &&
+                              defaultCheckState == true) {
+                            context.read<FlutterFireAuthService>().addCustomer(
+                                firstnameController.text,
+                                lastnameController.text,
+                                emailController.text,
+                                phoneNumberController.text,
+                                selectedDate,
+                                defaultGender,
+                                addressController.text);
+
                             return Navigator.of(context).pop();
-                          } else if (isCheck == false) {
+                          }
+                          if (defaultCheckState == false) {
                             return;
                           }
                         },
@@ -238,29 +247,5 @@ class _FormBoxesState extends State<FormBoxes> {
         ),
       ),
     ));
-  }
-}
-
-class CheckBoxState extends StatefulWidget {
-  @override
-  _CheckBoxStateState createState() => _CheckBoxStateState();
-}
-
-class _CheckBoxStateState extends State<CheckBoxState> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Checkbox(
-        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        value: isCheck,
-        onChanged: (bool value) {
-          setState(
-            () {
-              isCheck = value;
-            },
-          );
-        },
-      ),
-    );
   }
 }
