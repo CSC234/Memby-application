@@ -46,9 +46,13 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
     int initialIndex = 0;
     bool isMember = false;
 
-    // double getTotalPrice(){
-
-    // }
+    double getTotalPrice(){
+      double totalPrice = 0;
+      for(OrderDetail i in widget.order.orderDetails){
+        totalPrice+= i.amount*i.product.price;
+      }
+      return totalPrice;
+    }
 
     return Scaffold(
       body: SafeArea(
@@ -184,6 +188,11 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
             ),
             Row(
               children: [
+                Text('Kodchapong Dechboonyapichart'),
+              ],
+            ),
+            Row(
+              children: [
                 Expanded(
                   child: Container(
                     child: TextField(
@@ -203,7 +212,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                   width: 15,
                 ),
                 Expanded(
-                  child: Text('Total price: 1,234 Baht',style: TextStyle(color: Colors.red),),
+                  child: Text('Total price: ${getTotalPrice()} Baht',style: TextStyle(color: Colors.red),),
                 ),
               ],
             ),
