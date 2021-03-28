@@ -6,6 +6,7 @@ import 'package:memby/models/Order.dart';
 import 'package:memby/components/RoundedButton.dart';
 import 'package:memby/components/OrderCard.dart';
 import 'package:memby/components/ProductBox.dart';
+import 'package:memby/screens/confirmOrderScreen.dart';
 
 //Mock up data
 List<Product> Products = [
@@ -52,7 +53,6 @@ class CreateOrderScreen extends StatefulWidget {
 }
 
 class _CreateOrderScreenState extends State<CreateOrderScreen> {
-  List<Product> selectedProduct = [];
   Order order1 = Order(
     id: '00001',
     orderDetails: [],
@@ -199,12 +199,16 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
                 color: kPrimaryLightColor,
                 title: 'ORDER',
                 onPress: () {
-                  for (OrderDetail i in order1.orderDetails) {
-                    print(i.product.productName);
-                    print(i.amount);
-                  }
-                  print('=======');
-                  print(selectedProduct.length);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return ConfirmOrderScreen(
+                          order: order1,
+                        );
+                      },
+                    ),
+                  );
                 },
               ),
             ),
@@ -214,9 +218,3 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
     );
   }
 }
-
-
-
-
-
-
