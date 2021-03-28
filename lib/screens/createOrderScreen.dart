@@ -3,19 +3,59 @@ import 'package:memby/constants.dart';
 import 'package:dotted_decoration/dotted_decoration.dart';
 
 class Product {
+  String id;
   String img;
   String productName;
+  String description;
+  double price;
   bool isFilled;
 
-  Product({this.img, this.isFilled, this.productName});
+  Product({
+    this.img,
+    this.isFilled,
+    this.productName,
+    this.description,
+    this.id,
+    this.price,
+  });
 }
 
 List<Product> Products = [
-  Product(img: 'product1', productName: 'Product 1', isFilled: false),
-  Product(img: 'product1', productName: 'Product 2', isFilled: false),
-  Product(img: 'product1', productName: 'Product 3', isFilled: false),
-  Product(img: 'product1', productName: 'Product 4', isFilled: false),
-  Product(img: 'product1', productName: 'Product 5', isFilled: false),
+  Product(
+      img: 'product1',
+      productName: 'Product 1',
+      description: 'Lorem ipsum, or lipsum as it is sometimes known',
+      price: 100.0,
+      id: '1',
+      isFilled: false),
+  Product(
+      img: 'product1',
+      productName: 'Product 2',
+      description: 'Lorem ipsum, or lipsum as it is sometimes known',
+      price: 200.0,
+      id: '2',
+      isFilled: false),
+  Product(
+      img: 'product1',
+      productName: 'Product 3',
+      description: 'Lorem ipsum, or lipsum as it is sometimes known',
+      price: 300.0,
+      id: '3',
+      isFilled: false),
+  Product(
+      img: 'product1',
+      productName: 'Product 4',
+      description: 'Lorem ipsum, or lipsum as it is sometimes known',
+      price: 400.0,
+      id: '4',
+      isFilled: false),
+  Product(
+      img: 'product1',
+      productName: 'Product 5',
+      description: 'Lorem ipsum, or lipsum as it is sometimes known',
+      price: 500.0,
+      id: '5',
+      isFilled: false),
 ];
 
 class CreateOrderScreen extends StatefulWidget {
@@ -37,7 +77,6 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
           isFilled: p.isFilled,
           onPress: () {
             handleClicked(i);
-            // print(p.productName);
           },
         ),
       );
@@ -68,6 +107,33 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
       // }
       // print('======');
     });
+  }
+
+  ListView makeOrderCard() {
+    List<OrderCard> orderCards = [];
+    for (int i = 0; i < selectedProduct.length; i++) {
+      var p = selectedProduct[i];
+      orderCards.add(
+        OrderCard(
+          title: p.productName,
+          img: p.img,
+          description: p.description,
+          price: p.price.toString(),
+        ),
+        // ProductBox(
+        //   img: p.img,
+        //   title: p.productName,
+        //   isFilled: p.isFilled,
+        //   onPress: () {
+        //     handleClicked(i);
+        //   },
+        // ),
+      );
+    }
+    return ListView(
+      scrollDirection: Axis.vertical,
+      children: orderCards,
+    );
   }
 
   @override
@@ -120,46 +186,9 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
               flex: 8,
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: ListView(
-                  scrollDirection: Axis.vertical,
-                  children: <Widget>[
-                    OrderCard(
-                      title: 'Product 1',
-                      img: 'product1',
-                      description:
-                          'Lorem ipsum, or lipsum as it is sometimes known',
-                      price: '888',
-                    ),
-                    OrderCard(
-                      title: 'Product 2',
-                      img: 'product1',
-                      description:
-                          'Lorem ipsum, or lipsum as it is sometimes known',
-                      price: '999',
-                    ),
-                    OrderCard(
-                      title: 'Product 3',
-                      img: 'product1',
-                      description:
-                          'Lorem ipsum, or lipsum as it is sometimes known',
-                      price: '1112',
-                    ),
-                    OrderCard(
-                      title: 'Product 4',
-                      img: 'product1',
-                      description:
-                          'Lorem ipsum, or lipsum as it is sometimes known',
-                      price: '1112',
-                    ),
-                    OrderCard(
-                      title: 'Product 5',
-                      img: 'product1',
-                      description:
-                          'Lorem ipsum, or lipsum as it is sometimes known',
-                      price: '1112',
-                    ),
-                  ],
-                ),
+                child: selectedProduct.isEmpty
+                    ? Text('Empty Order')
+                    : makeOrderCard(),
               ),
             ),
           ],
