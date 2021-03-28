@@ -41,15 +41,14 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
     );
   }
 
+  int initialIndex = 0;
+  bool isMember = false;
   @override
   Widget build(BuildContext context) {
-    int initialIndex = 0;
-    bool isMember = false;
-
-    double getTotalPrice(){
+    double getTotalPrice() {
       double totalPrice = 0;
-      for(OrderDetail i in widget.order.orderDetails){
-        totalPrice+= i.amount*i.product.price;
+      for (OrderDetail i in widget.order.orderDetails) {
+        totalPrice += i.amount * i.product.price;
       }
       return totalPrice;
     }
@@ -195,16 +194,28 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
               children: [
                 Expanded(
                   child: Container(
-                    child: TextField(
-                      keyboardType: TextInputType.number,
-                      textAlign: TextAlign.center,
-                      onChanged: (value) {},
-                      // controller: TextEditingController()
-                      //   ..text = amount.toString(),
-                      decoration: kTextFieldDecoration.copyWith(
-                        hintText: 'Discount(%)',
-                      ),
-                    ),
+                    child: isMember
+                        ? Container(
+                            child: Icon(
+                              Icons.lock,
+                              color: Colors.white,
+                              size: 24.0,
+                            ),
+                            decoration: BoxDecoration(
+                                color: Color(0xFFB7B7B7),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10))),
+                            height: 40,
+                          ):TextField(
+                            keyboardType: TextInputType.number,
+                            textAlign: TextAlign.center,
+                            onChanged: (value) {},
+                            // controller: TextEditingController()
+                            //   ..text = amount.toString(),
+                            decoration: kTextFieldDecoration.copyWith(
+                              hintText: 'Discount(%)',
+                            ),
+                          ),
                     height: 40,
                   ),
                 ),
@@ -212,7 +223,18 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                   width: 15,
                 ),
                 Expanded(
-                  child: Text('Total price: ${getTotalPrice()} Baht',style: TextStyle(color: Colors.red),),
+                  child: Column(
+                    children: [
+                      Text(
+                        'Total Price',
+                      ),
+                      Text(
+                        '${getTotalPrice()} Baht',
+                        style: TextStyle(
+                            color: Colors.red, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
