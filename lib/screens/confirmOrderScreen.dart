@@ -33,11 +33,11 @@ class OrderDetail {
 
 class Order {
   String id;
-  List<OrderDetail> orderDetails;
+  List<OrderDetail> orders;
 
   Order({
     this.id,
-    this.orderDetails,
+    this.orders,
   });
 }
 
@@ -86,10 +86,6 @@ class CreateOrderScreen extends StatefulWidget {
 
 class _CreateOrderScreenState extends State<CreateOrderScreen> {
   List<Product> selectedProduct = [];
-  Order order1 = Order(
-    id: '00001',
-    orderDetails: [],
-  );
 
   ListView makeProductCard() {
     List<ProductBox> productCards = [];
@@ -116,16 +112,15 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
     setState(() {
       Products[index].isFilled = !Products[index].isFilled;
       if (Products[index].isFilled == true) {
-        OrderDetail order = OrderDetail(product: Products[index],amount: 1);
-        order1.orderDetails.add(order);
+        selectedProduct.add(Products[index]);
       } else {
         int deletedIndex;
-        for (int i = 0; i < order1.orderDetails.length; i++) {
-          if (order1.orderDetails[i].product.id == Products[index].id) {
+        for (int i = 0; i < selectedProduct.length; i++) {
+          if (selectedProduct[i].id == Products[index].id) {
             deletedIndex = i;
           }
         }
-        order1.orderDetails.removeAt(deletedIndex);
+        selectedProduct.removeAt(deletedIndex);
       }
 
       // for (Product p in selectedProduct) {
@@ -136,9 +131,20 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
   }
 
   ListView makeOrderCard() {
+    Order order1 = Order(
+      id: '00001',
+      orders: [],
+    );
     List<OrderCard> orderCards = [];
+    for (int i = 0; i < selectedProduct.length; i++) {
+      var p = selectedProduct[i];
+      order1.orders.add(OrderDetail(
+        product: p,
+        amount: 1,
+      ));
+    }
 
-    for (OrderDetail o in order1.orderDetails) {
+    for (OrderDetail o in order1.orders) {
       Product p = o.product;
       int a = o.amount;
       // print(p.productName + "\n amount: " + a.toString());
@@ -210,7 +216,7 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
               flex: 8,
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: order1.orderDetails.isEmpty
+                child: selectedProduct.isEmpty
                     ? Text('Empty Order')
                     : makeOrderCard(),
               ),
@@ -237,12 +243,7 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
                 color: kPrimaryLightColor,
                 title: 'ORDER',
                 onPress: () {
-                  for (OrderDetail i in order1.orderDetails) {
-                    print(i.product.productName);
-                    print(i.amount);
-                  }
-                  print('=======');
-                  print(selectedProduct.length);
+                  print('Clicked');
                 },
               ),
             ),
@@ -354,8 +355,7 @@ class OrderCard extends StatelessWidget {
                               onChanged: (value) {
                                 setAmount(int.parse(value));
                               },
-                              controller: TextEditingController()
-                                ..text = amount.toString(),
+                              controller: TextEditingController()..text = amount.toString(),
                               decoration: kTextFieldDecoration.copyWith(
                                 hintText: 'amount',
                               ),

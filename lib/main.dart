@@ -27,6 +27,13 @@ class MembyApp extends StatelessWidget {
         )
       ],
       child: MaterialApp(
+        theme: ThemeData(
+          fontFamily: 'Alef-Regular',
+          textTheme: TextTheme(
+            headline1: TextStyle(fontSize: 48.0, fontWeight: FontWeight.bold),
+            bodyText2: TextStyle(fontSize: 14.0),
+          ),
+        ),
         home: Landing(),
       ),
     );
