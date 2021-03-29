@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:memby/components/TotalSaleList.dart';
 import '../constants.dart';
 
 class Body extends StatelessWidget {
@@ -87,9 +88,92 @@ class Body extends StatelessWidget {
                               ),
                             ),
                             Divider(
-                              height: 40,
+                              height: 30,
                               thickness: 2,
-                            )
+                            ),
+                            Container(
+                              margin:
+                                  EdgeInsets.only(left: 30, top: 15, right: 30),
+                              child: Stack(
+                                children: [
+                                  Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Text(
+                                      'Total sale',
+                                      style: TextStyle(
+                                        color: kPrimaryFont,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ),
+                                  Align(
+                                      alignment: Alignment.topRight,
+                                      child: TextButton(
+                                        child: Text("view all"),
+                                        onPressed: () {},
+                                      )),
+                                ],
+                              ),
+                            ),
+                            Divider(
+                              height: 30,
+                              thickness: 2,
+                              indent: 20,
+                              endIndent: 20,
+                            ),
+                            Container(
+                              margin:
+                                  EdgeInsets.only(left: 30, top: 0, right: 30),
+                              child: Stack(
+                                children: <Widget>[
+                                  Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Text(
+                                      "Product Name",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: kPrimaryFont,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  Align(
+                                    alignment: Alignment(0.30, 0.0),
+                                    child: Text(
+                                      "Unit Sale",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: kPrimaryFont,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.topRight,
+                                    child: Text(
+                                      "Total Sale",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: kPrimaryFont,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              child: Column(
+                                children: <Widget>[
+                                  TotalSaleList(
+                                    no: 1,
+                                    name: "Selsun Selenium sulfide 1",
+                                    unit: 234,
+                                    totalSale: 1554,
+                                  ),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                       )),
