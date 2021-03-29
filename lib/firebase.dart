@@ -42,6 +42,18 @@ class FlutterFireAuthService {
     });
   }
 
+  Future<dynamic> _getUserInfo() async {
+    final user = _firebaseAuth.currentUser;
+    final userId = user.uid;
+    dynamic userInfo;
+    userInfo = await _firestore.collection("company").doc(userId).get();
+    return userInfo;
+  }
+
+  getUserInfo() async {
+    return await _getUserInfo();
+  }
+
   Future<void> addCustomer(
       firstName, lastName, email, phone, birthdate, gender, address) async {
     final user = _firebaseAuth.currentUser;
@@ -139,18 +151,33 @@ class FlutterFireAuthService {
   }
 
   Future<String> uploadImageToFirebase(img) async {
-    String fileName = DateTime.now().toString();
+    final String userId = _firebaseAuth.currentUser.uid;
+    // String fileName = userId + DateTime.now().toString();
 
+    String fileName = userId + DateTime.now().microsecond.toString();
     Reference firebaseStorageRef =
         FirebaseStorage.instance.ref().child('products/$fileName');
     UploadTask uploadTask = firebaseStorageRef.putFile(img);
     String url;
     await uploadTask.whenComplete(() async {
       url = await uploadTask.snapshot.ref.getDownloadURL();
+    }).catchError((onError) {
+      print(onError);
     });
     return url;
   }
+
+  Future<void> removeImageFromFirebase(imgUrl) async {
+    print(imgUrl);
+    // FirebaseStorage.instance.ref(imgUrl).delete().
+    FirebaseStorage.instance.refFromURL(imgUrl).delete().then((_) {
+      print('Remove Img Successfully');
+    }).catchError((e) {
+      print("Remove Img Error: $e");
+    });
+  }
 }
+
   // Future uploadImageToFirebase(BuildContext context) async {
   //   String fileName = basename(_image.path);
   //   StorageReference firebaseStorageRef =

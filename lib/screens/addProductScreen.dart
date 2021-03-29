@@ -48,9 +48,6 @@ class _AddProductList extends State<AddProductList> {
     setState(() {
       _image = File(pickedFile.path);
     });
-    _uploadedFileURL = await context
-        .read<FlutterFireAuthService>()
-        .uploadImageToFirebase(_image);
   }
 
   List<Product> product = [];
@@ -77,19 +74,24 @@ class _AddProductList extends State<AddProductList> {
     }
   }
 
-  void addProduct(productName, description, price, picture) {
+  void addProduct(productName, description, price, picture) async {
+    _uploadedFileURL = await context
+        .read<FlutterFireAuthService>()
+        .uploadImageToFirebase(_image);
     setState(() {
       product.add(new Product(
           product: productName,
           description: description,
           price: int.parse(price),
-          picture: ''));
+          picture: _uploadedFileURL));
     });
   }
 
   void removeProduct(int index) {
     print("index" + index.toString());
     print("size of product" + product.length.toString());
+    String imgUrl = product[index].picture;
+    context.read<FlutterFireAuthService>().removeImageFromFirebase(imgUrl);
     setState(() {
       product.removeAt(index);
     });
@@ -102,8 +104,7 @@ class _AddProductList extends State<AddProductList> {
             product[i].description,
             product[i].product,
             product[i].price,
-            "picture.test");
-        print("picturename" + product[i].picture.toString());
+            product[i].picture);
       }
     });
     // uploadPic(_pickedImage);

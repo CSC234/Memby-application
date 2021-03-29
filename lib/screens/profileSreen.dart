@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:memby/components/Profile/main.dart';
 import 'package:memby/constants.dart';
+
 import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:memby/firebase.dart';
 
 class Profile extends StatefulWidget {
@@ -10,6 +12,13 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  Future _companyInfo;
+  @override
+  void initState() {
+    super.initState();
+    _companyInfo = context.read<FlutterFireAuthService>().getUserInfo();
+  }
+
   @override
   String change = 'main';
   handleChange(state) {
@@ -19,6 +28,9 @@ class _ProfileState extends State<Profile> {
   }
 
   Widget build(BuildContext context) {
+    final firebaseUser = context.watch<User>();
+    print(firebaseUser.metadata.creationTime);
+
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
@@ -56,60 +68,84 @@ class _ProfileState extends State<Profile> {
                         SizedBox(
                           height: 20,
                         ),
-                        Row(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(left: 15),
-                              height: 110,
-                              width: 90,
-                              child: CircleAvatar(
-                                backgroundImage:
-                                    AssetImage('assets/images/profile.png'),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(left: 30),
-                              // padding: EdgeInsets.all(10),
-                              child: Column(
-                                children: <Widget>[
-                                  Container(
-                                    margin: EdgeInsets.only(bottom: 10),
-                                    width: width * (50 / 100),
-                                    child: Container(
-                                      child: Text("Compnay: Godchapong",
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 18)),
+                        FutureBuilder(
+                            future: _companyInfo,
+                            builder: (context, snapshot) {
+                              print(snapshot);
+                              if (snapshot.hasData) {
+                                final profileInfo = snapshot.data;
+                                final creationDate = firebaseUser
+                                    .metadata.creationTime
+                                    .toIso8601String()
+                                    .split('T')
+                                    .first;
+                                final lastSigninDate = firebaseUser
+                                    .metadata.lastSignInTime
+                                    .toIso8601String()
+                                    .split('T')
+                                    .first;
+
+                                return Row(
+                                  children: [
+                                    Container(
+                                      margin: EdgeInsets.only(left: 15),
+                                      height: 110,
+                                      width: 90,
+                                      child: CircleAvatar(
+                                        backgroundImage:
+                                            NetworkImage(profileInfo['logo']),
+                                      ),
                                     ),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(bottom: 10),
-                                    width: width * (50 / 100),
-                                    child: Container(
-                                      child: Text("Since: 25-Mar-21",
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 18)),
+                                    Container(
+                                      margin: EdgeInsets.only(left: 30),
+                                      // padding: EdgeInsets.all(10),
+                                      child: Column(
+                                        children: <Widget>[
+                                          Container(
+                                            margin: EdgeInsets.only(bottom: 10),
+                                            width: width * (50 / 100),
+                                            child: Container(
+                                              child: Text(
+                                                  "Compnay: ${profileInfo['name']}",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 18)),
+                                            ),
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.only(bottom: 10),
+                                            width: width * (50 / 100),
+                                            child: Container(
+                                              child: Text(
+                                                  "Since: $creationDate",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 18)),
+                                            ),
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.only(bottom: 10),
+                                            width: width * (50 / 100),
+                                            child: Container(
+                                              child: Text(
+                                                  "Last Login: $lastSigninDate",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 18)),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(bottom: 10),
-                                    width: width * (50 / 100),
-                                    child: Container(
-                                      child: Text("Last Login: 25-Mar-21",
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 18)),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        )
+                                  ],
+                                );
+                              } else {
+                                return CircularProgressIndicator();
+                              }
+                            })
                       ],
                     ),
                   ))),
@@ -117,6 +153,16 @@ class _ProfileState extends State<Profile> {
       ),
       SizedBox(
         height: 10,
+      ),
+      IconButton(
+        onPressed: () {
+          context.read<FlutterFireAuthService>().getUserInfo();
+        },
+        icon: Icon(
+          Icons.check,
+          color: Colors.grey[500],
+          size: 30,
+        ),
       ),
       Main(onPress: () {
         print("Sign Out Pressed");
