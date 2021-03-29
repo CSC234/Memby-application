@@ -12,14 +12,16 @@ class TotalSaleList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: 30, top: 0, right: 30),
-      child: Stack(
-        children: <Widget>[
-          Align(alignment: Alignment.topLeft, child: Text("1" + ".")),
-          Align(
-              alignment: Alignment(-0.90, 0.0), child: Text("Selsun Selenium"))
+        child: Padding(
+      padding: const EdgeInsets.symmetric(vertical: 7.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text("${no}." + name),
+          Text("${unit}"),
+          Text("${totalSale} baht")
         ],
       ),
-    );
+    ));
   }
 }
