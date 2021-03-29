@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:memby/components/TotalSaleList.dart';
+import 'package:dotted_decoration/dotted_decoration.dart';
+
 import '../constants.dart';
 
 List<TotalSaleList> productList = [
@@ -219,6 +221,42 @@ class _BodyState extends State<Body> {
                                               height: 0,
                                               thickness: 1,
                                             ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 10),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    "Popular Product",
+                                                    style:
+                                                        TextStyle(fontSize: 18),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.all(5),
+                                              child: GestureDetector(
+                                                child: Container(
+                                                  child: Container(
+                                                    width: width,
+                                                    height: 150,
+                                                    decoration:
+                                                        DottedDecoration(
+                                                      shape: Shape.box,
+                                                      color: Color(0xFFB3ABBC),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10), //remove this to get plane rectange
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
                                           ],
                                         )),
                                   ],
@@ -270,105 +308,3 @@ class _topNavState extends State<topNav> {
     ]));
   }
 }
-
-// Positioned(
-//     top: height * (25 / 100),
-//     height: height * (100 / 100),
-//     width: width * (100 / 100),
-//     child: SizedBox(
-//       child: DecoratedBox(
-//         decoration: const BoxDecoration(
-//           color: kPrimaryColor,
-//           borderRadius: BorderRadius.only(
-//             topLeft: Radius.circular(30),
-//             topRight: Radius.circular(30),
-//           ),
-//         ),
-
-//       ),
-//     )),
-
-//
-//             Container(
-//               margin:
-//                   EdgeInsets.only(left: 30, top: 15, right: 30),
-//               child: Stack(
-//                 children: [
-//                   Align(
-//                     alignment: Alignment.topLeft,
-//                     child: Text(
-//                       'Total sale',
-//                       style: TextStyle(
-//                         color: kPrimaryFont,
-//                         fontSize: 18,
-//                       ),
-//                     ),
-//                   ),
-//                   Align(
-//                       alignment: Alignment.topRight,
-//                       child: TextButton(
-//                         child: Text("view all"),
-//                         onPressed: () {},
-//                       )),
-//                 ],
-//               ),
-//             ),
-//             Divider(
-//               height: 30,
-//               thickness: 2,
-//               indent: 20,
-//               endIndent: 20,
-//             ),
-//             Container(
-//               margin:
-//                   EdgeInsets.only(left: 30, top: 0, right: 30),
-//               child: Stack(
-//                 children: <Widget>[
-//                   Align(
-//                     alignment: Alignment.topLeft,
-//                     child: Text(
-//                       "Product Name",
-//                       style: TextStyle(
-//                         fontSize: 14,
-//                         color: kPrimaryFont,
-//                         fontWeight: FontWeight.bold,
-//                       ),
-//                     ),
-//                   ),
-//                   Align(
-//                     alignment: Alignment(0.30, 0.0),
-//                     child: Text(
-//                       "Unit Sale",
-//                       style: TextStyle(
-//                         fontSize: 14,
-//                         color: kPrimaryFont,
-//                         fontWeight: FontWeight.bold,
-//                       ),
-//                     ),
-//                   ),
-//                   Align(
-//                     alignment: Alignment.topRight,
-//                     child: Text(
-//                       "Total Sale",
-//                       style: TextStyle(
-//                         fontSize: 14,
-//                         color: kPrimaryFont,
-//                         fontWeight: FontWeight.bold,
-//                       ),
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//             ),
-//             Container(
-//               child: Column(
-//                 children: <Widget>[
-//
-//                 ],
-//               ),
-//             ),
-//           ],
-//         ),
-//       )),
-//     ),
-//   ),
