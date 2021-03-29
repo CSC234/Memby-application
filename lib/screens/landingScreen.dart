@@ -7,29 +7,33 @@ import 'package:memby/screens/addProductScreen.dart';
 import 'package:memby/screens/registerScreen.dart';
 import 'package:memby/screens/homeScreen.dart';
 import 'package:memby/screens/profileSreen.dart';
-
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:memby/firebase.dart';
 
-import 'package:memby/screens/homeScreen.dart';
-import 'package:provider/provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:memby/firebase.dart';
+class Landing extends StatefulWidget {
+  @override
+  _LandingState createState() => _LandingState();
+}
 
-class Landing extends StatelessWidget {
+class _LandingState extends State<Landing> {
+  Future _companyInfo;
+
+  @override
+  void initState() {
+    super.initState();
+    _companyInfo = context.read<FlutterFireAuthService>().getUserInfo();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final firebaseUser = context.watch<User>();
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-
-    final firebaseUser = context.watch<User>();
-
     if (firebaseUser == null) {
-      print("Not Authenticated");
-      print("Return To Home Page");
       return HomeScreen();
     }
+    print(" Authenticated");
 
     return Container(
       child: Scaffold(
@@ -103,7 +107,7 @@ class Landing extends StatelessWidget {
                             top: height * (11 / 100),
                             left: 20,
                             child: Text(
-                              'Godchapong',
+                              'test',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: width * (16 / 100),
@@ -123,10 +127,108 @@ class Landing extends StatelessWidget {
                     ),
                   )),
             ),
+            FutureBuilder(
+                future: _companyInfo,
+                builder: (context, snapshot) {
+                  return Stack(children: <Widget>[
+                    Positioned(
+                      height: height,
+                      child: SizedBox(
+                          width: width,
+                          child: DecoratedBox(
+                            decoration: const BoxDecoration(
+                              color: kPrimaryColor,
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(40),
+                                bottomRight: Radius.circular(40),
+                              ),
+                            ),
+                          )),
+                    ),
+                    Positioned(
+                      height: height * (40 / 100),
+                      child: SizedBox(
+                          width: width,
+                          height: 350,
+                          child: DecoratedBox(
+                            decoration: const BoxDecoration(
+                              color: kPrimaryMain,
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(40),
+                                bottomRight: Radius.circular(40),
+                              ),
+                            ),
+                            child: Stack(
+                              children: <Widget>[
+                                Positioned(
+                                    height: 90,
+                                    width: 90,
+                                    top: height * (3 / 100),
+                                    left: width * (75 / 100),
+                                    child: FlatButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) {
+                                              return Profile();
+                                            },
+                                          ),
+                                        );
+                                      },
+                                      child: CircleAvatar(
+                                        radius: 100,
+                                        child: CircleAvatar(
+                                          radius: 30,
+                                          backgroundImage: snapshot.hasData
+                                              ? NetworkImage(
+                                                  snapshot.data['logo'])
+                                              : AssetImage(
+                                                  'assets/images/profile.png'),
+                                        ),
+                                      ),
+                                    )),
+                                Positioned(
+                                    top: height * (7 / 100),
+                                    left: 20,
+                                    child: Text(
+                                      'Welcome to Your Business',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 20,
+                                          fontFamily: 'Alef-Regular'),
+                                    )),
+                                Positioned(
+                                    top: height * (11 / 100),
+                                    left: 20,
+                                    child: Text(
+                                      snapshot.hasData
+                                          ? snapshot.data['name']
+                                          : 'test',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: width * (16 / 100),
+                                          fontFamily: 'Alef-Regular'),
+                                    )),
+                                Positioned(
+                                    top: height * (23 / 100),
+                                    left: 20,
+                                    child: Text(
+                                      'Company',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: width * (10 / 100),
+                                          fontFamily: 'Alef-Regular'),
+                                    )),
+                              ],
+                            ),
+                          )),
+                    )
+                  ]);
+                }),
             Positioned(
                 left: 15,
                 top: height * (32 / 100),
-                
                 height: height * (65 / 100),
                 child: SizedBox(
                     width: width - 30,

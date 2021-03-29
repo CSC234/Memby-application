@@ -21,8 +21,8 @@ class ProductBox extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(10.0),
-                  child: Image.asset(
-                    'assets/images/$img.jpg',
+                  child: Image.network(
+                    img,
                     width: 100,
                   ),
                 ),
