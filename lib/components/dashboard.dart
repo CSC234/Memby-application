@@ -136,6 +136,8 @@ class _BodyState extends State<Body> {
                         child: Column(
                           children: [
                             Container(
+                              height: height,
+                              width: width,
                               child: SingleChildScrollView(
                                 child: Column(
                                   children: [
@@ -163,102 +165,170 @@ class _BodyState extends State<Body> {
                                       thickness: 1,
                                     ),
                                     Container(
-                                        margin: EdgeInsets.symmetric(
-                                            horizontal: 30),
-                                        child: Column(
-                                          children: <Widget>[
-                                            Row(
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 30),
+                                      child: Column(
+                                        children: <Widget>[
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 13.0),
+                                                child: Text("Total Sale",
+                                                    style: TextStyle(
+                                                        fontSize: 18)),
+                                              ),
+                                              HandleViewAll(),
+                                            ],
+                                          ),
+                                          Divider(
+                                            height: 0,
+                                            thickness: 1,
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 10),
+                                            child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
                                                       .spaceBetween,
-                                              children: <Widget>[
-                                                Padding(
-                                                  padding: const EdgeInsets
-                                                          .symmetric(
-                                                      vertical: 13.0),
-                                                  child: Text("Total Sale",
-                                                      style: TextStyle(
-                                                          fontSize: 18)),
-                                                ),
-                                                HandleViewAll(),
+                                              children: [
+                                                Text("Product Name"),
+                                                Container(
+                                                  width: width * (38 / 100),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text("Unit Sale"),
+                                                      Text("Total Sale"),
+                                                    ],
+                                                  ),
+                                                )
                                               ],
                                             ),
-                                            Divider(
-                                              height: 0,
-                                              thickness: 1,
+                                          ),
+                                          Container(
+                                            height: height * (21 / 100),
+                                            width: width * (90 / 100),
+                                            child: makeProductList(),
+                                          ),
+                                          Divider(
+                                            height: 0,
+                                            thickness: 1,
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 10),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Popular Product",
+                                                  style:
+                                                      TextStyle(fontSize: 18),
+                                                ),
+                                              ],
                                             ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 10),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text("Product Name"),
-                                                  Container(
-                                                    width: width * (38 / 100),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Text("Unit Sale"),
-                                                        Text("Total Sale"),
-                                                      ],
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                            Container(
-                                              height: height * (21 / 100),
-                                              width: width * (90 / 100),
-                                              child: makeProductList(),
-                                            ),
-                                            Divider(
-                                              height: 0,
-                                              thickness: 1,
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 10),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    "Popular Product",
-                                                    style:
-                                                        TextStyle(fontSize: 18),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.all(5),
-                                              child: GestureDetector(
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(5),
+                                            child: GestureDetector(
+                                              child: Container(
                                                 child: Container(
-                                                  child: Container(
-                                                    width: width,
-                                                    height: 150,
-                                                    decoration:
-                                                        DottedDecoration(
-                                                      shape: Shape.box,
-                                                      color: Color(0xFFB3ABBC),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10), //remove this to get plane rectange
-                                                    ),
+                                                  width: width,
+                                                  height: 150,
+                                                  decoration: DottedDecoration(
+                                                    shape: Shape.box,
+                                                    color: Color(0xFFB3ABBC),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10), //remove this to get plane rectange
                                                   ),
                                                 ),
                                               ),
                                             ),
-                                          ],
-                                        )),
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 13.0),
+                                                child: Text("Top Customer",
+                                                    style: TextStyle(
+                                                        fontSize: 18)),
+                                              ),
+                                              HandleViewAll(),
+                                            ],
+                                          ),
+                                          Divider(
+                                            height: 0,
+                                            thickness: 1,
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 10),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Name",
+                                                  style: TextStyle(
+                                                      color: kPrimaryFont,
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                Container(
+                                                  width: width * (38 / 100),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        "Phone NO.",
+                                                        style: TextStyle(
+                                                            color: kPrimaryFont,
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                      Text(
+                                                        "Total Paid",
+                                                        style: TextStyle(
+                                                            color: kPrimaryFont,
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                          Container(
+                                            height: height * (21 / 100),
+                                            width: width * (90 / 100),
+                                            child: makeProductList(),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
