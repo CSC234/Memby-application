@@ -86,269 +86,303 @@ class _BodyState extends State<Body> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          SizedBox(
-            height: height,
-            child: Stack(
-              children: <Widget>[
-                Positioned(
-                  height: height * (30 / 100),
-                  child: SizedBox(
-                      width: width,
-                      height: 350,
-                      child: DecoratedBox(
-                        decoration: const BoxDecoration(
-                          color: kPrimaryMain,
-                        ),
-                        child: Stack(
-                          children: <Widget>[
-                            Positioned(
-                                top: height * (10 / 100),
-                                left: 30,
-                                child: Text(
-                                  'View DashBoard',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 48,
-                                      fontFamily: 'Alef-Regular'),
-                                )),
-                            Positioned(
-                                top: height * (18 / 100),
-                                left: width * (30 / 100),
-                                child: Text(
-                                  'insight information',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                      fontFamily: 'Alef-Regular'),
-                                )),
-                          ],
-                        ),
-                      )),
-                ),
-                Positioned(
-                    top: height * (25 / 100),
-                    height: height * (100 / 100),
-                    width: width * (100 / 100),
+      child: Container(
+        child: Column(
+          children: <Widget>[
+            SizedBox(
+              height: height,
+              child: Stack(
+                children: <Widget>[
+                  Positioned(
+                    height: height * (30 / 100),
                     child: SizedBox(
-                      child: DecoratedBox(
-                        child: Column(
-                          children: [
-                            Container(
-                              height: height,
-                              width: width,
-                              child: SingleChildScrollView(
+                        width: width,
+                        height: 350,
+                        child: DecoratedBox(
+                          decoration: const BoxDecoration(
+                            color: kPrimaryMain,
+                          ),
+                          child: Stack(
+                            children: <Widget>[
+                              Positioned(
+                                  top: height * (10 / 100),
+                                  left: 30,
+                                  child: Text(
+                                    'View DashBoard',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 48,
+                                        fontFamily: 'Alef-Regular'),
+                                  )),
+                              Positioned(
+                                  top: height * (18 / 100),
+                                  left: width * (30 / 100),
+                                  child: Text(
+                                    'insight information',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontFamily: 'Alef-Regular'),
+                                  )),
+                            ],
+                          ),
+                        )),
+                  ),
+                  Positioned(
+                    top: 200,
+                    height: height * (100 / 100),
+                    child: SingleChildScrollView(
+                      child: Container(
+                          width: width * (100 / 100),
+                          child: SingleChildScrollView(
+                            child: SingleChildScrollView(
+                              child: Container(
                                 child: Column(
                                   children: [
                                     Container(
-                                      margin:
-                                          EdgeInsets.symmetric(horizontal: 30),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          topNav(
-                                            title: 'Daily',
-                                          ),
-                                          topNav(
-                                            title: 'Monthly',
-                                          ),
-                                          topNav(
-                                            title: 'Yearly',
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Divider(
-                                      height: 0,
-                                      thickness: 1,
-                                    ),
-                                    Container(
-                                      margin:
-                                          EdgeInsets.symmetric(horizontal: 30),
-                                      child: Column(
-                                        children: <Widget>[
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: <Widget>[
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 13.0),
-                                                child: Text("Total Sale",
-                                                    style: TextStyle(
-                                                        fontSize: 18)),
+                                      height: height,
+                                      width: width,
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          children: [
+                                            Container(
+                                              margin: EdgeInsets.symmetric(
+                                                  horizontal: 30),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: <Widget>[
+                                                  topNav(
+                                                    title: 'Daily',
+                                                  ),
+                                                  topNav(
+                                                    title: 'Monthly',
+                                                  ),
+                                                  topNav(
+                                                    title: 'Yearly',
+                                                  )
+                                                ],
                                               ),
-                                              HandleViewAll(),
-                                            ],
-                                          ),
-                                          Divider(
-                                            height: 0,
-                                            thickness: 1,
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 10),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text("Product Name"),
-                                                Container(
-                                                  width: width * (38 / 100),
-                                                  child: Row(
+                                            ),
+                                            Divider(
+                                              height: 0,
+                                              thickness: 1,
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.symmetric(
+                                                  horizontal: 30),
+                                              child: Column(
+                                                children: <Widget>[
+                                                  Row(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
                                                             .spaceBetween,
-                                                    children: [
-                                                      Text("Unit Sale"),
-                                                      Text("Total Sale"),
+                                                    children: <Widget>[
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                vertical: 13.0),
+                                                        child: Text(
+                                                            "Total Sale",
+                                                            style: TextStyle(
+                                                                fontSize: 18)),
+                                                      ),
+                                                      HandleViewAll(),
                                                     ],
                                                   ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                          Container(
-                                            height: height * (21 / 100),
-                                            width: width * (90 / 100),
-                                            child: makeProductList(),
-                                          ),
-                                          Divider(
-                                            height: 0,
-                                            thickness: 1,
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 10),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  "Popular Product",
-                                                  style:
-                                                      TextStyle(fontSize: 18),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(5),
-                                            child: GestureDetector(
-                                              child: Container(
-                                                child: Container(
-                                                  width: width,
-                                                  height: 150,
-                                                  decoration: DottedDecoration(
-                                                    shape: Shape.box,
-                                                    color: Color(0xFFB3ABBC),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10), //remove this to get plane rectange
+                                                  Divider(
+                                                    height: 0,
+                                                    thickness: 1,
                                                   ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: <Widget>[
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 13.0),
-                                                child: Text("Top Customer",
-                                                    style: TextStyle(
-                                                        fontSize: 18)),
-                                              ),
-                                              HandleViewAll(),
-                                            ],
-                                          ),
-                                          Divider(
-                                            height: 0,
-                                            thickness: 1,
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 10),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  "Name",
-                                                  style: TextStyle(
-                                                      color: kPrimaryFont,
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                                Container(
-                                                  width: width * (38 / 100),
-                                                  child: Row(
+                                                  Padding(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        vertical: 10),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text("Product Name"),
+                                                        Container(
+                                                          width: width *
+                                                              (38 / 100),
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              Text("Unit Sale"),
+                                                              Text(
+                                                                  "Total Sale"),
+                                                            ],
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    height: height * (21 / 100),
+                                                    width: width * (90 / 100),
+                                                    child: makeProductList(),
+                                                  ),
+                                                  Divider(
+                                                    height: 0,
+                                                    thickness: 1,
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        vertical: 10),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                          "Popular Product",
+                                                          style: TextStyle(
+                                                              fontSize: 18),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(5),
+                                                    child: GestureDetector(
+                                                      child: Container(
+                                                        child: Container(
+                                                          width: width,
+                                                          height: 150,
+                                                          decoration:
+                                                              DottedDecoration(
+                                                            shape: Shape.box,
+                                                            color: Color(
+                                                                0xFFB3ABBC),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10), //remove this to get plane rectange
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Row(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
                                                             .spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                        "Phone NO.",
-                                                        style: TextStyle(
-                                                            color: kPrimaryFont,
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
+                                                    children: <Widget>[
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                vertical: 13.0),
+                                                        child: Text(
+                                                            "Top Customer",
+                                                            style: TextStyle(
+                                                                fontSize: 18)),
                                                       ),
-                                                      Text(
-                                                        "Total Paid",
-                                                        style: TextStyle(
-                                                            color: kPrimaryFont,
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      ),
+                                                      HandleViewAll(),
                                                     ],
                                                   ),
-                                                )
-                                              ],
+                                                  Divider(
+                                                    height: 0,
+                                                    thickness: 1,
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        vertical: 10),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                          "Name",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  kPrimaryFont,
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                        Container(
+                                                          width: width *
+                                                              (38 / 100),
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              Text(
+                                                                "Phone NO.",
+                                                                style: TextStyle(
+                                                                    color:
+                                                                        kPrimaryFont,
+                                                                    fontSize:
+                                                                        14,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              ),
+                                                              Text(
+                                                                "Total Paid",
+                                                                style: TextStyle(
+                                                                    color:
+                                                                        kPrimaryFont,
+                                                                    fontSize:
+                                                                        14,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    height: height * (21 / 100),
+                                                    width: width * (90 / 100),
+                                                    child: makeProductList(),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 220,
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                          Container(
-                                            height: height * (21 / 100),
-                                            width: width * (90 / 100),
-                                            child: makeProductList(),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ],
                                 ),
+                                decoration: const BoxDecoration(
+                                  color: kPrimaryColor,
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(30),
+                                    topRight: Radius.circular(30),
+                                  ),
+                                ),
                               ),
                             ),
-                          ],
-                        ),
-                        decoration: const BoxDecoration(
-                          color: kPrimaryColor,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(30),
-                            topRight: Radius.circular(30),
-                          ),
-                        ),
-                      ),
-                    ))
-                //
-              ],
+                          )),
+                    ),
+                  )
+                  //
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
