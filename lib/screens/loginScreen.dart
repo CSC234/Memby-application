@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
+import 'package:memby/components/toggle/animated_toggle_button.dart';
+import 'package:memby/components/toggle/theme_color.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -16,8 +18,57 @@ class Login extends StatefulWidget {
   _LoginState createState() => _LoginState();
 }
 
+AnimationController _animationController;
+
 class _LoginState extends State<Login> {
+  AnimationController _animationController;
+  bool isDarkMode = false;
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool isRegister = false;
+  changeThemeMode() {
+    if (isDarkMode) {
+      _animationController.forward(from: 0.0);
+    } else {
+      _animationController.reverse(from: 1.0);
+    }
+  }
+
+  ThemeColor darkMode = ThemeColor(
+    gradient: [
+      const Color(0xFF6E7CE4),
+      const Color(0xFF6E7CE4),
+    ],
+    backgroundColor: const Color(0xFF6E7CE4),
+    textColor: const Color(0xFFFFFFFF),
+    toggleButtonColor: const Color(0xFF6E7CE4),
+    toggleBackgroundColor: const Color(0xFFFFFFFF),
+    shadow: const <BoxShadow>[
+      BoxShadow(
+        color: const Color(0xFFd8d7da),
+        spreadRadius: 5,
+        blurRadius: 10,
+        offset: Offset(0, 5),
+      ),
+    ],
+  );
+  ThemeColor lightMode = ThemeColor(
+    gradient: [
+      const Color(0xFF6E7CE4),
+      const Color(0xFF6E7CE4),
+    ],
+    backgroundColor: const Color(0xFF6E7CE4),
+    textColor: const Color(0xFFFFFFFF),
+    toggleButtonColor: const Color(0xFF6E7CE4),
+    toggleBackgroundColor: const Color(0xFFFFFFFF),
+    shadow: const [
+      BoxShadow(
+        color: const Color(0xFFd8d7da),
+        spreadRadius: 5,
+        blurRadius: 10,
+        offset: Offset(0, 5),
+      ),
+    ],
+  );
   int initialIndex = 0;
   ScrollController _scrollController = ScrollController();
   final TextEditingController emailController = TextEditingController();
@@ -48,7 +99,7 @@ class _LoginState extends State<Login> {
                   fontFamily: 'Alef-Regular'),
             ),
             Container(
-                padding: EdgeInsets.all(50),
+                padding: EdgeInsets.all(30),
                 height: 280,
                 child: Stack(
                   children: <Widget>[
@@ -61,18 +112,17 @@ class _LoginState extends State<Login> {
                     )),
                   ],
                 )),
-            ToggleSwitch(
-              minWidth: 100.0,
-              minHeight: 50,
-              initialLabelIndex: initialIndex,
-              cornerRadius: 30.0,
-              fontSize: 15,
-              activeFgColor: Colors.white,
-              inactiveBgColor: Color(0xFF61656D),
-              inactiveFgColor: Colors.white,
-              labels: ['Sign in', 'Sign up'],
-              activeBgColors: [kPrimaryLightColor, kPrimaryLightColor],
-              onToggle: (index) {
+            AnimatedToggle(
+              values: ['Sign in', 'Sign up'],
+              textColor: isDarkMode ? darkMode.textColor : lightMode.textColor,
+              backgroundColor: isDarkMode
+                  ? darkMode.toggleBackgroundColor
+                  : lightMode.toggleBackgroundColor,
+              buttonColor: isDarkMode
+                  ? darkMode.toggleButtonColor
+                  : lightMode.toggleButtonColor,
+              shadows: isDarkMode ? darkMode.shadow : lightMode.shadow,
+              onToggleCallback: (index) {
                 print('switched to: $index');
                 setState(() {
                   initialIndex = index;
