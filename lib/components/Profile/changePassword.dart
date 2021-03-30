@@ -22,7 +22,7 @@ class _ChangePassword extends State<ChangePassword> {
             body: SingleChildScrollView(
       child: Column(children: [
         SizedBox(
-          height: 240,
+          height: height * (33 / 100),
           child: Positioned(
             height: height,
             child: SizedBox(

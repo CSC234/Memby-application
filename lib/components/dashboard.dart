@@ -95,6 +95,34 @@ class _BodyState extends State<Body> {
     );
   }
 
+  bool clickDaily = false;
+  bool clickMonthly = true;
+  bool clickYearly = true;
+
+  void handleClickChangeToggleDaily() {
+    setState(() {
+      clickDaily = false;
+      clickMonthly = true;
+      clickYearly = true;
+    });
+  }
+
+  void handleClickChangeToggleMonthly() {
+    setState(() {
+      clickDaily = true;
+      clickMonthly = false;
+      clickYearly = true;
+    });
+  }
+
+  void handleClickChangeToggleYearly() {
+    setState(() {
+      clickDaily = true;
+      clickMonthly = true;
+      clickYearly = false;
+    });
+  }
+
   ListView makeTopCustomerList() {
     List<TopCustomer> customerHolder = [];
     for (int i = 0; i < popSaleList.length; i++) {
@@ -131,6 +159,7 @@ class _BodyState extends State<Body> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+
     return SingleChildScrollView(
       child: Container(
         child: Column(
@@ -152,7 +181,7 @@ class _BodyState extends State<Body> {
                             children: <Widget>[
                               Positioned(
                                   top: height * (10 / 100),
-                                  left: 30,
+                                  left: 20,
                                   child: Text(
                                     'View DashBoard',
                                     style: TextStyle(
@@ -200,13 +229,22 @@ class _BodyState extends State<Body> {
                                                         .spaceBetween,
                                                 children: <Widget>[
                                                   topNav(
+                                                    isClick: clickDaily,
                                                     title: 'Daily',
+                                                    click:
+                                                        handleClickChangeToggleDaily,
                                                   ),
                                                   topNav(
+                                                    isClick: clickMonthly,
                                                     title: 'Monthly',
+                                                    click:
+                                                        handleClickChangeToggleMonthly,
                                                   ),
                                                   topNav(
+                                                    isClick: clickYearly,
                                                     title: 'Yearly',
+                                                    click:
+                                                        handleClickChangeToggleYearly,
                                                   )
                                                 ],
                                               ),
@@ -414,9 +452,10 @@ class _BodyState extends State<Body> {
 }
 
 class topNav extends StatefulWidget {
-  topNav({Key key, this.title}) : super(key: key);
+  topNav({Key key, this.title, this.isClick, this.click}) : super(key: key);
   final String title;
-
+  final bool isClick;
+  final Function click;
   @override
   _topNavState createState() => _topNavState();
 }
@@ -427,12 +466,27 @@ class _topNavState extends State<topNav> {
     return Container(
         child: Row(children: [
       TextButton(
-        child: Text(widget.title,
-            style: TextStyle(
-              color: kPrimaryFont,
-              fontSize: 18,
-            )),
-        onPressed: () {},
+        child: Container(
+          padding: EdgeInsets.only(
+            bottom: 2, // Space between underline and text
+          ),
+          decoration: widget.isClick
+              ? BoxDecoration()
+              : BoxDecoration(
+                  border: Border(
+                      bottom: BorderSide(
+                  color: Color(0xFF2336C0),
+                  width: 3.0, // Underline thickness
+                ))),
+          child: Text(widget.title,
+              style: TextStyle(
+                color: kPrimaryFont,
+                fontSize: 18,
+              )),
+        ),
+        onPressed: () {
+          widget.click();
+        },
       ),
     ]));
   }

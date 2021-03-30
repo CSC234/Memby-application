@@ -41,7 +41,7 @@ class _LoginState extends State<Login> {
     backgroundColor: const Color(0xFF6E7CE4),
     textColor: const Color(0xFFFFFFFF),
     toggleButtonColor: const Color(0xFF6E7CE4),
-    toggleBackgroundColor: const Color(0xFFFFFFFF),
+    toggleBackgroundColor: const Color(0xFFe7e7e8),
     shadow: const <BoxShadow>[
       BoxShadow(
         color: const Color(0xFFd8d7da),
@@ -59,13 +59,13 @@ class _LoginState extends State<Login> {
     backgroundColor: const Color(0xFF6E7CE4),
     textColor: const Color(0xFFFFFFFF),
     toggleButtonColor: const Color(0xFF6E7CE4),
-    toggleBackgroundColor: const Color(0xFFFFFFFF),
+    toggleBackgroundColor: const Color(0xFFe7e7e8),
     shadow: const [
       BoxShadow(
         color: const Color(0xFFd8d7da),
         spreadRadius: 2,
         blurRadius: 5,
-        offset: Offset(0, 2),
+        offset: Offset(0, 5),
       ),
     ],
   );
@@ -176,13 +176,8 @@ class _LoginState extends State<Login> {
                   borderRadius: BorderRadius.circular(30),
                 ),
                 child: TextField(
+                  controller: passwordController,
                   obscureText: !_passwordVisible,
-                  onChanged: (String value) {
-                    setState(() {
-                      _value = value;
-                    });
-                    widget.onChanged(value);
-                  },
                   decoration: InputDecoration(
                       hintText: 'Password',
                       icon: Icon(
