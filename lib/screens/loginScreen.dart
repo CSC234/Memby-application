@@ -178,12 +178,6 @@ class _LoginState extends State<Login> {
                 child: TextField(
                   controller: passwordController,
                   obscureText: !_passwordVisible,
-                  onChanged: (String value) {
-                    setState(() {
-                      _value = value;
-                    });
-                    widget.onChanged(value);
-                  },
                   decoration: InputDecoration(
                       hintText: 'Password',
                       icon: Icon(
