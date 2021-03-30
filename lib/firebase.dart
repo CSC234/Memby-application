@@ -43,11 +43,16 @@ class FlutterFireAuthService {
   }
 
   Future<dynamic> _getUserInfo() async {
-    final user = _firebaseAuth.currentUser;
-    final userId = user.uid;
-    dynamic userInfo;
-    userInfo = await _firestore.collection("company").doc(userId).get();
-    return userInfo;
+    try {
+      final user = _firebaseAuth.currentUser;
+      final userId = user.uid;
+      dynamic userInfo;
+      userInfo = await _firestore.collection("company").doc(userId).get();
+      return userInfo;
+    } catch (err) {
+      print('Caught error: $err');
+      return {'name': 'Error', 'logo': 'Error'};
+    }
   }
 
   getUserInfo() async {
