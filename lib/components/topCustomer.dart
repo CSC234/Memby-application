@@ -33,7 +33,7 @@ class TopCustomer extends StatelessWidget {
                         fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    "${totalPaid}",
+                    "${totalPaid} baht",
                     style: TextStyle(
                         color: kPrimaryFont,
                         fontSize: 14,

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:memby/components/TotalSaleList.dart';
 import 'package:memby/components/topCustomer.dart';
-
 import 'package:dotted_decoration/dotted_decoration.dart';
-
+import 'package:memby/components/popProduct.dart';
 import '../constants.dart';
 
 List<TotalSaleList> productList = [
@@ -97,10 +96,10 @@ class _BodyState extends State<Body> {
   }
 
   ListView makeTopCustomerList() {
-    List<TopCustomer> productHolder = [];
+    List<TopCustomer> customerHolder = [];
     for (int i = 0; i < popSaleList.length; i++) {
       var p = popSaleList[i];
-      productHolder.add(
+      customerHolder.add(
         TopCustomer(
           no: p.no,
           name: p.name,
@@ -111,7 +110,7 @@ class _BodyState extends State<Body> {
     }
     return ListView(
       padding: EdgeInsets.symmetric(vertical: 0),
-      children: productHolder,
+      children:customerHolder,
     );
   }
 
@@ -296,28 +295,7 @@ class _BodyState extends State<Body> {
                                                       ],
                                                     ),
                                                   ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(5),
-                                                    child: GestureDetector(
-                                                      child: Container(
-                                                        child: Container(
-                                                          width: width,
-                                                          height: 150,
-                                                          decoration:
-                                                              DottedDecoration(
-                                                            shape: Shape.box,
-                                                            color: Color(
-                                                                0xFFB3ABBC),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10), //remove this to get plane rectange
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
+                                                 PopProduct(),
                                                   Row(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
