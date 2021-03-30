@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:memby/components/TotalSaleList.dart';
 import 'package:memby/components/topCustomer.dart';
 import 'package:memby/components/popProduct.dart';
-import 'package:memby/components/viewAll.dart';
+import 'package:memby/components/dashboard.dart';
 import '../constants.dart';
 
 List<TotalSaleList> productList = [
@@ -70,12 +70,12 @@ List<TopCustomer> popSaleList = [
   ),
 ];
 
-class Body extends StatefulWidget {
+class ViewAll extends StatefulWidget {
   @override
-  _BodyState createState() => _BodyState();
+  _ViewAllState createState() => _ViewAllState();
 }
 
-class _BodyState extends State<Body> {
+class _ViewAllState extends State<ViewAll> {
   ListView makeProductList() {
     List<TotalSaleList> productHolder = [];
     for (int i = 0; i < productList.length; i++) {
@@ -149,11 +149,8 @@ class _BodyState extends State<Body> {
       return TextButton(
         child: Text("view all"),
         onPressed: () {
-          Navigator.push(
+          Navigator.pop(
             context,
-            new MaterialPageRoute(
-              builder: (context) => ViewAll(),
-            )
           );
         },
       );
