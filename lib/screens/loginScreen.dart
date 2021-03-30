@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
+import 'package:memby/components/toggle/animated_toggle_button.dart';
+import 'package:memby/components/toggle/theme_color.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -16,9 +18,60 @@ class Login extends StatefulWidget {
   _LoginState createState() => _LoginState();
 }
 
+AnimationController _animationController;
+
 class _LoginState extends State<Login> {
+  AnimationController _animationController;
+  bool isDarkMode = false;
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool isRegister = false;
+  changeThemeMode() {
+    if (isDarkMode) {
+      _animationController.forward(from: 0.0);
+    } else {
+      _animationController.reverse(from: 1.0);
+    }
+  }
+
+  ThemeColor darkMode = ThemeColor(
+    gradient: [
+      const Color(0xFF6E7CE4),
+      const Color(0xFF6E7CE4),
+    ],
+    backgroundColor: const Color(0xFF6E7CE4),
+    textColor: const Color(0xFFFFFFFF),
+    toggleButtonColor: const Color(0xFF6E7CE4),
+    toggleBackgroundColor: const Color(0xFFFFFFFF),
+    shadow: const <BoxShadow>[
+      BoxShadow(
+        color: const Color(0xFFd8d7da),
+        spreadRadius: 5,
+        blurRadius: 10,
+        offset: Offset(0, 5),
+      ),
+    ],
+  );
+  ThemeColor lightMode = ThemeColor(
+    gradient: [
+      const Color(0xFF6E7CE4),
+      const Color(0xFF6E7CE4),
+    ],
+    backgroundColor: const Color(0xFF6E7CE4),
+    textColor: const Color(0xFFFFFFFF),
+    toggleButtonColor: const Color(0xFF6E7CE4),
+    toggleBackgroundColor: const Color(0xFFFFFFFF),
+    shadow: const [
+      BoxShadow(
+        color: const Color(0xFFd8d7da),
+        spreadRadius: 2,
+        blurRadius: 5,
+        offset: Offset(0, 2),
+      ),
+    ],
+  );
   int initialIndex = 0;
+  bool _passwordVisible = false;
+
   ScrollController _scrollController = ScrollController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -29,6 +82,10 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     String _value;
+    @override
+    void initState() {
+      _passwordVisible = false;
+    }
 
     return Scaffold(
       backgroundColor: kPrimaryColor,
@@ -48,8 +105,8 @@ class _LoginState extends State<Login> {
                   fontFamily: 'Alef-Regular'),
             ),
             Container(
-                padding: EdgeInsets.all(50),
-                height: 280,
+                padding: EdgeInsets.all(10),
+                height: 210,
                 child: Stack(
                   children: <Widget>[
                     Positioned(
@@ -61,18 +118,17 @@ class _LoginState extends State<Login> {
                     )),
                   ],
                 )),
-            ToggleSwitch(
-              minWidth: 100.0,
-              minHeight: 50,
-              initialLabelIndex: initialIndex,
-              cornerRadius: 30.0,
-              fontSize: 15,
-              activeFgColor: Colors.white,
-              inactiveBgColor: Color(0xFF61656D),
-              inactiveFgColor: Colors.white,
-              labels: ['Sign in', 'Sign up'],
-              activeBgColors: [kPrimaryLightColor, kPrimaryLightColor],
-              onToggle: (index) {
+            AnimatedToggle(
+              values: ['Sign in', 'Sign up'],
+              textColor: isDarkMode ? darkMode.textColor : lightMode.textColor,
+              backgroundColor: isDarkMode
+                  ? darkMode.toggleBackgroundColor
+                  : lightMode.toggleBackgroundColor,
+              buttonColor: isDarkMode
+                  ? darkMode.toggleButtonColor
+                  : lightMode.toggleButtonColor,
+              shadows: isDarkMode ? darkMode.shadow : lightMode.shadow,
+              onToggleCallback: (index) {
                 print('switched to: $index');
                 setState(() {
                   initialIndex = index;
@@ -89,7 +145,7 @@ class _LoginState extends State<Login> {
               },
             ),
             SizedBox(
-              height: 20,
+              height: 5,
             ),
             Container(
                 margin: EdgeInsets.symmetric(vertical: 10),
@@ -120,13 +176,12 @@ class _LoginState extends State<Login> {
                   borderRadius: BorderRadius.circular(30),
                 ),
                 child: TextField(
-                  controller: passwordController,
-                  obscureText: true,
+                  obscureText: !_passwordVisible,
                   onChanged: (String value) {
                     setState(() {
-                      // _value = value;
+                      _value = value;
                     });
-                    // widget.onChanged(value);
+                    widget.onChanged(value);
                   },
                   decoration: InputDecoration(
                       hintText: 'Password',
@@ -134,9 +189,18 @@ class _LoginState extends State<Login> {
                         Icons.lock,
                         color: Colors.black54,
                       ),
-                      suffixIcon: Icon(
-                        Icons.visibility,
-                        color: Colors.black54,
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _passwordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          color: Colors.black54,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _passwordVisible = !_passwordVisible;
+                          });
+                        },
                       ),
                       border: InputBorder.none),
                 )),
@@ -199,7 +263,7 @@ class _LoginState extends State<Login> {
                 : Container(),
             RoundedButton(
                 color: kPrimaryLightColor,
-                buttonHight: 40,
+                buttonHight: 50,
                 fontsize: 15,
                 buttonSize: 0.4,
                 textColor: Colors.white,
@@ -220,6 +284,38 @@ class _LoginState extends State<Login> {
                         );
                   }
                 }),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: 25,
+                ),
+                Container(
+                  width: 160,
+                  child: Divider(
+                    height: 5,
+                    thickness: 2,
+                    indent: 10,
+                    endIndent: 10,
+                  ),
+                ),
+                Text(
+                  'or',
+                  style: TextStyle(color: Colors.grey[600]),
+                ),
+                Container(
+                  width: 160,
+                  child: Divider(
+                    height: 5,
+                    thickness: 2,
+                    indent: 10,
+                    endIndent: 10,
+                  ),
+                ),
+              ],
+            ),
             SizedBox(
               height: 10,
             ),

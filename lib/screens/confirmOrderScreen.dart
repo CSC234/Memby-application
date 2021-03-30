@@ -1,150 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:memby/constants.dart';
-import 'package:dotted_decoration/dotted_decoration.dart';
+import 'package:memby/models/Product.dart';
+import 'package:memby/models/OrderDetail.dart';
+import 'package:memby/models/Order.dart';
+import 'package:memby/components/RoundedButton.dart';
+import 'package:memby/components/OrderCard.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 
-class Product {
-  String id;
-  String img;
-  String productName;
-  String description;
-  double price;
-  bool isFilled;
+class ConfirmOrderScreen extends StatefulWidget {
+  final Order order;
+  ConfirmOrderScreen({this.order});
 
-  Product({
-    this.img,
-    this.isFilled,
-    this.productName,
-    this.description,
-    this.id,
-    this.price,
-  });
-}
-
-class OrderDetail {
-  String id;
-  Product product;
-  int amount;
-  OrderDetail({this.amount, this.product, this.id});
-
-  void setAmount(int newAmount) {
-    this.amount = newAmount;
-  }
-}
-
-class Order {
-  String id;
-  List<OrderDetail> orders;
-
-  Order({
-    this.id,
-    this.orders,
-  });
-}
-
-List<Product> Products = [
-  Product(
-      img: 'product1',
-      productName: 'Product 1',
-      description: 'Lorem ipsum, or lipsum as it is sometimes known',
-      price: 100.0,
-      id: '1',
-      isFilled: false),
-  Product(
-      img: 'product1',
-      productName: 'Product 2',
-      description: 'Lorem ipsum, or lipsum as it is sometimes known',
-      price: 200.0,
-      id: '2',
-      isFilled: false),
-  Product(
-      img: 'product1',
-      productName: 'Product 3',
-      description: 'Lorem ipsum, or lipsum as it is sometimes known',
-      price: 300.0,
-      id: '3',
-      isFilled: false),
-  Product(
-      img: 'product1',
-      productName: 'Product 4',
-      description: 'Lorem ipsum, or lipsum as it is sometimes known',
-      price: 400.0,
-      id: '4',
-      isFilled: false),
-  Product(
-      img: 'product1',
-      productName: 'Product 5',
-      description: 'Lorem ipsum, or lipsum as it is sometimes known',
-      price: 500.0,
-      id: '5',
-      isFilled: false),
-];
-
-class CreateOrderScreen extends StatefulWidget {
   @override
-  _CreateOrderScreenState createState() => _CreateOrderScreenState();
+  _ConfirmOrderScreenState createState() => _ConfirmOrderScreenState();
 }
 
-class _CreateOrderScreenState extends State<CreateOrderScreen> {
-  List<Product> selectedProduct = [];
-
-  ListView makeProductCard() {
-    List<ProductBox> productCards = [];
-    for (int i = 0; i < Products.length; i++) {
-      var p = Products[i];
-      productCards.add(
-        ProductBox(
-          img: p.img,
-          title: p.productName,
-          isFilled: p.isFilled,
-          onPress: () {
-            handleClicked(i);
-          },
-        ),
-      );
-    }
-    return ListView(
-      scrollDirection: Axis.horizontal,
-      children: productCards,
-    );
-  }
-
-  void handleClicked(int index) {
-    setState(() {
-      Products[index].isFilled = !Products[index].isFilled;
-      if (Products[index].isFilled == true) {
-        selectedProduct.add(Products[index]);
-      } else {
-        int deletedIndex;
-        for (int i = 0; i < selectedProduct.length; i++) {
-          if (selectedProduct[i].id == Products[index].id) {
-            deletedIndex = i;
-          }
-        }
-        selectedProduct.removeAt(deletedIndex);
-      }
-
-      // for (Product p in selectedProduct) {
-      //   print(p.productName);
-      // }
-      // print('======');
-    });
-  }
-
+class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
   ListView makeOrderCard() {
-    Order order1 = Order(
-      id: '00001',
-      orders: [],
-    );
     List<OrderCard> orderCards = [];
-    for (int i = 0; i < selectedProduct.length; i++) {
-      var p = selectedProduct[i];
-      order1.orders.add(OrderDetail(
-        product: p,
-        amount: 1,
-      ));
-    }
 
-    for (OrderDetail o in order1.orders) {
+    for (OrderDetail o in widget.order.orderDetails) {
       Product p = o.product;
       int a = o.amount;
       // print(p.productName + "\n amount: " + a.toString());
@@ -153,7 +28,7 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
           title: p.productName,
           img: p.img,
           description: p.description,
-          price: p.price.toString(),
+          price: p.price,
           amount: a,
           setAmount: o.setAmount,
         ),
@@ -166,8 +41,18 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
     );
   }
 
+  int initialIndex = 0;
+  bool isMember = false;
   @override
   Widget build(BuildContext context) {
+    double getTotalPrice() {
+      double totalPrice = 0;
+      for (OrderDetail i in widget.order.orderDetails) {
+        totalPrice += i.amount * i.product.price;
+      }
+      return totalPrice;
+    }
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -176,7 +61,7 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Create Order',
+                  'Confirm Order',
                   style: kPrimaryHeadingTextStyle,
                 ),
               ],
@@ -194,10 +79,8 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
                 ),
               ],
             ),
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 20.0),
-              height: 170.0,
-              child: makeProductCard(),
+            SizedBox(
+              height: 15,
             ),
             Padding(
               padding: const EdgeInsets.only(left: 20),
@@ -205,7 +88,7 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    'Customer Product List',
+                    'Confirmed Products',
                     style: kPrimaryHeadingTextStyle.copyWith(
                         fontSize: 20, fontWeight: FontWeight.normal),
                   ),
@@ -216,7 +99,7 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
               flex: 8,
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: selectedProduct.isEmpty
+                child: widget.order.orderDetails.isEmpty
                     ? Text('Empty Order')
                     : makeOrderCard(),
               ),
@@ -225,7 +108,7 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
         ),
       ),
       bottomNavigationBar: Container(
-        height: 95,
+        height: 300,
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: <BoxShadow>[
@@ -236,198 +119,138 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
           ],
         ),
         padding: EdgeInsets.symmetric(horizontal: 40),
-        child: Row(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Expanded(
-              child: RoundedButton(
-                color: kPrimaryLightColor,
-                title: 'ORDER',
-                onPress: () {
-                  print('Clicked');
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class RoundedButton extends StatelessWidget {
-  final Function onPress;
-  final String title;
-  final Color color;
-
-  RoundedButton({this.color, this.onPress, this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onPress,
-      child: Text(title),
-      style: ButtonStyle(
-        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-        ),
-        backgroundColor: MaterialStateProperty.resolveWith<Color>(
-          (Set<MaterialState> states) {
-            if (states.contains(MaterialState.pressed)) return color;
-            return color; // Use the component's default.
-          },
-        ),
-      ),
-    );
-  }
-}
-
-class OrderCard extends StatelessWidget {
-  OrderCard(
-      {this.title,
-      this.img,
-      this.description,
-      this.price,
-      this.amount,
-      this.setAmount});
-
-  final String title;
-  final String img;
-  final String price;
-  final String description;
-  final int amount;
-  final Function setAmount;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        child: Container(
-          child: Padding(
-            padding: const EdgeInsets.only(right: 20, left: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Expanded(
-                  flex: 4,
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10.0),
-                      child: Image.asset(
-                        'assets/images/$img.jpg',
-                      ),
-                    ),
+                Container(
+                  child: ToggleSwitch(
+                    minWidth: 100.0,
+                    minHeight: 50,
+                    initialLabelIndex: initialIndex,
+                    cornerRadius: 30.0,
+                    fontSize: 15,
+                    activeFgColor: Colors.white,
+                    inactiveBgColor: Color(0xFF61656D),
+                    inactiveFgColor: Colors.white,
+                    labels: ['Member', 'Normal'],
+                    activeBgColors: [kPrimaryLightColor, kPrimaryLightColor],
+                    onToggle: (index) {
+                      print('switched to: $index');
+                      setState(() {
+                        initialIndex = index;
+                        isMember = index == 1;
+                      });
+                    },
                   ),
                 ),
+              ],
+            ),
+            Row(
+              children: [
                 Expanded(
-                  flex: 6,
+                  flex: 8,
+                  child: Container(
+                    child: TextField(
+                      keyboardType: TextInputType.number,
+                      textAlign: TextAlign.center,
+                      onChanged: (value) {},
+                      // controller: TextEditingController()
+                      //   ..text = amount.toString(),
+                      decoration: kTextFieldDecoration.copyWith(
+                        hintText: 'Customer\'s Phone no.',
+                      ),
+                    ),
+                    height: 40,
+                  ),
+                ),
+                SizedBox(
+                  width: 15,
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Container(
+                    child: Icon(
+                      Icons.check,
+                      color: Colors.white,
+                      size: 24.0,
+                    ),
+                    decoration: BoxDecoration(
+                        color: kPrimaryLightColor,
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    height: 40,
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Text('Kodchapong Dechboonyapichart'),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    child: isMember
+                        ? Container(
+                            child: Icon(
+                              Icons.lock,
+                              color: Colors.white,
+                              size: 24.0,
+                            ),
+                            decoration: BoxDecoration(
+                                color: Color(0xFFB7B7B7),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10))),
+                            height: 40,
+                          ):TextField(
+                            keyboardType: TextInputType.number,
+                            textAlign: TextAlign.center,
+                            onChanged: (value) {},
+                            // controller: TextEditingController()
+                            //   ..text = amount.toString(),
+                            decoration: kTextFieldDecoration.copyWith(
+                              hintText: 'Discount(%)',
+                            ),
+                          ),
+                    height: 40,
+                  ),
+                ),
+                SizedBox(
+                  width: 15,
+                ),
+                Expanded(
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        title,
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        'Total Price',
                       ),
-                      SizedBox(
-                        height: 10,
+                      Text(
+                        '${getTotalPrice()} Baht',
+                        style: TextStyle(
+                            color: Colors.red, fontWeight: FontWeight.bold),
                       ),
-                      Container(
-                        child: Container(
-                          alignment: Alignment.topLeft,
-                          width: 200,
-                          child: Text(
-                            description,
-                          ),
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('$price Baht'),
-                          Container(
-                            child: TextField(
-                              keyboardType: TextInputType.number,
-                              textAlign: TextAlign.center,
-                              onChanged: (value) {
-                                setAmount(int.parse(value));
-                              },
-                              controller: TextEditingController()..text = amount.toString(),
-                              decoration: kTextFieldDecoration.copyWith(
-                                hintText: 'amount',
-                              ),
-                            ),
-                            width: 100,
-                            height: 40,
-                          ),
-                        ],
-                      )
                     ],
                   ),
                 ),
               ],
             ),
-          ),
-          height: 150,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ),
-        decoration: DottedDecoration(
-          shape: Shape.box,
-          color: Color(0xFFB3ABBC),
-          borderRadius: BorderRadius.circular(10),
-        ),
-      ),
-    );
-  }
-}
-
-class ProductBox extends StatelessWidget {
-  ProductBox({this.img, this.title, this.isFilled, this.onPress});
-  final String img;
-  final String title;
-  final bool isFilled;
-  final Function onPress;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(5),
-      child: GestureDetector(
-        child: Container(
-          child: Container(
-            padding: EdgeInsets.all(8),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+            Row(
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10.0),
-                  child: Image.asset(
-                    'assets/images/$img.jpg',
-                    width: 100,
+                Expanded(
+                  child: RoundedButton(
+                    color: kPrimaryLightColor,
+                    title: 'ORDER',
+                    onPress: () {},
                   ),
                 ),
-                Text(title),
               ],
             ),
-            height: 150,
-            decoration: BoxDecoration(
-              color: isFilled ? Color(0xFFDDDDDD) : null,
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-          decoration: DottedDecoration(
-            shape: Shape.box,
-            color: Color(0xFFB3ABBC),
-            borderRadius:
-                BorderRadius.circular(10), //remove this to get plane rectange
-          ),
+          ],
         ),
-        onTap: onPress,
       ),
     );
   }

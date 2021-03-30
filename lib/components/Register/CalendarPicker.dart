@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class CalendarPicker extends StatefulWidget {
-  CalendarPicker({Key key, this.title, this.color}) : super(key: key);
+  CalendarPicker({Key key, this.title, this.color, this.onPickDate})
+      : super(key: key);
 
   String title;
   final Color color;
+  Function onPickDate;
 
   @override
   _CalendarPickerState createState() => _CalendarPickerState();
@@ -17,12 +20,13 @@ class _CalendarPickerState extends State<CalendarPicker> {
     final DateTime picked = await showDatePicker(
       context: context,
       initialDate: selectedDate,
-      firstDate: DateTime(2015, 8),
+      firstDate: DateTime(1000, 8),
       lastDate: DateTime(2101),
     );
-    if (picked != null && picked != selectedDate)
+    if (picked != null || picked != selectedDate)
       setState(() {
         selectedDate = picked;
+        widget.onPickDate(selectedDate);
       });
   }
 

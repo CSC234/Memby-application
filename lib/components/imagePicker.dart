@@ -5,12 +5,9 @@ import 'package:memby/screens/homeScreen.dart';
 
 class UserImagePicker extends StatefulWidget {
   final Function press;
-   final File pickedImage;
-  const UserImagePicker({
-    Key key,
-    this.press,
-    this.pickedImage
-  }) : super(key: key);
+  final File pickedImage;
+  const UserImagePicker({Key key, this.press, this.pickedImage})
+      : super(key: key);
   @override
   _UserImagePickerState createState() => _UserImagePickerState();
 }
@@ -42,8 +39,9 @@ class _UserImagePickerState extends State<UserImagePicker> {
             child: CircleAvatar(
               radius: 40,
               backgroundColor: Colors.grey.withOpacity(.5),
-              backgroundImage:
-                  widget.pickedImage != null ? FileImage(widget.pickedImage) : null,
+              backgroundImage: widget.pickedImage != null
+                  ? FileImage(widget.pickedImage)
+                  : null,
             ),
           ),
         ),

@@ -4,6 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:path/path.dart';
+
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class FlutterFireAuthService {
   final FirebaseAuth _firebaseAuth;
@@ -36,6 +40,23 @@ class FlutterFireAuthService {
     await productCollection.add(product).catchError((e) {
       print(e.toString());
     });
+  }
+
+  Future<dynamic> _getUserInfo() async {
+    try {
+      final user = _firebaseAuth.currentUser;
+      final userId = user.uid;
+      dynamic userInfo;
+      userInfo = await _firestore.collection("company").doc(userId).get();
+      return userInfo;
+    } catch (err) {
+      print('Caught error: $err');
+      return {'name': 'Error', 'logo': 'Error'};
+    }
+  }
+
+  getUserInfo() async {
+    return await _getUserInfo();
   }
 
   Future<void> addCustomer(
@@ -133,4 +154,42 @@ class FlutterFireAuthService {
       return e.message;
     }
   }
+
+  Future<String> uploadImageToFirebase(img) async {
+    final String userId = _firebaseAuth.currentUser.uid;
+    // String fileName = userId + DateTime.now().toString();
+
+    String fileName = userId + DateTime.now().microsecond.toString();
+    Reference firebaseStorageRef =
+        FirebaseStorage.instance.ref().child('products/$fileName');
+    UploadTask uploadTask = firebaseStorageRef.putFile(img);
+    String url;
+    await uploadTask.whenComplete(() async {
+      url = await uploadTask.snapshot.ref.getDownloadURL();
+    }).catchError((onError) {
+      print(onError);
+    });
+    return url;
+  }
+
+  Future<void> removeImageFromFirebase(imgUrl) async {
+    print(imgUrl);
+    // FirebaseStorage.instance.ref(imgUrl).delete().
+    FirebaseStorage.instance.refFromURL(imgUrl).delete().then((_) {
+      print('Remove Img Successfully');
+    }).catchError((e) {
+      print("Remove Img Error: $e");
+    });
+  }
 }
+
+  // Future uploadImageToFirebase(BuildContext context) async {
+  //   String fileName = basename(_image.path);
+  //   StorageReference firebaseStorageRef =
+  //       FirebaseStorage.instance.ref().child('uploads/$fileName');
+  //   StorageUploadTask uploadTask = firebaseStorageRef.putFile(_imageFile);
+  //   StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+  //   taskSnapshot.ref.getDownloadURL().then(
+  //         (value) => print("Done: $value"),
+  //       );
+  // }

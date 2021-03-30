@@ -1,12 +1,15 @@
+import 'package:memby/firebase.dart';
 import 'package:flutter/material.dart';
-import 'package:memby/components/TextBox.dart';
-import 'package:memby/components/DatePicker.dart';
+import 'package:provider/provider.dart';
+import 'package:memby/components/Register/TextBox.dart';
+import 'package:memby/components/Register/CalendarPicker.dart';
+import 'package:memby/components/Register/GenderPicker.dart';
+import 'package:memby/components/Register/AcknowlwdgementBox.dart';
 
 const grey = const Color(0xFF5A5A5A);
 const lightGrey = const Color(0xFFEAEAEA);
 const fontColor = const Color(0xFFB7B7B7);
 const themeBlue = const Color(0xFF6E7CE4);
-bool isCheck = false;
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -43,10 +46,27 @@ class _FormBoxesState extends State<FormBoxes> {
   final lastnameController = TextEditingController();
   final emailController = TextEditingController();
   final phoneNumberController = TextEditingController();
-  final birthdateController = TextEditingController();
-  final genderController = TextEditingController();
   final addressController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  DateTime selectedDate = DateTime.now();
+  String defaultGender = "Gender";
+  bool defaultCheckState = false;
+
+  void changeDate(date) {
+    selectedDate = date;
+  }
+
+  void changeGender(newGender) {
+    setState(() {
+      defaultGender = newGender;
+    });
+  }
+
+  void handleCheckState(checkState) {
+    setState(() {
+      defaultCheckState = checkState;
+    });
+  }
 
   @override
   void initState() {
@@ -60,8 +80,6 @@ class _FormBoxesState extends State<FormBoxes> {
     lastnameController.dispose();
     emailController.dispose();
     phoneNumberController.dispose();
-    birthdateController.dispose();
-    genderController.dispose();
     addressController.dispose();
     super.dispose();
   }
@@ -127,54 +145,43 @@ class _FormBoxesState extends State<FormBoxes> {
                     formColor: lightGrey,
                     textColor: fontColor,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: height * (5 / 100),
-                        width: width * (37.5 / 100),
-                        child: CalendarPicker(
-                            title: "Birthdate", color: themeBlue),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Container(
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 15.0),
-                            child: DropdownButtonHideUnderline(
-                              child: new DropdownButton<String>(
-                                items: <String>[
-                                  'Male',
-                                  'Female',
-                                  'Other',
-                                  'Prefer not to Say'
-                                ].map((String value) {
-                                  return new DropdownMenuItem<String>(
-                                    value: value,
-                                    child: new Text(value),
-                                  );
-                                }).toList(),
-                                onChanged: (_) {},
-                                hint: Text("Gender"),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: width * (37.5 / 100),
+                          child: CalendarPicker(
+                            title: "Birthdate",
+                            color: themeBlue,
+                            onPickDate: changeDate,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20.0),
+                          child: Container(
+                            height: height * (5 / 100),
+                            width: width * (37.5 / 100),
+                            child: GenderPicker(
+                              gender: defaultGender,
+                              onSelectGender: changeGender,
+                            ),
+                            decoration: ShapeDecoration(
+                              color: lightGrey,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                    width: 1.0,
+                                    style: BorderStyle.solid,
+                                    color: lightGrey),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10.0)),
                               ),
                             ),
                           ),
-                          height: height * (5 / 100),
-                          width: width * (40 / 100),
-                          decoration: ShapeDecoration(
-                            color: lightGrey,
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                  width: 1.0,
-                                  style: BorderStyle.solid,
-                                  color: lightGrey),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10.0)),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                        )
+                      ],
+                    ),
                   ),
                   TextBox(
                     text: "Address",
@@ -186,21 +193,15 @@ class _FormBoxesState extends State<FormBoxes> {
                     minLine: 4,
                     maxLine: 5,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CheckBoxState(),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: Container(
-                          child: Text(
-                              'I ACKNOWLEDGE AND CONFIRM THAT I HAVE READ,'
-                              'UNDERSTAND AND ACCEPT THE ABOVE TERMS AND CONDITIONS.',
-                              style: TextStyle(fontSize: 11)),
-                          width: width * (75 / 100),
-                        ),
-                      )
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Container(
+                      height: height * (5 / 100),
+                      width: width * (90 / 100),
+                      child: AcknowledgementBox(
+                          isCheck: defaultCheckState,
+                          currentCheckState: handleCheckState),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
@@ -215,10 +216,21 @@ class _FormBoxesState extends State<FormBoxes> {
                               borderRadius: new BorderRadius.circular(30.0),
                             ),
                             padding: EdgeInsets.all(12.5)),
-                        onPressed: () {
-                          if (_formKey.currentState.validate() && isCheck) {
+                        onPressed: () async {
+                          if (_formKey.currentState.validate() &&
+                              defaultCheckState == true) {
+                            context.read<FlutterFireAuthService>().addCustomer(
+                                firstnameController.text,
+                                lastnameController.text,
+                                emailController.text,
+                                phoneNumberController.text,
+                                selectedDate,
+                                defaultGender,
+                                addressController.text);
+
                             return Navigator.of(context).pop();
-                          } else if (isCheck == false) {
+                          }
+                          if (defaultCheckState == false) {
                             return;
                           }
                         },
@@ -235,29 +247,5 @@ class _FormBoxesState extends State<FormBoxes> {
         ),
       ),
     ));
-  }
-}
-
-class CheckBoxState extends StatefulWidget {
-  @override
-  _CheckBoxStateState createState() => _CheckBoxStateState();
-}
-
-class _CheckBoxStateState extends State<CheckBoxState> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Checkbox(
-        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        value: isCheck,
-        onChanged: (bool value) {
-          setState(
-            () {
-              isCheck = value;
-            },
-          );
-        },
-      ),
-    );
   }
 }

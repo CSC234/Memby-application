@@ -5,7 +5,7 @@ import 'package:dotted_decoration/dotted_decoration.dart';
 import 'package:memby/constants.dart';
 
 class ProductList extends StatelessWidget {
-  final File picture;
+  final String picture;
   final String product;
   final String description;
   final int price;
@@ -33,21 +33,24 @@ class ProductList extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Container(
-                  height: 70,
-                  width: 70,
-                  // padding: EdgeInsets.all(20),
-                  child: CircleAvatar(
-                    radius: 10,
-                    backgroundColor: Colors.grey.withOpacity(.5),
-                    backgroundImage:
-                        picture != null ? FileImage(picture) : null,
-                        
-                  ),
-                  // Image.asset(
-                  //   'assets/images/product1.jpg',
-                  //   width: 70,
-                  // ),
-                ),
+                    height: 70,
+                    width: 70,
+                    // padding: EdgeInsets.all(20),
+                    child: picture != null
+                        ? CircleAvatar(
+                            radius: 10,
+                            backgroundImage: NetworkImage(this.picture),
+                          )
+                        : CircleAvatar(
+                            radius: 10,
+                            backgroundColor: Colors.grey.withOpacity(.5),
+                          )
+
+                    // Image.asset(
+                    //   'assets/images/product1.jpg',
+                    //   width: 70,
+                    // ),
+                    ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,

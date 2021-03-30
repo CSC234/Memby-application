@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:validators/validators.dart';
 import 'package:email_validator/email_validator.dart';
 
 class TextBox extends StatefulWidget {
@@ -29,7 +28,6 @@ class TextBox extends StatefulWidget {
   final int minLine;
   final int maxLine;
   final bool emailValidator;
-  final _formKey = GlobalKey<FormState>();
 
   @override
   _TextBoxState createState() => _TextBoxState();
@@ -56,7 +54,6 @@ class _TextBoxState extends State<TextBox> {
             fillColor: widget.formColor,
             filled: true,
             border: new OutlineInputBorder(
-                
                 borderRadius: const BorderRadius.all(
               const Radius.circular(10.0),
             )),
@@ -68,9 +65,10 @@ class _TextBoxState extends State<TextBox> {
           ),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'Please enter some text';
+              return 'This field is required';
             }
             if (widget.emailValidator == true) {
+              // ignore: unnecessary_statements
               EmailValidator.validate(value) ? null : "Invalid email";
             }
             return null;
