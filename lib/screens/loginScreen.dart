@@ -70,6 +70,8 @@ class _LoginState extends State<Login> {
     ],
   );
   int initialIndex = 0;
+  bool _passwordVisible = false;
+
   ScrollController _scrollController = ScrollController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -80,6 +82,10 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     String _value;
+    @override
+    void initState() {
+      _passwordVisible = false;
+    }
 
     return Scaffold(
       backgroundColor: kPrimaryColor,
@@ -170,13 +176,12 @@ class _LoginState extends State<Login> {
                   borderRadius: BorderRadius.circular(30),
                 ),
                 child: TextField(
-                  controller: passwordController,
-                  obscureText: true,
+                  obscureText: !_passwordVisible,
                   onChanged: (String value) {
                     setState(() {
-                      // _value = value;
+                      _value = value;
                     });
-                    // widget.onChanged(value);
+                    widget.onChanged(value);
                   },
                   decoration: InputDecoration(
                       hintText: 'Password',
@@ -184,9 +189,18 @@ class _LoginState extends State<Login> {
                         Icons.lock,
                         color: Colors.black54,
                       ),
-                      suffixIcon: Icon(
-                        Icons.visibility,
-                        color: Colors.black54,
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _passwordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          color: Theme.of(context).primaryColorDark,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _passwordVisible = !_passwordVisible;
+                          });
+                        },
                       ),
                       border: InputBorder.none),
                 )),
