@@ -100,51 +100,12 @@ class _AddProductList extends State<AddProductList> {
   void addProductToFireStore() {
     setState(() {
       for (var i = 0; i < product.length; i++) {
-        context.read<FlutterFireAuthService>().addProduct(
-            product[i].description,
-            product[i].product,
-            product[i].price,
-            product[i].picture);
+        context.read<FlutterFireAuthService>().addProduct(product[i].product,
+            product[i].description, product[i].price, product[i].picture);
       }
     });
     // uploadPic(_pickedImage);
   }
-
-  // void _pickImage() async {
-  //   final pickedImageFile = await picker.getImage(source: ImageSource.gallery);
-  //   setState(() {
-  //     if (PickedFile != null) {
-  //       _pickedImage = File(pickedImageFile.path);
-  //       print("filename" + _pickedImage.toString());
-  //     } else {
-  //       print('No image selected');
-  //       return HomeScreen();
-  //     }
-  //   });
-  // }
-
-  // File _pickedImage;
-  // final picker = ImagePicker();
-
-  // Future chooseFile() async {
-  //   await ImagePicker.pickImage(source: ImageSource.gallery).then((image) {
-  //     setState(() {
-  //       _image = image;
-  //     });
-  //   });
-  // }
-
-  // Future<String> uploadPic(File _image1) async {
-  //   FirebaseStorage storage = FirebaseStorage.instance;
-  //   String url;
-  //   Reference ref = storage.ref().child("image1" + DateTime.now().toString());
-  //   UploadTask uploadTask = ref.putFile(_image1);
-
-  //   uploadTask.then((res) {
-  //     String url = res.ref.getDownloadURL().toString();
-  //   });
-  //   return url;
-  // }
 
   @override
   Widget build(BuildContext context) {

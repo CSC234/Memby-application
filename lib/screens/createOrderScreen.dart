@@ -8,44 +8,11 @@ import 'package:memby/components/OrderCard.dart';
 import 'package:memby/components/ProductBox.dart';
 import 'package:memby/screens/confirmOrderScreen.dart';
 
+import 'package:provider/provider.dart';
+import 'package:memby/firebase.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 //Mock up data
-List<Product> Products = [
-  Product(
-      img: 'product1',
-      productName: 'Product 1',
-      description: 'Lorem ipsum, or lipsum as it is sometimes known',
-      price: 100.0,
-      id: '1',
-      isFilled: false),
-  Product(
-      img: 'product1',
-      productName: 'Product 2',
-      description: 'Lorem ipsum, or lipsum as it is sometimes known',
-      price: 200.0,
-      id: '2',
-      isFilled: false),
-  Product(
-      img: 'product1',
-      productName: 'Product 3',
-      description: 'Lorem ipsum, or lipsum as it is sometimes known',
-      price: 300.0,
-      id: '3',
-      isFilled: false),
-  Product(
-      img: 'product1',
-      productName: 'Product 4',
-      description: 'Lorem ipsum, or lipsum as it is sometimes known',
-      price: 400.0,
-      id: '4',
-      isFilled: false),
-  Product(
-      img: 'product1',
-      productName: 'Product 5',
-      description: 'Lorem ipsum, or lipsum as it is sometimes known',
-      price: 500.0,
-      id: '5',
-      isFilled: false),
-];
 
 class CreateOrderScreen extends StatefulWidget {
   @override
@@ -53,6 +20,52 @@ class CreateOrderScreen extends StatefulWidget {
 }
 
 class _CreateOrderScreenState extends State<CreateOrderScreen> {
+  Future _productsData;
+  bool _alreadyLoadProductsFromFirestore = false;
+  List<Product> Products = [
+    // Product(
+    //     img: 'product1',
+    //     productName: 'Product 1',
+    //     description: 'Lorem ipsum, or lipsum as it is sometimes known',
+    //     price: 100.0,
+    //     id: '1',
+    //     isFilled: false),
+    // Product(
+    //     img: 'product1',
+    //     productName: 'Product 2',
+    //     description: 'Lorem ipsum, or lipsum as it is sometimes known',
+    //     price: 200.0,
+    //     id: '2',
+    //     isFilled: false),
+    // Product(
+    //     img: 'product1',
+    //     productName: 'Product 3',
+    //     description: 'Lorem ipsum, or lipsum as it is sometimes known',
+    //     price: 300.0,
+    //     id: '3',
+    //     isFilled: false),
+    // Product(
+    //     img: 'product1',
+    //     productName: 'Product 4',
+    //     description: 'Lorem ipsum, or lipsum as it is sometimes known',
+    //     price: 400.0,
+    //     id: '4',
+    //     isFilled: false),
+    // Product(
+    //     img: 'product1',
+    //     productName: 'Product 5',
+    //     description: 'Lorem ipsum, or lipsum as it is sometimes known',
+    //     price: 500.0,
+    //     id: '5',
+    //     isFilled: false),
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _productsData = context.read<FlutterFireAuthService>().getProducts();
+  }
+
   Order order1 = Order(
     id: '00001',
     orderDetails: [],
@@ -60,6 +73,7 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
 
   ListView makeProductCard() {
     List<ProductBox> productCards = [];
+
     for (int i = 0; i < Products.length; i++) {
       var p = Products[i];
       productCards.add(
@@ -153,7 +167,37 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
             Container(
               margin: EdgeInsets.symmetric(vertical: 20.0),
               height: 170.0,
-              child: makeProductCard(),
+              child: FutureBuilder(
+                  future: _productsData,
+                  builder: (context, snapshot) {
+                    print(snapshot);
+                    print(snapshot.hasData);
+                    if (snapshot.hasData) {
+                      if (!_alreadyLoadProductsFromFirestore) {
+                        final List<DocumentSnapshot> productDocs =
+                            snapshot.data.docs;
+                        print(productDocs);
+
+                        for (int i = 0; i < productDocs.length; i++) {
+                          final pid = productDocs[i].id;
+                          final p = productDocs[i].data();
+                          Products.add(Product(
+                              id: pid,
+                              productName: p['name'],
+                              price: (p['price'].toDouble()),
+                              isFilled: false,
+                              description: p['description'],
+                              img: p['product_img']));
+                        }
+
+                        _alreadyLoadProductsFromFirestore = true;
+                      }
+
+                      return makeProductCard();
+                    } else {
+                      return CircularProgressIndicator();
+                    }
+                  }),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 20),

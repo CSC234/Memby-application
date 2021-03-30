@@ -42,6 +42,28 @@ class FlutterFireAuthService {
     });
   }
 
+  Future<QuerySnapshot> _getProducts() async {
+    try {
+      final user = _firebaseAuth.currentUser;
+      final userId = user.uid;
+      QuerySnapshot products;
+      products = await _firestore
+          .collection("company")
+          .doc(userId)
+          .collection("product")
+          .get();
+      print(products);
+      return products;
+    } catch (err) {
+      print('Caught error: $err');
+      return null;
+    }
+  }
+
+  getProducts() async {
+    return await _getProducts();
+  }
+
   Future<dynamic> _getUserInfo() async {
     try {
       final user = _firebaseAuth.currentUser;
