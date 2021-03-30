@@ -110,7 +110,7 @@ class _BodyState extends State<Body> {
     }
     return ListView(
       padding: EdgeInsets.symmetric(vertical: 0),
-      children:customerHolder,
+      children: customerHolder,
     );
   }
 
@@ -295,7 +295,7 @@ class _BodyState extends State<Body> {
                                                       ],
                                                     ),
                                                   ),
-                                                 PopProduct(),
+                                                  PopProduct(),
                                                   Row(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
@@ -311,7 +311,6 @@ class _BodyState extends State<Body> {
                                                             style: TextStyle(
                                                                 fontSize: 18)),
                                                       ),
-                                                      HandleViewAll(),
                                                     ],
                                                   ),
                                                   Divider(
