@@ -181,7 +181,7 @@ class _BodyState extends State<Body> {
                             children: <Widget>[
                               Positioned(
                                   top: height * (10 / 100),
-                                  left: 30,
+                                  left: 20,
                                   child: Text(
                                     'View DashBoard',
                                     style: TextStyle(
