@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:memby/components/TotalSaleList.dart';
+import 'package:memby/components/topCustomer.dart';
+
 import 'package:dotted_decoration/dotted_decoration.dart';
 
 import '../constants.dart';
@@ -42,6 +44,32 @@ List<TotalSaleList> productList = [
     totalSale: 1554,
   ),
 ];
+List<TopCustomer> popSaleList = [
+  TopCustomer(
+    no: 1,
+    name: 'Best',
+    phoneNo: "095955238",
+    totalPaid: 100,
+  ),
+  TopCustomer(
+    no: 2,
+    name: 'Best',
+    phoneNo: "011928437",
+    totalPaid: 5500,
+  ),
+  TopCustomer(
+    no: 3,
+    name: 'Best',
+    phoneNo: "1234567890",
+    totalPaid: 20,
+  ),
+  TopCustomer(
+    no: 4,
+    name: 'Best',
+    phoneNo: "12345677",
+    totalPaid: 220,
+  ),
+];
 
 class Body extends StatefulWidget {
   @override
@@ -59,6 +87,25 @@ class _BodyState extends State<Body> {
           name: p.name,
           unit: p.unit,
           totalSale: p.totalSale,
+        ),
+      );
+    }
+    return ListView(
+      padding: EdgeInsets.symmetric(vertical: 0),
+      children: productHolder,
+    );
+  }
+
+  ListView makeTopCustomerList() {
+    List<TopCustomer> productHolder = [];
+    for (int i = 0; i < popSaleList.length; i++) {
+      var p = popSaleList[i];
+      productHolder.add(
+        TopCustomer(
+          no: p.no,
+          name: p.name,
+          phoneNo: p.phoneNo,
+          totalPaid: p.totalPaid,
         ),
       );
     }
@@ -314,7 +361,7 @@ class _BodyState extends State<Body> {
                                                         ),
                                                         Container(
                                                           width: width *
-                                                              (38 / 100),
+                                                              (45 / 100),
                                                           child: Row(
                                                             mainAxisAlignment:
                                                                 MainAxisAlignment
@@ -351,7 +398,8 @@ class _BodyState extends State<Body> {
                                                   Container(
                                                     height: height * (21 / 100),
                                                     width: width * (90 / 100),
-                                                    child: makeProductList(),
+                                                    child:
+                                                        makeTopCustomerList(),
                                                   ),
                                                   SizedBox(
                                                     height: 220,
