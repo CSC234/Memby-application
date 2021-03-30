@@ -105,8 +105,8 @@ class _LoginState extends State<Login> {
                   fontFamily: 'Alef-Regular'),
             ),
             Container(
-                padding: EdgeInsets.all(30),
-                height: 280,
+                padding: EdgeInsets.all(10),
+                height: 210,
                 child: Stack(
                   children: <Widget>[
                     Positioned(
@@ -145,7 +145,7 @@ class _LoginState extends State<Login> {
               },
             ),
             SizedBox(
-              height: 20,
+              height: 5,
             ),
             Container(
                 margin: EdgeInsets.symmetric(vertical: 10),
@@ -263,7 +263,7 @@ class _LoginState extends State<Login> {
                 : Container(),
             RoundedButton(
                 color: kPrimaryLightColor,
-                buttonHight: 40,
+                buttonHight: 50,
                 fontsize: 15,
                 buttonSize: 0.4,
                 textColor: Colors.white,
@@ -284,6 +284,38 @@ class _LoginState extends State<Login> {
                         );
                   }
                 }),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: 25,
+                ),
+                Container(
+                  width: 160,
+                  child: Divider(
+                    height: 5,
+                    thickness: 2,
+                    indent: 10,
+                    endIndent: 10,
+                  ),
+                ),
+                Text(
+                  'or',
+                  style: TextStyle(color: Colors.grey[600]),
+                ),
+                Container(
+                  width: 160,
+                  child: Divider(
+                    height: 5,
+                    thickness: 2,
+                    indent: 10,
+                    endIndent: 10,
+                  ),
+                ),
+              ],
+            ),
             SizedBox(
               height: 10,
             ),
