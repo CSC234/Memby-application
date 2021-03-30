@@ -154,16 +154,16 @@ class _ProfileState extends State<Profile> {
       SizedBox(
         height: 10,
       ),
-      IconButton(
-        onPressed: () {
-          context.read<FlutterFireAuthService>().getUserInfo();
-        },
-        icon: Icon(
-          Icons.check,
-          color: Colors.grey[500],
-          size: 30,
-        ),
-      ),
+      // IconButton(
+      //   onPressed: () {
+      //     context.read<FlutterFireAuthService>().getUserInfo();
+      //   },
+      //   icon: Icon(
+      //     Icons.check,
+      //     color: Colors.grey[500],
+      //     size: 30,
+      //   ),
+      // ),
       Main(onPress: () {
         print("Sign Out Pressed");
         context.read<FlutterFireAuthService>().signOut();
