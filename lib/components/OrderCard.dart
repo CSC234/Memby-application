@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:memby/constants.dart';
 import 'package:dotted_decoration/dotted_decoration.dart';
+
 class OrderCard extends StatelessWidget {
   OrderCard(
       {this.title,
@@ -33,11 +34,8 @@ class OrderCard extends StatelessWidget {
                   child: Container(
                     padding: EdgeInsets.all(10),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10.0),
-                      child: Image.asset(
-                        'assets/images/${img}.jpg',
-                      ),
-                    ),
+                        borderRadius: BorderRadius.circular(10.0),
+                        child: Image.network(img)),
                   ),
                 ),
                 Expanded(

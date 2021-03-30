@@ -3,8 +3,8 @@ import 'package:memby/components/Profile/main.dart';
 import 'package:memby/constants.dart';
 
 import 'package:provider/provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:memby/firebase.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -29,7 +29,6 @@ class _ProfileState extends State<Profile> {
 
   Widget build(BuildContext context) {
     final firebaseUser = context.watch<User>();
-    print(firebaseUser.metadata.creationTime);
 
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -154,16 +153,16 @@ class _ProfileState extends State<Profile> {
       SizedBox(
         height: 10,
       ),
-      // IconButton(
-      //   onPressed: () {
-      //     context.read<FlutterFireAuthService>().getUserInfo();
-      //   },
-      //   icon: Icon(
-      //     Icons.check,
-      //     color: Colors.grey[500],
-      //     size: 30,
-      //   ),
-      // ),
+      IconButton(
+        onPressed: () {
+          context.read<FlutterFireAuthService>().getProducts();
+        },
+        icon: Icon(
+          Icons.check,
+          color: Colors.grey[500],
+          size: 30,
+        ),
+      ),
       Main(onPress: () {
         print("Sign Out Pressed");
         context.read<FlutterFireAuthService>().signOut();
