@@ -9,12 +9,14 @@ class Textfield extends StatelessWidget {
   final int min;
   final double width;
   final int max;
-
+  final bool isShow;
   final Icon icon;
-
+  final Function press;
   const Textfield(
       {Key key,
+      this.press,
       this.width,
+      this.isShow,
       this.text,
       this.controller,
       this.colorCircle,
@@ -28,26 +30,32 @@ class Textfield extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: width,
+      margin: EdgeInsets.symmetric(vertical: 15),
+      padding: EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+      width: 350,
+      height: 60,
+      // width: width,
+      decoration: BoxDecoration(
+        color: Colors.black12,
+        borderRadius: BorderRadius.circular(10),
+      ),
       child: Column(children: [
-        TextFormField(
-          // textAlignVertical: TextAlignVertical.top,
-          minLines: min,
-          maxLines: max,
-          keyboardType: TextInputType.multiline,
+        TextField(
           controller: controller,
+          obscureText: !isShow,
           decoration: InputDecoration(
-            labelText: text,
-            border: OutlineInputBorder(
-                borderSide: BorderSide(
-              width: 5,
-              color: Color(0xFFD5D8DE),
-            )),
-          ),
+              hintText: text,
+              suffixIcon: IconButton(
+                icon: Icon(
+                  isShow ? Icons.visibility : Icons.visibility_off,
+                  color: Colors.black54,
+                ),
+                onPressed: () {
+                  press();
+                },
+              ),
+              border: InputBorder.none),
         ),
-        SizedBox(
-          height: 15,
-        )
       ]),
     );
   }
