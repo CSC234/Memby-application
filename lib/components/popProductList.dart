@@ -54,7 +54,7 @@ class PopProductList extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.only(left: 13),
+                          padding: EdgeInsets.only(left: 25),
                           child: Text(
                             "${description}",
                             style: TextStyle(color: kPrimaryFont),
