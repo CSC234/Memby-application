@@ -206,7 +206,8 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10))),
                             height: 40,
-                          ):TextField(
+                          )
+                        : TextField(
                             keyboardType: TextInputType.number,
                             textAlign: TextAlign.center,
                             onChanged: (value) {},
