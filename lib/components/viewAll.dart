@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:memby/components/TotalSaleList.dart';
+import 'package:memby/components/chart.dart';
 import '../constants.dart';
 
 List<TotalSaleList> productList = [
@@ -230,6 +231,22 @@ class _ViewAllState extends State<ViewAll> {
                                                                   fontSize:
                                                                       18)),
                                                         ),
+                                                        Container(
+                                                          child: TextButton(
+                                                            child:
+                                                                Text("Chart"),
+                                                            onPressed: () {
+                                                              Navigator.push(
+                                                                context,
+                                                                new MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          Chart(),
+                                                                ),
+                                                              );
+                                                            },
+                                                          ),
+                                                        ),
                                                         HandleViewAll(),
                                                       ],
                                                     ),
@@ -266,7 +283,7 @@ class _ViewAllState extends State<ViewAll> {
                                                       ),
                                                     ),
                                                     Container(
-                                                      height: height,
+                                                      height: height * 0.2,
                                                       width: width * (90 / 100),
                                                       child: makeProductList(),
                                                     ),

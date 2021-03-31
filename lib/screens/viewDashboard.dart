@@ -153,7 +153,7 @@ class _DashBoardState extends State<DashBoard> {
               context,
               new MaterialPageRoute(
                 builder: (context) => ViewAll(),
-              ));
+              ),);
         },
       );
     } else {
