@@ -21,9 +21,8 @@ class PopProductList extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
 
-    return Padding(
-      padding: const EdgeInsets.all(5),
-      child: GestureDetector(
+    return Container(
+      child: Container(
         child: Container(
           child: Container(
             child: Padding(
@@ -61,22 +60,64 @@ class PopProductList extends StatelessWidget {
                             style: TextStyle(color: kPrimaryFont),
                           ),
                         ),
-                        Container(
-                          padding: EdgeInsets.only(left: 0),
-                          child: Text(
-                            "Unit Sale",
-                            style: TextStyle(color: kPrimaryFont),
-                          ),
+                        SizedBox(
+                          height: 10,
                         ),
                         Container(
-                          padding: EdgeInsets.only(left: 0),
-                          child: Text(
-                            "${unit}",
-                            style: TextStyle(color: kPrimaryFont),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: 35,
+                              ),
+                              Column(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.only(left: 0),
+                                    child: Text(
+                                      "Unit Sale",
+                                      style: TextStyle(color: kPrimaryFont),
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.only(left: 0),
+                                    child: Text(
+                                      "${unit}",
+                                      style: TextStyle(color: kPrimaryFont),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                width: 7.5,
+                              ),
+                              Container(
+                                  height: 35,
+                                  child:
+                                      VerticalDivider(color: Colors.grey[700])),
+                              SizedBox(
+                                width: 7.5,
+                              ),
+                              Column(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.only(left: 0),
+                                    child: Text(
+                                      "Total Sale",
+                                      style: TextStyle(color: kPrimaryFont),
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.only(left: 0),
+                                    child: Text(
+                                      "${totalSale}" + " Baht",
+                                      style: TextStyle(color: kPrimaryFont),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
                           ),
                         ),
-                       
-                        
                       ],
                     ),
                   ),
