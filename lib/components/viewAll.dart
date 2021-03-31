@@ -3,7 +3,7 @@ import 'package:memby/components/TotalSaleList.dart';
 import 'package:memby/components/chart.dart';
 import '../constants.dart';
 
-List<TotalSaleList> productList = [
+List<TotalSaleList> productListDaily = [
   TotalSaleList(
     no: 1,
     name: "Selsun Selenium sulfide1",
@@ -50,8 +50,8 @@ class ViewAll extends StatefulWidget {
 class _ViewAllState extends State<ViewAll> {
   ListView makeProductList() {
     List<TotalSaleList> productHolder = [];
-    for (int i = 0; i < productList.length; i++) {
-      var p = productList[i];
+    for (int i = 0; i < productListDaily.length; i++) {
+      var p = productListDaily[i];
       productHolder.add(
         TotalSaleList(
           no: p.no,
@@ -96,9 +96,9 @@ class _ViewAllState extends State<ViewAll> {
   }
 
   Widget HandleViewAll() {
-    print(productList.length);
+    print(productListDaily.length);
 
-    if (productList.length > 5) {
+    if (productListDaily.length > 5) {
       return TextButton(
         child: Text("view less"),
         onPressed: () {
