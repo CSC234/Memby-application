@@ -8,7 +8,7 @@ List<TotalSaleList> productListDaily = [
     no: 1,
     name: "Selsun Selenium sulfide1",
     unit: 134,
-    totalSale: 1554,
+    totalSale: 1754,
   ),
   TotalSaleList(
     no: 2,
@@ -41,17 +41,84 @@ List<TotalSaleList> productListDaily = [
     totalSale: 1554,
   ),
 ];
-
+List<TotalSaleList> productListYearly = [
+  TotalSaleList(
+    no: 1,
+    name: "Selsun Selenium sulfide1",
+    unit: 1,
+    totalSale: 1,
+  ),
+  TotalSaleList(
+    no: 2,
+    name: "Selsun Selenium sulfide2",
+    unit: 2,
+    totalSale: 2,
+  ),
+  TotalSaleList(
+    no: 3,
+    name: "Selsun Selenium sulfide3",
+    unit: 3,
+    totalSale: 3,
+  ),
+  TotalSaleList(
+    no: 4,
+    name: "Selsun Selenium sulfide3",
+    unit: 4,
+    totalSale: 4,
+  ),
+];
+List<TotalSaleList> productListMonthly = [
+  TotalSaleList(
+    no: 1,
+    name: "Selsun Selenium sulfide1",
+    unit: 1341,
+    totalSale: 1524,
+  ),
+  TotalSaleList(
+    no: 2,
+    name: "Selsun Selenium sulfide2",
+    unit: 244,
+    totalSale: 2554,
+  ),
+  TotalSaleList(
+    no: 3,
+    name: "Selsun Selenium sulfide3",
+    unit: 123244,
+    totalSale: 12554,
+  ),
+];
 class ViewAll extends StatefulWidget {
   @override
   _ViewAllState createState() => _ViewAllState();
 }
 
+List<TotalSaleList> render = [];
+String isRender;
+
 class _ViewAllState extends State<ViewAll> {
   ListView makeProductList() {
+    if (clickDaily == false) {
+      isRender = 'daily';
+    }
+    if (clickMonthly == false) {
+      isRender = 'monthly';
+    }
+    if (clickYearly == false) {
+      isRender = 'yearly';
+    }
+
     List<TotalSaleList> productHolder = [];
-    for (int i = 0; i < productListDaily.length; i++) {
-      var p = productListDaily[i];
+    if (clickDaily == false) {
+      render = productListDaily;
+    }
+    if (clickMonthly == false) {
+      render = productListMonthly;
+    }
+    if (clickYearly == false) {
+      render = productListYearly;
+    }
+    for (int i = 0; i < render.length; i++) {
+      var p = render[i];
       productHolder.add(
         TotalSaleList(
           no: p.no,
