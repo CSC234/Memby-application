@@ -103,6 +103,7 @@ class _AddProductList extends State<AddProductList> {
         context.read<FlutterFireAuthService>().addProduct(product[i].product,
             product[i].description, product[i].price, product[i].picture);
       }
+  
     });
     // uploadPic(_pickedImage);
   }

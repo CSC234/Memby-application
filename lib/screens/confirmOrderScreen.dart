@@ -7,6 +7,10 @@ import 'package:memby/components/RoundedButton.dart';
 import 'package:memby/components/OrderCard.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
+import 'package:provider/provider.dart';
+import 'package:memby/firebase.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class ConfirmOrderScreen extends StatefulWidget {
   final Order order;
   ConfirmOrderScreen({this.order});
@@ -245,7 +249,22 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                   child: RoundedButton(
                     color: kPrimaryLightColor,
                     title: 'ORDER',
-                    onPress: () {},
+                    onPress: () {
+                      final customerPhone = '77797777977';
+                      final discountRate = 0.95;
+                      final totalPrice = getTotalPrice();
+                      final orderDetails = widget.order.orderDetails;
+                      dynamic _productList = {};
+                      orderDetails.forEach((item) {
+                        String productId = item.product.id;
+                        _productList[productId] = item.amount;
+                        print(_productList);
+                      });
+                      Map<String, dynamic> productList =
+                          new Map<String, dynamic>.from(_productList);
+                      context.read<FlutterFireAuthService>().addOrder(
+                          customerPhone, discountRate, totalPrice, productList);
+                    },
                   ),
                 ),
               ],

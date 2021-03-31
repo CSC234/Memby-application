@@ -134,13 +134,10 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
               child: FutureBuilder(
                   future: _productsData,
                   builder: (context, snapshot) {
-                    print(snapshot);
-                    print(snapshot.hasData);
                     if (snapshot.hasData) {
                       if (!_alreadyLoadProductsFromFirestore) {
                         final List<DocumentSnapshot> productDocs =
                             snapshot.data.docs;
-                        print(productDocs);
 
                         for (int i = 0; i < productDocs.length; i++) {
                           final pid = productDocs[i].id;
