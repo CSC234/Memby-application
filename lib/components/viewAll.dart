@@ -87,6 +87,7 @@ List<TotalSaleList> productListMonthly = [
     totalSale: 12554,
   ),
 ];
+
 class ViewAll extends StatefulWidget {
   @override
   _ViewAllState createState() => _ViewAllState();
@@ -192,7 +193,7 @@ class _ViewAllState extends State<ViewAll> {
                 child: Stack(
                   children: <Widget>[
                     Positioned(
-                      height: height * (30 / 100),
+                      height: height * (60 / 100),
                       child: SizedBox(
                           width: width,
                           height: 350,
@@ -298,22 +299,6 @@ class _ViewAllState extends State<ViewAll> {
                                                                   fontSize:
                                                                       18)),
                                                         ),
-                                                        Container(
-                                                          child: TextButton(
-                                                            child:
-                                                                Text("Chart"),
-                                                            onPressed: () {
-                                                              Navigator.push(
-                                                                context,
-                                                                new MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) =>
-                                                                          Chart(),
-                                                                ),
-                                                              );
-                                                            },
-                                                          ),
-                                                        ),
                                                         HandleViewAll(),
                                                       ],
                                                     ),
@@ -350,10 +335,29 @@ class _ViewAllState extends State<ViewAll> {
                                                       ),
                                                     ),
                                                     Container(
-                                                      height: height * 0.2,
+                                                      height: height * 0.25,
                                                       width: width * (90 / 100),
                                                       child: makeProductList(),
                                                     ),
+                                                    SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    Row(children: [
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                vertical: 13.0),
+                                                        child: Text(
+                                                            "Total Sale",
+                                                            style: TextStyle(
+                                                                fontSize: 18)),
+                                                      ),
+                                                    ]),
+                                                    Chart(),
+                                                    SizedBox(
+                                                      height: 60,
+                                                    )
                                                   ],
                                                 ),
                                               ),

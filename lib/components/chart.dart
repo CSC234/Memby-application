@@ -12,18 +12,18 @@ class _ChartState extends State<Chart> {
   static List<charts.Series<Sales, String>> _createRandomData() {
     final random = Random();
     final unit = [
-      Sales('2020', random.nextInt(1000)),
-      Sales('2019', random.nextInt(1000)),
-      Sales('2018', random.nextInt(1000)),
-      Sales('2017', random.nextInt(1000)),
-      Sales('2016', random.nextInt(1000)),
+      Sales('Salson1', random.nextInt(1000)),
+      Sales('Salson2', random.nextInt(1000)),
+      Sales('Salson3', random.nextInt(1000)),
+      Sales('Salson4', random.nextInt(1000)),
+      Sales('Salson5', random.nextInt(1000)),
     ];
     final totalSale = [
-      Sales('2020', random.nextInt(1000)),
-      Sales('2019', random.nextInt(1000)),
-      Sales('2018', random.nextInt(1000)),
-      Sales('2017', random.nextInt(1000)),
-      Sales('2016', random.nextInt(1000)),
+      Sales('Salson1', random.nextInt(1000)),
+      Sales('Salson2', random.nextInt(1000)),
+      Sales('Salson3', random.nextInt(1000)),
+      Sales('Salson4', random.nextInt(1000)),
+      Sales('Salson5', random.nextInt(1000)),
     ];
     return [
       charts.Series<Sales, String>(
@@ -59,13 +59,13 @@ class _ChartState extends State<Chart> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    return Scaffold(
-      body: SingleChildScrollView(
+    return Container(
+      child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
-              height: height * 0.7,
-              padding: EdgeInsets.only(top: 100, left: 20, right: 20),
+              height: height * 0.4,
+              padding: EdgeInsets.only(top: 0, left: 20, right: 20),
               child: barChart(),
             ),
             Container(
