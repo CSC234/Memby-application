@@ -21,7 +21,7 @@ class _CalendarPickerState extends State<CalendarPicker> {
       context: context,
       initialDate: selectedDate,
       firstDate: DateTime(1000, 8),
-      lastDate: DateTime(2101),
+      lastDate: DateTime.now(),
     );
     if (picked != null && picked != selectedDate)
       setState(() {

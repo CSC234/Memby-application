@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:email_validator/email_validator.dart';
 
 class TextBox extends StatefulWidget {
   TextBox(
@@ -76,7 +75,7 @@ class _TextBoxState extends State<TextBox> {
             }
             if (widget.emailValidator == true) {
               // ignore: unnecessary_statements
-              if (!value.contains("@")) {
+              if (!(value.contains("@") && value.contains("."))) {
                 return "Please enter a valid email address";
               }
             }

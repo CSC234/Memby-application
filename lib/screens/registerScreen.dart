@@ -1,11 +1,12 @@
 import 'package:memby/firebase.dart';
 import 'package:flutter/material.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:memby/components/Register/TextBox.dart';
 import 'package:memby/components/Register/CalendarPicker.dart';
 import 'package:memby/components/Register/GenderPicker.dart';
 import 'package:memby/components/Register/AcknowlwdgementBox.dart';
-import 'package:memby/components/Register/showDialogBox.dart';
+// import 'package:memby/components/Register/showDialogBox.dart';
 
 const grey = const Color(0xFF5A5A5A);
 const lightGrey = const Color(0xFFEAEAEA);
@@ -57,7 +58,7 @@ class _FormBoxesState extends State<FormBoxes> {
   final _formKey = GlobalKey<FormState>();
   final String dateToday = DateTime.now().toString().split(" ")[0];
   DateTime selectedDate = DateTime.now();
-  String defaultGender = "Gender";
+  String defaultGender = "Sex";
   bool defaultCheckState = false;
 
   String changeDate(date) {
@@ -166,17 +167,23 @@ class _FormBoxesState extends State<FormBoxes> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Container(
-                          width: width * (37.5 / 100),
-                          child: CalendarPicker(
-                            title: selectedDate.toString().split(" ")[0] ==
-                                    DateTime.now().toString().split(" ")[0]
-                                ? "Birthdate"
-                                : selectedDate.toString().split(" ")[0]
-                            // changeDate(selectedDate)
-                            ,
-                            color: themeBlue,
-                            onPickDate: changeDate,
+                        Theme(
+                          data: ThemeData(
+                            primaryColor: Colors.indigoAccent,
+                            primarySwatch: Colors.indigo,
+                          ),
+                          child: Container(
+                            width: width * (37.5 / 100),
+                            child: CalendarPicker(
+                              title: selectedDate.toString().split(" ")[0] ==
+                                      DateTime.now().toString().split(" ")[0]
+                                  ? "Birthdate"
+                                  : selectedDate.toString().split(" ")[0]
+                              // changeDate(selectedDate)
+                              ,
+                              color: themeBlue,
+                              onPickDate: changeDate,
+                            ),
                           ),
                         ),
                         Padding(
@@ -211,19 +218,20 @@ class _FormBoxesState extends State<FormBoxes> {
                     keyboardType: TextInputType.multiline,
                     formColor: lightGrey,
                     textColor: fontColor,
+                    require: true,
                     minLine: 4,
                     maxLine: 5,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: Container(
-                      height: height * (5 / 100),
-                      width: width * (90 / 100),
-                      child: AcknowledgementBox(
-                          isCheck: defaultCheckState,
-                          currentCheckState: handleCheckState),
-                    ),
-                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(vertical: 10),
+                  //   child: Container(
+                  //     height: height * (5 / 100),
+                  //     width: width * (80 / 100),
+                  //     child: AcknowledgementBox(
+                  //         isCheck: defaultCheckState,
+                  //         currentCheckState: handleCheckState),
+                  //   ),
+                  // ),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Container(
@@ -234,20 +242,11 @@ class _FormBoxesState extends State<FormBoxes> {
                             textStyle: TextStyle(fontSize: 24),
                             primary: themeBlue,
                             shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(30.0),
+                              borderRadius: new BorderRadius.circular(10.0),
                             ),
                             padding: EdgeInsets.all(12.5)),
                         onPressed: () {
-                          if (defaultCheckState == false) {
-                            // return ShowDialogBox(
-                            //   title: "Attention!",
-                            //   content:
-                            //       "Please accept our terms and conditions!",
-                            //   confirmButton: "Accept",
-                            // );
-                          }
-                          if (_formKey.currentState.validate() &&
-                              defaultCheckState == true) {
+                          if (_formKey.currentState.validate()) {
                             context.read<FlutterFireAuthService>().addCustomer(
                                 firstnameController.text,
                                 lastnameController.text,
@@ -256,6 +255,34 @@ class _FormBoxesState extends State<FormBoxes> {
                                 selectedDate,
                                 defaultGender,
                                 addressController.text);
+                            showOverlayNotification(
+                              (context) {
+                                return Card(
+                                  margin:
+                                      const EdgeInsets.symmetric(horizontal: 4),
+                                  child: SafeArea(
+                                    child: ListTile(
+                                      leading: SizedBox.fromSize(
+                                          size: const Size(40, 40),
+                                          child: ClipOval(
+                                              child: Container(
+                                            color: themeBlue,
+                                          ))),
+                                      title: Text('Memby'),
+                                      subtitle: Text(
+                                          'Registered Customer Successfully!'),
+                                      trailing: IconButton(
+                                          icon: Icon(Icons.close),
+                                          onPressed: () {
+                                            OverlaySupportEntry.of(context)
+                                                .dismiss();
+                                          }),
+                                    ),
+                                  ),
+                                );
+                              },
+                              duration: Duration(milliseconds: 4000),
+                            );
                             return Navigator.of(context).pop();
                           }
                         },

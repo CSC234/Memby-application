@@ -26,7 +26,7 @@ class _GenderPickerState extends State<GenderPicker> {
               widget.gender,
             ),
           ),
-          items: <String>['Female', 'Male', 'Others'].map((String value) {
+          items: <String>['Female', 'Male'].map((String value) {
             return new DropdownMenuItem<String>(
               value: value,
               child: new Text(value),

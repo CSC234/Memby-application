@@ -27,25 +27,28 @@ class _AcknowledgementBoxState extends State<AcknowledgementBox> {
 
     return Container(
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           CheckBoxState(
             isCheck: widget.isCheck,
             currentCheckState: widget.currentCheckState,
           ),
           Container(
-            width: width * (78 / 100),
+            alignment: Alignment.centerLeft,
+            width: width * (74 / 100),
             child: ElevatedButton(
               child: Text(
-                'I acknowledge and confirm that I have read, understand and accept the Terms and Conditions.',
+                'I argee to the Memby Software and Services Agreement',
                 style: TextStyle(
-                  fontSize: 11,
-                  color: Colors.blue[600],
+                  fontSize: 11.6,
+                  color: Colors.grey[600],
                   // decoration: TextDecoration.underline,
                 ),
               ),
               style: ElevatedButton.styleFrom(
-                  primary: Colors.transparent, shadowColor: Colors.transparent),
+                  padding: EdgeInsets.only(left: 5),
+                  primary: Colors.transparent,
+                  shadowColor: Colors.transparent),
               onPressed: () => launcher.launch(url),
             ),
           )

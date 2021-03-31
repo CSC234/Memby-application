@@ -15,6 +15,9 @@ class _CheckBoxStateState extends State<CheckBoxState> {
   @override
   Widget build(BuildContext context) {
     return Container(
+        child: SizedBox(
+      height: 24,
+      width: 24,
       child: Checkbox(
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         value: widget.isCheck,
@@ -27,6 +30,6 @@ class _CheckBoxStateState extends State<CheckBoxState> {
           );
         },
       ),
-    );
+    ));
   }
 }

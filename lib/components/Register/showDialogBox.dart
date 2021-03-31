@@ -32,8 +32,6 @@ class _ShowDialogBoxState extends State<ShowDialogBox> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: _showMaterialDialog(),
-    );
+    return (_showMaterialDialog());
   }
 }
