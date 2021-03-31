@@ -5,12 +5,58 @@ import 'package:memby/components/popProduct.dart';
 import 'package:memby/components/viewAll.dart';
 import '../constants.dart';
 
-List<TotalSaleList> productList = [
+List<TotalSaleList> productListYearly = [
+  TotalSaleList(
+    no: 1,
+    name: "Selsun Selenium sulfide1",
+    unit: 1,
+    totalSale: 1,
+  ),
+  TotalSaleList(
+    no: 2,
+    name: "Selsun Selenium sulfide2",
+    unit: 2,
+    totalSale: 2,
+  ),
+  TotalSaleList(
+    no: 3,
+    name: "Selsun Selenium sulfide3",
+    unit: 3,
+    totalSale: 3,
+  ),
+  TotalSaleList(
+    no: 4,
+    name: "Selsun Selenium sulfide3",
+    unit: 4,
+    totalSale: 4,
+  ),
+];
+List<TotalSaleList> productListMonthly = [
+  TotalSaleList(
+    no: 1,
+    name: "Selsun Selenium sulfide1",
+    unit: 1341,
+    totalSale: 153254,
+  ),
+  TotalSaleList(
+    no: 2,
+    name: "Selsun Selenium sulfide2",
+    unit: 244,
+    totalSale: 21554,
+  ),
+  TotalSaleList(
+    no: 3,
+    name: "Selsun Selenium sulfide3",
+    unit: 123244,
+    totalSale: 12554,
+  ),
+];
+List<TotalSaleList> productListDaily = [
   TotalSaleList(
     no: 1,
     name: "Selsun Selenium sulfide1",
     unit: 134,
-    totalSale: 1554,
+    totalSale: 15541,
   ),
   TotalSaleList(
     no: 2,
@@ -34,16 +80,68 @@ List<TotalSaleList> productList = [
     no: 5,
     name: "Selsun Selenium sulfide5",
     unit: 2244,
-    totalSale: 1554,
+    totalSale: 11,
   ),
   TotalSaleList(
     no: 6,
     name: "Selsun Selenium sulfide5",
     unit: 2244,
-    totalSale: 1554,
+    totalSale: 0,
   ),
 ];
-List<TopCustomer> popSaleList = [
+List<TopCustomer> popSaleListYearly = [
+  TopCustomer(
+    no: 1,
+    name: 'katak',
+    phoneNo: "095955238",
+    totalPaid: 123123,
+  ),
+  TopCustomer(
+    no: 2,
+    name: 'katak',
+    phoneNo: "011928437",
+    totalPaid: 55112,
+  ),
+  TopCustomer(
+    no: 3,
+    name: 'katak',
+    phoneNo: "1234567890",
+    totalPaid: 20,
+  ),
+  TopCustomer(
+    no: 4,
+    name: 'katak',
+    phoneNo: "12345677",
+    totalPaid: 2201,
+  ),
+];
+List<TopCustomer> popSaleListMonthly = [
+  TopCustomer(
+    no: 1,
+    name: 'Gun',
+    phoneNo: "095955238",
+    totalPaid: 1002,
+  ),
+  TopCustomer(
+    no: 2,
+    name: 'Gun',
+    phoneNo: "011928437",
+    totalPaid: 55030,
+  ),
+  TopCustomer(
+    no: 3,
+    name: 'Gun',
+    phoneNo: "1234567890",
+    totalPaid: 2110,
+  ),
+  TopCustomer(
+    no: 4,
+    name: 'Gun',
+    phoneNo: "12345677",
+    totalPaid: 2220,
+  ),
+];
+List<TopCustomer> popSaleListDaily = [
   TopCustomer(
     no: 1,
     name: 'Best',
@@ -75,11 +173,33 @@ class DashBoard extends StatefulWidget {
   _DashBoardState createState() => _DashBoardState();
 }
 
+List<TotalSaleList> render = [];
+String isRender;
+
 class _DashBoardState extends State<DashBoard> {
   ListView makeProductList() {
+    if (clickDaily == false) {
+      isRender = 'daily';
+    }
+    if (clickMonthly == false) {
+      isRender = 'monthly';
+    }
+    if (clickYearly == false) {
+      isRender = 'yearly';
+    }
     List<TotalSaleList> productHolder = [];
-    for (int i = 0; i < productList.length; i++) {
-      var p = productList[i];
+    if (clickDaily == false) {
+      render = productListDaily;
+    }
+    if (clickMonthly == false) {
+      render = productListMonthly;
+    }
+    if (clickYearly == false) {
+      render = productListYearly;
+    }
+
+    for (int i = 0; i < render.length; i++) {
+      var p = render[i];
       productHolder.add(
         TotalSaleList(
           no: p.no,
@@ -123,10 +243,21 @@ class _DashBoardState extends State<DashBoard> {
     });
   }
 
+  List<TopCustomer> renderCustomer = [];
   ListView makeTopCustomerList() {
     List<TopCustomer> customerHolder = [];
-    for (int i = 0; i < popSaleList.length; i++) {
-      var p = popSaleList[i];
+
+    if (clickDaily == false) {
+      renderCustomer = popSaleListDaily;
+    }
+    if (clickMonthly == false) {
+      renderCustomer = popSaleListMonthly;
+    }
+    if (clickYearly == false) {
+      renderCustomer = popSaleListYearly;
+    }
+    for (int i = 0; i < renderCustomer.length; i++) {
+      var p = renderCustomer[i];
       customerHolder.add(
         TopCustomer(
           no: p.no,
@@ -143,22 +274,17 @@ class _DashBoardState extends State<DashBoard> {
   }
 
   Widget HandleViewAll() {
-    print(productList.length);
-
-    if (productList.length > 5) {
-      return TextButton(
-        child: Text("view all"),
-        onPressed: () {
-          Navigator.push(
-              context,
-              new MaterialPageRoute(
-                builder: (context) => ViewAll(),
-              ));
-        },
-      );
-    } else {
-      return Text("");
-    }
+    return TextButton(
+      child: Text("view all"),
+      onPressed: () {
+        Navigator.push(
+          context,
+          new MaterialPageRoute(
+            builder: (context) => ViewAll(),
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -344,7 +470,9 @@ class _DashBoardState extends State<DashBoard> {
                                                         ],
                                                       ),
                                                     ),
-                                                    PopProduct(),
+                                                    PopProduct(
+                                                      handleRender: isRender,
+                                                    ),
                                                     Row(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment

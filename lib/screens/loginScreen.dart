@@ -80,8 +80,6 @@ class _LoginState extends State<Login> {
   final TextEditingController bussinessNameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    String _value;
     @override
     void initState() {
       _passwordVisible = false;

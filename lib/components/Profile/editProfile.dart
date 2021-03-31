@@ -3,7 +3,7 @@ import 'package:memby/components/Profile/main.dart';
 import 'package:memby/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
-import 'package:memby/components/Textfield.dart';
+// import 'package:memby/components/Textfield.dart';
 import 'package:memby/components/rounded_button.dart';
 
 class EditProfile extends StatefulWidget {
@@ -138,12 +138,26 @@ class _EditProfile extends State<EditProfile> {
         SizedBox(
           height: 20,
         ),
-        Textfield(
-          // controller: _productnameController,
-          text: 'Company name......',
-          width: 320,
-          min: 1,
-          max: 5,
+        Container(
+            width: width * (80 / 100),
+            child: Column(children: [
+              TextFormField(
+                // textAlignVertical: TextAlignVertical.top,
+                minLines: 1,
+                maxLines: 2,
+                keyboardType: TextInputType.multiline,
+                decoration: InputDecoration(
+                  labelText: 'Your new company name',
+                  border: OutlineInputBorder(
+                      borderSide: BorderSide(
+                    width: 5,
+                    color: Color(0xFFD5D8DE),
+                  )),
+                ),
+              ),
+            ])),
+        SizedBox(
+          height: 20,
         ),
         RoundedButton(
             color: kPrimaryLightColor,
