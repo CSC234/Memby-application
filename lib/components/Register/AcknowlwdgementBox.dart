@@ -39,9 +39,10 @@ class _AcknowledgementBoxState extends State<AcknowledgementBox> {
               child: Text(
                 'I acknowledge and confirm that I have read, understand and accept the Terms and Conditions.',
                 style: TextStyle(
-                    fontSize: 11,
-                    color: Colors.blue[600],
-                    decoration: TextDecoration.underline),
+                  fontSize: 11,
+                  color: Colors.blue[600],
+                  // decoration: TextDecoration.underline,
+                ),
               ),
               style: ElevatedButton.styleFrom(
                   primary: Colors.transparent, shadowColor: Colors.transparent),

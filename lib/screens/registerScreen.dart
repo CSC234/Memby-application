@@ -5,6 +5,7 @@ import 'package:memby/components/Register/TextBox.dart';
 import 'package:memby/components/Register/CalendarPicker.dart';
 import 'package:memby/components/Register/GenderPicker.dart';
 import 'package:memby/components/Register/AcknowlwdgementBox.dart';
+import 'package:memby/components/Register/showDialogBox.dart';
 
 const grey = const Color(0xFF5A5A5A);
 const lightGrey = const Color(0xFFEAEAEA);
@@ -23,8 +24,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 }
 
-class Register extends StatelessWidget {
+class Register extends StatefulWidget {
   const Register({Key key}) : super(key: key);
+
+  @override
+  _RegisterState createState() => _RegisterState();
+}
+
+class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -48,12 +55,16 @@ class _FormBoxesState extends State<FormBoxes> {
   final phoneNumberController = TextEditingController();
   final addressController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  final String dateToday = DateTime.now().toString().split(" ")[0];
   DateTime selectedDate = DateTime.now();
   String defaultGender = "Gender";
   bool defaultCheckState = false;
 
-  void changeDate(date) {
-    selectedDate = date;
+  String changeDate(date) {
+    setState(() {
+      selectedDate = date;
+    });
+    return selectedDate.toString().split(" ")[0];
   }
 
   void changeGender(newGender) {
@@ -119,6 +130,7 @@ class _FormBoxesState extends State<FormBoxes> {
                     keyboardType: TextInputType.name,
                     formColor: lightGrey,
                     textColor: fontColor,
+                    require: true,
                   ),
                   TextBox(
                     text: "Lastname",
@@ -127,6 +139,7 @@ class _FormBoxesState extends State<FormBoxes> {
                     keyboardType: TextInputType.name,
                     formColor: lightGrey,
                     textColor: fontColor,
+                    require: true,
                   ),
                   TextBox(
                     text: "Email",
@@ -136,6 +149,7 @@ class _FormBoxesState extends State<FormBoxes> {
                     formColor: lightGrey,
                     textColor: fontColor,
                     emailValidator: true,
+                    require: false,
                   ),
                   TextBox(
                     text: "Phone Number",
@@ -144,6 +158,8 @@ class _FormBoxesState extends State<FormBoxes> {
                     keyboardType: TextInputType.number,
                     formColor: lightGrey,
                     textColor: fontColor,
+                    require: true,
+                    length: 10,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
@@ -153,7 +169,12 @@ class _FormBoxesState extends State<FormBoxes> {
                         Container(
                           width: width * (37.5 / 100),
                           child: CalendarPicker(
-                            title: "Birthdate",
+                            title: selectedDate.toString().split(" ")[0] ==
+                                    DateTime.now().toString().split(" ")[0]
+                                ? "Birthdate"
+                                : selectedDate.toString().split(" ")[0]
+                            // changeDate(selectedDate)
+                            ,
                             color: themeBlue,
                             onPickDate: changeDate,
                           ),
@@ -216,7 +237,15 @@ class _FormBoxesState extends State<FormBoxes> {
                               borderRadius: new BorderRadius.circular(30.0),
                             ),
                             padding: EdgeInsets.all(12.5)),
-                        onPressed: () async {
+                        onPressed: () {
+                          if (defaultCheckState == false) {
+                            // return ShowDialogBox(
+                            //   title: "Attention!",
+                            //   content:
+                            //       "Please accept our terms and conditions!",
+                            //   confirmButton: "Accept",
+                            // );
+                          }
                           if (_formKey.currentState.validate() &&
                               defaultCheckState == true) {
                             context.read<FlutterFireAuthService>().addCustomer(
@@ -227,11 +256,7 @@ class _FormBoxesState extends State<FormBoxes> {
                                 selectedDate,
                                 defaultGender,
                                 addressController.text);
-
                             return Navigator.of(context).pop();
-                          }
-                          if (defaultCheckState == false) {
-                            return;
                           }
                         },
                       ),

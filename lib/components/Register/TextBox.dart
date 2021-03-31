@@ -14,7 +14,8 @@ class TextBox extends StatefulWidget {
       this.icon,
       this.minLine,
       this.maxLine,
-      this.emailValidator});
+      this.emailValidator,
+      this.length});
 
   final String text;
   final double width;
@@ -22,12 +23,13 @@ class TextBox extends StatefulWidget {
   final TextInputType keyboardType;
   final Color formColor;
   final Color textColor;
-  final TextEditingController input;
   final bool require;
   final Icon icon;
   final int minLine;
   final int maxLine;
   final bool emailValidator;
+  int length;
+  TextEditingController input = TextEditingController();
 
   @override
   _TextBoxState createState() => _TextBoxState();
@@ -42,6 +44,8 @@ class _TextBoxState extends State<TextBox> {
         width: widget.width,
         height: widget.height,
         child: TextFormField(
+          maxLength: widget.length,
+          // ignore: deprecated_member_use
           controller: widget.input,
           keyboardType: widget.keyboardType,
           minLines: widget.minLine,
@@ -54,9 +58,10 @@ class _TextBoxState extends State<TextBox> {
             fillColor: widget.formColor,
             filled: true,
             border: new OutlineInputBorder(
+                borderSide: BorderSide.none,
                 borderRadius: const BorderRadius.all(
-              const Radius.circular(10.0),
-            )),
+                  const Radius.circular(10.0),
+                )),
             focusedBorder: OutlineInputBorder(
               borderSide:
                   const BorderSide(color: Colors.blueAccent, width: 2.0),
@@ -64,12 +69,16 @@ class _TextBoxState extends State<TextBox> {
             ),
           ),
           validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'This field is required';
+            if (widget.require == true) {
+              if (value == null || value.isEmpty) {
+                return 'This field is required';
+              }
             }
             if (widget.emailValidator == true) {
               // ignore: unnecessary_statements
-              EmailValidator.validate(value) ? null : "Invalid email";
+              if (!value.contains("@")) {
+                return "Please enter a valid email address";
+              }
             }
             return null;
           },

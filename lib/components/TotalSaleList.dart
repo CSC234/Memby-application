@@ -17,14 +17,12 @@ class TotalSaleList extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("${no}." + name),
-            Text("${unit}"),
-            Text("${totalSale} baht")
+            Text("$no." + name),
+            Text("$unit"),
+            Text("$totalSale baht")
           ],
         ),
       ),
     );
   }
 }
-
-
