@@ -3,7 +3,7 @@ import 'package:memby/components/Profile/main.dart';
 import 'package:memby/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
-import 'package:memby/components/Textfield.dart';
+import 'package:memby/components/TextFieldPassword.dart';
 import 'package:memby/components/rounded_button.dart';
 
 class ChangePassword extends StatefulWidget {
@@ -11,8 +11,19 @@ class ChangePassword extends StatefulWidget {
   _ChangePassword createState() => _ChangePassword();
 }
 
+bool _ownPasswordVisible = false;
+bool _newPasswordVisible = false;
+bool _confirmNewPasswordVisible = false;
+
 class _ChangePassword extends State<ChangePassword> {
   @override
+  @override
+  void initState() {
+    _ownPasswordVisible = false;
+    _newPasswordVisible = false;
+    _confirmNewPasswordVisible = false;
+  }
+
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -131,6 +142,12 @@ class _ChangePassword extends State<ChangePassword> {
         ),
         Textfield(
           // controller: _productnameController,
+          isShow: _ownPasswordVisible,
+          press: () {
+            setState(() {
+              _ownPasswordVisible = !_ownPasswordVisible;
+            });
+          },
           text: 'Password...',
           width: 320,
           min: 1,
@@ -138,6 +155,12 @@ class _ChangePassword extends State<ChangePassword> {
         ),
         Textfield(
           // controller: _productnameController,
+          isShow: _newPasswordVisible,
+          press: () {
+            setState(() {
+              _newPasswordVisible = !_newPasswordVisible;
+            });
+          },
           text: 'New Password...',
           width: 320,
           min: 1,
@@ -145,6 +168,12 @@ class _ChangePassword extends State<ChangePassword> {
         ),
         Textfield(
           // controller: _productnameController,
+          isShow: _confirmNewPasswordVisible,
+          press: () {
+            setState(() {
+              _confirmNewPasswordVisible = !_confirmNewPasswordVisible;
+            });
+          },
           text: 'Confirm New Password...',
           width: 320,
           min: 1,
