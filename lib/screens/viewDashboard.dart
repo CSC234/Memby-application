@@ -3,7 +3,6 @@ import 'package:memby/components/TotalSaleList.dart';
 import 'package:memby/components/topCustomer.dart';
 import 'package:memby/components/popProduct.dart';
 import 'package:memby/components/viewAll.dart';
-import 'package:memby/screens/landingScreen.dart';
 import '../constants.dart';
 
 List<TotalSaleList> productList = [

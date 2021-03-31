@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../constants.dart';
 import 'package:dotted_decoration/dotted_decoration.dart';
+import '../constants.dart';
 
 class PopProductList extends StatelessWidget {
   PopProductList({
@@ -29,7 +29,6 @@ class PopProductList extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(right: 20, left: 10),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
                     flex: 4,
@@ -42,14 +41,45 @@ class PopProductList extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                    flex: 5,
-                    child: Container(
-                      child: Text("${name}"),
+                    flex: 8,
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(top: 20, bottom: 5),
+                          child: Text(
+                            "${name}",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: kPrimaryFont,
+                                fontSize: 14),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(left: 13),
+                          child: Text(
+                            "${description}",
+                            style: TextStyle(color: kPrimaryFont),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(left: 0),
+                          child: Text(
+                            "Unit Sale",
+                            style: TextStyle(color: kPrimaryFont),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(left: 0),
+                          child: Text(
+                            "${unit}",
+                            style: TextStyle(color: kPrimaryFont),
+                          ),
+                        ),
+                       
+                        
+                      ],
                     ),
                   ),
-                  Container(
-                    child: Text("test"),
-                  )
                 ],
               ),
             ),

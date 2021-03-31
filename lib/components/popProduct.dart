@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import '../constants.dart';
-import 'package:dotted_decoration/dotted_decoration.dart';
 import 'package:memby/components/popProductList.dart';
 
 List<PopProductList> popProduct = [
   PopProductList(
     name: 'Seksun Sekenium sulfide',
-    description: "testttttttttttttt",
+    description: "Lorem ipsum, or lipsum as it is sometimes known",
     unit: 234,
     totalSale: 1554,
   )

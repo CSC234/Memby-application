@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:memby/components/TotalSaleList.dart';
-import 'package:memby/components/topCustomer.dart';
-import 'package:memby/components/popProduct.dart';
-import 'package:memby/components/viewAll.dart';
-import 'package:memby/screens/landingScreen.dart';
 import '../constants.dart';
 
 List<TotalSaleList> productList = [
@@ -42,32 +38,6 @@ List<TotalSaleList> productList = [
     name: "Selsun Selenium sulfide5",
     unit: 2244,
     totalSale: 1554,
-  ),
-];
-List<TopCustomer> popSaleList = [
-  TopCustomer(
-    no: 1,
-    name: 'Best',
-    phoneNo: "095955238",
-    totalPaid: 100,
-  ),
-  TopCustomer(
-    no: 2,
-    name: 'Best',
-    phoneNo: "011928437",
-    totalPaid: 5500,
-  ),
-  TopCustomer(
-    no: 3,
-    name: 'Best',
-    phoneNo: "1234567890",
-    totalPaid: 20,
-  ),
-  TopCustomer(
-    no: 4,
-    name: 'Best',
-    phoneNo: "12345677",
-    totalPaid: 220,
   ),
 ];
 
@@ -122,25 +92,6 @@ class _ViewAllState extends State<ViewAll> {
       clickMonthly = true;
       clickYearly = false;
     });
-  }
-
-  ListView makeTopCustomerList() {
-    List<TopCustomer> customerHolder = [];
-    for (int i = 0; i < popSaleList.length; i++) {
-      var p = popSaleList[i];
-      customerHolder.add(
-        TopCustomer(
-          no: p.no,
-          name: p.name,
-          phoneNo: p.phoneNo,
-          totalPaid: p.totalPaid,
-        ),
-      );
-    }
-    return ListView(
-      padding: EdgeInsets.symmetric(vertical: 0),
-      children: customerHolder,
-    );
   }
 
   Widget HandleViewAll() {
