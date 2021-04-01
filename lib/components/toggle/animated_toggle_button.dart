@@ -67,7 +67,7 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
                       widget.values[index],
                       style: TextStyle(
                         // fontFamily: 'Rubik',
-                        fontSize: width * 0.045,
+                        fontSize: width * 0.04,
                         fontWeight: FontWeight.bold,
                         color: const Color(0xFF918f95),
                       ),

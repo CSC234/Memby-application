@@ -233,44 +233,55 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
               children: [
                 Expanded(
                   flex: 8,
-                  child: Container(
-                    child: TextField(
-                      keyboardType: TextInputType.number,
-                      textAlign: TextAlign.center,
-                      onChanged: (value) {},
-                      // controller: TextEditingController()
-                      //   ..text = amount.toString(),
-                      decoration: kTextFieldDecoration.copyWith(
-                        hintText: 'Customer\'s Phone no.',
-                      ),
-                    ),
-                    height: 40,
-                  ),
+                  child: isMember
+                      ? Center(
+                          child: Container(
+                            child: Text('General user'),
+                          ),
+                        )
+                      : Container(
+                          child: TextField(
+                            keyboardType: TextInputType.number,
+                            textAlign: TextAlign.center,
+                            onChanged: (value) {},
+                            // controller: TextEditingController()
+                            //   ..text = amount.toString(),
+                            decoration: kTextFieldDecoration.copyWith(
+                              hintText: 'Customer\'s Phone no.',
+                            ),
+                          ),
+                          height: 40,
+                        ),
                 ),
                 SizedBox(
                   width: 15,
                 ),
-                Expanded(
-                  flex: 2,
-                  child: Container(
-                    child: Icon(
-                      Icons.check,
-                      color: Colors.white,
-                      size: 24.0,
-                    ),
-                    decoration: BoxDecoration(
-                        color: kPrimaryLightColor,
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    height: 40,
+                isMember
+                    ? Container()
+                    : Expanded(
+                        flex: 2,
+                        child: Container(
+                          child: Icon(
+                            Icons.check,
+                            color: Colors.white,
+                            size: 24.0,
+                          ),
+                          decoration: BoxDecoration(
+                              color: kPrimaryLightColor,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                          height: 40,
+                        ),
+                      ),
+              ],
+            ),
+            isMember
+                ? Container()
+                : Row(
+                    children: [
+                      Text('Kodchapong Dechboonyapichart'),
+                    ],
                   ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Text('Kodchapong Dechboonyapichart'),
-              ],
-            ),
             Row(
               children: [
                 Expanded(
