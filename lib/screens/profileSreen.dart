@@ -38,7 +38,7 @@ class _ProfileState extends State<Profile> {
             body: SingleChildScrollView(
       child: Column(children: [
         SizedBox(
-          height: height * (33 / 100),
+          height: height * (28 / 100),
           child: Positioned(
             height: height,
             child: SizedBox(
@@ -158,16 +158,16 @@ class _ProfileState extends State<Profile> {
         SizedBox(
           height: 10,
         ),
-        IconButton(
-          onPressed: () {
-            context.read<FlutterFireAuthService>().getProducts();
-          },
-          icon: Icon(
-            Icons.check,
-            color: Colors.grey[500],
-            size: 30,
-          ),
-        ),
+        // IconButton(
+        //   onPressed: () {
+        //     context.read<FlutterFireAuthService>().getProducts();
+        //   },
+        //   icon: Icon(
+        //     Icons.check,
+        //     color: Colors.grey[500],
+        //     size: 30,
+        //   ),
+        // ),
         Main(onPress: () {
           print("Sign Out Pressed");
           context.read<FlutterFireAuthService>().signOut();
