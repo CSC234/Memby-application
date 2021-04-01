@@ -156,7 +156,10 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
 
                       return makeProductCard();
                     } else {
-                      return CircularProgressIndicator();
+                      return SizedBox(
+                          child: CircularProgressIndicator(),
+                          height: 300.0,
+                          width: 175.0);
                     }
                   }),
             ),
