@@ -137,16 +137,21 @@ class FlutterFireAuthService {
   Future<String> signIn(
       {String email, String password, BuildContext context}) async {
     try {
-      await _firebaseAuth.signInWithEmailAndPassword(
-          email: email, password: password);
-      print("Signed In");
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => Landing(),
-        ),
-      );
-      return "Success";
+      if (email != '' && password != '') {
+        print("email and password" + email.toString() + password.toString());
+        await _firebaseAuth.signInWithEmailAndPassword(
+            email: email, password: password);
+        print("Signed In");
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Landing(),
+          ),
+        );
+        return "Success";
+      } else if (email == '' || password == '') {
+        print('null');
+      }
     } on FirebaseAuthException catch (e) {
       print(e.toString());
       return e.message;
@@ -236,13 +241,13 @@ class FlutterFireAuthService {
   }
 }
 
-  // Future uploadImageToFirebase(BuildContext context) async {
-  //   String fileName = basename(_image.path);
-  //   StorageReference firebaseStorageRef =
-  //       FirebaseStorage.instance.ref().child('uploads/$fileName');
-  //   StorageUploadTask uploadTask = firebaseStorageRef.putFile(_imageFile);
-  //   StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
-  //   taskSnapshot.ref.getDownloadURL().then(
-  //         (value) => print("Done: $value"),
-  //       );
-  // }
+// Future uploadImageToFirebase(BuildContext context) async {
+//   String fileName = basename(_image.path);
+//   StorageReference firebaseStorageRef =
+//       FirebaseStorage.instance.ref().child('uploads/$fileName');
+//   StorageUploadTask uploadTask = firebaseStorageRef.putFile(_imageFile);
+//   StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+//   taskSnapshot.ref.getDownloadURL().then(
+//         (value) => print("Done: $value"),
+//       );
+// }
