@@ -1,3 +1,4 @@
+import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:memby/components/Card.dart';
 import 'package:memby/screens/viewDashboard.dart';
@@ -34,9 +35,10 @@ class _LandingState extends State<Landing> {
       return HomeScreen();
     }
     print(" Authenticated");
-
+   
     return Container(
       child: Scaffold(
+      
         body: Stack(
           children: <Widget>[
             Positioned(

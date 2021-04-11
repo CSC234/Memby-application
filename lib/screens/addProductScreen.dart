@@ -10,6 +10,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:memby/firebase.dart';
 import 'package:memby/screens/homeScreen.dart';
 import 'package:memby/components/emptyItem.dart';
+import 'package:memby/components/bottomNav/nav.dart';
 
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
@@ -127,6 +128,9 @@ class _AddProductList extends State<AddProductList> {
     }
     return Scaffold(
         backgroundColor: kPrimaryColor,
+        bottomNavigationBar: NavKT(
+          currentIndex: 2,
+        ),
         body: Container(
           height: height * (90 / 100),
           child: SingleChildScrollView(
@@ -273,4 +277,3 @@ class _AddProductList extends State<AddProductList> {
         ));
   }
 }
-
