@@ -63,7 +63,7 @@ class OrderCard extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('$price Baht'),
+                          Text('$price Baht/unit'),
                           Container(
                             child: TextField(
                               keyboardType: TextInputType.number,

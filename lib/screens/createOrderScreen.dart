@@ -22,43 +22,7 @@ class CreateOrderScreen extends StatefulWidget {
 class _CreateOrderScreenState extends State<CreateOrderScreen> {
   Future _productsData;
   bool _alreadyLoadProductsFromFirestore = false;
-  List<Product> Products = [
-    // Product(
-    //     img: 'product1',
-    //     productName: 'Product 1',
-    //     description: 'Lorem ipsum, or lipsum as it is sometimes known',
-    //     price: 100.0,
-    //     id: '1',
-    //     isFilled: false),
-    // Product(
-    //     img: 'product1',
-    //     productName: 'Product 2',
-    //     description: 'Lorem ipsum, or lipsum as it is sometimes known',
-    //     price: 200.0,
-    //     id: '2',
-    //     isFilled: false),
-    // Product(
-    //     img: 'product1',
-    //     productName: 'Product 3',
-    //     description: 'Lorem ipsum, or lipsum as it is sometimes known',
-    //     price: 300.0,
-    //     id: '3',
-    //     isFilled: false),
-    // Product(
-    //     img: 'product1',
-    //     productName: 'Product 4',
-    //     description: 'Lorem ipsum, or lipsum as it is sometimes known',
-    //     price: 400.0,
-    //     id: '4',
-    //     isFilled: false),
-    // Product(
-    //     img: 'product1',
-    //     productName: 'Product 5',
-    //     description: 'Lorem ipsum, or lipsum as it is sometimes known',
-    //     price: 500.0,
-    //     id: '5',
-    //     isFilled: false),
-  ];
+  List<Product> Products = [];
 
   @override
   void initState() {
@@ -170,13 +134,10 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
               child: FutureBuilder(
                   future: _productsData,
                   builder: (context, snapshot) {
-                    print(snapshot);
-                    print(snapshot.hasData);
                     if (snapshot.hasData) {
                       if (!_alreadyLoadProductsFromFirestore) {
                         final List<DocumentSnapshot> productDocs =
                             snapshot.data.docs;
-                        print(productDocs);
 
                         for (int i = 0; i < productDocs.length; i++) {
                           final pid = productDocs[i].id;
@@ -195,7 +156,10 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
 
                       return makeProductCard();
                     } else {
-                      return CircularProgressIndicator();
+                      return SizedBox(
+                          child: CircularProgressIndicator(),
+                          height: 300.0,
+                          width: 175.0);
                     }
                   }),
             ),

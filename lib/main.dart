@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:memby/screens/landingScreen.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -16,26 +17,28 @@ class MembyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        Provider<FlutterFireAuthService>(
-          create: (_) => FlutterFireAuthService(FirebaseAuth.instance),
-        ),
-        StreamProvider(
-          create: (context) =>
-              context.read<FlutterFireAuthService>().authStateChanges,
-          initialData: null,
-        )
-      ],
-      child: MaterialApp(
-        theme: ThemeData(
-          fontFamily: 'Alef-Regular',
-          textTheme: TextTheme(
-            headline1: TextStyle(fontSize: 48.0, fontWeight: FontWeight.bold),
-            bodyText2: TextStyle(fontSize: 14.0),
+        providers: [
+          Provider<FlutterFireAuthService>(
+            create: (_) => FlutterFireAuthService(FirebaseAuth.instance),
           ),
-        ),
-        home: Landing(),
-      ),
-    );
+          StreamProvider(
+            create: (context) =>
+                context.read<FlutterFireAuthService>().authStateChanges,
+            initialData: null,
+          )
+        ],
+        child: OverlaySupport(
+          child: MaterialApp(
+            theme: ThemeData(
+              fontFamily: 'Alef-Regular',
+              textTheme: TextTheme(
+                headline1:
+                    TextStyle(fontSize: 48.0, fontWeight: FontWeight.bold),
+                bodyText2: TextStyle(fontSize: 14.0),
+              ),
+            ),
+            home: Landing(),
+          ),
+        ));
   }
 }

@@ -103,8 +103,8 @@ class _LoginState extends State<Login> {
                   fontFamily: 'Alef-Regular'),
             ),
             Container(
-                padding: EdgeInsets.all(10),
-                height: 210,
+                padding: EdgeInsets.all(20),
+                height: 240,
                 child: Stack(
                   children: <Widget>[
                     Positioned(
@@ -116,6 +116,9 @@ class _LoginState extends State<Login> {
                     )),
                   ],
                 )),
+            SizedBox(
+              height: 10,
+            ),
             AnimatedToggle(
               values: ['Sign in', 'Sign up'],
               textColor: isDarkMode ? darkMode.textColor : lightMode.textColor,
@@ -143,7 +146,7 @@ class _LoginState extends State<Login> {
               },
             ),
             SizedBox(
-              height: 5,
+              height: 15,
             ),
             Container(
                 margin: EdgeInsets.symmetric(vertical: 10),
@@ -278,12 +281,12 @@ class _LoginState extends State<Login> {
                   }
                 }),
             SizedBox(
-              height: 10,
+              height: 35,
             ),
             Row(
               children: [
                 SizedBox(
-                  width: 25,
+                  width: 40,
                 ),
                 Container(
                   width: 160,
@@ -310,7 +313,7 @@ class _LoginState extends State<Login> {
               ],
             ),
             SizedBox(
-              height: 10,
+              height: 35,
             ),
             GoogleSignInButton(
                 onPressed: () {

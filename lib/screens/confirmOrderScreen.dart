@@ -5,7 +5,14 @@ import 'package:memby/models/OrderDetail.dart';
 import 'package:memby/models/Order.dart';
 import 'package:memby/components/RoundedButton.dart';
 import 'package:memby/components/OrderCard.dart';
+import 'package:memby/screens/orderRecieptScreen.dart';
 import 'package:toggle_switch/toggle_switch.dart';
+import 'package:memby/components/toggle/animated_toggle_button.dart';
+import 'package:memby/components/toggle/theme_color.dart';
+import 'package:provider/provider.dart';
+import 'package:memby/firebase.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:memby/screens/orderRecieptScreen.dart';
 
 class ConfirmOrderScreen extends StatefulWidget {
   final Order order;
@@ -19,6 +26,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
   ListView makeOrderCard() {
     List<OrderCard> orderCards = [];
 
+    ////////////////////
     for (OrderDetail o in widget.order.orderDetails) {
       Product p = o.product;
       int a = o.amount;
@@ -41,6 +49,54 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
     );
   }
 
+  AnimationController _animationController;
+  bool isDarkMode = false;
+  changeThemeMode() {
+    if (isDarkMode) {
+      _animationController.forward(from: 0.0);
+    } else {
+      _animationController.reverse(from: 1.0);
+    }
+  }
+
+  ScrollController _scrollController = ScrollController();
+
+  ThemeColor darkMode = ThemeColor(
+    gradient: [
+      const Color(0xFF6E7CE4),
+      const Color(0xFF6E7CE4),
+    ],
+    backgroundColor: const Color(0xFF6E7CE4),
+    textColor: const Color(0xFFFFFFFF),
+    toggleButtonColor: const Color(0xFF6E7CE4),
+    toggleBackgroundColor: const Color(0xFFe7e7e8),
+    shadow: const <BoxShadow>[
+      BoxShadow(
+        color: const Color(0xFFd8d7da),
+        spreadRadius: 5,
+        blurRadius: 10,
+        offset: Offset(0, 5),
+      ),
+    ],
+  );
+  ThemeColor lightMode = ThemeColor(
+    gradient: [
+      const Color(0xFF6E7CE4),
+      const Color(0xFF6E7CE4),
+    ],
+    backgroundColor: const Color(0xFF6E7CE4),
+    textColor: const Color(0xFFFFFFFF),
+    toggleButtonColor: const Color(0xFF6E7CE4),
+    toggleBackgroundColor: const Color(0xFFe7e7e8),
+    shadow: const [
+      BoxShadow(
+        color: const Color(0xFFd8d7da),
+        spreadRadius: 2,
+        blurRadius: 5,
+        offset: Offset(0, 5),
+      ),
+    ],
+  );
   int initialIndex = 0;
   bool isMember = false;
   @override
@@ -126,25 +182,52 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  child: ToggleSwitch(
-                    minWidth: 100.0,
-                    minHeight: 50,
-                    initialLabelIndex: initialIndex,
-                    cornerRadius: 30.0,
-                    fontSize: 15,
-                    activeFgColor: Colors.white,
-                    inactiveBgColor: Color(0xFF61656D),
-                    inactiveFgColor: Colors.white,
-                    labels: ['Member', 'Normal'],
-                    activeBgColors: [kPrimaryLightColor, kPrimaryLightColor],
-                    onToggle: (index) {
+                  child: AnimatedToggle(
+                    values: ['Member', 'Normal'],
+                    textColor:
+                        isDarkMode ? darkMode.textColor : lightMode.textColor,
+                    backgroundColor: isDarkMode
+                        ? darkMode.toggleBackgroundColor
+                        : lightMode.toggleBackgroundColor,
+                    buttonColor: isDarkMode
+                        ? darkMode.toggleButtonColor
+                        : lightMode.toggleButtonColor,
+                    shadows: isDarkMode ? darkMode.shadow : lightMode.shadow,
+                    onToggleCallback: (index) {
                       print('switched to: $index');
                       setState(() {
                         initialIndex = index;
                         isMember = index == 1;
+                        if (isMember) {
+                          Future.delayed(Duration(milliseconds: 100), () {
+                            _scrollController.animateTo(
+                                _scrollController.position.maxScrollExtent,
+                                duration: Duration(milliseconds: 500),
+                                curve: Curves.ease);
+                          });
+                        }
                       });
                     },
                   ),
+                  // ToggleSwitch(
+                  //   minWidth: 100.0,
+                  //   minHeight: 50,
+                  //   initialLabelIndex: initialIndex,
+                  //   cornerRadius: 30.0,
+                  //   fontSize: 15,
+                  //   activeFgColor: Colors.white,
+                  //   inactiveBgColor: Color(0xFF61656D),
+                  //   inactiveFgColor: Colors.white,
+                  //   labels: ['Member', 'Normal'],
+                  //   activeBgColors: [kPrimaryLightColor, kPrimaryLightColor],
+                  //   onToggle: (index) {
+                  //     print('switched to: $index');
+                  //     setState(() {
+                  //       initialIndex = index;
+                  //       isMember = index == 1;
+                  //     });
+                  //   },
+                  // ),
                 ),
               ],
             ),
@@ -152,44 +235,55 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
               children: [
                 Expanded(
                   flex: 8,
-                  child: Container(
-                    child: TextField(
-                      keyboardType: TextInputType.number,
-                      textAlign: TextAlign.center,
-                      onChanged: (value) {},
-                      // controller: TextEditingController()
-                      //   ..text = amount.toString(),
-                      decoration: kTextFieldDecoration.copyWith(
-                        hintText: 'Customer\'s Phone no.',
-                      ),
-                    ),
-                    height: 40,
-                  ),
+                  child: isMember
+                      ? Center(
+                          child: Container(
+                            child: Text('General user'),
+                          ),
+                        )
+                      : Container(
+                          child: TextField(
+                            keyboardType: TextInputType.number,
+                            textAlign: TextAlign.center,
+                            onChanged: (value) {},
+                            // controller: TextEditingController()
+                            //   ..text = amount.toString(),
+                            decoration: kTextFieldDecoration.copyWith(
+                              hintText: 'Customer\'s Phone no.',
+                            ),
+                          ),
+                          height: 40,
+                        ),
                 ),
                 SizedBox(
                   width: 15,
                 ),
-                Expanded(
-                  flex: 2,
-                  child: Container(
-                    child: Icon(
-                      Icons.check,
-                      color: Colors.white,
-                      size: 24.0,
-                    ),
-                    decoration: BoxDecoration(
-                        color: kPrimaryLightColor,
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    height: 40,
+                isMember
+                    ? Container()
+                    : Expanded(
+                        flex: 2,
+                        child: Container(
+                          child: Icon(
+                            Icons.check,
+                            color: Colors.white,
+                            size: 24.0,
+                          ),
+                          decoration: BoxDecoration(
+                              color: kPrimaryLightColor,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                          height: 40,
+                        ),
+                      ),
+              ],
+            ),
+            isMember
+                ? Container()
+                : Row(
+                    children: [
+                      Text('Kodchapong Dechboonyapichart'),
+                    ],
                   ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Text('Kodchapong Dechboonyapichart'),
-              ],
-            ),
             Row(
               children: [
                 Expanded(
@@ -206,7 +300,8 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10))),
                             height: 40,
-                          ):TextField(
+                          )
+                        : TextField(
                             keyboardType: TextInputType.number,
                             textAlign: TextAlign.center,
                             onChanged: (value) {},
@@ -244,7 +339,32 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                   child: RoundedButton(
                     color: kPrimaryLightColor,
                     title: 'ORDER',
-                    onPress: () {},
+                    onPress: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return OrderRecieptScreen(
+                              order: widget.order,
+                            );
+                          },
+                        ),
+                      );
+                      // final customerPhone = '77797777977';
+                      // final discountRate = 0.95;
+                      // final totalPrice = getTotalPrice();
+                      // final orderDetails = widget.order.orderDetails;
+                      // dynamic _productList = {};
+                      // orderDetails.forEach((item) {
+                      //   String productId = item.product.id;
+                      //   _productList[productId] = item.amount;
+                      //   print(_productList);
+                      // });
+                      // Map<String, dynamic> productList =
+                      //     new Map<String, dynamic>.from(_productList);
+                      // context.read<FlutterFireAuthService>().addOrder(
+                      //     customerPhone, discountRate, totalPrice, productList);
+                    },
                   ),
                 ),
               ],

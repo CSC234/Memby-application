@@ -1,3 +1,6 @@
+import 'dart:ffi';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -16,13 +19,14 @@ class _GenderPickerState extends State<GenderPicker> {
     return Container(
       child: DropdownButtonHideUnderline(
         child: new DropdownButton<String>(
+          elevation: 16,
           hint: Padding(
             padding: const EdgeInsets.only(left: 10.0),
             child: Text(
               widget.gender,
             ),
           ),
-          items: <String>['Female', 'Male', 'Others'].map((String value) {
+          items: <String>['Female', 'Male'].map((String value) {
             return new DropdownMenuItem<String>(
               value: value,
               child: new Text(value),

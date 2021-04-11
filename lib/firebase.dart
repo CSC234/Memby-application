@@ -5,7 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:path/path.dart';
-
+import 'package:memby/models/OrderDetail.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 
@@ -38,6 +38,37 @@ class FlutterFireAuthService {
         _firestore.collection('company').doc(userId);
     CollectionReference productCollection = targetCompany.collection('product');
     await productCollection.add(product).catchError((e) {
+      print(e.toString());
+    });
+  }
+
+  Future<void> addOrder(
+      customerPhone, discountRate, totalPrice, productList) async {
+    final user = _firebaseAuth.currentUser;
+    final userId = user.uid;
+
+    Map<String, dynamic> order = {};
+    DocumentReference targetCompany =
+        _firestore.collection('company').doc(userId);
+    QuerySnapshot customerRef = await targetCompany
+        .collection('customer')
+        .limit(1)
+        .where('phone_no', isEqualTo: customerPhone)
+        .get()
+        .catchError((e) {
+      print(e.toString());
+    });
+
+    String customerId = customerRef.docs[0].id;
+
+    order['cus_id'] = customerId;
+    order['discount_rate'] = discountRate;
+    order['product_list'] = productList;
+    order['total_price'] = totalPrice;
+    order['date'] = FieldValue.serverTimestamp();
+    print(order);
+    CollectionReference orderCollection = targetCompany.collection('order');
+    await orderCollection.add(order).catchError((e) {
       print(e.toString());
     });
   }
@@ -106,16 +137,21 @@ class FlutterFireAuthService {
   Future<String> signIn(
       {String email, String password, BuildContext context}) async {
     try {
-      await _firebaseAuth.signInWithEmailAndPassword(
-          email: email, password: password);
-      print("Signed In");
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => Landing(),
-        ),
-      );
-      return "Success";
+      if (email != '' && password != '') {
+        print("email and password" + email.toString() + password.toString());
+        await _firebaseAuth.signInWithEmailAndPassword(
+            email: email, password: password);
+        print("Signed In");
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Landing(),
+          ),
+        );
+        return "Success";
+      } else if (email == '' || password == '') {
+        print('null');
+      }
     } on FirebaseAuthException catch (e) {
       print(e.toString());
       return e.message;
@@ -205,13 +241,13 @@ class FlutterFireAuthService {
   }
 }
 
-  // Future uploadImageToFirebase(BuildContext context) async {
-  //   String fileName = basename(_image.path);
-  //   StorageReference firebaseStorageRef =
-  //       FirebaseStorage.instance.ref().child('uploads/$fileName');
-  //   StorageUploadTask uploadTask = firebaseStorageRef.putFile(_imageFile);
-  //   StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
-  //   taskSnapshot.ref.getDownloadURL().then(
-  //         (value) => print("Done: $value"),
-  //       );
-  // }
+// Future uploadImageToFirebase(BuildContext context) async {
+//   String fileName = basename(_image.path);
+//   StorageReference firebaseStorageRef =
+//       FirebaseStorage.instance.ref().child('uploads/$fileName');
+//   StorageUploadTask uploadTask = firebaseStorageRef.putFile(_imageFile);
+//   StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+//   taskSnapshot.ref.getDownloadURL().then(
+//         (value) => print("Done: $value"),
+//       );
+// }

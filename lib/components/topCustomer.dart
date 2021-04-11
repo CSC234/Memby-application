@@ -19,21 +19,21 @@ class TopCustomer extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("${no}." + name),
+            Text("$no." + name),
             Container(
               width: width * (45 / 100),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "${phoneNo}",
+                    "$phoneNo",
                     style: TextStyle(
                         color: kPrimaryFont,
                         fontSize: 14,
                         fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    "${totalPaid} baht",
+                    "$totalPaid baht",
                     style: TextStyle(
                         color: kPrimaryFont,
                         fontSize: 14,

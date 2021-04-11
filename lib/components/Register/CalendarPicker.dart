@@ -14,16 +14,16 @@ class CalendarPicker extends StatefulWidget {
 }
 
 class _CalendarPickerState extends State<CalendarPicker> {
-  DateTime selectedDate = DateTime.now();
+  static DateTime selectedDate = DateTime.now();
 
-  Future<void> _selectDate(BuildContext context) async {
+  Future<void> selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
       context: context,
       initialDate: selectedDate,
       firstDate: DateTime(1000, 8),
-      lastDate: DateTime(2101),
+      lastDate: DateTime.now(),
     );
-    if (picked != null || picked != selectedDate)
+    if (picked != null && picked != selectedDate)
       setState(() {
         selectedDate = picked;
         widget.onPickDate(selectedDate);
@@ -34,16 +34,14 @@ class _CalendarPickerState extends State<CalendarPicker> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-
     return Container(
-      height: height * (5 / 100),
+      height: height * (4.8 / 100),
       width: width * (37.5 / 100),
       child: ElevatedButton(
-        onPressed: () {
-          _selectDate(context);
-          widget.title = selectedDate.toLocal().toString().split(' ')[0];
-        },
         child: Text(widget.title),
+        onPressed: () {
+          selectDate(context);
+        },
         style: ElevatedButton.styleFrom(
           primary: widget.color,
           shape: new RoundedRectangleBorder(
