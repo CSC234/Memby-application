@@ -40,7 +40,7 @@ class _ProfileState extends State<Profile> {
               currentIndex: 4,
             ),
             body: Container(
-              height: height * (70 / 100),
+              // height: height * (90 / 100),
               child: SingleChildScrollView(
                 child: Column(children: [
                   SizedBox(
