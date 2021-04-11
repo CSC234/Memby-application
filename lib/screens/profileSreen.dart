@@ -38,7 +38,7 @@ class _ProfileState extends State<Profile> {
             body: SingleChildScrollView(
       child: Column(children: [
         SizedBox(
-          height: height * (28 / 100),
+          // height: height * (33 / 100),
           child: Positioned(
             height: height,
             child: SizedBox(

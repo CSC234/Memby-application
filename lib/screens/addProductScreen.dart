@@ -112,12 +112,14 @@ class _AddProductList extends State<AddProductList> {
   @override
   Widget build(BuildContext context) {
     final _productnameController = TextEditingController();
+
     final _descriptionController = TextEditingController();
     final _priceController = TextEditingController();
     final _pictureController = TextEditingController();
 
     final firebaseUser = context.watch<User>();
-
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     if (firebaseUser == null) {
       print("Not Authenticated");
       print("Return To Home Page");
@@ -125,141 +127,145 @@ class _AddProductList extends State<AddProductList> {
     }
     return Scaffold(
         backgroundColor: kPrimaryColor,
-        body: SingleChildScrollView(
-          child: Container(
-            child: Align(
-              alignment: Alignment.center,
-              child: Container(
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 50,
-                    ),
-                    Text(
-                      'Add Product',
-                      style: TextStyle(
-                          color: kPrimaryFont,
-                          fontSize: 45,
-                          fontFamily: 'Alef-Regular'),
-                    ),
-                    Text(
-                      'insert your product list',
-                      style: TextStyle(
-                          color: kPrimaryFont,
-                          fontSize: 20,
-                          fontFamily: 'Alef-Regular'),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: <Widget>[
-                        UserImagePicker(press: _pickImage, pickedImage: _image)
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Column(
-                      children: [
-                        Textfield(
-                          controller: _productnameController,
-                          text: 'Product name...',
-                          width: 350,
-                          min: 1,
-                          max: 5,
+        body: Container(
+          height: height * (90 / 100),
+          child: SingleChildScrollView(
+            child: Container(
+              child: Align(
+                alignment: Alignment.center,
+                child: Container(
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 50,
+                      ),
+                      Text(
+                        'Add Product',
+                        style: TextStyle(
+                            color: kPrimaryFont,
+                            fontSize: 45,
+                            fontFamily: 'Alef-Regular'),
+                      ),
+                      Text(
+                        'insert your product list',
+                        style: TextStyle(
+                            color: kPrimaryFont,
+                            fontSize: 20,
+                            fontFamily: 'Alef-Regular'),
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: <Widget>[
+                          UserImagePicker(
+                              press: _pickImage, pickedImage: _image)
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Column(
+                        children: [
+                          Textfield(
+                            controller: _productnameController,
+                            text: 'Product name...',
+                            width: 350,
+                            min: 1,
+                            max: 5,
+                          ),
+                          Textfield(
+                            controller: _descriptionController,
+                            text: 'Description...',
+                            width: 350,
+                            min: 3,
+                            max: 5,
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Column(
+                        children: [
+                          Textfield(
+                            controller: _priceController,
+                            width: 350,
+                            text: 'Price',
+                            min: 1,
+                            max: 5,
+                          ),
+                        ],
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(right: 10),
+                        child: Align(
+                          alignment: Alignment.topRight,
+                          child: RoundedButton(
+                              color: kPrimaryLightColor,
+                              buttonHight: 50,
+                              fontsize: 15,
+                              buttonSize: 0.4,
+                              textColor: Colors.white,
+                              text: "add to prodct",
+                              press: () {
+                                addProduct(
+                                    _productnameController.text,
+                                    _descriptionController.text,
+                                    _priceController.text,
+                                    _pictureController.text);
+                              }),
                         ),
-                        Textfield(
-                          controller: _descriptionController,
-                          text: 'Description...',
-                          width: 350,
-                          min: 3,
-                          max: 5,
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Column(
-                      children: [
-                        Textfield(
-                          controller: _priceController,
-                          width: 350,
-                          text: 'Price',
-                          min: 1,
-                          max: 5,
+                      ),
+                      Divider(
+                        height: 10,
+                        thickness: 2,
+                        indent: 25,
+                        endIndent: 25,
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(10),
+                        alignment: Alignment.topLeft,
+                        margin: EdgeInsets.only(left: 15),
+                        child: Text(
+                          'Product List',
+                          style: TextStyle(fontSize: 25),
                         ),
-                      ],
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(right: 10),
-                      child: Align(
-                        alignment: Alignment.topRight,
-                        child: RoundedButton(
-                            color: kPrimaryLightColor,
-                            buttonHight: 50,
-                            fontsize: 15,
-                            buttonSize: 0.4,
-                            textColor: Colors.white,
-                            text: "add to prodct",
+                      ),
+                      if (product.length != 0)
+                        for (int i = 0; i < product.length; i++)
+                          ProductList(
+                            picture: product[i].picture,
+                            product: product[i].product,
+                            description: product[i].description,
+                            price: product[i].price,
                             press: () {
-                              addProduct(
-                                  _productnameController.text,
-                                  _descriptionController.text,
-                                  _priceController.text,
-                                  _pictureController.text);
-                            }),
-                      ),
-                    ),
-                    Divider(
-                      height: 10,
-                      thickness: 2,
-                      indent: 25,
-                      endIndent: 25,
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      alignment: Alignment.topLeft,
-                      margin: EdgeInsets.only(left: 15),
-                      child: Text(
-                        'Product List',
-                        style: TextStyle(fontSize: 25),
-                      ),
-                    ),
-                    if (product.length != 0)
-                      for (int i = 0; i < product.length; i++)
-                        ProductList(
-                          picture: product[i].picture,
-                          product: product[i].product,
-                          description: product[i].description,
-                          price: product[i].price,
-                          press: () {
-                            removeProduct(i);
-                          },
+                              removeProduct(i);
+                            },
+                          ),
+                      if (product.length == 0)
+                        EmptyList(
+                            text:
+                                'Customer Product is empty please choose the product'),
+                      Container(
+                        margin: EdgeInsets.only(right: 10),
+                        child: Align(
+                          alignment: Alignment.topRight,
+                          child: RoundedButton(
+                              color: kPrimaryLightColor,
+                              buttonHight: 50,
+                              fontsize: 15,
+                              buttonSize: 0.4,
+                              textColor: Colors.white,
+                              text: "confirm",
+                              press: () {
+                                addProductToFireStore();
+                              }),
                         ),
-                    if (product.length == 0)
-                      EmptyList(
-                          text:
-                              'Customer Product is empty please choose the product'),
-                    Container(
-                      margin: EdgeInsets.only(right: 10),
-                      child: Align(
-                        alignment: Alignment.topRight,
-                        child: RoundedButton(
-                            color: kPrimaryLightColor,
-                            buttonHight: 50,
-                            fontsize: 15,
-                            buttonSize: 0.4,
-                            textColor: Colors.white,
-                            text: "confirm",
-                            press: () {
-                              addProductToFireStore();
-                            }),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -267,3 +273,4 @@ class _AddProductList extends State<AddProductList> {
         ));
   }
 }
+
