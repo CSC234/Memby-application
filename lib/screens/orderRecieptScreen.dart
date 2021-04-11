@@ -59,10 +59,11 @@ class OrderRecieptScreen extends StatelessWidget {
           children: [
             Text(
               'Total',
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
             Text(
               '${getTotalPrice().toString()} THB',
-              style: TextStyle(color: Colors.red),
+              style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
             ),
           ],
         ),
