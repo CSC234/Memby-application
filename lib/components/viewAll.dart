@@ -355,6 +355,7 @@ class _ViewAllState extends State<ViewAll> {
                                                       ),
                                                     ]),
                                                     Chart(),
+                                                    // Chart(),
                                                     SizedBox(
                                                       height: 60,
                                                     )
