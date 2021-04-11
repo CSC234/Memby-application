@@ -44,6 +44,7 @@ class _AddProductList extends State<AddProductList> {
 
   Future _pickImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    print("filename" + _image.toString());
 
     setState(() {
       _image = File(pickedFile.path);
@@ -79,6 +80,7 @@ class _AddProductList extends State<AddProductList> {
         .read<FlutterFireAuthService>()
         .uploadImageToFirebase(_image);
     setState(() {
+      _image = null;
       product.add(new Product(
           product: productName,
           description: description,
@@ -103,7 +105,6 @@ class _AddProductList extends State<AddProductList> {
         context.read<FlutterFireAuthService>().addProduct(product[i].product,
             product[i].description, product[i].price, product[i].picture);
       }
-  
     });
     // uploadPic(_pickedImage);
   }
