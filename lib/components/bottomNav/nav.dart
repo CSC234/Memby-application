@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:memby/screens/landingScreen.dart';
-import 'package:memby/screens/profileSreen.dart';
+import 'package:memby/screens/registerScreen.dart';
 import 'package:memby/screens/addProductScreen.dart';
+import 'package:memby/screens/viewDashboard.dart';
 
 class NavKT extends StatefulWidget {
   final int currentIndex;
@@ -45,7 +46,25 @@ class _State extends State<NavKT> {
                 },
               ),
             );
+          if (index == 1 && widget.currentIndex != 1)
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return Register();
+                },
+              ),
+            );
           if (index == 2 && widget.currentIndex != 2)
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  // return AddProductList();
+                },
+              ),
+            );
+          if (index == 3 && widget.currentIndex != 3)
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -59,7 +78,7 @@ class _State extends State<NavKT> {
               context,
               MaterialPageRoute(
                 builder: (context) {
-                  return Profile();
+                  return DashBoard();
                 },
               ),
             );
@@ -70,13 +89,17 @@ class _State extends State<NavKT> {
         }),
         items: [
           BottomNavyBarItem(
-            icon: Icon(Icons.apps),
+            icon: Icon(Icons.home),
             title: Text('Home'),
             activeColor: Color(0xFF4941BB),
           ),
           BottomNavyBarItem(
+              icon: Icon(Icons.person_add),
+              title: Text('Register'),
+              activeColor: Color(0xFF4941BB)),
+          BottomNavyBarItem(
               icon: Icon(Icons.shopping_cart),
-              title: Text('Create Order'),
+              title: Text('CreateOrder'),
               activeColor: Color(0xFF4941BB)),
           BottomNavyBarItem(
               icon: Icon(Icons.add_shopping_cart),
@@ -86,10 +109,10 @@ class _State extends State<NavKT> {
               icon: Icon(Icons.dashboard_rounded),
               title: Text('Dashboard'),
               activeColor: Color(0xFF4941BB)),
-          BottomNavyBarItem(
-              icon: Icon(Icons.settings),
-              title: Text('Settings'),
-              activeColor: Color(0xFF4941BB)),
+          // BottomNavyBarItem(
+          //     icon: Icon(Icons.settings),
+          //     title: Text('Settings'),
+          //     activeColor: Color(0xFF4941BB)),
         ],
       ),
     );

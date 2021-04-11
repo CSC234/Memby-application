@@ -129,7 +129,7 @@ class _AddProductList extends State<AddProductList> {
     return Scaffold(
         backgroundColor: kPrimaryColor,
         bottomNavigationBar: NavKT(
-          currentIndex: 2,
+          currentIndex: 3,
         ),
         body: Container(
           height: height * (90 / 100),
