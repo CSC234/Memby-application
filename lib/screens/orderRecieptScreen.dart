@@ -25,11 +25,11 @@ class OrderRecieptScreen extends StatelessWidget {
       ListTile(
         leading: Text(''),
         title: Text(
-          'Details (price)',
+          'Details',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         trailing: Text(
-          'Amount',
+          'Total Price',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
@@ -45,8 +45,18 @@ class OrderRecieptScreen extends StatelessWidget {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(p.productName + ' (${p.price} THB)'),
-              Text(a.toString())
+              Text(p.productName),
+              Text((a * p.price).toString() + ' THB'),
+            ],
+          ),
+          subtitle: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(a.toString() + ' unit'),
+              SizedBox(
+                width: 10,
+              ),
+              Text('(${p.price} THB)'),
             ],
           ),
         ),
@@ -58,7 +68,7 @@ class OrderRecieptScreen extends StatelessWidget {
         trailing: Column(
           children: [
             Text(
-              'Total',
+              'Net Total',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             Text(
