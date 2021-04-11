@@ -5,12 +5,14 @@ import 'package:memby/models/OrderDetail.dart';
 import 'package:memby/models/Order.dart';
 import 'package:memby/components/RoundedButton.dart';
 import 'package:memby/components/OrderCard.dart';
+import 'package:memby/screens/orderRecieptScreen.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:memby/components/toggle/animated_toggle_button.dart';
 import 'package:memby/components/toggle/theme_color.dart';
 import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:memby/screens/orderRecieptScreen.dart';
 
 class ConfirmOrderScreen extends StatefulWidget {
   final Order order;
@@ -338,20 +340,30 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                     color: kPrimaryLightColor,
                     title: 'ORDER',
                     onPress: () {
-                      final customerPhone = '77797777977';
-                      final discountRate = 0.95;
-                      final totalPrice = getTotalPrice();
-                      final orderDetails = widget.order.orderDetails;
-                      dynamic _productList = {};
-                      orderDetails.forEach((item) {
-                        String productId = item.product.id;
-                        _productList[productId] = item.amount;
-                        print(_productList);
-                      });
-                      Map<String, dynamic> productList =
-                          new Map<String, dynamic>.from(_productList);
-                      context.read<FlutterFireAuthService>().addOrder(
-                          customerPhone, discountRate, totalPrice, productList);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return OrderRecieptScreen(
+                              order: widget.order,
+                            );
+                          },
+                        ),
+                      );
+                      // final customerPhone = '77797777977';
+                      // final discountRate = 0.95;
+                      // final totalPrice = getTotalPrice();
+                      // final orderDetails = widget.order.orderDetails;
+                      // dynamic _productList = {};
+                      // orderDetails.forEach((item) {
+                      //   String productId = item.product.id;
+                      //   _productList[productId] = item.amount;
+                      //   print(_productList);
+                      // });
+                      // Map<String, dynamic> productList =
+                      //     new Map<String, dynamic>.from(_productList);
+                      // context.read<FlutterFireAuthService>().addOrder(
+                      //     customerPhone, discountRate, totalPrice, productList);
                     },
                   ),
                 ),
