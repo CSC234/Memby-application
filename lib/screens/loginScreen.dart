@@ -316,17 +316,6 @@ class _LoginState extends State<Login> {
             SizedBox(
               height: 35,
             ),
-            TextButton(
-              child: Text("guide"),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                    builder: (context) => Guide(),
-                  ),
-                );
-              },
-            ),
             GoogleSignInButton(
                 onPressed: () {
                   context.read<FlutterFireAuthService>().signInWithGoogle();
