@@ -316,6 +316,16 @@ class _LoginState extends State<Login> {
               height: 35,
             ),
             GoogleSignInButton(
+            text: "guideline page test",
+                onPressed: () {
+                  context.read<FlutterFireAuthService>().signInWithGoogle();
+                },
+                splashColor: Colors.white,
+                textStyle: TextStyle(
+                    color: kPrimaryFont,
+                    fontSize: 15,
+                    fontFamily: 'Alef-Regular')),
+            GoogleSignInButton(
                 onPressed: () {
                   context.read<FlutterFireAuthService>().signInWithGoogle();
                 },
