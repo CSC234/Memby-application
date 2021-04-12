@@ -42,6 +42,33 @@ class FlutterFireAuthService {
     });
   }
 
+  Future<QueryDocumentSnapshot> getCustomerFromPhoneNo(
+      String customerPhone) async {
+    final user = _firebaseAuth.currentUser;
+    final userId = user.uid;
+    print(customerPhone);
+    DocumentReference targetCompany =
+        _firestore.collection('company').doc(userId);
+    QuerySnapshot customerRef = await targetCompany
+        .collection('customer')
+        .limit(1)
+        .where('phone_no', isEqualTo: customerPhone)
+        .get()
+        .catchError((e) {
+      print(e.toString());
+    });
+    if (customerRef.size == 0) {
+      print("Not found");
+      return null;
+    }
+    print(customerRef.docs[0]);
+    // String customerName = customerRef.docs[0].get('firstname') +
+    //     " " +
+    //     customerRef.docs[0].get('lastname');
+
+    return customerRef.docs[0];
+  }
+
   Future<void> addOrder(
       customerPhone, discountRate, totalPrice, productList) async {
     final user = _firebaseAuth.currentUser;
