@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class Guild extends StatefulWidget {
+class Guide extends StatefulWidget {
   @override
-  _GuildState createState() => _GuildState();
+  _GuideState createState() => _GuideState();
 }
 
-class _GuildState extends State<Guild> {
+class _GuideState extends State<Guide> {
   @override
   Widget build(BuildContext context) {
     return Container(

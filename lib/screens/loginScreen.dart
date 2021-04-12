@@ -7,6 +7,7 @@ import 'package:toggle_switch/toggle_switch.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'package:memby/components/toggle/animated_toggle_button.dart';
 import 'package:memby/components/toggle/theme_color.dart';
+import 'package:memby/screens/guide.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -315,16 +316,17 @@ class _LoginState extends State<Login> {
             SizedBox(
               height: 35,
             ),
-            GoogleSignInButton(
-            text: "guideline page test",
-                onPressed: () {
-                  context.read<FlutterFireAuthService>().signInWithGoogle();
-                },
-                splashColor: Colors.white,
-                textStyle: TextStyle(
-                    color: kPrimaryFont,
-                    fontSize: 15,
-                    fontFamily: 'Alef-Regular')),
+            TextButton(
+              child: Text("guide"),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                    builder: (context) => Guide(),
+                  ),
+                );
+              },
+            ),
             GoogleSignInButton(
                 onPressed: () {
                   context.read<FlutterFireAuthService>().signInWithGoogle();
