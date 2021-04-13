@@ -24,9 +24,9 @@ class _GuideState extends State<Guide> {
   Widget _indicator(bool isActive) {
     return AnimatedContainer(
       duration: Duration(milliseconds: 150),
-      margin: EdgeInsets.symmetric(horizontal: 8.0),
+      margin: EdgeInsets.symmetric(horizontal: 4.0),
       height: 8.0,
-      width: isActive ? 24.0 : 16.0,
+      width: isActive ? 24.0 : 10.0,
       decoration: BoxDecoration(
         color: isActive ? Color(0xFF4D61FC) : Color(0xFFC4C4C4),
         borderRadius: BorderRadius.all(Radius.circular(12)),
@@ -42,7 +42,7 @@ class _GuideState extends State<Guide> {
         child: Column(
           children: <Widget>[
             Container(
-              height: height * .9,
+              height: height * (90 / 100),
               child: PageView(
                 physics: ClampingScrollPhysics(),
                 controller: _pageController,
@@ -77,9 +77,15 @@ class _GuideState extends State<Guide> {
                         SizedBox(
                           height: 20,
                         ),
-                        Image(
-                          image: AssetImage(
-                              'assets/images/NonCashAssetDonation.png'),
+                        Container(
+                          height: height * 0.25,
+                          child: Image(
+                            image: AssetImage(
+                                'assets/images/NonCashAssetDonation.png'),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
                         ),
                         Container(
                           padding: const EdgeInsets.only(left: 20, right: 20),
@@ -120,8 +126,14 @@ class _GuideState extends State<Guide> {
                         SizedBox(
                           height: 20,
                         ),
-                        Image(
-                          image: AssetImage('assets/images/StartupIdea.png'),
+                        Container(
+                          height: height * 0.25,
+                          child: Image(
+                            image: AssetImage('assets/images/StartupIdea.png'),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
                         ),
                         Container(
                           padding: const EdgeInsets.only(left: 20, right: 20),
@@ -141,9 +153,9 @@ class _GuideState extends State<Guide> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),
                             child: Text(
-                              'เลดโกกก',
+                              'Login',
                               style: TextStyle(
-                                fontSize: 24,
+                                fontSize: 15,
                                 fontFamily: 'Alef-Regular',
                               ),
                             ),
