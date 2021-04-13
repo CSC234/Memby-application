@@ -37,6 +37,7 @@ class _GuideState extends State<Guide> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       body: Container(
         child: Column(
@@ -159,7 +160,7 @@ class _GuideState extends State<Guide> {
                                 fontFamily: 'Alef-Regular',
                               ),
                             ),
-                            color: Color(0xFF6E7CE4),
+                            color: kPrimaryMain,
                             textColor: Colors.white,
                             padding: EdgeInsets.symmetric(
                                 horizontal: 100, vertical: 10),

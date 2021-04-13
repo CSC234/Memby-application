@@ -86,6 +86,8 @@ class _LoginState extends State<Login> {
       _passwordVisible = false;
     }
 
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: kPrimaryColor,
       body: SingleChildScrollView(
@@ -287,7 +289,7 @@ class _LoginState extends State<Login> {
             Row(
               children: [
                 SizedBox(
-                  width: 40,
+                  width: width * 0.08,
                 ),
                 Container(
                   width: 160,
@@ -326,7 +328,14 @@ class _LoginState extends State<Login> {
                     fontSize: 15,
                     fontFamily: 'Alef-Regular')),
             SizedBox(
-              height: 20,
+              height: 40,
+            ),
+            Text(
+              'Powered by KTBNG Group ©',
+              style: TextStyle(color: Colors.grey[600]),
+            ),
+            SizedBox(
+              height: 40,
             ),
           ],
         ),
