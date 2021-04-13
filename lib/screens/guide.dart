@@ -28,7 +28,7 @@ class _GuideState extends State<Guide> {
       height: 8.0,
       width: isActive ? 24.0 : 10.0,
       decoration: BoxDecoration(
-        color: isActive ? Color(0xFF4D61FC) : Color(0xFFC4C4C4),
+        color: isActive ? Color(0xFF6961D6) : Color(0xFFC4C4C4),
         borderRadius: BorderRadius.all(Radius.circular(12)),
       ),
     );
@@ -160,7 +160,7 @@ class _GuideState extends State<Guide> {
                                 fontFamily: 'Alef-Regular',
                               ),
                             ),
-                            color: kPrimaryMain,
+                            color: Color(0xFF4941BB),
                             textColor: Colors.white,
                             padding: EdgeInsets.symmetric(
                                 horizontal: 100, vertical: 10),

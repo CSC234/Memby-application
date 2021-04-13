@@ -59,7 +59,7 @@ class _LoginState extends State<Login> {
     ],
     backgroundColor: const Color(0xFF6E7CE4),
     textColor: const Color(0xFFFFFFFF),
-    toggleButtonColor: const Color(0xFF6E7CE4),
+    toggleButtonColor: const Color(0xFF6961D6),
     toggleBackgroundColor: const Color(0xFFe7e7e8),
     shadow: const [
       BoxShadow(
@@ -261,7 +261,7 @@ class _LoginState extends State<Login> {
                   )
                 : Container(),
             RoundedButton(
-                color: kPrimaryMain,
+                color: Color(0xFF4941BB),
                 buttonHight: 50,
                 fontsize: 15,
                 buttonSize: 0.4,
