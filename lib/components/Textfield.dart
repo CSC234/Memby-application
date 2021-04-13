@@ -34,7 +34,7 @@ class Textfield extends StatelessWidget {
           // textAlignVertical: TextAlignVertical.top,
           minLines: min,
           maxLines: max,
-          keyboardType: TextInputType.multiline,
+          keyboardType: TextInputType.text,
           controller: controller,
           decoration: InputDecoration(
             labelText: text,
