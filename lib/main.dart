@@ -8,9 +8,20 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
 
+import 'package:flutter/services.dart';
+
+// import 'package:statusbar_visibility_example/widget/button_widget.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+  SystemChrome.setEnabledSystemUIOverlays([]);
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(MembyApp());
 }
 
