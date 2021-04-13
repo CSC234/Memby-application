@@ -286,11 +286,13 @@ class _LoginState extends State<Login> {
             SizedBox(
               height: 10,
             ),
+            // Text(
+            //   '———————————————  or  ———————————————',
+            //   style: TextStyle(color: Colors.grey[600]),
+            // ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(
-                  width: width * 0.08,
-                ),
                 Container(
                   width: 160,
                   child: Divider(
@@ -315,6 +317,7 @@ class _LoginState extends State<Login> {
                 ),
               ],
             ),
+
             SizedBox(
               height: 20,
             ),

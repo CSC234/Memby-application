@@ -137,9 +137,10 @@ class _GuideState extends State<Guide> {
                           height: 20,
                         ),
                         Container(
+                          height: height * 0.25,
                           padding: const EdgeInsets.only(left: 20, right: 20),
                           child: Text(
-                            'Lorem ipsum, or lipsum as it is sometimes known,is dummy text used in laying out print, graphic or wThe passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero s De Finibus Bonorum et Malorum for use in a type specimen book.',
+                            'Lorem ipsum, or lipsum as it is sometimes known,is dummy text used in laying out print, graphic or wThe passage is attributed to an unknown typesetter in the 15th century who is thought ',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: 18,
