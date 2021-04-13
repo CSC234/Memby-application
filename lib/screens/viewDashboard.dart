@@ -294,14 +294,6 @@ class _DashBoardState extends State<DashBoard> {
     double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: kPrimaryMain,
-        // backgroundColor: Colors.transparent,
-        bottomOpacity: 0.0,
-        elevation: 0.0,
-        title: Text('DashBoard'),
-        // centerTitle: true,
-      ),
       bottomNavigationBar: NavKT(
         currentIndex: 4,
       ),
@@ -316,7 +308,8 @@ class _DashBoardState extends State<DashBoard> {
                   child: Stack(
                     children: <Widget>[
                       Positioned(
-                        height: height * (30 / 100),
+                        // height: height * (50 / 100),
+                        // height: ,/
                         child: SizedBox(
                             width: width,
                             height: 350,
@@ -327,18 +320,30 @@ class _DashBoardState extends State<DashBoard> {
                               child: Stack(
                                 children: <Widget>[
                                   Positioned(
-                                      // top: height * (10 / 100),
-                                      left: 20,
-                                      child: Text(
+                                    top: height * (5 / 100),
+                                    // left: 20,
+                                    child: Row(children: [
+                                      Container(
+                                        width: width * 0.15,
+                                        child: IconButton(
+                                          icon: Icon(Icons.arrow_back,
+                                              color: Colors.white),
+                                          onPressed: () =>
+                                              Navigator.of(context).pop(),
+                                        ),
+                                      ),
+                                      Text(
                                         'View DashBoard',
                                         style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: 48,
+                                            fontSize: 40,
                                             fontFamily: 'Alef-Regular'),
-                                      )),
+                                      )
+                                    ]),
+                                  ),
                                   Positioned(
-                                      top: height * (10 / 100),
-                                      left: width * (30 / 100),
+                                      top: height * (14 / 100),
+                                      left: width * (29 / 100),
                                       child: Text(
                                         'insight information',
                                         style: TextStyle(
@@ -351,7 +356,7 @@ class _DashBoardState extends State<DashBoard> {
                             )),
                       ),
                       Positioned(
-                        top: height * 0.18,
+                        top: height * 0.21,
                         height: height * (100 / 100),
                         child: SingleChildScrollView(
                           child: Container(
