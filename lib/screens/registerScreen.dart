@@ -6,7 +6,7 @@ import 'package:memby/components/Register/TextBox.dart';
 import 'package:memby/components/Register/CalendarPicker.dart';
 import 'package:memby/components/Register/GenderPicker.dart';
 import 'package:memby/components/Register/AcknowlwdgementBox.dart';
-// import 'package:memby/components/Register/showDialogBox.dart';
+import 'package:memby/components/Register/showDialogBox.dart';
 
 const grey = const Color(0xFF5A5A5A);
 const lightGrey = const Color(0xFFEAEAEA);
@@ -35,12 +35,37 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
+    void moveToLastScreen() {
+      ShowDialogBox(
+        title: "Are you sure?",
+        content: "You will lose all of the changes",
+        confirmButtonYes: "Discard",
+        confirmButtonNo: "Cancel",
+      );
+    }
+
     return Container(
-      color: Colors.white,
-      child: Scaffold(
-        body: SingleChildScrollView(child: FormBoxes()),
-      ),
-    );
+        color: Colors.white,
+        child: WillPopScope(
+          onWillPop: () {
+            moveToLastScreen();
+          },
+          child: Scaffold(
+            appBar: AppBar(
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back),
+                color: themeBlue,
+                onPressed: () {
+                  moveToLastScreen();
+                },
+              ),
+              backgroundColor: Colors.transparent,
+              foregroundColor: Colors.transparent,
+              shadowColor: Colors.transparent,
+            ),
+            body: SingleChildScrollView(child: FormBoxes()),
+          ),
+        ));
   }
 }
 
@@ -107,7 +132,6 @@ class _FormBoxesState extends State<FormBoxes> {
       child: Center(
         child: Column(
           children: [
-            SizedBox(height: height * (5 / 100)),
             Container(
               child: Column(
                 children: [

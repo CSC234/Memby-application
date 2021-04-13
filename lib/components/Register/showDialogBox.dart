@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 
 class ShowDialogBox extends StatefulWidget {
-  ShowDialogBox({Key key, this.title, this.content, this.confirmButton})
+  ShowDialogBox(
+      {Key key,
+      this.title,
+      this.content,
+      this.confirmButtonYes,
+      this.confirmButtonNo})
       : super(key: key);
   final String title;
   final String content;
-  final String confirmButton;
+  final String confirmButtonYes;
+  final String confirmButtonNo;
 
   @override
   _ShowDialogBoxState createState() => _ShowDialogBoxState();
@@ -21,9 +27,15 @@ class _ShowDialogBoxState extends State<ShowDialogBox> {
               actions: <Widget>[
                 // ignore: deprecated_member_use
                 FlatButton(
-                  child: Text(widget.confirmButton),
+                  child: Text(widget.confirmButtonYes),
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    return Navigator.of(context).pop();
+                  },
+                ),
+                TextButton(
+                  child: Text(widget.confirmButtonNo),
+                  onPressed: () {
+                    return true;
                   },
                 )
               ],
