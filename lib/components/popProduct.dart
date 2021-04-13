@@ -38,7 +38,7 @@ class PopProduct extends StatefulWidget {
 List<PopProductList> render = [];
 
 class _PopProductState extends State<PopProduct> {
-  ListView makePopProductList() {
+  makePopProductList() {
     if (widget.handleRender == 'daily') {
       render = popProductDaily;
     }
@@ -60,8 +60,8 @@ class _PopProductState extends State<PopProduct> {
         ),
       );
     }
-    return ListView(
-      padding: EdgeInsets.symmetric(vertical: 0),
+    return Column(
+      // padding: EdgeInsets.symmetric(vertical: 0),
       children: popProductHolder,
     );
   }

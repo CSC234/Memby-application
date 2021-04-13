@@ -18,19 +18,19 @@ List<TotalSaleList> productListYearly = [
     no: 2,
     name: "Selsun Selenium sulfide2",
     unit: 2,
-    totalSale: 2,
+    totalSale: 200,
   ),
   TotalSaleList(
     no: 3,
     name: "Selsun Selenium sulfide3",
     unit: 3,
-    totalSale: 3,
+    totalSale: 31,
   ),
   TotalSaleList(
     no: 4,
     name: "Selsun Selenium sulfide3",
     unit: 4,
-    totalSale: 4,
+    totalSale: 124,
   ),
 ];
 List<TotalSaleList> productListMonthly = [
@@ -179,7 +179,7 @@ List<TotalSaleList> render = [];
 String isRender;
 
 class _DashBoardState extends State<DashBoard> {
-  ListView makeProductList() {
+  makeProductList() {
     if (clickDaily == false) {
       isRender = 'daily';
     }
@@ -199,20 +199,33 @@ class _DashBoardState extends State<DashBoard> {
     if (clickYearly == false) {
       render = productListYearly;
     }
-
-    for (int i = 0; i < render.length; i++) {
-      var p = render[i];
-      productHolder.add(
-        TotalSaleList(
-          no: p.no,
-          name: p.name,
-          unit: p.unit,
-          totalSale: p.totalSale,
-        ),
-      );
+    if (render.length >= 5) {
+      for (int i = 0; i < 5; i++) {
+        var p = render[i];
+        productHolder.add(
+          TotalSaleList(
+            no: p.no,
+            name: p.name,
+            unit: p.unit,
+            totalSale: p.totalSale,
+          ),
+        );
+      }
     }
-    return ListView(
-      padding: EdgeInsets.symmetric(vertical: 0),
+    if (render.length < 5) {
+      for (int i = 0; i < render.length; i++) {
+        var p = render[i];
+        productHolder.add(
+          TotalSaleList(
+            no: p.no,
+            name: p.name,
+            unit: p.unit,
+            totalSale: p.totalSale,
+          ),
+        );
+      }
+    }
+    return Column(
       children: productHolder,
     );
   }
@@ -246,7 +259,7 @@ class _DashBoardState extends State<DashBoard> {
   }
 
   List<TopCustomer> renderCustomer = [];
-  ListView makeTopCustomerList() {
+  makeTopCustomerList() {
     List<TopCustomer> customerHolder = [];
 
     if (clickDaily == false) {
@@ -258,19 +271,33 @@ class _DashBoardState extends State<DashBoard> {
     if (clickYearly == false) {
       renderCustomer = popSaleListYearly;
     }
-    for (int i = 0; i < renderCustomer.length; i++) {
-      var p = renderCustomer[i];
-      customerHolder.add(
-        TopCustomer(
-          no: p.no,
-          name: p.name,
-          phoneNo: p.phoneNo,
-          totalPaid: p.totalPaid,
-        ),
-      );
+    if (renderCustomer.length >= 5) {
+      for (int i = 0; i < 5; i++) {
+        var p = renderCustomer[i];
+        customerHolder.add(
+          TopCustomer(
+            no: p.no,
+            name: p.name,
+            phoneNo: p.phoneNo,
+            totalPaid: p.totalPaid,
+          ),
+        );
+      }
     }
-    return ListView(
-      padding: EdgeInsets.symmetric(vertical: 0),
+    if (renderCustomer.length < 5) {
+      for (int i = 0; i < renderCustomer.length; i++) {
+        var p = renderCustomer[i];
+        customerHolder.add(
+          TopCustomer(
+            no: p.no,
+            name: p.name,
+            phoneNo: p.phoneNo,
+            totalPaid: p.totalPaid,
+          ),
+        );
+      }
+    }
+    return Column(
       children: customerHolder,
     );
   }
@@ -469,8 +496,6 @@ class _DashBoardState extends State<DashBoard> {
                                                         ),
                                                       ),
                                                       Container(
-                                                        height:
-                                                            height * (21 / 100),
                                                         width:
                                                             width * (90 / 100),
                                                         child:
