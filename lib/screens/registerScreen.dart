@@ -7,6 +7,7 @@ import 'package:memby/components/Register/CalendarPicker.dart';
 import 'package:memby/components/Register/GenderPicker.dart';
 import 'package:memby/components/Register/AcknowlwdgementBox.dart';
 // import 'package:memby/components/Register/showDialogBox.dart';
+import 'package:memby/components/bottomNav/nav.dart';
 
 const grey = const Color(0xFF5A5A5A);
 const lightGrey = const Color(0xFFEAEAEA);
@@ -38,6 +39,9 @@ class _RegisterState extends State<Register> {
     return Container(
       color: Colors.white,
       child: Scaffold(
+        bottomNavigationBar: NavKT(
+          currentIndex: 1,
+        ),
         body: SingleChildScrollView(child: FormBoxes()),
       ),
     );
@@ -111,11 +115,28 @@ class _FormBoxesState extends State<FormBoxes> {
             Container(
               child: Column(
                 children: [
-                  Text(
-                    "Register",
-                    style: TextStyle(
-                        fontSize: 48, fontFamily: 'Alef-Regular', color: grey),
+                  Row(
+                    children: [
+                      Container(
+                        width: width * 0.15,
+                        child: IconButton(
+                          icon: Icon(Icons.arrow_back, color: Colors.grey[700]),
+                          onPressed: () => Navigator.of(context).pop(),
+                        ),
+                      ),
+                      SizedBox(
+                        width: width * 0.13,
+                      ),
+                      Text(
+                        "Register",
+                        style: TextStyle(
+                            fontSize: 48,
+                            fontFamily: 'Alef-Regular',
+                            color: grey),
+                      ),
+                    ],
                   ),
+
                   Text(
                     "Create Customer's Account",
                     style: TextStyle(
@@ -239,7 +260,7 @@ class _FormBoxesState extends State<FormBoxes> {
                       child: ElevatedButton(
                         child: Text("Register"),
                         style: ElevatedButton.styleFrom(
-                            textStyle: TextStyle(fontSize: 24),
+                            textStyle: TextStyle(fontSize: 16),
                             primary: themeBlue,
                             shape: new RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(10.0),
@@ -290,7 +311,7 @@ class _FormBoxesState extends State<FormBoxes> {
                     ),
                   ),
                   SizedBox(
-                    height: height * (5 / 100),
+                    height: height * (1 / 100),
                   )
                 ],
               ),
