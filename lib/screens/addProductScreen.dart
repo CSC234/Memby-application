@@ -129,7 +129,7 @@ class _AddProductList extends State<AddProductList> {
     return Scaffold(
         backgroundColor: kPrimaryColor,
         bottomNavigationBar: NavKT(
-          currentIndex: 2,
+          currentIndex: 3,
         ),
         body: Container(
           height: height * (90 / 100),
@@ -141,14 +141,32 @@ class _AddProductList extends State<AddProductList> {
                   child: Column(
                     children: [
                       SizedBox(
-                        height: 50,
+                        height: height * 0.05,
                       ),
-                      Text(
-                        'Add Product',
-                        style: TextStyle(
-                            color: kPrimaryFont,
-                            fontSize: 45,
-                            fontFamily: 'Alef-Regular'),
+                      Row(
+                        children: [
+                          Container(
+                            width: width * 0.15,
+                            child: IconButton(
+                              icon: Icon(Icons.arrow_back,
+                                  color: Colors.grey[700]),
+                              onPressed: () => Navigator.of(context).pop(),
+                            ),
+                          ),
+                          SizedBox(
+                            width: width * 0.05,
+                          ),
+                          Container(
+                            width: width * 0.8,
+                            child: Text(
+                              'Add Product',
+                              style: TextStyle(
+                                  color: kPrimaryFont,
+                                  fontSize: 45,
+                                  fontFamily: 'Alef-Regular'),
+                            ),
+                          ),
+                        ],
                       ),
                       Text(
                         'insert your product list',

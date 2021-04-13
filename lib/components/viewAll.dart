@@ -299,7 +299,7 @@ class _ViewAllState extends State<ViewAll> {
                                                                   fontSize:
                                                                       18)),
                                                         ),
-                                                        HandleViewAll(),
+                                                        
                                                       ],
                                                     ),
                                                     Divider(

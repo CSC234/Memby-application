@@ -25,7 +25,7 @@ class PopProductList extends StatelessWidget {
       child: Container(
         child: Container(
           child: Container(
-            child: Padding(
+            child: Container(
               padding: const EdgeInsets.only(right: 20, left: 10),
               child: Row(
                 children: [
