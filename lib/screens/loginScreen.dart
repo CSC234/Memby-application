@@ -7,6 +7,7 @@ import 'package:toggle_switch/toggle_switch.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'package:memby/components/toggle/animated_toggle_button.dart';
 import 'package:memby/components/toggle/theme_color.dart';
+import 'package:memby/screens/guide.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -58,7 +59,7 @@ class _LoginState extends State<Login> {
     ],
     backgroundColor: const Color(0xFF6E7CE4),
     textColor: const Color(0xFFFFFFFF),
-    toggleButtonColor: const Color(0xFF6E7CE4),
+    toggleButtonColor: const Color(0xFF6961D6),
     toggleBackgroundColor: const Color(0xFFe7e7e8),
     shadow: const [
       BoxShadow(
@@ -85,6 +86,8 @@ class _LoginState extends State<Login> {
       _passwordVisible = false;
     }
 
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: kPrimaryColor,
       body: SingleChildScrollView(
@@ -258,7 +261,7 @@ class _LoginState extends State<Login> {
                   )
                 : Container(),
             RoundedButton(
-                color: kPrimaryLightColor,
+                color: Color(0xFF4941BB),
                 buttonHight: 50,
                 fontsize: 15,
                 buttonSize: 0.4,
@@ -281,12 +284,12 @@ class _LoginState extends State<Login> {
                   }
                 }),
             SizedBox(
-              height: 35,
+              height: 10,
             ),
             Row(
               children: [
                 SizedBox(
-                  width: 40,
+                  width: width * 0.08,
                 ),
                 Container(
                   width: 160,
@@ -313,7 +316,7 @@ class _LoginState extends State<Login> {
               ],
             ),
             SizedBox(
-              height: 35,
+              height: 20,
             ),
             GoogleSignInButton(
                 onPressed: () {
@@ -325,7 +328,14 @@ class _LoginState extends State<Login> {
                     fontSize: 15,
                     fontFamily: 'Alef-Regular')),
             SizedBox(
-              height: 20,
+              height: 40,
+            ),
+            Text(
+              'Powered by KTBNG Group ©',
+              style: TextStyle(color: Colors.grey[600]),
+            ),
+            SizedBox(
+              height: 40,
             ),
           ],
         ),

@@ -5,8 +5,10 @@ import 'package:provider/provider.dart';
 import 'package:memby/components/Register/TextBox.dart';
 import 'package:memby/components/Register/CalendarPicker.dart';
 import 'package:memby/components/Register/GenderPicker.dart';
-import 'package:memby/components/Register/AcknowlwdgementBox.dart';
-import 'package:memby/components/Register/showDialogBox.dart';
+// import 'package:memby/components/Register/AcknowlwdgementBox.dart';
+// import 'package:memby/components/Register/showDialogBox.dart';
+import 'package:memby/screens/landingScreen.dart';
+// import 'package:memby/components/bottomNav/nav.dart';
 
 const grey = const Color(0xFF5A5A5A);
 const lightGrey = const Color(0xFFEAEAEA);
@@ -36,17 +38,21 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     void moveToLastScreen() {
-      ShowDialogBox(
-        title: "Are you sure?",
-        content: "You will lose all of the changes",
-        confirmButtonYes: "Discard",
-        confirmButtonNo: "Cancel",
-      );
+      // ShowDialogBox(
+      //   title: "Are you sure?",
+      //   content: "You will lose all of the changes",
+      //   confirmButtonYes: "Discard",
+      //   confirmButtonNo: "Cancel",
+      // );
     }
 
     return Container(
         color: Colors.white,
-        child: WillPopScope(
+        child:
+            // bottomNavigationBar: NavKT(
+            //   currentIndex: 1,
+            // ),
+            WillPopScope(
           onWillPop: () {
             moveToLastScreen();
           },
@@ -135,11 +141,32 @@ class _FormBoxesState extends State<FormBoxes> {
             Container(
               child: Column(
                 children: [
-                  Text(
-                    "Register",
-                    style: TextStyle(
-                        fontSize: 48, fontFamily: 'Alef-Regular', color: grey),
+                  Row(
+                    children: [
+                      Container(
+                          width: width * 0.15,
+                          child: IconButton(
+                              icon: Icon(Icons.arrow_back,
+                                  color: Colors.grey[700]),
+                              onPressed: () =>
+                                  Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) {
+                                      return Landing();
+                                    },
+                                  )))),
+                      SizedBox(
+                        width: width * 0.13,
+                      ),
+                      Text(
+                        "Register",
+                        style: TextStyle(
+                            fontSize: 48,
+                            fontFamily: 'Alef-Regular',
+                            color: grey),
+                      ),
+                    ],
                   ),
+
                   Text(
                     "Create Customer's Account",
                     style: TextStyle(
@@ -151,7 +178,7 @@ class _FormBoxesState extends State<FormBoxes> {
                   TextBox(
                     text: "Firstname",
                     input: firstnameController,
-                    width: width * (80 / 100),
+                    width: width * (85 / 100),
                     keyboardType: TextInputType.name,
                     formColor: lightGrey,
                     textColor: fontColor,
@@ -160,7 +187,7 @@ class _FormBoxesState extends State<FormBoxes> {
                   TextBox(
                     text: "Lastname",
                     input: lastnameController,
-                    width: width * (80 / 100),
+                    width: width * (85 / 100),
                     keyboardType: TextInputType.name,
                     formColor: lightGrey,
                     textColor: fontColor,
@@ -169,7 +196,7 @@ class _FormBoxesState extends State<FormBoxes> {
                   TextBox(
                     text: "Email",
                     input: emailController,
-                    width: width * (80 / 100),
+                    width: width * (85 / 100),
                     keyboardType: TextInputType.emailAddress,
                     formColor: lightGrey,
                     textColor: fontColor,
@@ -179,7 +206,7 @@ class _FormBoxesState extends State<FormBoxes> {
                   TextBox(
                     text: "Phone Number",
                     input: phoneNumberController,
-                    width: width * (80 / 100),
+                    width: width * (85 / 100),
                     keyboardType: TextInputType.number,
                     formColor: lightGrey,
                     textColor: fontColor,
@@ -214,7 +241,7 @@ class _FormBoxesState extends State<FormBoxes> {
                           padding: const EdgeInsets.only(left: 20.0),
                           child: Container(
                             height: height * (5 / 100),
-                            width: width * (37.5 / 100),
+                            width: width * (41 / 100),
                             child: GenderPicker(
                               gender: defaultGender,
                               onSelectGender: changeGender,
@@ -238,7 +265,7 @@ class _FormBoxesState extends State<FormBoxes> {
                   TextBox(
                     text: "Address",
                     input: addressController,
-                    width: width * (80 / 100),
+                    width: width * (85 / 100),
                     keyboardType: TextInputType.multiline,
                     formColor: lightGrey,
                     textColor: fontColor,
@@ -263,7 +290,7 @@ class _FormBoxesState extends State<FormBoxes> {
                       child: ElevatedButton(
                         child: Text("Register"),
                         style: ElevatedButton.styleFrom(
-                            textStyle: TextStyle(fontSize: 24),
+                            textStyle: TextStyle(fontSize: 16),
                             primary: themeBlue,
                             shape: new RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(10.0),
@@ -314,7 +341,7 @@ class _FormBoxesState extends State<FormBoxes> {
                     ),
                   ),
                   SizedBox(
-                    height: height * (5 / 100),
+                    height: height * (1 / 100),
                   )
                 ],
               ),

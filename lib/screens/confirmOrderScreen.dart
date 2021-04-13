@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:memby/screens/orderRecieptScreen.dart';
+import 'package:memby/components/Register/TextBox.dart';
 
 class ConfirmOrderScreen extends StatefulWidget {
   final Order order;
@@ -99,6 +100,10 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
   );
   int initialIndex = 0;
   bool isMember = false;
+  bool isCustomerPhoneValid = false;
+  String customerName = "Please Enter Customer Phone";
+  String customerPhone = "";
+  dynamic customer;
   @override
   Widget build(BuildContext context) {
     double getTotalPrice() {
@@ -245,7 +250,31 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                           child: TextField(
                             keyboardType: TextInputType.number,
                             textAlign: TextAlign.center,
-                            onChanged: (value) {},
+                            onChanged: (value) async {
+                              if (value.length == 10) {
+                                String customerPhone = value;
+                                print(customerPhone);
+                                customer = await context
+                                    .read<FlutterFireAuthService>()
+                                    .getCustomerFromPhoneNo(customerPhone);
+
+                                setState(() {
+                                  isCustomerPhoneValid = customer != null;
+                                  customerName = isCustomerPhoneValid
+                                      ? customer.get("firstname") +
+                                          " " +
+                                          customer.get("lastname")
+                                      : 'Member Not Found!';
+                                });
+                              } else {
+                                setState(() {
+                                  isCustomerPhoneValid = false;
+                                  customer = null;
+
+                                  customerName = "Please Enter Customer Phone";
+                                });
+                              }
+                            },
                             // controller: TextEditingController()
                             //   ..text = amount.toString(),
                             decoration: kTextFieldDecoration.copyWith(
@@ -263,13 +292,21 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                     : Expanded(
                         flex: 2,
                         child: Container(
-                          child: Icon(
-                            Icons.check,
-                            color: Colors.white,
-                            size: 24.0,
-                          ),
+                          child: isCustomerPhoneValid
+                              ? Icon(
+                                  Icons.check,
+                                  color: Colors.white,
+                                  size: 24.0,
+                                )
+                              : Icon(
+                                  Icons.clear,
+                                  color: Colors.white,
+                                  size: 24.0,
+                                ),
                           decoration: BoxDecoration(
-                              color: kPrimaryLightColor,
+                              color: isCustomerPhoneValid
+                                  ? kPrimaryLightColor
+                                  : Color(0xFFB7B7B7),
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10))),
                           height: 40,
@@ -281,7 +318,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                 ? Container()
                 : Row(
                     children: [
-                      Text('Kodchapong Dechboonyapichart'),
+                      Text(customerName),
                     ],
                   ),
             Row(
@@ -340,6 +377,10 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                     color: kPrimaryLightColor,
                     title: 'ORDER',
                     onPress: () {
+                      context
+                          .read<FlutterFireAuthService>()
+                          .getCustomerFromPhoneNo('77797777977');
+
                       Navigator.push(
                         context,
                         MaterialPageRoute(

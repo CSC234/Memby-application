@@ -5,6 +5,7 @@ import 'package:memby/components/popProduct.dart';
 import 'package:memby/components/viewAll.dart';
 import '../constants.dart';
 import 'package:memby/components/bottomNav/nav.dart';
+import 'package:memby/screens/landingScreen.dart';
 
 List<TotalSaleList> productListYearly = [
   TotalSaleList(
@@ -308,7 +309,8 @@ class _DashBoardState extends State<DashBoard> {
                   child: Stack(
                     children: <Widget>[
                       Positioned(
-                        height: height * (30 / 100),
+                        // height: height * (50 / 100),
+                        // height: ,/
                         child: SizedBox(
                             width: width,
                             height: 350,
@@ -319,18 +321,33 @@ class _DashBoardState extends State<DashBoard> {
                               child: Stack(
                                 children: <Widget>[
                                   Positioned(
-                                      top: height * (10 / 100),
-                                      left: 20,
-                                      child: Text(
+                                    top: height * (5 / 100),
+                                    // left: 20,
+                                    child: Row(children: [
+                                      Container(
+                                        width: width * 0.15,
+                                        child: IconButton(
+                                            icon: Icon(Icons.arrow_back,
+                                                color: Colors.white),
+                                            onPressed: () => Navigator.push(
+                                                    context, MaterialPageRoute(
+                                                  builder: (context) {
+                                                    return Landing();
+                                                  },
+                                                ))),
+                                      ),
+                                      Text(
                                         'View DashBoard',
                                         style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: 48,
+                                            fontSize: 40,
                                             fontFamily: 'Alef-Regular'),
-                                      )),
+                                      )
+                                    ]),
+                                  ),
                                   Positioned(
-                                      top: height * (18 / 100),
-                                      left: width * (30 / 100),
+                                      top: height * (14 / 100),
+                                      left: width * (29 / 100),
                                       child: Text(
                                         'insight information',
                                         style: TextStyle(
@@ -343,7 +360,7 @@ class _DashBoardState extends State<DashBoard> {
                             )),
                       ),
                       Positioned(
-                        top: 200,
+                        top: height * 0.21,
                         height: height * (100 / 100),
                         child: SingleChildScrollView(
                           child: Container(
