@@ -6,6 +6,8 @@ import 'package:memby/components/Register/TextBox.dart';
 import 'package:memby/components/Register/CalendarPicker.dart';
 import 'package:memby/components/Register/GenderPicker.dart';
 import 'package:memby/components/Register/AcknowlwdgementBox.dart';
+import 'package:memby/screens/landingScreen.dart';
+
 // import 'package:memby/components/Register/showDialogBox.dart';
 import 'package:memby/components/bottomNav/nav.dart';
 
@@ -118,12 +120,16 @@ class _FormBoxesState extends State<FormBoxes> {
                   Row(
                     children: [
                       Container(
-                        width: width * 0.15,
-                        child: IconButton(
-                          icon: Icon(Icons.arrow_back, color: Colors.grey[700]),
-                          onPressed: () => Navigator.of(context).pop(),
-                        ),
-                      ),
+                          width: width * 0.15,
+                          child: IconButton(
+                              icon: Icon(Icons.arrow_back,
+                                  color: Colors.grey[700]),
+                              onPressed: () =>
+                                  Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) {
+                                      return Landing();
+                                    },
+                                  )))),
                       SizedBox(
                         width: width * 0.13,
                       ),

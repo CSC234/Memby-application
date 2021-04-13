@@ -261,7 +261,7 @@ class _LoginState extends State<Login> {
                   )
                 : Container(),
             RoundedButton(
-                color: kPrimaryLightColor,
+                color: kPrimaryMain,
                 buttonHight: 50,
                 fontsize: 15,
                 buttonSize: 0.4,
@@ -284,7 +284,7 @@ class _LoginState extends State<Login> {
                   }
                 }),
             SizedBox(
-              height: 35,
+              height: 10,
             ),
             Row(
               children: [
@@ -316,7 +316,7 @@ class _LoginState extends State<Login> {
               ],
             ),
             SizedBox(
-              height: 35,
+              height: 20,
             ),
             GoogleSignInButton(
                 onPressed: () {
