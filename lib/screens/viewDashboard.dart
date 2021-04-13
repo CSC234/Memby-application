@@ -5,6 +5,7 @@ import 'package:memby/components/popProduct.dart';
 import 'package:memby/components/viewAll.dart';
 import '../constants.dart';
 import 'package:memby/components/bottomNav/nav.dart';
+import 'package:memby/screens/landingScreen.dart';
 
 List<TotalSaleList> productListYearly = [
   TotalSaleList(
@@ -326,11 +327,14 @@ class _DashBoardState extends State<DashBoard> {
                                       Container(
                                         width: width * 0.15,
                                         child: IconButton(
-                                          icon: Icon(Icons.arrow_back,
-                                              color: Colors.white),
-                                          onPressed: () =>
-                                              Navigator.of(context).pop(),
-                                        ),
+                                            icon: Icon(Icons.arrow_back,
+                                                color: Colors.white),
+                                            onPressed: () => Navigator.push(
+                                                    context, MaterialPageRoute(
+                                                  builder: (context) {
+                                                    return Landing();
+                                                  },
+                                                ))),
                                       ),
                                       Text(
                                         'View DashBoard',
