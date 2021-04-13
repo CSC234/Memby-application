@@ -148,7 +148,7 @@ class _FormBoxesState extends State<FormBoxes> {
                   TextBox(
                     text: "Firstname",
                     input: firstnameController,
-                    width: width * (80 / 100),
+                    width: width * (85 / 100),
                     keyboardType: TextInputType.name,
                     formColor: lightGrey,
                     textColor: fontColor,
@@ -157,7 +157,7 @@ class _FormBoxesState extends State<FormBoxes> {
                   TextBox(
                     text: "Lastname",
                     input: lastnameController,
-                    width: width * (80 / 100),
+                    width: width * (85 / 100),
                     keyboardType: TextInputType.name,
                     formColor: lightGrey,
                     textColor: fontColor,
@@ -166,7 +166,7 @@ class _FormBoxesState extends State<FormBoxes> {
                   TextBox(
                     text: "Email",
                     input: emailController,
-                    width: width * (80 / 100),
+                    width: width * (85 / 100),
                     keyboardType: TextInputType.emailAddress,
                     formColor: lightGrey,
                     textColor: fontColor,
@@ -176,7 +176,7 @@ class _FormBoxesState extends State<FormBoxes> {
                   TextBox(
                     text: "Phone Number",
                     input: phoneNumberController,
-                    width: width * (80 / 100),
+                    width: width * (85 / 100),
                     keyboardType: TextInputType.number,
                     formColor: lightGrey,
                     textColor: fontColor,
@@ -211,7 +211,7 @@ class _FormBoxesState extends State<FormBoxes> {
                           padding: const EdgeInsets.only(left: 20.0),
                           child: Container(
                             height: height * (5 / 100),
-                            width: width * (37.5 / 100),
+                            width: width * (41 / 100),
                             child: GenderPicker(
                               gender: defaultGender,
                               onSelectGender: changeGender,
@@ -235,7 +235,7 @@ class _FormBoxesState extends State<FormBoxes> {
                   TextBox(
                     text: "Address",
                     input: addressController,
-                    width: width * (80 / 100),
+                    width: width * (85 / 100),
                     keyboardType: TextInputType.multiline,
                     formColor: lightGrey,
                     textColor: fontColor,
