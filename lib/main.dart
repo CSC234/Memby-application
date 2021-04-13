@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:memby/screens/guide.dart';
+
 import 'package:memby/screens/landingScreen.dart';
 import 'package:overlay_support/overlay_support.dart';
 
@@ -38,7 +38,7 @@ class MembyApp extends StatelessWidget {
                 bodyText2: TextStyle(fontSize: 14.0),
               ),
             ),
-            home: Guide(),
+            home: Landing(),
           ),
         ));
   }
