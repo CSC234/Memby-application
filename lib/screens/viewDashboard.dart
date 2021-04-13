@@ -348,7 +348,7 @@ class _DashBoardState extends State<DashBoard> {
                               child: Stack(
                                 children: <Widget>[
                                   Positioned(
-                                    top: height * (5 / 100),
+                                    top: height * (6 / 100),
                                     // left: 20,
                                     child: Row(children: [
                                       Container(
@@ -367,7 +367,7 @@ class _DashBoardState extends State<DashBoard> {
                                         'View DashBoard',
                                         style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: 40,
+                                            fontSize: width * 0.1,
                                             fontFamily: 'Alef-Regular'),
                                       )
                                     ]),
