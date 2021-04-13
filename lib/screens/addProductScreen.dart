@@ -198,14 +198,14 @@ class _AddProductList extends State<AddProductList> {
                           Textfield(
                             controller: _productnameController,
                             text: 'Product name...',
-                            width: 350,
+                            width: width * (90 / 100),
                             min: 1,
                             max: 5,
                           ),
                           Textfield(
                             controller: _descriptionController,
                             text: 'Description...',
-                            width: 350,
+                            width: width * (90 / 100),
                             min: 3,
                             max: 5,
                           )
@@ -218,7 +218,7 @@ class _AddProductList extends State<AddProductList> {
                         children: [
                           Textfield(
                             controller: _priceController,
-                            width: 350,
+                            width: width * (90 / 100),
                             text: 'Price',
                             min: 1,
                             max: 5,
