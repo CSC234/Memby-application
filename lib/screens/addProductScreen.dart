@@ -127,23 +127,6 @@ class _AddProductList extends State<AddProductList> {
       return HomeScreen();
     }
     return Scaffold(
-        appBar: AppBar(
-          // backgroundColor: Colors.white,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.grey[700]),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          backgroundColor: Colors.transparent,
-          bottomOpacity: 0.0,
-          elevation: 0.0,
-          
-          title: Text(
-            'Add Product',
-            style: TextStyle(
-                color: kPrimaryFont, fontSize: 45, fontFamily: 'Alef-Regular'),
-          ),
-          // centerTitle: true,
-        ),
         backgroundColor: kPrimaryColor,
         bottomNavigationBar: NavKT(
           currentIndex: 3,
@@ -157,6 +140,34 @@ class _AddProductList extends State<AddProductList> {
                 child: Container(
                   child: Column(
                     children: [
+                      SizedBox(
+                        height: height * 0.05,
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            width: width * 0.15,
+                            child: IconButton(
+                              icon: Icon(Icons.arrow_back,
+                                  color: Colors.grey[700]),
+                              onPressed: () => Navigator.of(context).pop(),
+                            ),
+                          ),
+                          SizedBox(
+                            width: width * 0.05,
+                          ),
+                          Container(
+                            width: width * 0.8,
+                            child: Text(
+                              'Add Product',
+                              style: TextStyle(
+                                  color: kPrimaryFont,
+                                  fontSize: 45,
+                                  fontFamily: 'Alef-Regular'),
+                            ),
+                          ),
+                        ],
+                      ),
                       Text(
                         'insert your product list',
                         style: TextStyle(
