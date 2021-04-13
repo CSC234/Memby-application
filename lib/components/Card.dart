@@ -36,7 +36,7 @@ class CardButton extends StatelessWidget {
         child: DecoratedBox(
             decoration: BoxDecoration(
                 color: kPrimaryCard,
-                borderRadius: BorderRadius.circular(30),
+                borderRadius: BorderRadius.circular(23),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey,

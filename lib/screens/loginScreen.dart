@@ -59,7 +59,7 @@ class _LoginState extends State<Login> {
     ],
     backgroundColor: const Color(0xFF6E7CE4),
     textColor: const Color(0xFFFFFFFF),
-    toggleButtonColor: const Color(0xFF6E7CE4),
+    toggleButtonColor: const Color(0xFF6961D6),
     toggleBackgroundColor: const Color(0xFFe7e7e8),
     shadow: const [
       BoxShadow(
@@ -86,6 +86,8 @@ class _LoginState extends State<Login> {
       _passwordVisible = false;
     }
 
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: kPrimaryColor,
       body: SingleChildScrollView(
@@ -259,7 +261,7 @@ class _LoginState extends State<Login> {
                   )
                 : Container(),
             RoundedButton(
-                color: kPrimaryLightColor,
+                color: Color(0xFF4941BB),
                 buttonHight: 50,
                 fontsize: 15,
                 buttonSize: 0.4,
@@ -282,13 +284,15 @@ class _LoginState extends State<Login> {
                   }
                 }),
             SizedBox(
-              height: 35,
+              height: 10,
             ),
+            // Text(
+            //   '———————————————  or  ———————————————',
+            //   style: TextStyle(color: Colors.grey[600]),
+            // ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(
-                  width: 40,
-                ),
                 Container(
                   width: 160,
                   child: Divider(
@@ -313,8 +317,9 @@ class _LoginState extends State<Login> {
                 ),
               ],
             ),
+
             SizedBox(
-              height: 35,
+              height: 20,
             ),
             GoogleSignInButton(
                 onPressed: () {
@@ -326,7 +331,14 @@ class _LoginState extends State<Login> {
                     fontSize: 15,
                     fontFamily: 'Alef-Regular')),
             SizedBox(
-              height: 20,
+              height: 40,
+            ),
+            Text(
+              'Powered by KTBNG Group ©',
+              style: TextStyle(color: Colors.grey[600]),
+            ),
+            SizedBox(
+              height: 40,
             ),
           ],
         ),
