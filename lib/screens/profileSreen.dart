@@ -36,15 +36,18 @@ class _ProfileState extends State<Profile> {
 
     return Container(
         child: Scaffold(
-            bottomNavigationBar: NavKT(
-              currentIndex: 4,
+            appBar: AppBar(
+              backgroundColor: kPrimaryMain,
+              // backgroundColor: Colors.transparent,
+              bottomOpacity: 0.0,
+              elevation: 0.0,
+              title: Text('Your Profile'),
+              // centerTitle: true,
             ),
             body: Container(
-              // height: height * (90 / 100),
               child: SingleChildScrollView(
                 child: Column(children: [
                   SizedBox(
-                    // height: height * (33 / 100),
                     child: Positioned(
                       height: height,
                       child: SizedBox(
@@ -61,20 +64,6 @@ class _ProfileState extends State<Profile> {
                                 padding: EdgeInsets.all(20),
                                 child: Column(
                                   children: [
-                                    SizedBox(
-                                      height: 35,
-                                    ),
-                                    Align(
-                                      alignment: Alignment.topLeft,
-                                      child: Text(
-                                        'Your Profile',
-                                        style: TextStyle(
-                                            fontSize: 30, color: Colors.white),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
                                     FutureBuilder(
                                         future: _companyInfo,
                                         builder: (context, snapshot) {
