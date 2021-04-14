@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:memby/components/TotalSaleList.dart';
 import 'package:memby/components/chart.dart';
 import '../constants.dart';
+import 'package:memby/screens/viewDashboard.dart';
 
 List<TotalSaleList> productListDaily = [
   TotalSaleList(
@@ -215,20 +216,38 @@ class _ViewAllState extends State<ViewAll> {
                             child: Stack(
                               children: <Widget>[
                                 Positioned(
-                                    top: height * (10 / 100),
-                                    left: 20,
-                                    child: Text(
-                                      'View DashBoard',
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 48,
-                                          fontFamily: 'Alef-Regular'),
+                                    top: height * (6 / 100),
+                                    child: Row(
+                                      children: [
+                                        Row(children: [
+                                          Container(
+                                            width: width * 0.15,
+                                            child: IconButton(
+                                                icon: Icon(Icons.arrow_back,
+                                                    color: Colors.white),
+                                                onPressed: () =>
+                                                    Navigator.push(context,
+                                                        MaterialPageRoute(
+                                                      builder: (context) {
+                                                        return DashBoard();
+                                                      },
+                                                    ))),
+                                          ),
+                                          Text(
+                                            'View DashBoard',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: width * 0.1,
+                                                fontFamily: 'Alef-Regular'),
+                                          )
+                                        ]),
+                                      ],
                                     )),
                                 Positioned(
-                                    top: height * (18 / 100),
-                                    left: width * (30 / 100),
+                                    top: height * (14 / 100),
+                                    left: width * (26 / 100),
                                     child: Text(
-                                      'insight information',
+                                      'Total sale information',
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 20,
@@ -239,7 +258,7 @@ class _ViewAllState extends State<ViewAll> {
                           )),
                     ),
                     Positioned(
-                      top: 200,
+                      top: height * 0.21,
                       height: height * (100 / 100),
                       child: SingleChildScrollView(
                         child: Container(
