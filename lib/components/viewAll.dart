@@ -177,6 +177,8 @@ class _ViewAllState extends State<ViewAll> {
       return Text("");
     }
   }
+  var _filterText = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -337,6 +339,7 @@ class _ViewAllState extends State<ViewAll> {
                                                           child: SizedBox(
                                                             height: 30,
                                                             child: TextField(
+                                                              controller: _filterText,
                                                               decoration:
                                                                   InputDecoration(
                                                                 prefixIcon:
