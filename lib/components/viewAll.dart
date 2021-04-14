@@ -91,6 +91,22 @@ List<TotalSaleList> productListMonthly = [
 
 class ViewAll extends StatefulWidget {
   @override
+  final bool clickDaily;
+  final bool clickMonthly;
+  final bool clickYearly;
+  final Function handleClickChangeToggleDaily;
+  final Function handleClickChangeToggleMonthly;
+  final Function handleClickChangeToggleYearly;
+
+  const ViewAll(
+      {Key key,
+      this.clickDaily,
+      this.clickMonthly,
+      this.clickYearly,
+      this.handleClickChangeToggleMonthly,
+      this.handleClickChangeToggleDaily,
+      this.handleClickChangeToggleYearly})
+      : super(key: key);
   _ViewAllState createState() => _ViewAllState();
 }
 
@@ -101,7 +117,16 @@ String isRender;
 
 class _ViewAllState extends State<ViewAll> {
   var _filterText = TextEditingController();
+
+  bool clickDaily = false;
+  bool clickMonthly = true;
+  bool clickYearly = true;
   List<TotalSaleList> productHolder = [];
+  void initState() {
+    clickDaily = widget.clickDaily;
+    clickMonthly = widget.clickMonthly;
+    clickYearly = widget.clickYearly;
+  }
 
   ListView makeProductList() {
     productHolder = [];
@@ -124,7 +149,7 @@ class _ViewAllState extends State<ViewAll> {
     if (clickYearly == false) {
       render = productListYearly;
     }
-    print('hello boy');
+
     for (int i = 0; i < render.length; i++) {
       var p = render[i];
       productHolder.add(
@@ -146,10 +171,6 @@ class _ViewAllState extends State<ViewAll> {
       children: productHolder,
     );
   }
-
-  bool clickDaily = false;
-  bool clickMonthly = true;
-  bool clickYearly = true;
 
   void handleClickChangeToggleDaily() {
     setState(() {
