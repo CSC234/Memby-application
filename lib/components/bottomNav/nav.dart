@@ -90,24 +90,28 @@ class _State extends State<NavKT> {
         items: [
           BottomNavyBarItem(
             icon: Icon(Icons.home),
-            title: Text('Home'),
+            title: Align(alignment: Alignment.center, child: Text('Home')),
             activeColor: Color(0xFF4941BB),
           ),
           BottomNavyBarItem(
               icon: Icon(Icons.person_add),
-              title: Text('Register'),
+              title:
+                  Align(alignment: Alignment.center, child: Text('Register')),
               activeColor: Color(0xFF4941BB)),
           BottomNavyBarItem(
               icon: Icon(Icons.shopping_cart),
-              title: Text('CreateOrder'),
+              title: Align(
+                  alignment: Alignment.center, child: Text('CreateOrder')),
               activeColor: Color(0xFF4941BB)),
           BottomNavyBarItem(
               icon: Icon(Icons.add_shopping_cart),
-              title: Text('Add product'),
+              title: Align(
+                  alignment: Alignment.center, child: Text('Add product')),
               activeColor: Color(0xFF4941BB)),
           BottomNavyBarItem(
               icon: Icon(Icons.dashboard_rounded),
-              title: Text('Dashboard'),
+              title:
+                  Align(alignment: Alignment.center, child: Text('Dashboard')),
               activeColor: Color(0xFF4941BB)),
           // BottomNavyBarItem(
           //     icon: Icon(Icons.settings),

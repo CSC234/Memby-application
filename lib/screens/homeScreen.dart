@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:memby/screens/loginScreen.dart';
+import 'package:memby/screens/guide.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -9,6 +10,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return Login();
+    return Guide();
   }
 }

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:memby/components/Profile/main.dart';
 import 'package:memby/constants.dart';
-import 'package:memby/components/bottomNav/nav.dart';
-
 import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,12 +19,7 @@ class _ProfileState extends State<Profile> {
   }
 
   @override
-  String change = 'main';
-  handleChange(state) {
-    setState(() {
-      change = state;
-    });
-  }
+ 
 
   Widget build(BuildContext context) {
     final firebaseUser = context.watch<User>();
@@ -38,11 +31,10 @@ class _ProfileState extends State<Profile> {
         child: Scaffold(
             appBar: AppBar(
               backgroundColor: kPrimaryMain,
-              // backgroundColor: Colors.transparent,
               bottomOpacity: 0.0,
               elevation: 0.0,
               title: Text('Your Profile'),
-              // centerTitle: true,
+
             ),
             body: Container(
               child: SingleChildScrollView(
@@ -172,16 +164,6 @@ class _ProfileState extends State<Profile> {
                   SizedBox(
                     height: 10,
                   ),
-                  // IconButton(
-                  //   onPressed: () {
-                  //     context.read<FlutterFireAuthService>().getProducts();
-                  //   },
-                  //   icon: Icon(
-                  //     Icons.check,
-                  //     color: Colors.grey[500],
-                  //     size: 30,
-                  //   ),
-                  // ),
                   Main(onPress: () {
                     print("Sign Out Pressed");
                     context.read<FlutterFireAuthService>().signOut();

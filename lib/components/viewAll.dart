@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:memby/components/TotalSaleList.dart';
 import 'package:memby/components/chart.dart';
 import '../constants.dart';
+import 'package:memby/screens/viewDashboard.dart';
 
 List<TotalSaleList> productListDaily = [
   TotalSaleList(
@@ -90,14 +91,45 @@ List<TotalSaleList> productListMonthly = [
 
 class ViewAll extends StatefulWidget {
   @override
+  final bool clickDaily;
+  final bool clickMonthly;
+  final bool clickYearly;
+  final Function handleClickChangeToggleDaily;
+  final Function handleClickChangeToggleMonthly;
+  final Function handleClickChangeToggleYearly;
+
+  const ViewAll(
+      {Key key,
+      this.clickDaily,
+      this.clickMonthly,
+      this.clickYearly,
+      this.handleClickChangeToggleMonthly,
+      this.handleClickChangeToggleDaily,
+      this.handleClickChangeToggleYearly})
+      : super(key: key);
   _ViewAllState createState() => _ViewAllState();
 }
 
 List<TotalSaleList> render = [];
+List<TotalSaleList> renderFilter = [];
+
 String isRender;
 
 class _ViewAllState extends State<ViewAll> {
+  var _filterText = TextEditingController();
+
+  bool clickDaily = false;
+  bool clickMonthly = true;
+  bool clickYearly = true;
+  List<TotalSaleList> productHolder = [];
+  void initState() {
+    clickDaily = widget.clickDaily;
+    clickMonthly = widget.clickMonthly;
+    clickYearly = widget.clickYearly;
+  }
+
   ListView makeProductList() {
+    productHolder = [];
     if (clickDaily == false) {
       isRender = 'daily';
     }
@@ -108,7 +140,6 @@ class _ViewAllState extends State<ViewAll> {
       isRender = 'yearly';
     }
 
-    List<TotalSaleList> productHolder = [];
     if (clickDaily == false) {
       render = productListDaily;
     }
@@ -118,6 +149,7 @@ class _ViewAllState extends State<ViewAll> {
     if (clickYearly == false) {
       render = productListYearly;
     }
+
     for (int i = 0; i < render.length; i++) {
       var p = render[i];
       productHolder.add(
@@ -129,15 +161,16 @@ class _ViewAllState extends State<ViewAll> {
         ),
       );
     }
+    List<TotalSaleList> renderFilter = productHolder
+        .where((el) =>
+            el.name.indexOf(_filterText.text) != -1 || _filterText.text.isEmpty)
+        .toList();
+    productHolder = renderFilter;
     return ListView(
       padding: EdgeInsets.symmetric(vertical: 0),
       children: productHolder,
     );
   }
-
-  bool clickDaily = false;
-  bool clickMonthly = true;
-  bool clickYearly = true;
 
   void handleClickChangeToggleDaily() {
     setState(() {
@@ -204,20 +237,38 @@ class _ViewAllState extends State<ViewAll> {
                             child: Stack(
                               children: <Widget>[
                                 Positioned(
-                                    top: height * (10 / 100),
-                                    left: 20,
-                                    child: Text(
-                                      'View DashBoard',
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 48,
-                                          fontFamily: 'Alef-Regular'),
+                                    top: height * (6 / 100),
+                                    child: Row(
+                                      children: [
+                                        Row(children: [
+                                          Container(
+                                            width: width * 0.15,
+                                            child: IconButton(
+                                                icon: Icon(Icons.arrow_back,
+                                                    color: Colors.white),
+                                                onPressed: () =>
+                                                    Navigator.push(context,
+                                                        MaterialPageRoute(
+                                                      builder: (context) {
+                                                        return DashBoard();
+                                                      },
+                                                    ))),
+                                          ),
+                                          Text(
+                                            'View DashBoard',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: width * 0.1,
+                                                fontFamily: 'Alef-Regular'),
+                                          )
+                                        ]),
+                                      ],
                                     )),
                                 Positioned(
-                                    top: height * (18 / 100),
-                                    left: width * (30 / 100),
+                                    top: height * (14 / 100),
+                                    left: width * (26 / 100),
                                     child: Text(
-                                      'insight information',
+                                      'Total sale information',
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 20,
@@ -228,7 +279,7 @@ class _ViewAllState extends State<ViewAll> {
                           )),
                     ),
                     Positioned(
-                      top: 200,
+                      top: height * 0.21,
                       height: height * (100 / 100),
                       child: SingleChildScrollView(
                         child: Container(
@@ -299,13 +350,45 @@ class _ViewAllState extends State<ViewAll> {
                                                                   fontSize:
                                                                       18)),
                                                         ),
-                                                        
+                                                        SizedBox(
+                                                          width: width * 0.05,
+                                                        ),
+                                                        Expanded(
+                                                          child: SizedBox(
+                                                            height: 30,
+                                                            child: TextField(
+                                                              controller:
+                                                                  _filterText,
+                                                              decoration:
+                                                                  InputDecoration(
+                                                                prefixIcon:
+                                                                    Icon(Icons
+                                                                        .search),
+                                                                hintText:
+                                                                    'What are you looking for?',
+                                                                hintStyle:
+                                                                    TextStyle(
+                                                                        fontSize:
+                                                                            14),
+                                                              ),
+                                                              onSubmitted:
+                                                                  (value) {
+                                                                setState(() {});
+
+                                                                print(
+                                                                    _filterText
+                                                                        .text);
+                                                              },
+                                                            ),
+                                                          ),
+                                                        ),
                                                       ],
                                                     ),
                                                     Divider(
                                                       height: 0,
                                                       thickness: 1,
                                                     ),
+
                                                     Padding(
                                                       padding: const EdgeInsets
                                                               .symmetric(

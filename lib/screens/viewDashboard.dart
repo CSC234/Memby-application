@@ -5,6 +5,7 @@ import 'package:memby/components/popProduct.dart';
 import 'package:memby/components/viewAll.dart';
 import '../constants.dart';
 import 'package:memby/components/bottomNav/nav.dart';
+import 'package:memby/screens/landingScreen.dart';
 
 List<TotalSaleList> productListYearly = [
   TotalSaleList(
@@ -17,19 +18,19 @@ List<TotalSaleList> productListYearly = [
     no: 2,
     name: "Selsun Selenium sulfide2",
     unit: 2,
-    totalSale: 2,
+    totalSale: 200,
   ),
   TotalSaleList(
     no: 3,
     name: "Selsun Selenium sulfide3",
     unit: 3,
-    totalSale: 3,
+    totalSale: 31,
   ),
   TotalSaleList(
     no: 4,
     name: "Selsun Selenium sulfide3",
     unit: 4,
-    totalSale: 4,
+    totalSale: 124,
   ),
 ];
 List<TotalSaleList> productListMonthly = [
@@ -178,7 +179,7 @@ List<TotalSaleList> render = [];
 String isRender;
 
 class _DashBoardState extends State<DashBoard> {
-  ListView makeProductList() {
+  makeProductList() {
     if (clickDaily == false) {
       isRender = 'daily';
     }
@@ -198,20 +199,33 @@ class _DashBoardState extends State<DashBoard> {
     if (clickYearly == false) {
       render = productListYearly;
     }
-
-    for (int i = 0; i < render.length; i++) {
-      var p = render[i];
-      productHolder.add(
-        TotalSaleList(
-          no: p.no,
-          name: p.name,
-          unit: p.unit,
-          totalSale: p.totalSale,
-        ),
-      );
+    if (render.length >= 5) {
+      for (int i = 0; i < 5; i++) {
+        var p = render[i];
+        productHolder.add(
+          TotalSaleList(
+            no: p.no,
+            name: p.name,
+            unit: p.unit,
+            totalSale: p.totalSale,
+          ),
+        );
+      }
     }
-    return ListView(
-      padding: EdgeInsets.symmetric(vertical: 0),
+    if (render.length < 5) {
+      for (int i = 0; i < render.length; i++) {
+        var p = render[i];
+        productHolder.add(
+          TotalSaleList(
+            no: p.no,
+            name: p.name,
+            unit: p.unit,
+            totalSale: p.totalSale,
+          ),
+        );
+      }
+    }
+    return Column(
       children: productHolder,
     );
   }
@@ -245,7 +259,7 @@ class _DashBoardState extends State<DashBoard> {
   }
 
   List<TopCustomer> renderCustomer = [];
-  ListView makeTopCustomerList() {
+  makeTopCustomerList() {
     List<TopCustomer> customerHolder = [];
 
     if (clickDaily == false) {
@@ -257,19 +271,33 @@ class _DashBoardState extends State<DashBoard> {
     if (clickYearly == false) {
       renderCustomer = popSaleListYearly;
     }
-    for (int i = 0; i < renderCustomer.length; i++) {
-      var p = renderCustomer[i];
-      customerHolder.add(
-        TopCustomer(
-          no: p.no,
-          name: p.name,
-          phoneNo: p.phoneNo,
-          totalPaid: p.totalPaid,
-        ),
-      );
+    if (renderCustomer.length >= 5) {
+      for (int i = 0; i < 5; i++) {
+        var p = renderCustomer[i];
+        customerHolder.add(
+          TopCustomer(
+            no: p.no,
+            name: p.name,
+            phoneNo: p.phoneNo,
+            totalPaid: p.totalPaid,
+          ),
+        );
+      }
     }
-    return ListView(
-      padding: EdgeInsets.symmetric(vertical: 0),
+    if (renderCustomer.length < 5) {
+      for (int i = 0; i < renderCustomer.length; i++) {
+        var p = renderCustomer[i];
+        customerHolder.add(
+          TopCustomer(
+            no: p.no,
+            name: p.name,
+            phoneNo: p.phoneNo,
+            totalPaid: p.totalPaid,
+          ),
+        );
+      }
+    }
+    return Column(
       children: customerHolder,
     );
   }
@@ -281,7 +309,7 @@ class _DashBoardState extends State<DashBoard> {
         Navigator.push(
           context,
           new MaterialPageRoute(
-            builder: (context) => ViewAll(),
+            builder: (context) => ViewAll(clickMonthly:clickMonthly,clickDaily:clickDaily,clickYearly:clickYearly),
           ),
         );
       },
@@ -294,19 +322,10 @@ class _DashBoardState extends State<DashBoard> {
     double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: kPrimaryMain,
-        // backgroundColor: Colors.transparent,
-        bottomOpacity: 0.0,
-        elevation: 0.0,
-        title: Text('DashBoard'),
-        // centerTitle: true,
-      ),
       bottomNavigationBar: NavKT(
         currentIndex: 4,
       ),
       body: Container(
-        height: height * (90 / 100),
         child: SingleChildScrollView(
           child: Container(
             child: Column(
@@ -316,7 +335,8 @@ class _DashBoardState extends State<DashBoard> {
                   child: Stack(
                     children: <Widget>[
                       Positioned(
-                        height: height * (30 / 100),
+                        // height: height * (50 / 100),
+                        // height: ,/
                         child: SizedBox(
                             width: width,
                             height: 350,
@@ -327,18 +347,33 @@ class _DashBoardState extends State<DashBoard> {
                               child: Stack(
                                 children: <Widget>[
                                   Positioned(
-                                      // top: height * (10 / 100),
-                                      left: 20,
-                                      child: Text(
+                                    top: height * (6 / 100),
+                                    // left: 20,
+                                    child: Row(children: [
+                                      Container(
+                                        width: width * 0.15,
+                                        child: IconButton(
+                                            icon: Icon(Icons.arrow_back,
+                                                color: Colors.white),
+                                            onPressed: () => Navigator.push(
+                                                    context, MaterialPageRoute(
+                                                  builder: (context) {
+                                                    return Landing();
+                                                  },
+                                                ))),
+                                      ),
+                                      Text(
                                         'View DashBoard',
                                         style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: 48,
+                                            fontSize: width * 0.1,
                                             fontFamily: 'Alef-Regular'),
-                                      )),
+                                      )
+                                    ]),
+                                  ),
                                   Positioned(
-                                      top: height * (10 / 100),
-                                      left: width * (30 / 100),
+                                      top: height * (14 / 100),
+                                      left: width * (29 / 100),
                                       child: Text(
                                         'insight information',
                                         style: TextStyle(
@@ -351,254 +386,223 @@ class _DashBoardState extends State<DashBoard> {
                             )),
                       ),
                       Positioned(
-                        top: height * 0.18,
+                        top: height * 0.21,
                         height: height * (100 / 100),
-                        child: SingleChildScrollView(
+                        child: Container(
+                          width: width * (100 / 100),
                           child: Container(
-                              width: width * (100 / 100),
-                              child: SingleChildScrollView(
-                                child: SingleChildScrollView(
-                                  child: Container(
+                            child: Column(
+                              children: [
+                                Container(
+                                  height: height,
+                                  width: width,
+                                  child: SingleChildScrollView(
                                     child: Column(
                                       children: [
                                         Container(
-                                          height: height,
-                                          width: width,
-                                          child: SingleChildScrollView(
-                                            child: Column(
-                                              children: [
-                                                Container(
-                                                  margin: EdgeInsets.symmetric(
-                                                      horizontal: 30),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: <Widget>[
-                                                      topNav(
-                                                        isClick: clickDaily,
-                                                        title: 'Daily',
-                                                        click:
-                                                            handleClickChangeToggleDaily,
-                                                      ),
-                                                      topNav(
-                                                        isClick: clickMonthly,
-                                                        title: 'Monthly',
-                                                        click:
-                                                            handleClickChangeToggleMonthly,
-                                                      ),
-                                                      topNav(
-                                                        isClick: clickYearly,
-                                                        title: 'Yearly',
-                                                        click:
-                                                            handleClickChangeToggleYearly,
-                                                      )
-                                                    ],
+                                          margin: EdgeInsets.symmetric(
+                                              horizontal: 30),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              topNav(
+                                                isClick: clickDaily,
+                                                title: 'Daily',
+                                                click:
+                                                    handleClickChangeToggleDaily,
+                                              ),
+                                              topNav(
+                                                isClick: clickMonthly,
+                                                title: 'Monthly',
+                                                click:
+                                                    handleClickChangeToggleMonthly,
+                                              ),
+                                              topNav(
+                                                isClick: clickYearly,
+                                                title: 'Yearly',
+                                                click:
+                                                    handleClickChangeToggleYearly,
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        Divider(
+                                          height: 0,
+                                          thickness: 1,
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.symmetric(
+                                              horizontal: 30),
+                                          child: Column(
+                                            children: <Widget>[
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: <Widget>[
+                                                  Padding(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        vertical: 13.0),
+                                                    child: Text("Total Sale",
+                                                        style: TextStyle(
+                                                            fontSize: 18)),
                                                   ),
-                                                ),
-                                                Divider(
-                                                  height: 0,
-                                                  thickness: 1,
-                                                ),
-                                                Container(
-                                                  margin: EdgeInsets.symmetric(
-                                                      horizontal: 30),
-                                                  child: Column(
-                                                    children: <Widget>[
-                                                      Row(
+                                                  HandleViewAll(),
+                                                ],
+                                              ),
+                                              Divider(
+                                                height: 0,
+                                                thickness: 1,
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 10),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text("Product Name"),
+                                                    Container(
+                                                      width: width * (38 / 100),
+                                                      child: Row(
                                                         mainAxisAlignment:
                                                             MainAxisAlignment
                                                                 .spaceBetween,
-                                                        children: <Widget>[
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .symmetric(
-                                                                    vertical:
-                                                                        13.0),
-                                                            child: Text(
-                                                                "Total Sale",
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        18)),
-                                                          ),
-                                                          HandleViewAll(),
+                                                        children: [
+                                                          Text("Unit Sale"),
+                                                          Text("Total Sale"),
                                                         ],
                                                       ),
-                                                      Divider(
-                                                        height: 0,
-                                                        thickness: 1,
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .symmetric(
-                                                                vertical: 10),
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Text(
-                                                                "Product Name"),
-                                                            Container(
-                                                              width: width *
-                                                                  (38 / 100),
-                                                              child: Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
-                                                                children: [
-                                                                  Text(
-                                                                      "Unit Sale"),
-                                                                  Text(
-                                                                      "Total Sale"),
-                                                                ],
-                                                              ),
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        height:
-                                                            height * (21 / 100),
-                                                        width:
-                                                            width * (90 / 100),
-                                                        child:
-                                                            makeProductList(),
-                                                      ),
-                                                      Divider(
-                                                        height: 0,
-                                                        thickness: 1,
-                                                      ),
-                                                      Container(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .symmetric(
-                                                                vertical: 10),
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Text(
-                                                              "Popular Product",
-                                                              style: TextStyle(
-                                                                  fontSize: 18),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      PopProduct(
-                                                        handleRender: isRender,
-                                                      ),
-                                                      Row(
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                              Container(
+                                                width: width * (90 / 100),
+                                                child: makeProductList(),
+                                              ),
+                                              Divider(
+                                                height: 0,
+                                                thickness: 1,
+                                              ),
+                                              Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 10),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      "Popular Product",
+                                                      style: TextStyle(
+                                                          fontSize: 18),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              PopProduct(
+                                                handleRender: isRender,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: <Widget>[
+                                                  Padding(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        vertical: 13.0),
+                                                    child: Text("Top Customer",
+                                                        style: TextStyle(
+                                                            fontSize: 18)),
+                                                  ),
+                                                ],
+                                              ),
+                                              Divider(
+                                                height: 0,
+                                                thickness: 1,
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 10),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      "Name",
+                                                      style: TextStyle(
+                                                          color: kPrimaryFont,
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                    Container(
+                                                      width: width * (45 / 100),
+                                                      child: Row(
                                                         mainAxisAlignment:
                                                             MainAxisAlignment
                                                                 .spaceBetween,
-                                                        children: <Widget>[
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .symmetric(
-                                                                    vertical:
-                                                                        13.0),
-                                                            child: Text(
-                                                                "Top Customer",
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        18)),
+                                                        children: [
+                                                          Text(
+                                                            "Phone NO.",
+                                                            style: TextStyle(
+                                                                color:
+                                                                    kPrimaryFont,
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                          Text(
+                                                            "Total Paid",
+                                                            style: TextStyle(
+                                                                color:
+                                                                    kPrimaryFont,
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
                                                           ),
                                                         ],
                                                       ),
-                                                      Divider(
-                                                        height: 0,
-                                                        thickness: 1,
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .symmetric(
-                                                                vertical: 10),
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Text(
-                                                              "Name",
-                                                              style: TextStyle(
-                                                                  color:
-                                                                      kPrimaryFont,
-                                                                  fontSize: 14,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
-                                                            ),
-                                                            Container(
-                                                              width: width *
-                                                                  (45 / 100),
-                                                              child: Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
-                                                                children: [
-                                                                  Text(
-                                                                    "Phone NO.",
-                                                                    style: TextStyle(
-                                                                        color:
-                                                                            kPrimaryFont,
-                                                                        fontSize:
-                                                                            14,
-                                                                        fontWeight:
-                                                                            FontWeight.bold),
-                                                                  ),
-                                                                  Text(
-                                                                    "Total Paid",
-                                                                    style: TextStyle(
-                                                                        color:
-                                                                            kPrimaryFont,
-                                                                        fontSize:
-                                                                            14,
-                                                                        fontWeight:
-                                                                            FontWeight.bold),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        height:
-                                                            height * (21 / 100),
-                                                        width:
-                                                            width * (90 / 100),
-                                                        child:
-                                                            makeTopCustomerList(),
-                                                      ),
-                                                      SizedBox(
-                                                        height: 220,
-                                                      ),
-                                                    ],
-                                                  ),
+                                                    ),
+                                                  ],
                                                 ),
-                                              ],
-                                            ),
+                                              ),
+                                              Container(
+                                                height: height * (21 / 100),
+                                                width: width * (90 / 100),
+                                                child: makeTopCustomerList(),
+                                              ),
+                                              SizedBox(
+                                                height: 220,
+                                              ),
+                                            ],
                                           ),
                                         ),
                                       ],
                                     ),
-                                    decoration: const BoxDecoration(
-                                      color: kPrimaryColor,
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(30),
-                                        topRight: Radius.circular(30),
-                                      ),
-                                    ),
                                   ),
                                 ),
-                              )),
+                              ],
+                            ),
+                            decoration: const BoxDecoration(
+                              color: kPrimaryColor,
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(30),
+                                topRight: Radius.circular(30),
+                              ),
+                            ),
+                          ),
                         ),
                       )
                       //

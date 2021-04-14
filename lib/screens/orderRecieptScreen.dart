@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:memby/components/Profile/main.dart';
 import 'package:memby/models/Order.dart';
@@ -5,17 +6,31 @@ import 'package:memby/constants.dart';
 import 'package:memby/components/OrderCard.dart';
 import 'package:memby/models/OrderDetail.dart';
 import 'package:memby/models/Product.dart';
+import 'package:memby/screens/landingScreen.dart';
 
 class OrderRecieptScreen extends StatelessWidget {
   final Order order;
-  OrderRecieptScreen({this.order});
+  final QueryDocumentSnapshot customer;
+  final int discount;
+  bool isGeneralCustomer() {
+    print("Checking Genneral Customer");
+    print(customer);
+    print(customer == null);
+    return customer == null;
+  }
+
+  String getDate() {
+    return new DateTime.now().toString().substring(0, 19);
+  }
+
+  OrderRecieptScreen({this.order, this.customer, this.discount});
 
   double getTotalPrice() {
     double totalPrice = 0;
     for (OrderDetail i in order.orderDetails) {
       totalPrice += i.amount * i.product.price;
     }
-    return totalPrice;
+    return totalPrice * (100 - discount) / 100;
   }
 
   ListView makeRecieptDescription() {
@@ -88,69 +103,89 @@ class OrderRecieptScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Reciept',
-                  style: kPrimaryHeadingTextStyle,
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Column(
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        body: SafeArea(
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Member ID: 193330000',
-                        style: kPrimaryHeadingTextStyle.copyWith(
-                            fontSize: 20, fontWeight: FontWeight.normal),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Member Name: Kodchapong',
-                        style: kPrimaryHeadingTextStyle.copyWith(
-                            fontSize: 20, fontWeight: FontWeight.normal),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Date: 14/04/2021',
-                        style: kPrimaryHeadingTextStyle.copyWith(
-                            fontSize: 20, fontWeight: FontWeight.normal),
-                      ),
-                    ],
+                  Text(
+                    'Reciept',
+                    style: kPrimaryHeadingTextStyle,
                   ),
                 ],
               ),
-            ),
-            Expanded(
-              flex: 8,
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: order.orderDetails.isEmpty
-                    ? Text('Empty Order')
-                    : makeRecieptDescription(),
+              SizedBox(
+                height: 15,
               ),
-            ),
-          ],
+              Padding(
+                padding: const EdgeInsets.only(left: 20),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          isGeneralCustomer()
+                              ? "General Customer"
+                              : 'Member ID: ${customer.id}',
+                          style: kPrimaryHeadingTextStyle.copyWith(
+                              fontSize: 20, fontWeight: FontWeight.normal),
+                        ),
+                      ],
+                    ),
+                    isGeneralCustomer()
+                        ? Container()
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Member Name: ${customer.get("firstname") + " " + customer.get("lastname")}',
+                                style: kPrimaryHeadingTextStyle.copyWith(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.normal),
+                              ),
+                            ],
+                          ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Date: ${getDate()}',
+                          style: kPrimaryHeadingTextStyle.copyWith(
+                              fontSize: 20, fontWeight: FontWeight.normal),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                flex: 8,
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: order.orderDetails.isEmpty
+                      ? Text('Empty Order')
+                      : makeRecieptDescription(),
+                ),
+              ),
+              TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return Landing();
+                        },
+                      ),
+                    );
+                  },
+                  child: Text("Temporary Button\n Back to Home"))
+            ],
+          ),
         ),
       ),
     );

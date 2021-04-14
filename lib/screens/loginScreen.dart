@@ -59,7 +59,7 @@ class _LoginState extends State<Login> {
     ],
     backgroundColor: const Color(0xFF6E7CE4),
     textColor: const Color(0xFFFFFFFF),
-    toggleButtonColor: const Color(0xFF6E7CE4),
+    toggleButtonColor: const Color(0xFF6961D6),
     toggleBackgroundColor: const Color(0xFFe7e7e8),
     shadow: const [
       BoxShadow(
@@ -261,7 +261,7 @@ class _LoginState extends State<Login> {
                   )
                 : Container(),
             RoundedButton(
-                color: kPrimaryLightColor,
+                color: Color(0xFF4941BB),
                 buttonHight: 50,
                 fontsize: 15,
                 buttonSize: 0.4,
@@ -284,13 +284,15 @@ class _LoginState extends State<Login> {
                   }
                 }),
             SizedBox(
-              height: 35,
+              height: 10,
             ),
+            // Text(
+            //   '———————————————  or  ———————————————',
+            //   style: TextStyle(color: Colors.grey[600]),
+            // ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(
-                  width: width * 0.08,
-                ),
                 Container(
                   width: 160,
                   child: Divider(
@@ -315,8 +317,9 @@ class _LoginState extends State<Login> {
                 ),
               ],
             ),
+
             SizedBox(
-              height: 35,
+              height: 20,
             ),
             GoogleSignInButton(
                 onPressed: () {

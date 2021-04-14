@@ -99,11 +99,13 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
     ],
   );
   int initialIndex = 0;
-  bool isMember = false;
+  int discount = 0;
+  bool isGeneralCustomer = false;
   bool isCustomerPhoneValid = false;
   String customerName = "Please Enter Customer Phone";
   String customerPhone = "";
-  dynamic customer;
+  QueryDocumentSnapshot customer;
+
   @override
   Widget build(BuildContext context) {
     double getTotalPrice() {
@@ -201,9 +203,12 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                     onToggleCallback: (index) {
                       print('switched to: $index');
                       setState(() {
+                        customerName = "Please Enter Customer Phone";
+                        customerPhone = "";
+                        isCustomerPhoneValid = false;
                         initialIndex = index;
-                        isMember = index == 1;
-                        if (isMember) {
+                        isGeneralCustomer = index == 1;
+                        if (isGeneralCustomer) {
                           Future.delayed(Duration(milliseconds: 100), () {
                             _scrollController.animateTo(
                                 _scrollController.position.maxScrollExtent,
@@ -240,7 +245,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
               children: [
                 Expanded(
                   flex: 8,
-                  child: isMember
+                  child: isGeneralCustomer
                       ? Center(
                           child: Container(
                             child: Text('General user'),
@@ -287,7 +292,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                 SizedBox(
                   width: 15,
                 ),
-                isMember
+                isGeneralCustomer
                     ? Container()
                     : Expanded(
                         flex: 2,
@@ -314,18 +319,23 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                       ),
               ],
             ),
-            isMember
+            isGeneralCustomer
                 ? Container()
                 : Row(
                     children: [
-                      Text(customerName),
+                      Text(
+                        customerName,
+                        style: isCustomerPhoneValid
+                            ? TextStyle()
+                            : TextStyle(color: Colors.red),
+                      ),
                     ],
                   ),
             Row(
               children: [
                 Expanded(
                   child: Container(
-                    child: isMember
+                    child: isGeneralCustomer
                         ? Container(
                             child: Icon(
                               Icons.lock,
@@ -341,7 +351,17 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                         : TextField(
                             keyboardType: TextInputType.number,
                             textAlign: TextAlign.center,
-                            onChanged: (value) {},
+                            onChanged: (value) {
+                              setState(() {
+                                discount = int.parse(value);
+                                print(discount);
+                                discount = discount > 100
+                                    ? 100
+                                    : discount < 0
+                                        ? 0
+                                        : discount;
+                              });
+                            },
                             // controller: TextEditingController()
                             //   ..text = amount.toString(),
                             decoration: kTextFieldDecoration.copyWith(
@@ -361,7 +381,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                         'Total Price',
                       ),
                       Text(
-                        '${getTotalPrice()} Baht',
+                        '${getTotalPrice() * (100 - discount) / 100} Baht',
                         style: TextStyle(
                             color: Colors.red, fontWeight: FontWeight.bold),
                       ),
@@ -374,39 +394,47 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
               children: [
                 Expanded(
                   child: RoundedButton(
-                    color: kPrimaryLightColor,
-                    title: 'ORDER',
-                    onPress: () {
-                      context
-                          .read<FlutterFireAuthService>()
-                          .getCustomerFromPhoneNo('77797777977');
+                      color: isCustomerPhoneValid || isGeneralCustomer
+                          ? kPrimaryLightColor
+                          : Color(0xFFB7B7B7),
+                      title: 'ORDER',
+                      onPress: isCustomerPhoneValid || isGeneralCustomer
+                          ? () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return OrderRecieptScreen(
+                                        order: widget.order,
+                                        customer: customer,
+                                        discount: discount);
+                                  },
+                                ),
+                              );
 
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return OrderRecieptScreen(
-                              order: widget.order,
-                            );
-                          },
-                        ),
-                      );
-                      // final customerPhone = '77797777977';
-                      // final discountRate = 0.95;
-                      // final totalPrice = getTotalPrice();
-                      // final orderDetails = widget.order.orderDetails;
-                      // dynamic _productList = {};
-                      // orderDetails.forEach((item) {
-                      //   String productId = item.product.id;
-                      //   _productList[productId] = item.amount;
-                      //   print(_productList);
-                      // });
-                      // Map<String, dynamic> productList =
-                      //     new Map<String, dynamic>.from(_productList);
-                      // context.read<FlutterFireAuthService>().addOrder(
-                      //     customerPhone, discountRate, totalPrice, productList);
-                    },
-                  ),
+                              final discountRate = discount / 100;
+                              final actualPrice = getTotalPrice();
+                              final totalPrice =
+                                  getTotalPrice() * (100 - discount) / 100;
+                              final customerId =
+                                  customer == null ? null : customer.id;
+                              final orderDetails = widget.order.orderDetails;
+                              dynamic _productList = {};
+                              orderDetails.forEach((item) {
+                                String productId = item.product.id;
+                                _productList[productId] = item.amount;
+                                print(_productList);
+                              });
+                              Map<String, dynamic> productList =
+                                  new Map<String, dynamic>.from(_productList);
+                              context.read<FlutterFireAuthService>().addOrder(
+                                  customerId,
+                                  discountRate,
+                                  actualPrice,
+                                  totalPrice,
+                                  productList);
+                            }
+                          : null),
                 ),
               ],
             ),

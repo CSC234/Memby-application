@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:memby/screens/guide.dart';
+
 import 'package:memby/screens/landingScreen.dart';
 import 'package:overlay_support/overlay_support.dart';
 
@@ -8,9 +8,16 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
 
+import 'package:flutter/services.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+  SystemChrome.setEnabledSystemUIOverlays([]);
   runApp(MembyApp());
 }
 
@@ -38,7 +45,7 @@ class MembyApp extends StatelessWidget {
                 bodyText2: TextStyle(fontSize: 14.0),
               ),
             ),
-            home: Guide(),
+            home: Landing(),
           ),
         ));
   }

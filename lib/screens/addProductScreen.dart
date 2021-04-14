@@ -11,6 +11,7 @@ import 'package:memby/firebase.dart';
 import 'package:memby/screens/homeScreen.dart';
 import 'package:memby/components/emptyItem.dart';
 import 'package:memby/components/bottomNav/nav.dart';
+import 'package:memby/screens/landingScreen.dart';
 
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
@@ -148,10 +149,14 @@ class _AddProductList extends State<AddProductList> {
                           Container(
                             width: width * 0.15,
                             child: IconButton(
-                              icon: Icon(Icons.arrow_back,
-                                  color: Colors.grey[700]),
-                              onPressed: () => Navigator.of(context).pop(),
-                            ),
+                                icon: Icon(Icons.arrow_back,
+                                    color: Colors.grey[700]),
+                                onPressed: () =>
+                                    Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) {
+                                        return Landing();
+                                      },
+                                    ))),
                           ),
                           SizedBox(
                             width: width * 0.05,
@@ -193,14 +198,14 @@ class _AddProductList extends State<AddProductList> {
                           Textfield(
                             controller: _productnameController,
                             text: 'Product name...',
-                            width: 350,
+                            width: width * (90 / 100),
                             min: 1,
                             max: 5,
                           ),
                           Textfield(
                             controller: _descriptionController,
                             text: 'Description...',
-                            width: 350,
+                            width: width * (90 / 100),
                             min: 3,
                             max: 5,
                           )
@@ -213,7 +218,7 @@ class _AddProductList extends State<AddProductList> {
                         children: [
                           Textfield(
                             controller: _priceController,
-                            width: 350,
+                            width: width * (90 / 100),
                             text: 'Price',
                             min: 1,
                             max: 5,

@@ -70,28 +70,19 @@ class FlutterFireAuthService {
   }
 
   Future<void> addOrder(
-      customerPhone, discountRate, totalPrice, productList) async {
+      customerId, discountRate, actualPrice, totalPrice, productList) async {
     final user = _firebaseAuth.currentUser;
     final userId = user.uid;
 
     Map<String, dynamic> order = {};
     DocumentReference targetCompany =
         _firestore.collection('company').doc(userId);
-    QuerySnapshot customerRef = await targetCompany
-        .collection('customer')
-        .limit(1)
-        .where('phone_no', isEqualTo: customerPhone)
-        .get()
-        .catchError((e) {
-      print(e.toString());
-    });
-
-    String customerId = customerRef.docs[0].id;
 
     order['cus_id'] = customerId;
     order['discount_rate'] = discountRate;
     order['product_list'] = productList;
     order['total_price'] = totalPrice;
+    order['actual_price'] = actualPrice;
     order['date'] = FieldValue.serverTimestamp();
     print(order);
     CollectionReference orderCollection = targetCompany.collection('order');

@@ -35,10 +35,9 @@ class _LandingState extends State<Landing> {
       return HomeScreen();
     }
     print(" Authenticated");
-   
+
     return Container(
       child: Scaffold(
-      
         body: Stack(
           children: <Widget>[
             Positioned(
@@ -230,7 +229,7 @@ class _LandingState extends State<Landing> {
                 }),
             Positioned(
                 left: 15,
-                top: height * (32 / 100),
+                top: height * (32.5 / 100),
                 // height: height * (65 / 100),
                 child: SizedBox(
                     width: width - 30,
@@ -238,10 +237,10 @@ class _LandingState extends State<Landing> {
                       decoration: const BoxDecoration(
                         color: kPrimaryColor,
                         borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(40),
-                          topRight: Radius.circular(40),
-                          bottomLeft: Radius.circular(40),
-                          bottomRight: Radius.circular(40),
+                          topLeft: Radius.circular(30),
+                          topRight: Radius.circular(30),
+                          bottomLeft: Radius.circular(30),
+                          bottomRight: Radius.circular(30),
                         ),
                         boxShadow: [
                           BoxShadow(
