@@ -94,10 +94,16 @@ class ViewAll extends StatefulWidget {
 }
 
 List<TotalSaleList> render = [];
+List<TotalSaleList> renderFilter = [];
+
 String isRender;
 
 class _ViewAllState extends State<ViewAll> {
+  var _filterText = TextEditingController();
+  List<TotalSaleList> productHolder = [];
+
   ListView makeProductList() {
+    productHolder = [];
     if (clickDaily == false) {
       isRender = 'daily';
     }
@@ -108,7 +114,6 @@ class _ViewAllState extends State<ViewAll> {
       isRender = 'yearly';
     }
 
-    List<TotalSaleList> productHolder = [];
     if (clickDaily == false) {
       render = productListDaily;
     }
@@ -118,6 +123,7 @@ class _ViewAllState extends State<ViewAll> {
     if (clickYearly == false) {
       render = productListYearly;
     }
+    print('hello boy');
     for (int i = 0; i < render.length; i++) {
       var p = render[i];
       productHolder.add(
@@ -129,6 +135,11 @@ class _ViewAllState extends State<ViewAll> {
         ),
       );
     }
+    List<TotalSaleList> renderFilter = productHolder
+        .where((el) =>
+            el.name.indexOf(_filterText.text) != -1 || _filterText.text.isEmpty)
+        .toList();
+    productHolder = renderFilter;
     return ListView(
       padding: EdgeInsets.symmetric(vertical: 0),
       children: productHolder,
@@ -177,8 +188,6 @@ class _ViewAllState extends State<ViewAll> {
       return Text("");
     }
   }
-  var _filterText = TextEditingController();
-
 
   @override
   Widget build(BuildContext context) {
@@ -339,7 +348,8 @@ class _ViewAllState extends State<ViewAll> {
                                                           child: SizedBox(
                                                             height: 30,
                                                             child: TextField(
-                                                              controller: _filterText,
+                                                              controller:
+                                                                  _filterText,
                                                               decoration:
                                                                   InputDecoration(
                                                                 prefixIcon:
@@ -352,6 +362,14 @@ class _ViewAllState extends State<ViewAll> {
                                                                         fontSize:
                                                                             10),
                                                               ),
+                                                              onSubmitted:
+                                                                  (value) {
+                                                                setState(() {});
+
+                                                                print(
+                                                                    _filterText
+                                                                        .text);
+                                                              },
                                                             ),
                                                           ),
                                                         ),
