@@ -299,6 +299,59 @@ class _ViewAllState extends State<ViewAll> {
                                                                   fontSize:
                                                                       18)),
                                                         ),
+                                                        Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 40,
+                                                                    right: 10),
+                                                            child: RaisedButton(
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            10)),
+                                                                child: Text(
+                                                                  'filter',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        15,
+                                                                    fontFamily:
+                                                                        'Alef-Regular',
+                                                                  ),
+                                                                ),
+                                                                color: Color(
+                                                                    0xFF4941BB),
+                                                                textColor:
+                                                                    Colors
+                                                                        .white,
+                                                                padding: EdgeInsets
+                                                                    .symmetric(
+                                                                        horizontal:
+                                                                            10,
+                                                                        vertical:
+                                                                            10),
+                                                                onPressed:
+                                                                    () {})),
+                                                        Expanded(
+                                                          child: SizedBox(
+                                                            height: 30,
+                                                            child: TextField(
+                                                              decoration:
+                                                                  InputDecoration(
+                                                                prefixIcon:
+                                                                    Icon(Icons
+                                                                        .search),
+                                                                hintText:
+                                                                    'What are you looking for?',
+                                                                hintStyle:
+                                                                    TextStyle(
+                                                                        fontSize:
+                                                                            10),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
                                                       ],
                                                     ),
                                                     Divider(
