@@ -310,40 +310,9 @@ class _ViewAllState extends State<ViewAll> {
                                                                   fontSize:
                                                                       18)),
                                                         ),
-                                                        Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    left: 40,
-                                                                    right: 10),
-                                                            child: RaisedButton(
-                                                                shape: RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            10)),
-                                                                child: Text(
-                                                                  'filter',
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontSize:
-                                                                        15,
-                                                                    fontFamily:
-                                                                        'Alef-Regular',
-                                                                  ),
-                                                                ),
-                                                                color: Color(
-                                                                    0xFF4941BB),
-                                                                textColor:
-                                                                    Colors
-                                                                        .white,
-                                                                padding: EdgeInsets
-                                                                    .symmetric(
-                                                                        horizontal:
-                                                                            10,
-                                                                        vertical:
-                                                                            10),
-                                                                onPressed:
-                                                                    () {})),
+                                                        SizedBox(
+                                                          width: width * 0.05,
+                                                        ),
                                                         Expanded(
                                                           child: SizedBox(
                                                             height: 30,
@@ -360,7 +329,7 @@ class _ViewAllState extends State<ViewAll> {
                                                                 hintStyle:
                                                                     TextStyle(
                                                                         fontSize:
-                                                                            10),
+                                                                            14),
                                                               ),
                                                               onSubmitted:
                                                                   (value) {
@@ -379,6 +348,7 @@ class _ViewAllState extends State<ViewAll> {
                                                       height: 0,
                                                       thickness: 1,
                                                     ),
+
                                                     Padding(
                                                       padding: const EdgeInsets
                                                               .symmetric(
