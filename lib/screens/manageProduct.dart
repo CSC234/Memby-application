@@ -12,7 +12,9 @@ import 'package:memby/screens/homeScreen.dart';
 import 'package:memby/components/emptyItem.dart';
 import 'package:memby/components/bottomNav/nav.dart';
 import 'package:memby/screens/landingScreen.dart';
+import 'package:memby/components/Textfield.dart';
 
+import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
 class ManageProduct extends StatefulWidget {
@@ -224,12 +226,27 @@ class _ManageProduct extends State<ManageProduct> {
   }
 
   void startInputAction(BuildContext context) {
+    String _uploadedFileURL;
+    File _image;
+
+    final picker = ImagePicker();
+    Future _pickImage() async {
+      final pickedFile = await picker.getImage(source: ImageSource.gallery);
+      print("filename" + _image.toString());
+
+      setState(() {
+        _image = File(pickedFile.path);
+      });
+    }
+
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => Container(
-        height: MediaQuery.of(context).size.height * 0.55,
+        height: MediaQuery.of(context).size.height * 0.6,
         decoration: new BoxDecoration(
           color: Colors.white,
           borderRadius: new BorderRadius.only(
@@ -238,7 +255,73 @@ class _ManageProduct extends State<ManageProduct> {
           ),
         ),
         child: Center(
-          child: Text("test"),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 25,
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  UserImagePicker(press: _pickImage, pickedImage: _image)
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Column(
+                children: [
+                  Textfield(
+                    // controller: _productnameController,
+                    text: 'Product name...',
+                    width: width * (90 / 100),
+                    min: 1,
+                    max: 5,
+                  ),
+                  Textfield(
+                    // controller: _descriptionController,
+                    text: 'Description...',
+                    width: width * (90 / 100),
+                    min: 3,
+                    max: 5,
+                  )
+                ],
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Column(
+                children: [
+                  Textfield(
+                    // controller: _priceController,
+                    width: width * (90 / 100),
+                    text: 'Price',
+                    min: 1,
+                    max: 5,
+                  ),
+                ],
+              ),
+              Container(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: RoundedButton(
+                      color: kPrimaryLightColor,
+                      buttonHight: 50,
+                      fontsize: 15,
+                      buttonSize: 0.7,
+                      textColor: Colors.white,
+                      text: "Update Product",
+                      press: () {
+                        // addProduct(
+                        //     _productnameController.text,
+                        //     _descriptionController.text,
+                        //     _priceController.text,
+                        //     _pictureController.text);
+                      }),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
