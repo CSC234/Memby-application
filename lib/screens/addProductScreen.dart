@@ -12,7 +12,7 @@ import 'package:memby/screens/homeScreen.dart';
 import 'package:memby/components/emptyItem.dart';
 import 'package:memby/components/bottomNav/nav.dart';
 import 'package:memby/screens/manageProduct.dart';
-
+import 'package:memby/screens/landingScreen.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
