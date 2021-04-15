@@ -98,7 +98,7 @@ class _ManageProduct extends State<ManageProduct> {
           currentIndex: 3,
         ),
         body: Container(
-          child: Container(
+          child: SingleChildScrollView(
             child: Container(
               child: Align(
                 alignment: Alignment.center,
