@@ -309,7 +309,7 @@ class _DashBoardState extends State<DashBoard> {
         Navigator.push(
           context,
           new MaterialPageRoute(
-            builder: (context) => ViewAll(),
+            builder: (context) => ViewAll(clickMonthly:clickMonthly,clickDaily:clickDaily,clickYearly:clickYearly),
           ),
         );
       },
