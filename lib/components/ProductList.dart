@@ -35,7 +35,7 @@ class ProductList extends StatelessWidget {
                 Container(
                     height: 70,
                     width: 70,
-                    // padding: EdgeInsets.all(20),
+                    padding: EdgeInsets.all(5),
                     child: picture != null
                         ? CircleAvatar(
                             radius: 10,

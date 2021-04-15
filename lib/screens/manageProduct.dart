@@ -46,24 +46,24 @@ class _ManageProduct extends State<ManageProduct> {
         price: 120,
         picture: 'assets/images/profile.png'),
     Product(
-        product: 'Selsun Selenium sulfide',
+        product: 'Selsun Selenium sulfide1',
         description: 'Lorem ipsum, or lipsum as it is sometimes known',
-        price: 120,
+        price: 2500,
         picture: 'assets/images/profile.png'),
     Product(
-        product: 'Selsun Selenium sulfide',
+        product: 'Selsun Selenium sulfide2',
         description: 'Lorem ipsum, or lipsum as it is sometimes known',
-        price: 120,
+        price: 1500,
         picture: 'assets/images/profile.png'),
     Product(
-        product: 'Selsun Selenium sulfide',
+        product: 'Selsun Selenium sulfide3',
         description: 'Lorem ipsum, or lipsum as it is sometimes known',
-        price: 120,
+        price: 125000,
         picture: 'assets/images/profile.png'),
     Product(
-        product: 'Selsun Selenium sulfide',
+        product: 'Selsun Selenium sulfide4',
         description: 'Lorem ipsum, or lipsum as it is sometimes known',
-        price: 120,
+        price: 1120,
         picture: 'assets/images/profile.png')
   ];
 
@@ -205,7 +205,7 @@ class _ManageProduct extends State<ManageProduct> {
                                     description: product[i].description,
                                     price: product[i].price,
                                     press: () {
-                                      startInputAction(context);
+                                      startInputAction(i);
                                     },
                                   ),
                               if (product.length == 0)
@@ -225,7 +225,7 @@ class _ManageProduct extends State<ManageProduct> {
         ));
   }
 
-  void startInputAction(BuildContext context) {
+  void startInputAction(int item) {
     String _uploadedFileURL;
     File _image;
 
@@ -238,6 +238,12 @@ class _ManageProduct extends State<ManageProduct> {
         _image = File(pickedFile.path);
       });
     }
+
+    final _productnameController = TextEditingController();
+
+    final _descriptionController = TextEditingController();
+    final _priceController = TextEditingController();
+    final _pictureController = TextEditingController();
 
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -273,6 +279,7 @@ class _ManageProduct extends State<ManageProduct> {
                 children: [
                   Textfield(
                     // controller: _productnameController,
+                    value: product[item].product,
                     text: 'Product name...',
                     width: width * (90 / 100),
                     min: 1,
@@ -280,6 +287,7 @@ class _ManageProduct extends State<ManageProduct> {
                   ),
                   Textfield(
                     // controller: _descriptionController,
+                    value: product[item].description,
                     text: 'Description...',
                     width: width * (90 / 100),
                     min: 3,
@@ -294,6 +302,7 @@ class _ManageProduct extends State<ManageProduct> {
                 children: [
                   Textfield(
                     // controller: _priceController,
+                    value: product[item].price.toString(),
                     width: width * (90 / 100),
                     text: 'Price',
                     min: 1,
