@@ -315,7 +315,7 @@ class _LandingState extends State<Landing> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) {
-                                        return AddProductList();
+                                        return ManageProduct();
                                       },
                                     ),
                                   );

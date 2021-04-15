@@ -4,7 +4,7 @@ import 'package:memby/components/imagePicker.dart';
 import 'package:memby/constants.dart';
 import 'package:memby/components/rounded_button.dart';
 import 'package:memby/components/ProductList.dart';
-import 'package:memby/components/Textfield.dart';
+import 'package:memby/screens/addProductScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:memby/firebase.dart';
@@ -13,19 +13,18 @@ import 'package:memby/components/emptyItem.dart';
 import 'package:memby/components/bottomNav/nav.dart';
 import 'package:memby/screens/landingScreen.dart';
 
-import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
-class AddProductList extends StatefulWidget {
+class ManageProduct extends StatefulWidget {
   @override
   final ValueChanged<String> onChanged;
 
-  const AddProductList({
+  const ManageProduct({
     Key key,
     this.onChanged,
   }) : super(key: key);
 
-  _AddProductList createState() => _AddProductList();
+  _ManageProduct createState() => _ManageProduct();
 }
 
 class Product {
@@ -37,7 +36,7 @@ class Product {
   Product({this.product, this.description, this.price, this.picture});
 }
 
-class _AddProductList extends State<AddProductList> {
+class _ManageProduct extends State<ManageProduct> {
   List<Product> product = [
     Product(
         product: 'test',
@@ -131,7 +130,14 @@ class _AddProductList extends State<AddProductList> {
                                   textColor: Colors.white,
                                   text: "Add prodct",
                                   press: () {
-                                    // addProductToFireStore();
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return AddProductList();
+                                        },
+                                      ),
+                                    );
                                   }),
                             ),
                           ),
