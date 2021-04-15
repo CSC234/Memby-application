@@ -31,7 +31,7 @@ class AddProductList extends StatefulWidget {
 class Product {
   String product;
   String description;
-  int price;
+  double price;
   String picture;
 
   Product({this.product, this.description, this.price, this.picture});
@@ -84,7 +84,7 @@ class _AddProductList extends State<AddProductList> {
       product.add(new Product(
           product: productName,
           description: description,
-          price: int.parse(price),
+          price: price.toDouble,
           picture: _uploadedFileURL));
     });
   }

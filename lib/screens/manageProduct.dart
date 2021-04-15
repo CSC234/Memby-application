@@ -13,7 +13,9 @@ import 'package:memby/components/emptyItem.dart';
 import 'package:memby/components/bottomNav/nav.dart';
 import 'package:memby/screens/landingScreen.dart';
 import 'package:memby/components/Textfield.dart';
-
+import 'package:provider/provider.dart';
+import 'package:memby/firebase.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
@@ -30,41 +32,49 @@ class ManageProduct extends StatefulWidget {
 }
 
 class Product {
+  String id;
   String product;
   String description;
-  int price;
+  double price;
   String picture;
 
-  Product({this.product, this.description, this.price, this.picture});
+  Product({this.id, this.product, this.description, this.price, this.picture});
 }
 
 class _ManageProduct extends State<ManageProduct> {
+  Future _productsData;
+  bool _alreadyLoadProductsFromFirestore = false;
+  void initState() {
+    super.initState();
+    _productsData = context.read<FlutterFireAuthService>().getProducts();
+  }
+
   List<Product> product = [
-    Product(
-        product: 'Selsun Selenium sulfide',
-        description: 'Lorem ipsum, or lipsum as it is sometimes known',
-        price: 120,
-        picture: 'assets/images/profile.png'),
-    Product(
-        product: 'Selsun Selenium sulfide1',
-        description: 'Lorem ipsum, or lipsum as it is sometimes known',
-        price: 2500,
-        picture: 'assets/images/profile.png'),
-    Product(
-        product: 'Selsun Selenium sulfide2',
-        description: 'Lorem ipsum, or lipsum as it is sometimes known',
-        price: 1500,
-        picture: 'assets/images/profile.png'),
-    Product(
-        product: 'Selsun Selenium sulfide3',
-        description: 'Lorem ipsum, or lipsum as it is sometimes known',
-        price: 125000,
-        picture: 'assets/images/profile.png'),
-    Product(
-        product: 'Selsun Selenium sulfide4',
-        description: 'Lorem ipsum, or lipsum as it is sometimes known',
-        price: 1120,
-        picture: 'assets/images/profile.png')
+    // Product(
+    //     product: 'Selsun Selenium sulfide',
+    //     description: 'Lorem ipsum, or lipsum as it is sometimes known',
+    //     price: 120,
+    //     picture: 'assets/images/profile.png'),
+    // Product(
+    //     product: 'Selsun Selenium sulfide1',
+    //     description: 'Lorem ipsum, or lipsum as it is sometimes known',
+    //     price: 2500,
+    //     picture: 'assets/images/profile.png'),
+    // Product(
+    //     product: 'Selsun Selenium sulfide2',
+    //     description: 'Lorem ipsum, or lipsum as it is sometimes known',
+    //     price: 1500,
+    //     picture: 'assets/images/profile.png'),
+    // Product(
+    //     product: 'Selsun Selenium sulfide3',
+    //     description: 'Lorem ipsum, or lipsum as it is sometimes known',
+    //     price: 125000,
+    //     picture: 'assets/images/profile.png'),
+    // Product(
+    //     product: 'Selsun Selenium sulfide4',
+    //     description: 'Lorem ipsum, or lipsum as it is sometimes known',
+    //     price: 1120,
+    //     picture: 'assets/images/profile.png')
   ];
 
   @override
@@ -192,28 +202,61 @@ class _ManageProduct extends State<ManageProduct> {
                       Container(
                         height: height * 0.65,
                         child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                height: 0,
-                              ),
-                              if (product.length != 0)
-                                for (int i = 0; i < product.length; i++)
-                                  ProductList(
-                                    picture: product[i].picture,
-                                    product: product[i].product,
-                                    description: product[i].description,
-                                    price: product[i].price,
-                                    press: () {
-                                      startInputAction(i);
-                                    },
-                                  ),
-                              if (product.length == 0)
-                                EmptyList(
-                                    text:
-                                        'Customer Product is empty please add the product'),
-                            ],
-                          ),
+                          child: FutureBuilder(
+                              future: _productsData,
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  if (!_alreadyLoadProductsFromFirestore) {
+                                    final List<DocumentSnapshot> productDocs =
+                                        snapshot.data.docs;
+
+                                    for (int i = 0;
+                                        i < productDocs.length;
+                                        i++) {
+                                      final pid = productDocs[i].id;
+                                      final p = productDocs[i].data();
+                                      product.add(Product(
+                                          id: pid,
+                                          product: p['name'],
+                                          price: (p['price'].toDouble()),
+                                          description: p['description'],
+                                          picture: p['product_img']));
+                                    }
+
+                                    _alreadyLoadProductsFromFirestore = true;
+                                  }
+
+                                  return Column(
+                                    children: [
+                                      SizedBox(
+                                        height: 0,
+                                      ),
+                                      if (product.length != 0)
+                                        for (int i = 0; i < product.length; i++)
+                                          ProductList(
+                                            picture: product[i].picture,
+                                            product: product[i].product,
+                                            description: product[i].description,
+                                            price: product[i].price,
+                                            press: () {
+                                              startInputAction(i);
+                                            },
+                                          ),
+                                      if (product.length == 0)
+                                        EmptyList(
+                                            text:
+                                                'Customer Product is empty please add the product'),
+                                    ],
+                                  );
+                                } else {
+                                  return SizedBox(
+                                      child: CircularProgressIndicator(),
+                                      height: 100.0,
+                                      width: 100.0);
+                                }
+                              }),
+
+                          ///////////////
                         ),
                       ),
                     ],

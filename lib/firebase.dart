@@ -117,6 +117,8 @@ class FlutterFireAuthService {
     });
   }
 
+
+
   Future<QueryDocumentSnapshot> getCustomerFromPhoneNo(
       String customerPhone) async {
     final user = _firebaseAuth.currentUser;

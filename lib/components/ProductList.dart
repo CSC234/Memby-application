@@ -8,7 +8,7 @@ class ProductList extends StatelessWidget {
   final String picture;
   final String product;
   final String description;
-  final int price;
+  final double price;
   final Function press;
 
   const ProductList(
