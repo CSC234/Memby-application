@@ -326,48 +326,102 @@ class _DashBoardState extends State<DashBoard> {
   }
 
   List<TopCustomer> renderCustomer = [];
-  makeTopCustomerList() {
+  makeTopCustomerList(LinkedHashMap customerSummary) {
     List<TopCustomer> customerHolder = [];
 
-    if (clickDaily == false) {
-      renderCustomer = popSaleListDaily;
-    }
-    if (clickMonthly == false) {
-      renderCustomer = popSaleListMonthly;
-    }
-    if (clickYearly == false) {
-      renderCustomer = popSaleListYearly;
-    }
-    if (renderCustomer.length >= 5) {
-      for (int i = 0; i < 5; i++) {
-        var p = renderCustomer[i];
-        customerHolder.add(
-          TopCustomer(
-            no: p.no,
-            name: p.name,
-            phoneNo: p.phoneNo,
-            totalPaid: p.totalPaid,
-          ),
-        );
-      }
-    }
-    if (renderCustomer.length < 5) {
-      for (int i = 0; i < renderCustomer.length; i++) {
-        var p = renderCustomer[i];
-        customerHolder.add(
-          TopCustomer(
-            no: p.no,
-            name: p.name,
-            phoneNo: p.phoneNo,
-            totalPaid: p.totalPaid,
-          ),
-        );
-      }
-    }
+    // if (clickDaily == false) {
+    //   renderCustomer = popSaleListDaily;
+    // }
+    // if (clickMonthly == false) {
+    //   renderCustomer = popSaleListMonthly;
+    // }
+    // if (clickYearly == false) {
+    //   renderCustomer = popSaleListYearly;
+    // }
+    // if (renderCustomer.length >= 5) {
+    //   for (int i = 0; i < 5; i++) {
+    //     var p = renderCustomer[i];
+    //     customerHolder.add(
+    //       TopCustomer(
+    //         no: p.no,
+    //         name: p.name,
+    //         phoneNo: p.phoneNo,
+    //         totalPaid: p.totalPaid,
+    //       ),
+    //     );
+    //   }
+    // }
+    // if (renderCustomer.length < 5) {
+    //   for (int i = 0; i < renderCustomer.length; i++) {
+    //     var p = renderCustomer[i];
+    //     customerHolder.add(
+    //       TopCustomer(
+    //         no: p.no,
+    //         name: p.name,
+    //         phoneNo: p.phoneNo,
+    //         totalPaid: p.totalPaid,
+    //       ),
+    //     );
+    //   }
+    // }
+    int no = 1;
+    customerSummary.forEach((customerID, customer) {
+      customerHolder.add(
+        TopCustomer(
+          no: no,
+          name: customer['name'],
+          phoneNo: customer['phone'],
+          totalPaid: (customer['totalPaid'] * 100).round() / 100,
+        ),
+      );
+      no++;
+    });
     return Column(
       children: customerHolder,
     );
   }
+  // makeTopCustomerList() {
+  //   List<TopCustomer> customerHolder = [];
+
+  //   if (clickDaily == false) {
+  //     renderCustomer = popSaleListDaily;
+  //   }
+  //   if (clickMonthly == false) {
+  //     renderCustomer = popSaleListMonthly;
+  //   }
+  //   if (clickYearly == false) {
+  //     renderCustomer = popSaleListYearly;
+  //   }
+  //   if (renderCustomer.length >= 5) {
+  //     for (int i = 0; i < 5; i++) {
+  //       var p = renderCustomer[i];
+  //       customerHolder.add(
+  //         TopCustomer(
+  //           no: p.no,
+  //           name: p.name,
+  //           phoneNo: p.phoneNo,
+  //           totalPaid: p.totalPaid,
+  //         ),
+  //       );
+  //     }
+  //   }
+  //   if (renderCustomer.length < 5) {
+  //     for (int i = 0; i < renderCustomer.length; i++) {
+  //       var p = renderCustomer[i];
+  //       customerHolder.add(
+  //         TopCustomer(
+  //           no: p.no,
+  //           name: p.name,
+  //           phoneNo: p.phoneNo,
+  //           totalPaid: p.totalPaid,
+  //         ),
+  //       );
+  //     }
+  //   }
+  //   return Column(
+  //     children: customerHolder,
+  //   );
+  // }
 
   Widget HandleViewAll() {
     return TextButton(
@@ -387,15 +441,19 @@ class _DashBoardState extends State<DashBoard> {
   }
 
   Future _productSummary;
-  @override
-  void initState() {
-    super.initState();
-    _productSummary =
-        context.read<FlutterFireAuthService>().getProductSummary();
-  }
+  Future _customerSummary;
 
   @override
   Widget build(BuildContext context) {
+    String startDate = !clickDaily
+        ? 'd'
+        : !clickMonthly
+            ? 'm'
+            : 'y';
+    _productSummary =
+        context.read<FlutterFireAuthService>().getProductSummary(startDate);
+    _customerSummary =
+        context.read<FlutterFireAuthService>().getCustomerSummary(startDate);
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
@@ -670,10 +728,25 @@ class _DashBoardState extends State<DashBoard> {
                                                   ],
                                                 ),
                                               ),
+
                                               Container(
                                                 height: height * (21 / 100),
                                                 width: width * (90 / 100),
-                                                child: makeTopCustomerList(),
+                                                child: FutureBuilder(
+                                                    future: _customerSummary,
+                                                    builder:
+                                                        (context, snapshot) {
+                                                      if (snapshot.hasData) {
+                                                        return makeTopCustomerList(
+                                                            snapshot.data);
+                                                      } else {
+                                                        return SizedBox(
+                                                            child:
+                                                                CircularProgressIndicator(),
+                                                            height: 300.0,
+                                                            width: 175.0);
+                                                      }
+                                                    }),
                                               ),
                                               SizedBox(
                                                 height: 220,

@@ -172,7 +172,7 @@ class _ProfileState extends State<Profile> {
                       onPressed: () {
                         context
                             .read<FlutterFireAuthService>()
-                            .getProductSummary();
+                            .getCustomerSummary('d');
                       },
                       child: Text('TEST')),
                   Container(

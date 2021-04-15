@@ -286,6 +286,14 @@ class _AddProductList extends State<AddProductList> {
                               text: "confirm",
                               press: () {
                                 addProductToFireStore();
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return Landing();
+                                    },
+                                  ),
+                                );
                               }),
                         ),
                       ),

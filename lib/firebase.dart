@@ -26,22 +26,28 @@ class FlutterFireAuthService {
     }
   }
 
-  Future<LinkedHashMap> _getProductSummary() async {
-    print("-----------------Getting Daily Product Summary-----------------");
+  Future<LinkedHashMap> _getProductSummary(target) async {
+    print("-----------------Getting Product Summary-----------------");
     //Daily
     try {
       final user = _firebaseAuth.currentUser;
       final userId = user.uid;
       DateTime now = new DateTime.now();
-      DateTime today = new DateTime(now.year, now.month, now.day);
+      DateTime startDate = target == 'd'
+          ? new DateTime(now.year, now.month, now.day)
+          : target == 'm'
+              ? new DateTime(now.year, now.month)
+              : new DateTime(now.year);
+
       QuerySnapshot orders;
       orders = await _firestore
           .collection("company")
           .doc(userId)
           .collection("order")
           .orderBy("date")
-          .startAt([today]).get();
+          .startAt([startDate]).get();
       final orderDocs = orders.docs;
+      print("Order Amounts " + orderDocs.length.toString());
       Map<String, dynamic> productSummary = {};
       for (QueryDocumentSnapshot o in orderDocs) {
         final Map<String, dynamic> productList = o.get('product_list');
@@ -70,7 +76,7 @@ class FlutterFireAuthService {
           }
         }
       }
-      print("---------Today Products---------");
+      print("---------Products---------");
       print(productSummary);
 
       var unsortedSummary = {};
@@ -85,7 +91,7 @@ class FlutterFireAuthService {
           key: (k) => k,
           value: (k) => productSummary[k]);
 
-      print("---------Sorted Today Products---------");
+      print("---------Sorted Products---------");
       print(sortedProductSummary);
       print("-------------------------------------------------");
 
@@ -96,8 +102,87 @@ class FlutterFireAuthService {
     }
   }
 
-  getProductSummary() async {
-    return await _getProductSummary();
+  getProductSummary(target) async {
+    return await _getProductSummary(target);
+  }
+
+  Future<LinkedHashMap> _getCustomerSummary(target) async {
+    print("-----------------Getting Customer Summary-----------------");
+    //Daily
+    try {
+      final user = _firebaseAuth.currentUser;
+      final userId = user.uid;
+      DateTime now = new DateTime.now();
+      DateTime startDate = target == 'd'
+          ? new DateTime(now.year, now.month, now.day)
+          : target == 'm'
+              ? new DateTime(now.year, now.month)
+              : new DateTime(now.year);
+
+      QuerySnapshot orders;
+      print(startDate);
+      orders = await _firestore
+          .collection("company")
+          .doc(userId)
+          .collection("order")
+          .orderBy("date")
+          .startAt([startDate]).get();
+      final orderDocs = orders.docs;
+
+      print("Order Amounts " + orderDocs.length.toString());
+      Map<String, dynamic> customerSummary = {};
+      for (QueryDocumentSnapshot o in orderDocs) {
+        final String customerId = o.get('cus_id');
+        if (customerId != null) {
+          if (customerSummary[customerId] == null) {
+            print(customerId);
+            DocumentReference targetCustomer = _firestore
+                .collection("company")
+                .doc(userId)
+                .collection("customer")
+                .doc(customerId);
+
+            DocumentSnapshot customer = await targetCustomer.get();
+            print(customer.data());
+            customerSummary[customerId] = {
+              'name':
+                  customer.get('firstname') + " " + customer.get('lastname'),
+              'phone': customer.get('phone_no'),
+              'totalPaid': o.get('total_price')
+            };
+          } else {
+            customerSummary[customerId]['totalPaid'] += o.get('total_price');
+          }
+        }
+      }
+      print("---------Customer---------");
+      print(customerSummary);
+
+      var unsortedSummary = {};
+      for (var i in customerSummary.keys) {
+        unsortedSummary[i] = customerSummary[i]['totalPaid'];
+      }
+      var sortedCusotmerSummaryKeys = unsortedSummary.keys.toList(
+          growable: false)
+        ..sort((k2, k1) => unsortedSummary[k1].compareTo(unsortedSummary[k2]));
+      LinkedHashMap sortedCustomerSummary = new LinkedHashMap.fromIterable(
+          sortedCusotmerSummaryKeys,
+          key: (k) => k,
+          value: (k) => customerSummary[k]);
+
+      print("---------Sorted Customer---------");
+      print(sortedCustomerSummary);
+      print("-------------------------------------------------");
+
+      return sortedCustomerSummary;
+    } catch (err) {
+      print('Caught error: $err');
+      return null;
+    }
+  }
+
+  getCustomerSummary(target) async {
+    return await _getCustomerSummary(target);
   }
 
   Future<void> addProduct(name, description, price, img) async {
