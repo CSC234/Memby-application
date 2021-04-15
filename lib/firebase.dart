@@ -8,6 +8,7 @@ import 'package:path/path.dart';
 import 'package:memby/models/OrderDetail.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'dart:collection';
 
 class FlutterFireAuthService {
   final FirebaseAuth _firebaseAuth;
@@ -23,6 +24,165 @@ class FlutterFireAuthService {
     if (isSignedWithGoogle) {
       await _googleSignIn.signOut();
     }
+  }
+
+  Future<LinkedHashMap> _getProductSummary(target) async {
+    print("-----------------Getting Product Summary-----------------");
+    //Daily
+    try {
+      final user = _firebaseAuth.currentUser;
+      final userId = user.uid;
+      DateTime now = new DateTime.now();
+      DateTime startDate = target == 'd'
+          ? new DateTime(now.year, now.month, now.day)
+          : target == 'm'
+              ? new DateTime(now.year, now.month)
+              : new DateTime(now.year);
+
+      QuerySnapshot orders;
+      orders = await _firestore
+          .collection("company")
+          .doc(userId)
+          .collection("order")
+          .orderBy("date")
+          .startAt([startDate]).get();
+      final orderDocs = orders.docs;
+      print("Order Amounts " + orderDocs.length.toString());
+      Map<String, dynamic> productSummary = {};
+      for (QueryDocumentSnapshot o in orderDocs) {
+        final Map<String, dynamic> productList = o.get('product_list');
+        for (String productId in productList.keys) {
+          int amount = productList[productId];
+          if (productSummary[productId] == null) {
+            DocumentReference targetProduct = _firestore
+                .collection("company")
+                .doc(userId)
+                .collection("product")
+                .doc(productId);
+
+            DocumentSnapshot product = await targetProduct.get();
+            productSummary[productId] = {
+              'name': product.get('name'),
+              'price': product.get('price'),
+              'unitSale': amount,
+              'totalSale':
+                  amount * product.get('price') * (1 - o.get('discount_rate'))
+            };
+          } else {
+            productSummary[productId]['unitSale'] += amount;
+            productSummary[productId]['totalSale'] += amount *
+                productSummary[productId]['price'] *
+                (1 - o.get('discount_rate'));
+          }
+        }
+      }
+      print("---------Products---------");
+      print(productSummary);
+
+      var unsortedSummary = {};
+      for (var i in productSummary.keys) {
+        unsortedSummary[i] = productSummary[i]['totalSale'];
+      }
+      var sortedProductSummaryKeys = unsortedSummary.keys.toList(
+          growable: false)
+        ..sort((k2, k1) => unsortedSummary[k1].compareTo(unsortedSummary[k2]));
+      LinkedHashMap sortedProductSummary = new LinkedHashMap.fromIterable(
+          sortedProductSummaryKeys,
+          key: (k) => k,
+          value: (k) => productSummary[k]);
+
+      print("---------Sorted Products---------");
+      print(sortedProductSummary);
+      print("-------------------------------------------------");
+
+      return sortedProductSummary;
+    } catch (err) {
+      print('Caught error: $err');
+      return null;
+    }
+  }
+
+  getProductSummary(target) async {
+    return await _getProductSummary(target);
+  }
+
+  Future<LinkedHashMap> _getCustomerSummary(target) async {
+    print("-----------------Getting Customer Summary-----------------");
+    //Daily
+    try {
+      final user = _firebaseAuth.currentUser;
+      final userId = user.uid;
+      DateTime now = new DateTime.now();
+      DateTime startDate = target == 'd'
+          ? new DateTime(now.year, now.month, now.day)
+          : target == 'm'
+              ? new DateTime(now.year, now.month)
+              : new DateTime(now.year);
+
+      QuerySnapshot orders;
+      print(startDate);
+      orders = await _firestore
+          .collection("company")
+          .doc(userId)
+          .collection("order")
+          .orderBy("date")
+          .startAt([startDate]).get();
+      final orderDocs = orders.docs;
+
+      print("Order Amounts " + orderDocs.length.toString());
+      Map<String, dynamic> customerSummary = {};
+      for (QueryDocumentSnapshot o in orderDocs) {
+        final String customerId = o.get('cus_id');
+        if (customerId != null) {
+          if (customerSummary[customerId] == null) {
+            print(customerId);
+            DocumentReference targetCustomer = _firestore
+                .collection("company")
+                .doc(userId)
+                .collection("customer")
+                .doc(customerId);
+
+            DocumentSnapshot customer = await targetCustomer.get();
+            print(customer.data());
+            customerSummary[customerId] = {
+              'name':
+                  customer.get('firstname') + " " + customer.get('lastname'),
+              'phone': customer.get('phone_no'),
+              'totalPaid': o.get('total_price')
+            };
+          } else {
+            customerSummary[customerId]['totalPaid'] += o.get('total_price');
+          }
+        }
+      }
+      print("---------Customer---------");
+      print(customerSummary);
+
+      var unsortedSummary = {};
+      for (var i in customerSummary.keys) {
+        unsortedSummary[i] = customerSummary[i]['totalPaid'];
+      }
+      var sortedCusotmerSummaryKeys = unsortedSummary.keys.toList(
+          growable: false)
+        ..sort((k2, k1) => unsortedSummary[k1].compareTo(unsortedSummary[k2]));
+      LinkedHashMap sortedCustomerSummary = new LinkedHashMap.fromIterable(
+          sortedCusotmerSummaryKeys,
+          key: (k) => k,
+          value: (k) => customerSummary[k]);
+
+      print("---------Sorted Customer---------");
+      print(sortedCustomerSummary);
+      print("-------------------------------------------------");
+
+      return sortedCustomerSummary;
+    } catch (err) {
+      print('Caught error: $err');
+      return null;
+    }
+  }
+
+  getCustomerSummary(target) async {
+    return await _getCustomerSummary(target);
   }
 
   Future<void> addProduct(name, description, price, img) async {
@@ -41,6 +201,8 @@ class FlutterFireAuthService {
       print(e.toString());
     });
   }
+
+
 
   Future<QueryDocumentSnapshot> getCustomerFromPhoneNo(
       String customerPhone) async {

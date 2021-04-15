@@ -11,12 +11,10 @@ import 'package:memby/firebase.dart';
 import 'package:memby/screens/homeScreen.dart';
 import 'package:memby/components/emptyItem.dart';
 import 'package:memby/components/bottomNav/nav.dart';
+import 'package:memby/screens/manageProduct.dart';
 import 'package:memby/screens/landingScreen.dart';
-
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-// import 'package:path/path.dart';
 
 class AddProductList extends StatefulWidget {
   @override
@@ -33,7 +31,7 @@ class AddProductList extends StatefulWidget {
 class Product {
   String product;
   String description;
-  int price;
+  double price;
   String picture;
 
   Product({this.product, this.description, this.price, this.picture});
@@ -86,7 +84,7 @@ class _AddProductList extends State<AddProductList> {
       product.add(new Product(
           product: productName,
           description: description,
-          price: int.parse(price),
+          price: price.toDouble,
           picture: _uploadedFileURL));
     });
   }
@@ -154,7 +152,7 @@ class _AddProductList extends State<AddProductList> {
                                 onPressed: () =>
                                     Navigator.push(context, MaterialPageRoute(
                                       builder: (context) {
-                                        return Landing();
+                                        return ManageProduct();
                                       },
                                     ))),
                           ),
@@ -288,6 +286,14 @@ class _AddProductList extends State<AddProductList> {
                               text: "confirm",
                               press: () {
                                 addProductToFireStore();
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return Landing();
+                                    },
+                                  ),
+                                );
                               }),
                         ),
                       ),

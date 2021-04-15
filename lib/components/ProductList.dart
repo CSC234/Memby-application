@@ -8,7 +8,7 @@ class ProductList extends StatelessWidget {
   final String picture;
   final String product;
   final String description;
-  final int price;
+  final double price;
   final Function press;
 
   const ProductList(
@@ -35,7 +35,7 @@ class ProductList extends StatelessWidget {
                 Container(
                     height: 70,
                     width: 70,
-                    // padding: EdgeInsets.all(20),
+                    padding: EdgeInsets.all(5),
                     child: picture != null
                         ? CircleAvatar(
                             radius: 10,
