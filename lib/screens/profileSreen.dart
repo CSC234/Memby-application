@@ -19,8 +19,6 @@ class _ProfileState extends State<Profile> {
   }
 
   @override
- 
-
   Widget build(BuildContext context) {
     final firebaseUser = context.watch<User>();
 
@@ -34,7 +32,6 @@ class _ProfileState extends State<Profile> {
               bottomOpacity: 0.0,
               elevation: 0.0,
               title: Text('Your Profile'),
-
             ),
             body: Container(
               child: SingleChildScrollView(
@@ -171,6 +168,13 @@ class _ProfileState extends State<Profile> {
                       Navigator.of(context).pop();
                     }
                   }),
+                  TextButton(
+                      onPressed: () {
+                        context
+                            .read<FlutterFireAuthService>()
+                            .getProductSummary();
+                      },
+                      child: Text('TEST')),
                   Container(
                       padding: EdgeInsets.all(50),
                       height: height * (35 / 100),

@@ -8,6 +8,7 @@ import 'package:path/path.dart';
 import 'package:memby/models/OrderDetail.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'dart:collection';
 
 class FlutterFireAuthService {
   final FirebaseAuth _firebaseAuth;
@@ -23,6 +24,80 @@ class FlutterFireAuthService {
     if (isSignedWithGoogle) {
       await _googleSignIn.signOut();
     }
+  }
+
+  Future<LinkedHashMap> _getProductSummary() async {
+    print("-----------------Getting Daily Product Summary-----------------");
+    //Daily
+    try {
+      final user = _firebaseAuth.currentUser;
+      final userId = user.uid;
+      DateTime now = new DateTime.now();
+      DateTime today = new DateTime(now.year, now.month, now.day);
+      QuerySnapshot orders;
+      orders = await _firestore
+          .collection("company")
+          .doc(userId)
+          .collection("order")
+          .orderBy("date")
+          .startAt([today]).get();
+      final orderDocs = orders.docs;
+      Map<String, dynamic> productSummary = {};
+      for (QueryDocumentSnapshot o in orderDocs) {
+        final Map<String, dynamic> productList = o.get('product_list');
+        for (String productId in productList.keys) {
+          int amount = productList[productId];
+          if (productSummary[productId] == null) {
+            DocumentReference targetProduct = _firestore
+                .collection("company")
+                .doc(userId)
+                .collection("product")
+                .doc(productId);
+
+            DocumentSnapshot product = await targetProduct.get();
+            productSummary[productId] = {
+              'name': product.get('name'),
+              'price': product.get('price'),
+              'unitSale': amount,
+              'totalSale':
+                  amount * product.get('price') * (1 - o.get('discount_rate'))
+            };
+          } else {
+            productSummary[productId]['unitSale'] += amount;
+            productSummary[productId]['totalSale'] += amount *
+                productSummary[productId]['price'] *
+                (1 - o.get('discount_rate'));
+          }
+        }
+      }
+      print("---------Today Products---------");
+      print(productSummary);
+
+      var unsortedSummary = {};
+      for (var i in productSummary.keys) {
+        unsortedSummary[i] = productSummary[i]['totalSale'];
+      }
+      var sortedProductSummaryKeys = unsortedSummary.keys.toList(
+          growable: false)
+        ..sort((k2, k1) => unsortedSummary[k1].compareTo(unsortedSummary[k2]));
+      LinkedHashMap sortedProductSummary = new LinkedHashMap.fromIterable(
+          sortedProductSummaryKeys,
+          key: (k) => k,
+          value: (k) => productSummary[k]);
+
+      print("---------Sorted Today Products---------");
+      print(sortedProductSummary);
+      print("-------------------------------------------------");
+
+      return sortedProductSummary;
+    } catch (err) {
+      print('Caught error: $err');
+      return null;
+    }
+  }
+
+  getProductSummary() async {
+    return await _getProductSummary();
   }
 
   Future<void> addProduct(name, description, price, img) async {
