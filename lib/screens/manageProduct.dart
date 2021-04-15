@@ -39,9 +39,29 @@ class Product {
 class _ManageProduct extends State<ManageProduct> {
   List<Product> product = [
     Product(
-        product: 'test',
-        description: 'test',
-        price: 1,
+        product: 'Selsun Selenium sulfide',
+        description: 'Lorem ipsum, or lipsum as it is sometimes known',
+        price: 120,
+        picture: 'assets/images/profile.png'),
+    Product(
+        product: 'Selsun Selenium sulfide',
+        description: 'Lorem ipsum, or lipsum as it is sometimes known',
+        price: 120,
+        picture: 'assets/images/profile.png'),
+    Product(
+        product: 'Selsun Selenium sulfide',
+        description: 'Lorem ipsum, or lipsum as it is sometimes known',
+        price: 120,
+        picture: 'assets/images/profile.png'),
+    Product(
+        product: 'Selsun Selenium sulfide',
+        description: 'Lorem ipsum, or lipsum as it is sometimes known',
+        price: 120,
+        picture: 'assets/images/profile.png'),
+    Product(
+        product: 'Selsun Selenium sulfide',
+        description: 'Lorem ipsum, or lipsum as it is sometimes known',
+        price: 120,
         picture: 'assets/images/profile.png')
   ];
 
@@ -66,8 +86,7 @@ class _ManageProduct extends State<ManageProduct> {
           currentIndex: 3,
         ),
         body: Container(
-          height: height * (90 / 100),
-          child: SingleChildScrollView(
+          child: Container(
             child: Container(
               child: Align(
                 alignment: Alignment.center,
@@ -168,21 +187,33 @@ class _ManageProduct extends State<ManageProduct> {
                       SizedBox(
                         height: 15,
                       ),
-                      if (product.length != 0)
-                        for (int i = 0; i < product.length; i++)
-                          ProductList(
-                            picture: product[i].picture,
-                            product: product[i].product,
-                            description: product[i].description,
-                            price: product[i].price,
-                            press: () {
-                              // removeProduct(i);
-                            },
+                      Container(
+                        height: height * 0.65,
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: 0,
+                              ),
+                              if (product.length != 0)
+                                for (int i = 0; i < product.length; i++)
+                                  ProductList(
+                                    picture: product[i].picture,
+                                    product: product[i].product,
+                                    description: product[i].description,
+                                    price: product[i].price,
+                                    press: () {
+                                      // removeProduct(i);
+                                    },
+                                  ),
+                              if (product.length == 0)
+                                EmptyList(
+                                    text:
+                                        'Customer Product is empty please add the product'),
+                            ],
                           ),
-                      if (product.length == 0)
-                        EmptyList(
-                            text:
-                                'Customer Product is empty please add the product'),
+                        ),
+                      ),
                     ],
                   ),
                 ),
