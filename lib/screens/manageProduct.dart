@@ -203,7 +203,7 @@ class _ManageProduct extends State<ManageProduct> {
                                     description: product[i].description,
                                     price: product[i].price,
                                     press: () {
-                                      // removeProduct(i);
+                                      startInputAction(context);
                                     },
                                   ),
                               if (product.length == 0)
@@ -221,5 +221,26 @@ class _ManageProduct extends State<ManageProduct> {
             ),
           ),
         ));
+  }
+
+  void startInputAction(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        height: MediaQuery.of(context).size.height * 0.55,
+        decoration: new BoxDecoration(
+          color: Colors.white,
+          borderRadius: new BorderRadius.only(
+            topLeft: const Radius.circular(25.0),
+            topRight: const Radius.circular(25.0),
+          ),
+        ),
+        child: Center(
+          child: Text("test"),
+        ),
+      ),
+    );
   }
 }
