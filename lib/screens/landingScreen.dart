@@ -4,7 +4,7 @@ import 'package:memby/components/Card.dart';
 import 'package:memby/screens/viewDashboard.dart';
 import 'package:memby/screens/createOrderScreen.dart';
 import 'package:memby/constants.dart';
-import 'package:memby/screens/addProductScreen.dart';
+import 'package:memby/screens/manageProduct.dart';
 import 'package:memby/screens/registerScreen.dart';
 import 'package:memby/screens/homeScreen.dart';
 import 'package:memby/screens/profileSreen.dart';
