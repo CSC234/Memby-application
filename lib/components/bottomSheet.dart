@@ -17,7 +17,8 @@ class BottomSheettest extends StatefulWidget {
   final String text;
   final List product;
   final int item;
-  BottomSheettest({this.text, this.product, this.item});
+  final Function testBoy;
+  BottomSheettest({this.text, this.product, this.item, this.testBoy});
 
   @override
   _BottomSheet createState() => _BottomSheet();
@@ -62,16 +63,22 @@ class _BottomSheet extends State<BottomSheettest> {
   }
 
   void updateProductToFireStore(pid, name, description, price, picture) {
-    setState(() {
-      context
-          .read<FlutterFireAuthService>()
-          .updateProduct(pid, name, description, price, picture);
-    });
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return ManageProduct();
+        },
+      ),
+    );
+
+    widget.testBoy(pid, name, description, price, picture);
   }
 
   String nameUpdate;
   String descriptionUpdate;
   double priceUpdate;
+
   void updateProduct(productName, description, price, picture) async {
     _uploadedFileURL = await context
         .read<FlutterFireAuthService>()
@@ -164,13 +171,29 @@ class _BottomSheet extends State<BottomSheettest> {
                         _descriptionController.text,
                         _priceController.text,
                         _pictureController.text);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return ManageProduct();
-                        },
-                      ),
+
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context) {
+                        return Dialog(
+                          child: Container(
+                            alignment: Alignment.center,
+                            height: 85,
+                            width: 10,
+                            child: new Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                CircularProgressIndicator(),
+                                SizedBox(
+                                  width: 30,
+                                ),
+                                Text("Loading"),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
                     );
                   }),
             ),
