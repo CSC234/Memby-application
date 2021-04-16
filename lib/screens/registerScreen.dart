@@ -1,3 +1,4 @@
+import 'package:memby/components/OverlayNotification.dart';
 import 'package:memby/firebase.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
@@ -47,31 +48,27 @@ class _RegisterState extends State<Register> {
     }
 
     return Container(
-        color: Colors.white,
-        child:
-            // bottomNavigationBar: NavKT(
-            //   currentIndex: 1,
-            // ),
-            WillPopScope(
-          onWillPop: () {
-            moveToLastScreen();
-          },
-          child: Scaffold(
-            appBar: AppBar(
-              leading: IconButton(
-                icon: Icon(Icons.arrow_back),
-                color: themeBlue,
-                onPressed: () {
-                  moveToLastScreen();
-                },
-              ),
-              backgroundColor: Colors.transparent,
-              foregroundColor: Colors.transparent,
-              shadowColor: Colors.transparent,
-            ),
-            body: SingleChildScrollView(child: FormBoxes()),
+      color: Colors.white,
+      // child:
+      // bottomNavigationBar: NavKT(
+      //   currentIndex: 1,
+      // ),
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            color: themeBlue,
+            onPressed: () {
+              moveToLastScreen();
+            },
           ),
-        ));
+          backgroundColor: Colors.transparent,
+          foregroundColor: Colors.transparent,
+          shadowColor: Colors.transparent,
+        ),
+        body: SingleChildScrollView(child: FormBoxes()),
+      ),
+    );
   }
 }
 
@@ -308,29 +305,10 @@ class _FormBoxesState extends State<FormBoxes> {
                                 addressController.text);
                             showOverlayNotification(
                               (context) {
-                                return Card(
-                                  margin:
-                                      const EdgeInsets.symmetric(horizontal: 4),
-                                  child: SafeArea(
-                                    child: ListTile(
-                                      leading: SizedBox.fromSize(
-                                          size: const Size(40, 40),
-                                          child: ClipOval(
-                                              child: Container(
-                                            color: themeBlue,
-                                          ))),
-                                      title: Text('Memby'),
-                                      subtitle: Text(
-                                          'Registered Customer Successfully!'),
-                                      trailing: IconButton(
-                                          icon: Icon(Icons.close),
-                                          onPressed: () {
-                                            OverlaySupportEntry.of(context)
-                                                .dismiss();
-                                          }),
-                                    ),
-                                  ),
-                                );
+                                return OverlayNotification(
+                                    title: "Memby Application",
+                                    subtitle: "Registered Successfully",
+                                    themeColor: themeBlue);
                               },
                               duration: Duration(milliseconds: 4000),
                             );
