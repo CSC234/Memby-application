@@ -243,6 +243,11 @@ class _ManageProduct extends State<ManageProduct> {
     String _uploadedFileURL;
     File _image;
 
+    String nameUpdate;
+    String descriptionUpdate;
+    double priceUpdate;
+    String pictureUpdate;
+
     final picker = ImagePicker();
     Future _pickImage() async {
       final pickedFile = await picker.getImage(source: ImageSource.gallery);
@@ -253,10 +258,37 @@ class _ManageProduct extends State<ManageProduct> {
       });
     }
 
-    final _productnameController = TextEditingController();
+    void updateProductToFireStore(pid, name, description, price, picture) {
+      setState(() {
+        context
+            .read<FlutterFireAuthService>()
+            .updateProduct(pid, name, description, price, picture);
+      });
+    }
 
-    final _descriptionController = TextEditingController();
-    final _priceController = TextEditingController();
+    void updateProduct(productName, description, price, picture) async {
+      // _uploadedFileURL = await context
+      //     .read<FlutterFireAuthService>()
+      //
+      //     .uploadImageToFirebase(_image);
+      //
+      //
+      setState(() {
+        nameUpdate = productName;
+        descriptionUpdate = description;
+        priceUpdate = double.parse(price);
+      });
+      updateProductToFireStore(
+          product[item].id, nameUpdate, descriptionUpdate, priceUpdate, 'test');
+    }
+
+    final _productnameController =
+        TextEditingController(text: product[item].product);
+
+    final _descriptionController =
+        TextEditingController(text: product[item].description);
+    final _priceController =
+        TextEditingController(text: product[item].price.toString());
     final _pictureController = TextEditingController();
 
     double width = MediaQuery.of(context).size.width;
@@ -292,16 +324,16 @@ class _ManageProduct extends State<ManageProduct> {
               Column(
                 children: [
                   Textfield(
-                    // controller: _productnameController,
-                    value: product[item].product,
+                    controller: _productnameController,
+                    // value: product[item].product,
                     text: 'Product name...',
                     width: width * (90 / 100),
                     min: 1,
                     max: 5,
                   ),
                   Textfield(
-                    // controller: _descriptionController,
-                    value: product[item].description,
+                    controller: _descriptionController,
+                    // value: product[item].description,
                     text: 'Description...',
                     width: width * (90 / 100),
                     min: 3,
@@ -315,8 +347,8 @@ class _ManageProduct extends State<ManageProduct> {
               Column(
                 children: [
                   Textfield(
-                    // controller: _priceController,
-                    value: product[item].price.toString(),
+                    controller: _priceController,
+                    // value: product[item].price.toString(),
                     width: width * (90 / 100),
                     text: 'Price',
                     min: 1,
@@ -335,11 +367,11 @@ class _ManageProduct extends State<ManageProduct> {
                       textColor: Colors.white,
                       text: "Update Product",
                       press: () {
-                        // addProduct(
-                        //     _productnameController.text,
-                        //     _descriptionController.text,
-                        //     _priceController.text,
-                        //     _pictureController.text);
+                        updateProduct(
+                            _productnameController.text,
+                            _descriptionController.text,
+                            _priceController.text,
+                            _pictureController.text);
                       }),
                 ),
               ),
