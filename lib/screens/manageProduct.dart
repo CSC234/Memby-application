@@ -248,12 +248,12 @@ class _ManageProduct extends State<ManageProduct> {
             ),
           ),
           child: BottomSheettest(
-             testBoy: (pid, name, description, price, picture) async=> 
-            
-            {await context
-        .read<FlutterFireAuthService>()
-        .updateProduct(pid, name, description, price, picture),
-              setState(() {})},
+            testBoy: (pid, name, description, price, picture) => {
+              context
+                  .read<FlutterFireAuthService>()
+                  .updateProduct(pid, name, description, price, picture),
+              setState(() {})
+            },
             product: product,
             item: item,
           )),

@@ -63,7 +63,6 @@ class _BottomSheet extends State<BottomSheettest> {
   }
 
   void updateProductToFireStore(pid, name, description, price, picture) {
-    SizedBox(child: CircularProgressIndicator(), height: 100.0, width: 100.0);
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -172,6 +171,30 @@ class _BottomSheet extends State<BottomSheettest> {
                         _descriptionController.text,
                         _priceController.text,
                         _pictureController.text);
+
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context) {
+                        return Dialog(
+                          child: Container(
+                            alignment: Alignment.center,
+                            height: 85,
+                            width: 10,
+                            child: new Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                CircularProgressIndicator(),
+                                SizedBox(
+                                  width: 30,
+                                ),
+                                Text("Loading"),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
                   }),
             ),
           ),
