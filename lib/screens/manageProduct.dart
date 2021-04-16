@@ -49,33 +49,7 @@ class _ManageProduct extends State<ManageProduct> {
     _productsData = context.read<FlutterFireAuthService>().getProducts();
   }
 
-  List<Product> product = [
-    // Product(
-    //     product: 'Selsun Selenium sulfide',
-    //     description: 'Lorem ipsum, or lipsum as it is sometimes known',
-    //     price: 120,
-    //     picture: 'assets/images/profile.png'),
-    // Product(
-    //     product: 'Selsun Selenium sulfide1',
-    //     description: 'Lorem ipsum, or lipsum as it is sometimes known',
-    //     price: 2500,
-    //     picture: 'assets/images/profile.png'),
-    // Product(
-    //     product: 'Selsun Selenium sulfide2',
-    //     description: 'Lorem ipsum, or lipsum as it is sometimes known',
-    //     price: 1500,
-    //     picture: 'assets/images/profile.png'),
-    // Product(
-    //     product: 'Selsun Selenium sulfide3',
-    //     description: 'Lorem ipsum, or lipsum as it is sometimes known',
-    //     price: 125000,
-    //     picture: 'assets/images/profile.png'),
-    // Product(
-    //     product: 'Selsun Selenium sulfide4',
-    //     description: 'Lorem ipsum, or lipsum as it is sometimes known',
-    //     price: 1120,
-    //     picture: 'assets/images/profile.png')
-  ];
+  List<Product> product = [];
 
   @override
   Widget build(BuildContext context) {
@@ -94,9 +68,6 @@ class _ManageProduct extends State<ManageProduct> {
     }
     return Scaffold(
         backgroundColor: kPrimaryColor,
-        bottomNavigationBar: NavKT(
-          currentIndex: 3,
-        ),
         body: Container(
           child: SingleChildScrollView(
             child: Container(
@@ -128,7 +99,7 @@ class _ManageProduct extends State<ManageProduct> {
                               'Manage Product',
                               style: TextStyle(
                                   color: kPrimaryFont,
-                                  fontSize: 40,
+                                  fontSize: width * 0.1,
                                   fontFamily: 'Alef-Regular'),
                             ),
                           ),
@@ -200,7 +171,7 @@ class _ManageProduct extends State<ManageProduct> {
                         height: 15,
                       ),
                       Container(
-                        height: height * 0.65,
+                        height: height * 0.73,
                         child: SingleChildScrollView(
                           child: FutureBuilder(
                               future: _productsData,

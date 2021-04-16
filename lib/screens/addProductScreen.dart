@@ -127,11 +127,7 @@ class _AddProductList extends State<AddProductList> {
     }
     return Scaffold(
         backgroundColor: kPrimaryColor,
-        bottomNavigationBar: NavKT(
-          currentIndex: 3,
-        ),
         body: Container(
-          height: height * (90 / 100),
           child: SingleChildScrollView(
             child: Container(
               child: Align(
@@ -297,6 +293,9 @@ class _AddProductList extends State<AddProductList> {
                               }),
                         ),
                       ),
+                      SizedBox(
+                        height: 25,
+                      )
                     ],
                   ),
                 ),
