@@ -86,7 +86,7 @@ class _AddProductList extends State<AddProductList> {
       product.add(new Product(
           product: productName,
           description: description,
-          price: price.toDouble,
+          price: double.parse(price),
           picture: _uploadedFileURL));
     });
   }
