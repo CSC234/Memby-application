@@ -32,10 +32,20 @@ class OrderCard extends StatelessWidget {
                 Expanded(
                   flex: 4,
                   child: Container(
-                    padding: EdgeInsets.all(10),
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10.0),
-                        child: Image.network(img)),
+                    padding: EdgeInsets.all(30),
+                    child: Container(
+                        height: 120,
+                        width: 120,
+                        padding: EdgeInsets.all(5),
+                        child: img != null
+                            ? CircleAvatar(
+                                radius: 5,
+                                backgroundImage: NetworkImage(this.img),
+                              )
+                            : CircleAvatar(
+                                radius: 5,
+                                backgroundColor: Colors.grey.withOpacity(.5),
+                              )),
                   ),
                 ),
                 Expanded(
