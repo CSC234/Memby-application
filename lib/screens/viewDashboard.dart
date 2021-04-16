@@ -462,9 +462,6 @@ class _DashBoardState extends State<DashBoard> {
     double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      bottomNavigationBar: NavKT(
-        currentIndex: 4,
-      ),
       body: Container(
         child: SingleChildScrollView(
           child: Container(
@@ -635,8 +632,8 @@ class _DashBoardState extends State<DashBoard> {
                                                       return SizedBox(
                                                           child:
                                                               CircularProgressIndicator(),
-                                                          height: 300.0,
-                                                          width: 175.0);
+                                                          height: 50.0,
+                                                          width: 50.0);
                                                     }
                                                   }),
                                               Divider(
@@ -747,11 +744,12 @@ class _DashBoardState extends State<DashBoard> {
                                                         return SizedBox(
                                                             child:
                                                                 CircularProgressIndicator(),
-                                                            height: 300.0,
-                                                            width: 175.0);
+                                                            height: 50.0,
+                                                            width: 50.0);
                                                       }
                                                     }),
                                               ),
+                                              ////////-------------- history ------------------
                                               SizedBox(
                                                 height: 220,
                                               ),
