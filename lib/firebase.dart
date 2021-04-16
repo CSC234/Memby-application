@@ -202,7 +202,22 @@ class FlutterFireAuthService {
     });
   }
 
-
+  Future<void> updateProduct(pid, name, description, price, img) async {
+    final user = _firebaseAuth.currentUser;
+    final userId = user.uid;
+    final product = {
+      'name': name,
+      'description': description,
+      'price': price,
+      'product_img': img
+    };
+    await _firestore
+        .collection("company")
+        .doc(userId)
+        .collection("product")
+        .doc(pid)
+        .update(product);
+  }
 
   Future<QueryDocumentSnapshot> getCustomerFromPhoneNo(
       String customerPhone) async {
