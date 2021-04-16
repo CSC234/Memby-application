@@ -3,6 +3,9 @@ import 'package:memby/components/TotalSaleList.dart';
 import 'package:memby/components/chart.dart';
 import '../constants.dart';
 import 'package:memby/screens/viewDashboard.dart';
+import 'package:provider/provider.dart';
+import 'package:memby/firebase.dart';
+import 'dart:collection';
 
 List<TotalSaleList> productListDaily = [
   TotalSaleList(
@@ -128,7 +131,7 @@ class _ViewAllState extends State<ViewAll> {
     clickYearly = widget.clickYearly;
   }
 
-  ListView makeProductList() {
+  ListView makeProductList(LinkedHashMap productSummary) {
     productHolder = [];
     if (clickDaily == false) {
       isRender = 'daily';
@@ -149,18 +152,17 @@ class _ViewAllState extends State<ViewAll> {
     if (clickYearly == false) {
       render = productListYearly;
     }
+    int no = 1;
+    productSummary.forEach((productId, product) {
+      productHolder.add(TotalSaleList(
+        no: no,
+        name: product['name'],
+        unit: product['unitSale'],
+        totalSale: (product['totalSale'] * 100).round() / 100,
+      ));
+      no++;
+    });
 
-    for (int i = 0; i < render.length; i++) {
-      var p = render[i];
-      productHolder.add(
-        TotalSaleList(
-          no: p.no,
-          name: p.name,
-          unit: p.unit,
-          totalSale: p.totalSale,
-        ),
-      );
-    }
     List<TotalSaleList> renderFilter = productHolder
         .where((el) =>
             el.name.indexOf(_filterText.text) != -1 || _filterText.text.isEmpty)
@@ -211,8 +213,18 @@ class _ViewAllState extends State<ViewAll> {
     }
   }
 
+  Future _productSummary;
+
   @override
   Widget build(BuildContext context) {
+    String startDate = !clickDaily
+        ? 'd'
+        : !clickMonthly
+            ? 'm'
+            : 'y';
+    _productSummary =
+        context.read<FlutterFireAuthService>().getProductSummary(startDate);
+
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
@@ -417,11 +429,31 @@ class _ViewAllState extends State<ViewAll> {
                                                         ],
                                                       ),
                                                     ),
-                                                    Container(
-                                                      height: height * 0.25,
-                                                      width: width * (90 / 100),
-                                                      child: makeProductList(),
-                                                    ),
+                                                    FutureBuilder(
+                                                        future: _productSummary,
+                                                        builder: (context,
+                                                            snapshot) {
+                                                          if (snapshot
+                                                              .hasData) {
+                                                            return Container(
+                                                              height:
+                                                                  height * 0.25,
+                                                              width: width *
+                                                                  (90 / 100),
+                                                              child:
+                                                                  makeProductList(
+                                                                      snapshot
+                                                                          .data),
+                                                            );
+                                                          } else {
+                                                            return SizedBox(
+                                                                child:
+                                                                    CircularProgressIndicator(),
+                                                                height: 300.0,
+                                                                width: 175.0);
+                                                          }
+                                                        }),
+
                                                     SizedBox(
                                                       height: 10,
                                                     ),
@@ -437,7 +469,25 @@ class _ViewAllState extends State<ViewAll> {
                                                                 fontSize: 18)),
                                                       ),
                                                     ]),
-                                                    Chart(),
+                                                    FutureBuilder(
+                                                        future: _productSummary,
+                                                        builder: (context,
+                                                            snapshot) {
+                                                          if (snapshot
+                                                              .hasData) {
+                                                            return Chart(
+                                                                saleSummmary:
+                                                                    snapshot
+                                                                        .data);
+                                                          } else {
+                                                            return SizedBox(
+                                                                child:
+                                                                    CircularProgressIndicator(),
+                                                                height: 300.0,
+                                                                width: 175.0);
+                                                          }
+                                                        }),
+
                                                     // Chart(),
                                                     SizedBox(
                                                       height: 60,

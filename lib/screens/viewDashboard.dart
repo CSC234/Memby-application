@@ -11,7 +11,6 @@ import 'package:memby/components/bottomNav/nav.dart';
 import 'package:memby/screens/landingScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 List<TotalSaleList> productListYearly = [
   TotalSaleList(
@@ -257,13 +256,15 @@ class _DashBoardState extends State<DashBoard> {
     }
     int no = 1;
     productSummary.forEach((productId, product) {
-      productHolder.add(TotalSaleList(
-        no: no,
-        name: product['name'],
-        unit: product['unitSale'],
-        totalSale: (product['totalSale'] * 100).round() / 100,
-      ));
-      no++;
+      if (no <= 5) {
+        productHolder.add(TotalSaleList(
+          no: no,
+          name: product['name'],
+          unit: product['unitSale'],
+          totalSale: (product['totalSale'] * 100).round() / 100,
+        ));
+        no++;
+      }
     });
 
     // if (render.length >= 5) {
@@ -366,15 +367,17 @@ class _DashBoardState extends State<DashBoard> {
     // }
     int no = 1;
     customerSummary.forEach((customerID, customer) {
-      customerHolder.add(
-        TopCustomer(
-          no: no,
-          name: customer['name'],
-          phoneNo: customer['phone'],
-          totalPaid: (customer['totalPaid'] * 100).round() / 100,
-        ),
-      );
-      no++;
+      if (no <= 5) {
+        customerHolder.add(
+          TopCustomer(
+            no: no,
+            name: customer['name'],
+            phoneNo: customer['phone'],
+            totalPaid: (customer['totalPaid'] * 100).round() / 100,
+          ),
+        );
+        no++;
+      }
     });
     return Column(
       children: customerHolder,
@@ -431,9 +434,10 @@ class _DashBoardState extends State<DashBoard> {
           context,
           new MaterialPageRoute(
             builder: (context) => ViewAll(
-                clickMonthly: clickMonthly,
-                clickDaily: clickDaily,
-                clickYearly: clickYearly),
+              clickMonthly: clickMonthly,
+              clickDaily: clickDaily,
+              clickYearly: clickYearly,
+            ),
           ),
         );
       },
