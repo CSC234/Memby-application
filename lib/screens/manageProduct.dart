@@ -372,6 +372,14 @@ class _ManageProduct extends State<ManageProduct> {
                             _descriptionController.text,
                             _priceController.text,
                             _pictureController.text);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return ManageProduct();
+                            },
+                          ),
+                        );
                       }),
                 ),
               ),
