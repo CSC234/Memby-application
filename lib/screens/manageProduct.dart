@@ -243,12 +243,8 @@ class _ManageProduct extends State<ManageProduct> {
     String _uploadedFileURL;
     File _image;
 
-    String nameUpdate;
-    String descriptionUpdate;
-    double priceUpdate;
-    String pictureUpdate;
-
     final picker = ImagePicker();
+
     Future _pickImage() async {
       final pickedFile = await picker.getImage(source: ImageSource.gallery);
       print("filename" + _image.toString());
@@ -256,6 +252,31 @@ class _ManageProduct extends State<ManageProduct> {
       setState(() {
         _image = File(pickedFile.path);
       });
+    }
+
+    final _imageUrlController = TextEditingController();
+    final _imageUrlFocusNode = FocusNode();
+    String nameUpdate;
+    String descriptionUpdate;
+    double priceUpdate;
+    void _updateImageUrl() {
+      if (!_imageUrlFocusNode.hasFocus) {
+        setState(() {});
+      }
+    }
+
+    @override
+    void initState() {
+      _imageUrlFocusNode.addListener(_updateImageUrl);
+      super.initState();
+    }
+
+    @override
+    void dispose() {
+      _imageUrlFocusNode.removeListener(_updateImageUrl);
+      _imageUrlController.dispose();
+      _imageUrlFocusNode.dispose();
+      super.dispose();
     }
 
     void updateProductToFireStore(pid, name, description, price, picture) {
@@ -267,19 +288,17 @@ class _ManageProduct extends State<ManageProduct> {
     }
 
     void updateProduct(productName, description, price, picture) async {
-      // _uploadedFileURL = await context
-      //     .read<FlutterFireAuthService>()
-      //
-      //     .uploadImageToFirebase(_image);
-      //
-      //
+      _uploadedFileURL = await context
+          .read<FlutterFireAuthService>()
+          .uploadImageToFirebase(_image);
       setState(() {
+        _image = null;
         nameUpdate = productName;
         descriptionUpdate = description;
         priceUpdate = double.parse(price);
       });
-      updateProductToFireStore(
-          product[item].id, nameUpdate, descriptionUpdate, priceUpdate, 'test');
+      updateProductToFireStore(product[item].id, nameUpdate, descriptionUpdate,
+          priceUpdate, _uploadedFileURL);
     }
 
     final _productnameController =

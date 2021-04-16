@@ -112,7 +112,6 @@ class _AddProductList extends State<AddProductList> {
   @override
   Widget build(BuildContext context) {
     final _productnameController = TextEditingController();
-
     final _descriptionController = TextEditingController();
     final _priceController = TextEditingController();
     final _pictureController = TextEditingController();
