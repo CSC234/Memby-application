@@ -306,9 +306,9 @@ class _FormBoxesState extends State<FormBoxes> {
                             showOverlayNotification(
                               (context) {
                                 return OverlayNotification(
-                                    title: "Memby Application",
-                                    subtitle: "Registered Successfully",
-                                    themeColor: themeBlue);
+                                  title: "Memby Application",
+                                  subtitle: "Registered Successfully",
+                                );
                               },
                               duration: Duration(milliseconds: 4000),
                             );

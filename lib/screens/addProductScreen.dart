@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:memby/components/OverlayNotification.dart';
 import 'package:memby/components/Register/AcknowlwdgementBox.dart';
 import 'package:memby/components/imagePicker.dart';
 import 'package:memby/constants.dart';
 import 'package:memby/components/rounded_button.dart';
 import 'package:memby/components/ProductList.dart';
 import 'package:memby/components/Textfield.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:memby/firebase.dart';
@@ -281,6 +283,15 @@ class _AddProductList extends State<AddProductList> {
                               text: "confirm",
                               press: () {
                                 addProductToFireStore();
+                                showOverlayNotification(
+                                  (context) {
+                                    return OverlayNotification(
+                                      title: "Memby Application",
+                                      subtitle: "Product added Successfully",
+                                    );
+                                  },
+                                  duration: Duration(milliseconds: 4000),
+                                );
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(

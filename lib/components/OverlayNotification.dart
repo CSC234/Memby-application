@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 class OverlayNotification extends StatefulWidget {
-  OverlayNotification({Key key, this.themeColor, this.subtitle, this.title})
-      : super(key: key);
-  final Color themeColor;
+  OverlayNotification({Key key, this.subtitle, this.title}) : super(key: key);
+  final Color themeColor = const Color(0xFF6E7CE4);
   final String subtitle;
   final String title;
 
