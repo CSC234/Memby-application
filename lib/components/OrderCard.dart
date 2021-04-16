@@ -20,6 +20,7 @@ class OrderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -32,7 +33,7 @@ class OrderCard extends StatelessWidget {
                 Expanded(
                   flex: 4,
                   child: Container(
-                    padding: EdgeInsets.all(30),
+                    padding: EdgeInsets.all(10),
                     child: Container(
                         height: 120,
                         width: 120,
@@ -59,7 +60,7 @@ class OrderCard extends StatelessWidget {
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       SizedBox(
-                        height: 10,
+                        height: 5,
                       ),
                       Container(
                         child: Container(
@@ -70,10 +71,17 @@ class OrderCard extends StatelessWidget {
                           ),
                         ),
                       ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text('$price Baht/unit'),
+                      SizedBox(
+                        height: 5,
+                      ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text('$price Baht/unit'),
+                          // Text('Amount:'),
                           Container(
                             child: TextField(
                               keyboardType: TextInputType.number,
