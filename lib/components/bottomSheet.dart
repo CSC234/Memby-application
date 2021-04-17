@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:memby/components/imagePicker.dart';
+import 'package:memby/components/imagePickerNet.dart';
 import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
 
@@ -72,13 +72,8 @@ class _BottomSheet extends State<BottomSheettest> {
           description: widget.product[i].description,
           picture: widget.product[i].picture));
     }
-    // product1[widget.item].product = widget.product[widget.item].product;
     print(product1[widget.item].product);
     item1 = widget.item;
-
-    // print(widget.product[item1].product);
-    // print('------1-------');
-    // print(product1[item1].product);
     print('-----2--------');
 
     super.initState();
@@ -110,9 +105,16 @@ class _BottomSheet extends State<BottomSheettest> {
   double priceUpdate;
 
   void updateProduct(productName, description, price, picture) async {
-    _uploadedFileURL = await context
-        .read<FlutterFireAuthService>()
-        .uploadImageToFirebase(_image);
+    print(_image);
+    if (_image != null) {
+      _uploadedFileURL = await context
+          .read<FlutterFireAuthService>()
+          .uploadImageToFirebase(_image);
+    }
+    if (_image == null) {
+      _uploadedFileURL = widget.product[widget.item].picture;
+      print(_uploadedFileURL);
+    }
     setState(() {
       _image = null;
       nameUpdate = productName;
@@ -152,7 +154,11 @@ class _BottomSheet extends State<BottomSheettest> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
-                  UserImagePicker(press: _pickImage, pickedImage: _image)
+                  UserImagePicker(
+                    press: _pickImage,
+                    pickedImage: _image,
+                    picture: product1[item1].picture,
+                  )
                 ],
               ),
               SizedBox(
