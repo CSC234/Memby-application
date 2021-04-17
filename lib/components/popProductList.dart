@@ -13,9 +13,9 @@ class PopProductList extends StatelessWidget {
 
   final String name;
   final String img;
-  final double unit;
+  final int unit;
   final String description;
-  final int totalSale;
+  final double totalSale;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class PopProductList extends StatelessWidget {
                       padding: EdgeInsets.all(10),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10.0),
-                        child: Image.asset('assets/images/product1.jpg'),
+                        child: Image.network(this.img),
                       ),
                     ),
                   ),
