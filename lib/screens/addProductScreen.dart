@@ -111,13 +111,12 @@ class _AddProductList extends State<AddProductList> {
     // uploadPic(_pickedImage);
   }
 
+  final _productnameController = TextEditingController();
+  final _descriptionController = TextEditingController();
+  final _priceController = TextEditingController();
+  final _pictureController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final _productnameController = TextEditingController();
-    final _descriptionController = TextEditingController();
-    final _priceController = TextEditingController();
-    final _pictureController = TextEditingController();
-
     final firebaseUser = context.watch<User>();
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
