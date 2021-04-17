@@ -364,6 +364,10 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                                           ? 0
                                           : discount;
                                 });
+                              } else {
+                                setState(() {
+                                  discount = 0;
+                                });
                               }
                             },
                             // controller: TextEditingController()

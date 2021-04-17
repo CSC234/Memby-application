@@ -194,7 +194,8 @@ class FlutterFireAuthService {
       'name': name,
       'description': description,
       'price': price,
-      'product_img': img
+      'product_img': img,
+      'visible': true
     };
     DocumentReference targetCompany =
         _firestore.collection('company').doc(userId);
