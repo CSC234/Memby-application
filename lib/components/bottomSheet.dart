@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:memby/components/imagePicker.dart';
 import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:memby/components/Textfield.dart';
 import 'package:memby/components/rounded_button.dart';
 import 'package:memby/constants.dart';
@@ -10,8 +10,16 @@ import 'package:memby/screens/manageProduct.dart';
 
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-import 'package:memby/components/Textfield.dart';
-import 'package:image_picker/image_picker.dart';
+
+class Product1 {
+  String id;
+  String product;
+  String description;
+  double price;
+  String picture;
+
+  Product1({this.id, this.product, this.description, this.price, this.picture});
+}
 
 class BottomSheettest extends StatefulWidget {
   final String text;
@@ -24,7 +32,7 @@ class BottomSheettest extends StatefulWidget {
   _BottomSheet createState() => _BottomSheet();
 }
 
-List<Product> product1 = [];
+List<Product1> product1 = [];
 int item1;
 
 class _BottomSheet extends State<BottomSheettest> {
@@ -52,16 +60,26 @@ class _BottomSheet extends State<BottomSheettest> {
   }
 
   String name = 'test';
+
   @override
   void initState() {
     _imageUrlFocusNode.addListener(_updateImageUrl);
-    product1 = widget.product;
+    for (int i = 0; i < widget.product.length; i++) {
+      product1.add(Product1(
+          id: widget.product[i].id,
+          product: widget.product[i].product,
+          price: widget.product[i].price,
+          description: widget.product[i].description,
+          picture: widget.product[i].picture));
+    }
+    // product1[widget.item].product = widget.product[widget.item].product;
+    print(product1[widget.item].product);
     item1 = widget.item;
-    print('-------------');
 
-    print(item1);
-    print(product1[item1].product);
-    print('-------------');
+    // print(widget.product[item1].product);
+    // print('------1-------');
+    // print(product1[item1].product);
+    print('-----2--------');
 
     super.initState();
   }
@@ -71,7 +89,6 @@ class _BottomSheet extends State<BottomSheettest> {
     _imageUrlFocusNode.removeListener(_updateImageUrl);
     _imageUrlController.dispose();
     _imageUrlFocusNode.dispose();
-    product1 = [];
     super.dispose();
   }
 
@@ -112,9 +129,11 @@ class _BottomSheet extends State<BottomSheettest> {
   @override
   Widget build(BuildContext context) {
     @override
-    String nameText = product1[item1].product;
+        // String nameText = product1[item1].product;
+        // product1 = widget.product;
 
-    final _productnameController = TextEditingController(text: nameText);
+        final _productnameController =
+        TextEditingController(text: product1[item1].product);
 
     final _descriptionController =
         TextEditingController(text: product1[item1].description);
@@ -143,19 +162,19 @@ class _BottomSheet extends State<BottomSheettest> {
                 children: [
                   Textfield(
                     onChange: (text) {
-                      nameText = text;
                       product1[item1].product = text;
                     },
                     controller: _productnameController,
-                    // value: product[item].product,
                     text: 'Product name...',
                     width: width * (90 / 100),
                     min: 1,
                     max: 5,
                   ),
                   Textfield(
+                    onChange: (text) {
+                      product1[item1].description = text;
+                    },
                     controller: _descriptionController,
-                    // value: product[item].description,
                     text: 'Description...',
                     width: width * (90 / 100),
                     min: 3,
@@ -170,7 +189,9 @@ class _BottomSheet extends State<BottomSheettest> {
                 children: [
                   Textfield(
                     controller: _priceController,
-                    // value: product[item].price.toString(),
+                    onChange: (text) {
+                      product1[item1].price = text;
+                    },
                     width: width * (90 / 100),
                     text: 'Price',
                     min: 1,
