@@ -181,7 +181,7 @@ class _BottomSheet extends State<BottomSheettest> {
           .uploadImageToFirebase(_image);
     }
     if (_image == null) {
-      _uploadedFileURL = widget.product[widget.item].picture;
+      _uploadedFileURL = await widget.product[widget.item].picture;
       print(_uploadedFileURL);
     }
     setState(() {
