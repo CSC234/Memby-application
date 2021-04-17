@@ -19,14 +19,36 @@ class ProductBox extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10.0),
-                  child: Image.network(
-                    img,
-                    width: 100,
+                Container(
+                    height: 70,
+                    width: 70,
+                    padding: EdgeInsets.all(5),
+                    child: img != null
+                        ? CircleAvatar(
+                            radius: 10,
+                            backgroundImage: NetworkImage(this.img),
+                          )
+                        : CircleAvatar(
+                            radius: 10,
+                            backgroundColor: Colors.grey.withOpacity(.5),
+                          )
+
+                    // Image.asset(
+
+                    //   'assets/images/product1.jpg',
+
+                    //   width: 70,
+
+                    // ),
+
+                    ),
+                Container(
+                  child: Text(
+                    title,
+                    textAlign: TextAlign.center,
                   ),
+                  width: 100,
                 ),
-                Text(title),
               ],
             ),
             height: 150,

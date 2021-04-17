@@ -58,7 +58,7 @@ class _GuideState extends State<Guide> {
                     child: Column(
                       children: <Widget>[
                         Text(
-                          "LOREM IPSUM STH",
+                          "MEMBY",
                           style: TextStyle(
                               fontSize: 36,
                               fontFamily: 'Alef-Regular',
@@ -69,7 +69,7 @@ class _GuideState extends State<Guide> {
                           height: 15,
                         ),
                         Text(
-                          "Lorem ipsum, or lipsum as it is sometimes known",
+                          "Because every data matters.",
                           style: TextStyle(
                               fontSize: 14,
                               fontFamily: 'Alef-Regular',
@@ -91,7 +91,10 @@ class _GuideState extends State<Guide> {
                         Container(
                           padding: const EdgeInsets.only(left: 20, right: 20),
                           child: Text(
-                            'Lorem ipsum, or lipsum as it is sometimes known,is dummy text used in laying out print, graphic or wThe passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero s De Finibus Bonorum et Malorum for use in a type specimen book.',
+                            'Memby is an application that makes membership system be a breeze!' +
+                                'It is designed to be simple, smart and stable system. ' +
+                                'Memby helps businesses to analyze data, so they are able to gain insight of the business' +
+                                'and improve the sales significantly',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: 18,
@@ -118,7 +121,7 @@ class _GuideState extends State<Guide> {
                           height: 15,
                         ),
                         Text(
-                          "Lorem ipsum, or lipsum as it is sometimes known",
+                          "Please Login to Continue",
                           style: TextStyle(
                               fontSize: 14,
                               fontFamily: 'Alef-Regular',
@@ -140,7 +143,7 @@ class _GuideState extends State<Guide> {
                           height: height * 0.25,
                           padding: const EdgeInsets.only(left: 20, right: 20),
                           child: Text(
-                            'Lorem ipsum, or lipsum as it is sometimes known,is dummy text used in laying out print, graphic or wThe passage is attributed to an unknown typesetter in the 15th century who is thought ',
+                            'Your data will be securely stored online.',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: 18,

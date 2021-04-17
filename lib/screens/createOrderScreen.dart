@@ -7,7 +7,7 @@ import 'package:memby/components/RoundedButton.dart';
 import 'package:memby/components/OrderCard.dart';
 import 'package:memby/components/ProductBox.dart';
 import 'package:memby/screens/confirmOrderScreen.dart';
-
+import 'package:memby/components/emptyItem.dart';
 import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -181,7 +181,9 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: order1.orderDetails.isEmpty
-                    ? Text('Empty Order')
+                    ? EmptyList(
+                        text: "Empty Order",
+                      )
                     : makeOrderCard(),
               ),
             ),

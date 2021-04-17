@@ -305,7 +305,7 @@ class _LandingState extends State<Landing> {
                                 colorCircle: Color(0xFF6961D6),
                               ),
                               CardButton(
-                                text: 'Add Product List',
+                                text: 'Manage Product',
                                 icon: Icon(
                                   Icons.add_shopping_cart,
                                   color: Colors.white,

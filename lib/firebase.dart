@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:memby/components/Profile/changePassword.dart';
 import 'package:memby/screens/landingScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -192,7 +194,8 @@ class FlutterFireAuthService {
       'name': name,
       'description': description,
       'price': price,
-      'product_img': img
+      'product_img': img,
+      'visible': true
     };
     DocumentReference targetCompany =
         _firestore.collection('company').doc(userId);
@@ -202,7 +205,31 @@ class FlutterFireAuthService {
     });
   }
 
+  Future<void> updateProduct(pid, name, description, price, img) async {
+    final user = _firebaseAuth.currentUser;
+    final userId = user.uid;
+    final product = {
+      'name': name,
+      'description': description,
+      'price': price,
+      'product_img': img
+    };
+    await _firestore
+        .collection("company")
+        .doc(userId)
+        .collection("product")
+        .doc(pid)
+        .update(product);
+  }
 
+  Future<void> updateProfile(companyName, logoImg) async {
+    final user = _firebaseAuth.currentUser;
+    final userId = user.uid;
+    final profile = logoImg != null
+        ? {'name': companyName, 'logo': logoImg}
+        : {'name': companyName};
+    await _firestore.collection("company").doc(userId).update(profile);
+  }
 
   Future<QueryDocumentSnapshot> getCustomerFromPhoneNo(
       String customerPhone) async {
@@ -317,25 +344,54 @@ class FlutterFireAuthService {
   Future<String> signIn(
       {String email, String password, BuildContext context}) async {
     try {
-      if (email != '' && password != '') {
-        print("email and password" + email.toString() + password.toString());
-        await _firebaseAuth.signInWithEmailAndPassword(
-            email: email, password: password);
-        print("Signed In");
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Landing(),
-          ),
-        );
-        return "Success";
-      } else if (email == '' || password == '') {
-        print('null');
+      print("email and password" + email.toString() + password.toString());
+      await _firebaseAuth.signInWithEmailAndPassword(
+          email: email, password: password);
+
+      print("Signed In");
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Landing(),
+        ),
+      );
+      return "Success";
+    } on FirebaseAuthException catch (e) {
+      print(e.toString());
+    } on PlatformException catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<bool> changePassword({
+    String oldPassword,
+    String newPassword,
+  }) async {
+    try {
+      final user = _firebaseAuth.currentUser;
+      final email = user.email;
+      if (email != '' && oldPassword != '' && newPassword != "") {
+        UserCredential result = await _firebaseAuth.signInWithEmailAndPassword(
+            email: email, password: oldPassword);
+
+        if (result.user == null) {
+          return false;
+        } else {
+          await user.updatePassword(newPassword).catchError((error) {
+            print('Can not change password : ' + error.toString());
+            return false;
+          });
+          return true;
+        }
       }
     } on FirebaseAuthException catch (e) {
       print(e.toString());
-      return e.message;
+      return false;
+    } on PlatformException catch (e) {
+      print(e.toString());
+      return false;
     }
+    return false;
   }
 
   Future<String> signInWithGoogle() async {

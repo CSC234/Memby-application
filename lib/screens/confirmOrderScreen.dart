@@ -352,15 +352,23 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                             keyboardType: TextInputType.number,
                             textAlign: TextAlign.center,
                             onChanged: (value) {
-                              setState(() {
-                                discount = int.parse(value);
-                                print(discount);
-                                discount = discount > 100
-                                    ? 100
-                                    : discount < 0
-                                        ? 0
-                                        : discount;
-                              });
+                              if (value != '' &&
+                                  value[value.length - 1] != '.') {
+                                setState(() {
+                                  double input = double.parse(value);
+                                  discount = input.floor();
+                                  print(discount);
+                                  discount = discount > 100
+                                      ? 100
+                                      : discount < 0
+                                          ? 0
+                                          : discount;
+                                });
+                              } else {
+                                setState(() {
+                                  discount = 0;
+                                });
+                              }
                             },
                             // controller: TextEditingController()
                             //   ..text = amount.toString(),

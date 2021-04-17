@@ -20,6 +20,7 @@ class OrderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -33,9 +34,19 @@ class OrderCard extends StatelessWidget {
                   flex: 4,
                   child: Container(
                     padding: EdgeInsets.all(10),
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10.0),
-                        child: Image.network(img)),
+                    child: Container(
+                        height: 120,
+                        width: 120,
+                        padding: EdgeInsets.all(5),
+                        child: img != null
+                            ? CircleAvatar(
+                                radius: 5,
+                                backgroundImage: NetworkImage(this.img),
+                              )
+                            : CircleAvatar(
+                                radius: 5,
+                                backgroundColor: Colors.grey.withOpacity(.5),
+                              )),
                   ),
                 ),
                 Expanded(
@@ -49,7 +60,7 @@ class OrderCard extends StatelessWidget {
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       SizedBox(
-                        height: 10,
+                        height: 5,
                       ),
                       Container(
                         child: Container(
@@ -60,10 +71,17 @@ class OrderCard extends StatelessWidget {
                           ),
                         ),
                       ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text('$price Baht/unit'),
+                      SizedBox(
+                        height: 5,
+                      ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text('$price Baht/unit'),
+                          // Text('Amount:'),
                           Container(
                             child: TextField(
                               keyboardType: TextInputType.number,

@@ -175,20 +175,6 @@ class _ProfileState extends State<Profile> {
                             .getCustomerSummary('d');
                       },
                       child: Text('TEST')),
-                  Container(
-                      padding: EdgeInsets.all(50),
-                      height: height * (35 / 100),
-                      child: Stack(
-                        children: <Widget>[
-                          Positioned(
-                              child: Container(
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                              image: AssetImage('assets/images/Employee.png'),
-                            )),
-                          )),
-                        ],
-                      )),
                 ]),
               ),
             )));

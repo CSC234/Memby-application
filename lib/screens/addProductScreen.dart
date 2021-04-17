@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:memby/components/OverlayNotification.dart';
 import 'package:memby/components/Register/AcknowlwdgementBox.dart';
 import 'package:memby/components/imagePicker.dart';
 import 'package:memby/constants.dart';
 import 'package:memby/components/rounded_button.dart';
 import 'package:memby/components/ProductList.dart';
 import 'package:memby/components/Textfield.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:memby/firebase.dart';
@@ -84,7 +86,7 @@ class _AddProductList extends State<AddProductList> {
       product.add(new Product(
           product: productName,
           description: description,
-          price: price.toDouble,
+          price: double.parse(price),
           picture: _uploadedFileURL));
     });
   }
@@ -109,14 +111,12 @@ class _AddProductList extends State<AddProductList> {
     // uploadPic(_pickedImage);
   }
 
+  final _productnameController = TextEditingController();
+  final _descriptionController = TextEditingController();
+  final _priceController = TextEditingController();
+  final _pictureController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final _productnameController = TextEditingController();
-
-    final _descriptionController = TextEditingController();
-    final _priceController = TextEditingController();
-    final _pictureController = TextEditingController();
-
     final firebaseUser = context.watch<User>();
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -127,11 +127,7 @@ class _AddProductList extends State<AddProductList> {
     }
     return Scaffold(
         backgroundColor: kPrimaryColor,
-        bottomNavigationBar: NavKT(
-          currentIndex: 3,
-        ),
         body: Container(
-          height: height * (90 / 100),
           child: SingleChildScrollView(
             child: Container(
               child: Align(
@@ -261,6 +257,7 @@ class _AddProductList extends State<AddProductList> {
                       if (product.length != 0)
                         for (int i = 0; i < product.length; i++)
                           ProductList(
+                            render: true,
                             picture: product[i].picture,
                             product: product[i].product,
                             description: product[i].description,
@@ -286,6 +283,15 @@ class _AddProductList extends State<AddProductList> {
                               text: "confirm",
                               press: () {
                                 addProductToFireStore();
+                                showOverlayNotification(
+                                  (context) {
+                                    return OverlayNotification(
+                                      title: "Memby Application",
+                                      subtitle: "Product added Successfully",
+                                    );
+                                  },
+                                  duration: Duration(milliseconds: 4000),
+                                );
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -297,6 +303,9 @@ class _AddProductList extends State<AddProductList> {
                               }),
                         ),
                       ),
+                      SizedBox(
+                        height: 25,
+                      )
                     ],
                   ),
                 ),

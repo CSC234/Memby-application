@@ -11,7 +11,6 @@ import 'package:memby/components/bottomNav/nav.dart';
 import 'package:memby/screens/landingScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 List<TotalSaleList> productListYearly = [
   TotalSaleList(
@@ -185,6 +184,20 @@ List<TotalSaleList> render = [];
 String isRender;
 
 class _DashBoardState extends State<DashBoard> {
+  Future _productSummary;
+  Future _customerSummary;
+
+  String startDate = "d";
+
+  @override
+  void initState() {
+    super.initState();
+    _productSummary =
+        context.read<FlutterFireAuthService>().getProductSummary(startDate);
+    _customerSummary =
+        context.read<FlutterFireAuthService>().getCustomerSummary(startDate);
+  }
+
   // makeProductList(productSummary) {
   //   if (clickDaily == false) {
   //     isRender = 'daily';
@@ -257,13 +270,15 @@ class _DashBoardState extends State<DashBoard> {
     }
     int no = 1;
     productSummary.forEach((productId, product) {
-      productHolder.add(TotalSaleList(
-        no: no,
-        name: product['name'],
-        unit: product['unitSale'],
-        totalSale: (product['totalSale'] * 100).round() / 100,
-      ));
-      no++;
+      if (no <= 5) {
+        productHolder.add(TotalSaleList(
+          no: no,
+          name: product['name'],
+          unit: product['unitSale'],
+          totalSale: (product['totalSale'] * 100).round() / 100,
+        ));
+        no++;
+      }
     });
 
     // if (render.length >= 5) {
@@ -306,6 +321,11 @@ class _DashBoardState extends State<DashBoard> {
       clickDaily = false;
       clickMonthly = true;
       clickYearly = true;
+      startDate = 'd';
+      _productSummary =
+          context.read<FlutterFireAuthService>().getProductSummary(startDate);
+      _customerSummary =
+          context.read<FlutterFireAuthService>().getCustomerSummary(startDate);
     });
   }
 
@@ -314,6 +334,11 @@ class _DashBoardState extends State<DashBoard> {
       clickDaily = true;
       clickMonthly = false;
       clickYearly = true;
+      startDate = 'm';
+      _productSummary =
+          context.read<FlutterFireAuthService>().getProductSummary(startDate);
+      _customerSummary =
+          context.read<FlutterFireAuthService>().getCustomerSummary(startDate);
     });
   }
 
@@ -322,6 +347,11 @@ class _DashBoardState extends State<DashBoard> {
       clickDaily = true;
       clickMonthly = true;
       clickYearly = false;
+      startDate = 'y';
+      _productSummary =
+          context.read<FlutterFireAuthService>().getProductSummary(startDate);
+      _customerSummary =
+          context.read<FlutterFireAuthService>().getCustomerSummary(startDate);
     });
   }
 
@@ -366,15 +396,17 @@ class _DashBoardState extends State<DashBoard> {
     // }
     int no = 1;
     customerSummary.forEach((customerID, customer) {
-      customerHolder.add(
-        TopCustomer(
-          no: no,
-          name: customer['name'],
-          phoneNo: customer['phone'],
-          totalPaid: (customer['totalPaid'] * 100).round() / 100,
-        ),
-      );
-      no++;
+      if (no <= 5) {
+        customerHolder.add(
+          TopCustomer(
+            no: no,
+            name: customer['name'],
+            phoneNo: customer['phone'],
+            totalPaid: (customer['totalPaid'] * 100).round() / 100,
+          ),
+        );
+        no++;
+      }
     });
     return Column(
       children: customerHolder,
@@ -433,34 +465,20 @@ class _DashBoardState extends State<DashBoard> {
             builder: (context) => ViewAll(
                 clickMonthly: clickMonthly,
                 clickDaily: clickDaily,
-                clickYearly: clickYearly),
+                clickYearly: clickYearly,
+                startDate: startDate),
           ),
         );
       },
     );
   }
 
-  Future _productSummary;
-  Future _customerSummary;
-
   @override
   Widget build(BuildContext context) {
-    String startDate = !clickDaily
-        ? 'd'
-        : !clickMonthly
-            ? 'm'
-            : 'y';
-    _productSummary =
-        context.read<FlutterFireAuthService>().getProductSummary(startDate);
-    _customerSummary =
-        context.read<FlutterFireAuthService>().getCustomerSummary(startDate);
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      bottomNavigationBar: NavKT(
-        currentIndex: 4,
-      ),
       body: Container(
         child: SingleChildScrollView(
           child: Container(
@@ -631,8 +649,8 @@ class _DashBoardState extends State<DashBoard> {
                                                       return SizedBox(
                                                           child:
                                                               CircularProgressIndicator(),
-                                                          height: 300.0,
-                                                          width: 175.0);
+                                                          height: 50.0,
+                                                          width: 50.0);
                                                     }
                                                   }),
                                               Divider(
@@ -743,11 +761,12 @@ class _DashBoardState extends State<DashBoard> {
                                                         return SizedBox(
                                                             child:
                                                                 CircularProgressIndicator(),
-                                                            height: 300.0,
-                                                            width: 175.0);
+                                                            height: 50.0,
+                                                            width: 50.0);
                                                       }
                                                     }),
                                               ),
+                                              ////////-------------- history ------------------
                                               SizedBox(
                                                 height: 220,
                                               ),
