@@ -459,20 +459,14 @@ class _DashBoardState extends State<DashBoard> {
     return TextButton(
       child: Text("view all"),
       onPressed: () {
-        startDate = clickDaily
-            ? 'd'
-            : clickMonthly
-                ? 'm'
-                : 'y';
-        print(startDate);
         Navigator.push(
           context,
           new MaterialPageRoute(
             builder: (context) => ViewAll(
-              clickMonthly: clickMonthly,
-              clickDaily: clickDaily,
-              clickYearly: clickYearly,
-            ),
+                clickMonthly: clickMonthly,
+                clickDaily: clickDaily,
+                clickYearly: clickYearly,
+                startDate: startDate),
           ),
         );
       },
