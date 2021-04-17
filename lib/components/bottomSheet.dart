@@ -18,8 +18,14 @@ class Product1 {
   String description;
   double price;
   String picture;
-
-  Product1({this.id, this.product, this.description, this.price, this.picture});
+  bool visible;
+  Product1(
+      {this.id,
+      this.product,
+      this.description,
+      this.price,
+      this.picture,
+      this.visible});
 }
 
 class BottomSheettest extends StatefulWidget {
@@ -39,7 +45,7 @@ int item1;
 class _BottomSheet extends State<BottomSheettest> {
   AnimationController _animationController;
   bool isDarkMode = false;
-  int initialIndex = 0;
+  int initialIndex;
   changeThemeMode() {
     if (isDarkMode) {
       _animationController.forward(from: 0.0);
@@ -116,12 +122,20 @@ class _BottomSheet extends State<BottomSheettest> {
     _imageUrlFocusNode.addListener(_updateImageUrl);
     for (int i = 0; i < widget.product.length; i++) {
       product1.add(Product1(
-          id: widget.product[i].id,
-          product: widget.product[i].product,
-          price: widget.product[i].price,
-          description: widget.product[i].description,
-          picture: widget.product[i].picture));
+        id: widget.product[i].id,
+        product: widget.product[i].product,
+        price: widget.product[i].price,
+        description: widget.product[i].description,
+        picture: widget.product[i].picture,
+        visible: widget.product[i].visible,
+      ));
     }
+    if (product1[widget.item].visible == true) {
+      initialIndex = 1;
+    } else {
+      initialIndex = 0;
+    }
+    print(product1[widget.item].visible);
     print(product1[widget.item].product);
     item1 = widget.item;
     print('-----2--------');
@@ -201,7 +215,7 @@ class _BottomSheet extends State<BottomSheettest> {
     } else {
       visible = true;
     }
-    print(visible);
+    // print(visible);
     return Container(
       child: SingleChildScrollView(
         child: Center(
@@ -227,6 +241,7 @@ class _BottomSheet extends State<BottomSheettest> {
                     picture: product1[item1].picture,
                   ),
                   AnimatedToggle(
+                    position: widget.product[item1].visible,
                     values: ['show', 'hide'],
                     textColor:
                         isDarkMode ? darkMode.textColor : lightMode.textColor,

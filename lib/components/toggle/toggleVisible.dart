@@ -7,10 +7,12 @@ class AnimatedToggle extends StatefulWidget {
   final Color buttonColor;
   final Color textColor;
   final List<BoxShadow> shadows;
+  final bool position;
 
   AnimatedToggle({
     @required this.values,
     @required this.onToggleCallback,
+    this.position,
     this.backgroundColor = const Color(0xFFe7e7e8),
     this.buttonColor = const Color(0xFFe7e7e8),
     this.textColor = const Color(0xFF000000),
@@ -28,7 +30,11 @@ class AnimatedToggle extends StatefulWidget {
 }
 
 class _AnimatedToggleState extends State<AnimatedToggle> {
-  bool initialPosition = true;
+  bool initialPosition;
+  void initState() {
+    initialPosition = widget.position;
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
