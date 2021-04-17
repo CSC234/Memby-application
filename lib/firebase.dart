@@ -222,6 +222,20 @@ class FlutterFireAuthService {
         .update(product);
   }
 
+  Future<void> updateVisible(pid, visible) async {
+    final user = _firebaseAuth.currentUser;
+    final userId = user.uid;
+    final product = {
+      'visible': visible,
+    };
+    await _firestore
+        .collection("company")
+        .doc(userId)
+        .collection("product")
+        .doc(pid)
+        .update(product);
+  }
+
   Future<void> updateProfile(companyName, logoImg) async {
     final user = _firebaseAuth.currentUser;
     final userId = user.uid;

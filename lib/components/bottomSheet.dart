@@ -40,7 +40,6 @@ class _BottomSheet extends State<BottomSheettest> {
   AnimationController _animationController;
   bool isDarkMode = false;
   int initialIndex = 0;
-
   changeThemeMode() {
     if (isDarkMode) {
       _animationController.forward(from: 0.0);
@@ -151,9 +150,14 @@ class _BottomSheet extends State<BottomSheettest> {
     widget.testBoy(pid, name, description, price, picture);
   }
 
+  void updateProductVisibleToFireStore(pid, visible) {
+    context.read<FlutterFireAuthService>().updateVisible(pid, visible);
+  }
+
   String nameUpdate;
   String descriptionUpdate;
   double priceUpdate;
+  bool visible;
 
   void updateProduct(productName, description, price, picture) async {
     print(_image);
@@ -173,6 +177,7 @@ class _BottomSheet extends State<BottomSheettest> {
       priceUpdate = double.parse(price);
     });
     print(nameUpdate);
+    updateProductVisibleToFireStore(widget.product[widget.item].id, visible);
     updateProductToFireStore(widget.product[widget.item].id, nameUpdate,
         descriptionUpdate, priceUpdate, _uploadedFileURL);
   }
@@ -182,10 +187,7 @@ class _BottomSheet extends State<BottomSheettest> {
   @override
   Widget build(BuildContext context) {
     @override
-        // String nameText = product1[item1].product;
-        // product1 = widget.product;
-
-        final _productnameController =
+    final _productnameController =
         TextEditingController(text: product1[item1].product);
 
     final _descriptionController =
@@ -194,6 +196,12 @@ class _BottomSheet extends State<BottomSheettest> {
         TextEditingController(text: product1[item1].price.toString());
 
     double width = MediaQuery.of(context).size.width;
+    if (initialIndex == 1) {
+      visible = false;
+    } else {
+      visible = true;
+    }
+    print(visible);
     return Container(
       child: SingleChildScrollView(
         child: Center(
