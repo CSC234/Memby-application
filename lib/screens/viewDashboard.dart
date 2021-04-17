@@ -184,6 +184,20 @@ List<TotalSaleList> render = [];
 String isRender;
 
 class _DashBoardState extends State<DashBoard> {
+  Future _productSummary;
+  Future _customerSummary;
+
+  String startDate = "d";
+
+  @override
+  void initState() {
+    super.initState();
+    _productSummary =
+        context.read<FlutterFireAuthService>().getProductSummary(startDate);
+    _customerSummary =
+        context.read<FlutterFireAuthService>().getCustomerSummary(startDate);
+  }
+
   // makeProductList(productSummary) {
   //   if (clickDaily == false) {
   //     isRender = 'daily';
@@ -307,6 +321,11 @@ class _DashBoardState extends State<DashBoard> {
       clickDaily = false;
       clickMonthly = true;
       clickYearly = true;
+      startDate = 'd';
+      _productSummary =
+          context.read<FlutterFireAuthService>().getProductSummary(startDate);
+      _customerSummary =
+          context.read<FlutterFireAuthService>().getCustomerSummary(startDate);
     });
   }
 
@@ -315,6 +334,11 @@ class _DashBoardState extends State<DashBoard> {
       clickDaily = true;
       clickMonthly = false;
       clickYearly = true;
+      startDate = 'm';
+      _productSummary =
+          context.read<FlutterFireAuthService>().getProductSummary(startDate);
+      _customerSummary =
+          context.read<FlutterFireAuthService>().getCustomerSummary(startDate);
     });
   }
 
@@ -323,6 +347,11 @@ class _DashBoardState extends State<DashBoard> {
       clickDaily = true;
       clickMonthly = true;
       clickYearly = false;
+      startDate = 'y';
+      _productSummary =
+          context.read<FlutterFireAuthService>().getProductSummary(startDate);
+      _customerSummary =
+          context.read<FlutterFireAuthService>().getCustomerSummary(startDate);
     });
   }
 
@@ -434,30 +463,18 @@ class _DashBoardState extends State<DashBoard> {
           context,
           new MaterialPageRoute(
             builder: (context) => ViewAll(
-              clickMonthly: clickMonthly,
-              clickDaily: clickDaily,
-              clickYearly: clickYearly,
-            ),
+                clickMonthly: clickMonthly,
+                clickDaily: clickDaily,
+                clickYearly: clickYearly,
+                startDate: startDate),
           ),
         );
       },
     );
   }
 
-  Future _productSummary;
-  Future _customerSummary;
-
   @override
   Widget build(BuildContext context) {
-    String startDate = !clickDaily
-        ? 'd'
-        : !clickMonthly
-            ? 'm'
-            : 'y';
-    _productSummary =
-        context.read<FlutterFireAuthService>().getProductSummary(startDate);
-    _customerSummary =
-        context.read<FlutterFireAuthService>().getCustomerSummary(startDate);
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 

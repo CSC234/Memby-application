@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:memby/components/imagePicker.dart';
 import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:memby/components/Textfield.dart';
 import 'package:memby/components/rounded_button.dart';
 import 'package:memby/constants.dart';
@@ -10,8 +10,16 @@ import 'package:memby/screens/manageProduct.dart';
 
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-import 'package:memby/components/Textfield.dart';
-import 'package:image_picker/image_picker.dart';
+
+class Product1 {
+  String id;
+  String product;
+  String description;
+  double price;
+  String picture;
+
+  Product1({this.id, this.product, this.description, this.price, this.picture});
+}
 
 class BottomSheettest extends StatefulWidget {
   final String text;
@@ -23,6 +31,9 @@ class BottomSheettest extends StatefulWidget {
   @override
   _BottomSheet createState() => _BottomSheet();
 }
+
+List<Product1> product1 = [];
+int item1;
 
 class _BottomSheet extends State<BottomSheettest> {
   String _uploadedFileURL;
@@ -48,9 +59,28 @@ class _BottomSheet extends State<BottomSheettest> {
     }
   }
 
+  String name = 'test';
+
   @override
   void initState() {
     _imageUrlFocusNode.addListener(_updateImageUrl);
+    for (int i = 0; i < widget.product.length; i++) {
+      product1.add(Product1(
+          id: widget.product[i].id,
+          product: widget.product[i].product,
+          price: widget.product[i].price,
+          description: widget.product[i].description,
+          picture: widget.product[i].picture));
+    }
+    // product1[widget.item].product = widget.product[widget.item].product;
+    print(product1[widget.item].product);
+    item1 = widget.item;
+
+    // print(widget.product[item1].product);
+    // print('------1-------');
+    // print(product1[item1].product);
+    print('-----2--------');
+
     super.initState();
   }
 
@@ -98,107 +128,123 @@ class _BottomSheet extends State<BottomSheettest> {
 
   @override
   Widget build(BuildContext context) {
-    final _productnameController =
-        TextEditingController(text: widget.product[widget.item].product);
-    final _descriptionController =
-        TextEditingController(text: widget.product[widget.item].description);
-    final _priceController = TextEditingController(
-        text: widget.product[widget.item].price.toString());
-    double width = MediaQuery.of(context).size.width;
-    return Center(
-      child: Column(
-        children: [
-          SizedBox(
-            height: 25,
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              UserImagePicker(press: _pickImage, pickedImage: _image)
-            ],
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Column(
-            children: [
-              Textfield(
-                controller: _productnameController,
-                // value: product[item].product,
-                text: 'Product name...',
-                width: width * (90 / 100),
-                min: 1,
-                max: 5,
-              ),
-              Textfield(
-                controller: _descriptionController,
-                // value: product[item].description,
-                text: 'Description...',
-                width: width * (90 / 100),
-                min: 3,
-                max: 5,
-              )
-            ],
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          Column(
-            children: [
-              Textfield(
-                controller: _priceController,
-                // value: product[item].price.toString(),
-                width: width * (90 / 100),
-                text: 'Price',
-                min: 1,
-                max: 5,
-              ),
-            ],
-          ),
-          Container(
-            child: Align(
-              alignment: Alignment.center,
-              child: RoundedButton(
-                  color: kPrimaryLightColor,
-                  buttonHight: 50,
-                  fontsize: 15,
-                  buttonSize: 0.7,
-                  textColor: Colors.white,
-                  text: "Update Product",
-                  press: () {
-                    updateProduct(
-                        _productnameController.text,
-                        _descriptionController.text,
-                        _priceController.text,
-                        _pictureController.text);
+    @override
+        // String nameText = product1[item1].product;
+        // product1 = widget.product;
 
-                    showDialog(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (BuildContext context) {
-                        return Dialog(
-                          child: Container(
-                            alignment: Alignment.center,
-                            height: 85,
-                            width: 10,
-                            child: new Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                CircularProgressIndicator(),
-                                SizedBox(
-                                  width: 30,
+        final _productnameController =
+        TextEditingController(text: product1[item1].product);
+
+    final _descriptionController =
+        TextEditingController(text: product1[item1].description);
+    final _priceController =
+        TextEditingController(text: product1[item1].price.toString());
+
+    double width = MediaQuery.of(context).size.width;
+    return Container(
+      child: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 25,
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  UserImagePicker(press: _pickImage, pickedImage: _image)
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Column(
+                children: [
+                  Textfield(
+                    onChange: (text) {
+                      product1[item1].product = text;
+                    },
+                    controller: _productnameController,
+                    text: 'Product name...',
+                    width: width * (90 / 100),
+                    min: 1,
+                    max: 5,
+                  ),
+                  Textfield(
+                    onChange: (text) {
+                      product1[item1].description = text;
+                    },
+                    controller: _descriptionController,
+                    text: 'Description...',
+                    width: width * (90 / 100),
+                    min: 3,
+                    max: 5,
+                  )
+                ],
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Column(
+                children: [
+                  Textfield(
+                    controller: _priceController,
+                    onChange: (text) {
+                      product1[item1].price = text;
+                    },
+                    width: width * (90 / 100),
+                    text: 'Price',
+                    min: 1,
+                    max: 5,
+                  ),
+                ],
+              ),
+              Container(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: RoundedButton(
+                      color: kPrimaryLightColor,
+                      buttonHight: 50,
+                      fontsize: 15,
+                      buttonSize: 0.7,
+                      textColor: Colors.white,
+                      text: "Update Product",
+                      press: () {
+                        updateProduct(
+                            _productnameController.text,
+                            _descriptionController.text,
+                            _priceController.text,
+                            _pictureController.text);
+
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext context) {
+                            return Dialog(
+                              child: Container(
+                                alignment: Alignment.center,
+                                height: 85,
+                                width: 10,
+                                child: new Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    CircularProgressIndicator(),
+                                    SizedBox(
+                                      width: 30,
+                                    ),
+                                    Text("Loading"),
+                                  ],
                                 ),
-                                Text("Loading"),
-                              ],
-                            ),
-                          ),
+                              ),
+                            );
+                          },
                         );
-                      },
-                    );
-                  }),
-            ),
+                      }),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
