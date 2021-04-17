@@ -7,7 +7,8 @@ import 'package:memby/components/Textfield.dart';
 import 'package:memby/components/rounded_button.dart';
 import 'package:memby/constants.dart';
 import 'package:memby/screens/manageProduct.dart';
-
+import 'package:memby/components/toggle/toggleVisible.dart';
+import 'package:memby/components/toggle/theme_color.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
@@ -36,6 +37,56 @@ List<Product1> product1 = [];
 int item1;
 
 class _BottomSheet extends State<BottomSheettest> {
+  AnimationController _animationController;
+  bool isDarkMode = false;
+  int initialIndex = 0;
+
+  changeThemeMode() {
+    if (isDarkMode) {
+      _animationController.forward(from: 0.0);
+    } else {
+      _animationController.reverse(from: 1.0);
+    }
+  }
+
+  ThemeColor darkMode = ThemeColor(
+    gradient: [
+      const Color(0xFF6E7CE4),
+      const Color(0xFF6E7CE4),
+    ],
+    backgroundColor: const Color(0xFF6E7CE4),
+    textColor: const Color(0xFFFFFFFF),
+    toggleButtonColor: const Color(0xFF6E7CE4),
+    toggleBackgroundColor: const Color(0xFFe7e7e8),
+    shadow: const <BoxShadow>[
+      BoxShadow(
+        color: const Color(0xFFd8d7da),
+        spreadRadius: 5,
+        blurRadius: 10,
+        offset: Offset(0, 5),
+      ),
+    ],
+  );
+  ThemeColor lightMode = ThemeColor(
+    gradient: [
+      const Color(0xFF6E7CE4),
+      const Color(0xFF6E7CE4),
+    ],
+    backgroundColor: const Color(0xFF6E7CE4),
+    textColor: const Color(0xFFFFFFFF),
+    toggleButtonColor: const Color(0xFF6961D6),
+    toggleBackgroundColor: const Color(0xFFe7e7e8),
+    shadow: const [
+      BoxShadow(
+        color: const Color(0xFFd8d7da),
+        spreadRadius: 2,
+        blurRadius: 5,
+        offset: Offset(0, 5),
+      ),
+    ],
+  );
+  ScrollController _scrollController = ScrollController();
+
   String _uploadedFileURL;
   File _image;
 
@@ -149,16 +200,42 @@ class _BottomSheet extends State<BottomSheettest> {
           child: Column(
             children: [
               SizedBox(
-                height: 25,
+                height: 10,
+              ),
+              Container(
+                width: 80,
+                child: Divider(
+                  height: 5,
+                  thickness: 5,
+                  indent: 10,
+                  endIndent: 10,
+                ),
               ),
               Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
                   UserImagePicker(
                     press: _pickImage,
                     pickedImage: _image,
                     picture: product1[item1].picture,
-                  )
+                  ),
+                  AnimatedToggle(
+                    values: ['show', 'hide'],
+                    textColor:
+                        isDarkMode ? darkMode.textColor : lightMode.textColor,
+                    backgroundColor: isDarkMode
+                        ? darkMode.toggleBackgroundColor
+                        : lightMode.toggleBackgroundColor,
+                    buttonColor: isDarkMode
+                        ? darkMode.toggleButtonColor
+                        : lightMode.toggleButtonColor,
+                    shadows: isDarkMode ? darkMode.shadow : lightMode.shadow,
+                    onToggleCallback: (index) {
+                      print('switched to: $index');
+                      setState(() {
+                        initialIndex = index;
+                      });
+                    },
+                  ),
                 ],
               ),
               SizedBox(
