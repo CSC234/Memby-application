@@ -100,7 +100,7 @@ class ViewAll extends StatefulWidget {
   final Function handleClickChangeToggleDaily;
   final Function handleClickChangeToggleMonthly;
   final Function handleClickChangeToggleYearly;
-
+  final String startDate;
   const ViewAll(
       {Key key,
       this.clickDaily,
@@ -108,7 +108,8 @@ class ViewAll extends StatefulWidget {
       this.clickYearly,
       this.handleClickChangeToggleMonthly,
       this.handleClickChangeToggleDaily,
-      this.handleClickChangeToggleYearly})
+      this.handleClickChangeToggleYearly,
+      this.startDate})
       : super(key: key);
   _ViewAllState createState() => _ViewAllState();
 }
@@ -120,15 +121,23 @@ String isRender;
 
 class _ViewAllState extends State<ViewAll> {
   var _filterText = TextEditingController();
+  Future _productSummary;
+  String startDate;
 
   bool clickDaily = false;
   bool clickMonthly = true;
   bool clickYearly = true;
   List<TotalSaleList> productHolder = [];
+
+  @override
   void initState() {
+    super.initState();
     clickDaily = widget.clickDaily;
     clickMonthly = widget.clickMonthly;
     clickYearly = widget.clickYearly;
+    startDate = widget.startDate;
+    _productSummary =
+        context.read<FlutterFireAuthService>().getProductSummary(startDate);
   }
 
   ListView makeProductList(LinkedHashMap productSummary) {
@@ -179,6 +188,9 @@ class _ViewAllState extends State<ViewAll> {
       clickDaily = false;
       clickMonthly = true;
       clickYearly = true;
+      startDate = 'd';
+      _productSummary =
+          context.read<FlutterFireAuthService>().getProductSummary(startDate);
     });
   }
 
@@ -187,6 +199,10 @@ class _ViewAllState extends State<ViewAll> {
       clickDaily = true;
       clickMonthly = false;
       clickYearly = true;
+      startDate = 'm';
+      _productSummary =
+          context.read<FlutterFireAuthService>().getProductSummary(startDate);
+      ;
     });
   }
 
@@ -195,6 +211,9 @@ class _ViewAllState extends State<ViewAll> {
       clickDaily = true;
       clickMonthly = true;
       clickYearly = false;
+      startDate = 'y';
+      _productSummary =
+          context.read<FlutterFireAuthService>().getProductSummary(startDate);
     });
   }
 
@@ -213,18 +232,8 @@ class _ViewAllState extends State<ViewAll> {
     }
   }
 
-  Future _productSummary;
-
   @override
   Widget build(BuildContext context) {
-    String startDate = !clickDaily
-        ? 'd'
-        : !clickMonthly
-            ? 'm'
-            : 'y';
-    _productSummary =
-        context.read<FlutterFireAuthService>().getProductSummary(startDate);
-
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
