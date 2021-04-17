@@ -24,6 +24,9 @@ class BottomSheettest extends StatefulWidget {
   _BottomSheet createState() => _BottomSheet();
 }
 
+List<Product> product1 = [];
+int item1;
+
 class _BottomSheet extends State<BottomSheettest> {
   String _uploadedFileURL;
   File _image;
@@ -48,9 +51,18 @@ class _BottomSheet extends State<BottomSheettest> {
     }
   }
 
+  String name = 'test';
   @override
   void initState() {
     _imageUrlFocusNode.addListener(_updateImageUrl);
+    product1 = widget.product;
+    item1 = widget.item;
+    print('-------------');
+
+    print(item1);
+    print(product1[item1].product);
+    print('-------------');
+
     super.initState();
   }
 
@@ -59,6 +71,7 @@ class _BottomSheet extends State<BottomSheettest> {
     _imageUrlFocusNode.removeListener(_updateImageUrl);
     _imageUrlController.dispose();
     _imageUrlFocusNode.dispose();
+    product1 = [];
     super.dispose();
   }
 
@@ -98,107 +111,119 @@ class _BottomSheet extends State<BottomSheettest> {
 
   @override
   Widget build(BuildContext context) {
-    final _productnameController =
-        TextEditingController(text: widget.product[widget.item].product);
-    final _descriptionController =
-        TextEditingController(text: widget.product[widget.item].description);
-    final _priceController = TextEditingController(
-        text: widget.product[widget.item].price.toString());
-    double width = MediaQuery.of(context).size.width;
-    return Center(
-      child: Column(
-        children: [
-          SizedBox(
-            height: 25,
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              UserImagePicker(press: _pickImage, pickedImage: _image)
-            ],
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Column(
-            children: [
-              Textfield(
-                controller: _productnameController,
-                // value: product[item].product,
-                text: 'Product name...',
-                width: width * (90 / 100),
-                min: 1,
-                max: 5,
-              ),
-              Textfield(
-                controller: _descriptionController,
-                // value: product[item].description,
-                text: 'Description...',
-                width: width * (90 / 100),
-                min: 3,
-                max: 5,
-              )
-            ],
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          Column(
-            children: [
-              Textfield(
-                controller: _priceController,
-                // value: product[item].price.toString(),
-                width: width * (90 / 100),
-                text: 'Price',
-                min: 1,
-                max: 5,
-              ),
-            ],
-          ),
-          Container(
-            child: Align(
-              alignment: Alignment.center,
-              child: RoundedButton(
-                  color: kPrimaryLightColor,
-                  buttonHight: 50,
-                  fontsize: 15,
-                  buttonSize: 0.7,
-                  textColor: Colors.white,
-                  text: "Update Product",
-                  press: () {
-                    updateProduct(
-                        _productnameController.text,
-                        _descriptionController.text,
-                        _priceController.text,
-                        _pictureController.text);
+    @override
+    String nameText = product1[item1].product;
 
-                    showDialog(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (BuildContext context) {
-                        return Dialog(
-                          child: Container(
-                            alignment: Alignment.center,
-                            height: 85,
-                            width: 10,
-                            child: new Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                CircularProgressIndicator(),
-                                SizedBox(
-                                  width: 30,
+    final _productnameController = TextEditingController(text: nameText);
+
+    final _descriptionController =
+        TextEditingController(text: product1[item1].description);
+    final _priceController =
+        TextEditingController(text: product1[item1].price.toString());
+
+    double width = MediaQuery.of(context).size.width;
+    return Container(
+      child: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 25,
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  UserImagePicker(press: _pickImage, pickedImage: _image)
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Column(
+                children: [
+                  Textfield(
+                    onChange: (text) {
+                      nameText = text;
+                      product1[item1].product = text;
+                    },
+                    controller: _productnameController,
+                    // value: product[item].product,
+                    text: 'Product name...',
+                    width: width * (90 / 100),
+                    min: 1,
+                    max: 5,
+                  ),
+                  Textfield(
+                    controller: _descriptionController,
+                    // value: product[item].description,
+                    text: 'Description...',
+                    width: width * (90 / 100),
+                    min: 3,
+                    max: 5,
+                  )
+                ],
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Column(
+                children: [
+                  Textfield(
+                    controller: _priceController,
+                    // value: product[item].price.toString(),
+                    width: width * (90 / 100),
+                    text: 'Price',
+                    min: 1,
+                    max: 5,
+                  ),
+                ],
+              ),
+              Container(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: RoundedButton(
+                      color: kPrimaryLightColor,
+                      buttonHight: 50,
+                      fontsize: 15,
+                      buttonSize: 0.7,
+                      textColor: Colors.white,
+                      text: "Update Product",
+                      press: () {
+                        updateProduct(
+                            _productnameController.text,
+                            _descriptionController.text,
+                            _priceController.text,
+                            _pictureController.text);
+
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext context) {
+                            return Dialog(
+                              child: Container(
+                                alignment: Alignment.center,
+                                height: 85,
+                                width: 10,
+                                child: new Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    CircularProgressIndicator(),
+                                    SizedBox(
+                                      width: 30,
+                                    ),
+                                    Text("Loading"),
+                                  ],
                                 ),
-                                Text("Loading"),
-                              ],
-                            ),
-                          ),
+                              ),
+                            );
+                          },
                         );
-                      },
-                    );
-                  }),
-            ),
+                      }),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class Textfield extends StatelessWidget {
   final String text;
   final String value;
-
+  final Function onChange;
   final TextEditingController controller;
   final double fontsize;
   final Color colorCircle, textColor;
@@ -16,6 +16,7 @@ class Textfield extends StatelessWidget {
 
   const Textfield(
       {Key key,
+      this.onChange,
       this.width,
       this.value,
       this.text,
@@ -34,8 +35,12 @@ class Textfield extends StatelessWidget {
       width: width,
       child: Column(children: [
         TextFormField(
+          onChanged: onChange,
+          // (text) {
+          //   print("First text field: $text");
+          // },
           // textAlignVertical: TextAlignVertical.top,
-          initialValue: value,
+          // initialValue: value,
           minLines: min,
           maxLines: max,
           keyboardType: TextInputType.text,
