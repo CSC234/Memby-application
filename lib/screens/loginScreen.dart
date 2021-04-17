@@ -19,7 +19,6 @@ class Login extends StatefulWidget {
   _LoginState createState() => _LoginState();
 }
 
-AnimationController _animationController;
 
 class _LoginState extends State<Login> {
   AnimationController _animationController;

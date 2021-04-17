@@ -7,7 +7,8 @@ import 'package:memby/components/Textfield.dart';
 import 'package:memby/components/rounded_button.dart';
 import 'package:memby/constants.dart';
 import 'package:memby/screens/manageProduct.dart';
-
+import 'package:memby/components/toggle/toggleVisible.dart';
+import 'package:memby/components/toggle/theme_color.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
@@ -17,8 +18,14 @@ class Product1 {
   String description;
   double price;
   String picture;
-
-  Product1({this.id, this.product, this.description, this.price, this.picture});
+  bool visible;
+  Product1(
+      {this.id,
+      this.product,
+      this.description,
+      this.price,
+      this.picture,
+      this.visible});
 }
 
 class BottomSheettest extends StatefulWidget {
@@ -36,6 +43,55 @@ List<Product1> product1 = [];
 int item1;
 
 class _BottomSheet extends State<BottomSheettest> {
+  AnimationController _animationController;
+  bool isDarkMode = false;
+  int initialIndex;
+  changeThemeMode() {
+    if (isDarkMode) {
+      _animationController.forward(from: 0.0);
+    } else {
+      _animationController.reverse(from: 1.0);
+    }
+  }
+
+  ThemeColor darkMode = ThemeColor(
+    gradient: [
+      const Color(0xFF6E7CE4),
+      const Color(0xFF6E7CE4),
+    ],
+    backgroundColor: const Color(0xFF6E7CE4),
+    textColor: const Color(0xFFFFFFFF),
+    toggleButtonColor: const Color(0xFF6E7CE4),
+    toggleBackgroundColor: const Color(0xFFe7e7e8),
+    shadow: const <BoxShadow>[
+      BoxShadow(
+        color: const Color(0xFFd8d7da),
+        spreadRadius: 5,
+        blurRadius: 10,
+        offset: Offset(0, 5),
+      ),
+    ],
+  );
+  ThemeColor lightMode = ThemeColor(
+    gradient: [
+      const Color(0xFF6E7CE4),
+      const Color(0xFF6E7CE4),
+    ],
+    backgroundColor: const Color(0xFF6E7CE4),
+    textColor: const Color(0xFFFFFFFF),
+    toggleButtonColor: const Color(0xFF6961D6),
+    toggleBackgroundColor: const Color(0xFFe7e7e8),
+    shadow: const [
+      BoxShadow(
+        color: const Color(0xFFd8d7da),
+        spreadRadius: 2,
+        blurRadius: 5,
+        offset: Offset(0, 5),
+      ),
+    ],
+  );
+  ScrollController _scrollController = ScrollController();
+
   String _uploadedFileURL;
   File _image;
 
@@ -66,12 +122,20 @@ class _BottomSheet extends State<BottomSheettest> {
     _imageUrlFocusNode.addListener(_updateImageUrl);
     for (int i = 0; i < widget.product.length; i++) {
       product1.add(Product1(
-          id: widget.product[i].id,
-          product: widget.product[i].product,
-          price: widget.product[i].price,
-          description: widget.product[i].description,
-          picture: widget.product[i].picture));
+        id: widget.product[i].id,
+        product: widget.product[i].product,
+        price: widget.product[i].price,
+        description: widget.product[i].description,
+        picture: widget.product[i].picture,
+        visible: widget.product[i].visible,
+      ));
     }
+    if (product1[widget.item].visible == true) {
+      initialIndex = 1;
+    } else {
+      initialIndex = 0;
+    }
+    print(product1[widget.item].visible);
     print(product1[widget.item].product);
     item1 = widget.item;
     print('-----2--------');
@@ -100,9 +164,14 @@ class _BottomSheet extends State<BottomSheettest> {
     widget.testBoy(pid, name, description, price, picture);
   }
 
+  void updateProductVisibleToFireStore(pid, visible) {
+    context.read<FlutterFireAuthService>().updateVisible(pid, visible);
+  }
+
   String nameUpdate;
   String descriptionUpdate;
   double priceUpdate;
+  bool visible;
 
   void updateProduct(productName, description, price, picture) async {
     print(_image);
@@ -122,6 +191,7 @@ class _BottomSheet extends State<BottomSheettest> {
       priceUpdate = double.parse(price);
     });
     print(nameUpdate);
+    updateProductVisibleToFireStore(widget.product[widget.item].id, visible);
     updateProductToFireStore(widget.product[widget.item].id, nameUpdate,
         descriptionUpdate, priceUpdate, _uploadedFileURL);
   }
@@ -131,10 +201,7 @@ class _BottomSheet extends State<BottomSheettest> {
   @override
   Widget build(BuildContext context) {
     @override
-        // String nameText = product1[item1].product;
-        // product1 = widget.product;
-
-        final _productnameController =
+    final _productnameController =
         TextEditingController(text: product1[item1].product);
 
     final _descriptionController =
@@ -143,22 +210,55 @@ class _BottomSheet extends State<BottomSheettest> {
         TextEditingController(text: product1[item1].price.toString());
 
     double width = MediaQuery.of(context).size.width;
+    if (initialIndex == 1) {
+      visible = false;
+    } else {
+      visible = true;
+    }
+    // print(visible);
     return Container(
       child: SingleChildScrollView(
         child: Center(
           child: Column(
             children: [
               SizedBox(
-                height: 25,
+                height: 10,
+              ),
+              Container(
+                width: 80,
+                child: Divider(
+                  height: 5,
+                  thickness: 5,
+                  indent: 10,
+                  endIndent: 10,
+                ),
               ),
               Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
                   UserImagePicker(
                     press: _pickImage,
                     pickedImage: _image,
                     picture: product1[item1].picture,
-                  )
+                  ),
+                  AnimatedToggle(
+                    position: widget.product[item1].visible,
+                    values: ['show', 'hide'],
+                    textColor:
+                        isDarkMode ? darkMode.textColor : lightMode.textColor,
+                    backgroundColor: isDarkMode
+                        ? darkMode.toggleBackgroundColor
+                        : lightMode.toggleBackgroundColor,
+                    buttonColor: isDarkMode
+                        ? darkMode.toggleButtonColor
+                        : lightMode.toggleButtonColor,
+                    shadows: isDarkMode ? darkMode.shadow : lightMode.shadow,
+                    onToggleCallback: (index) {
+                      print('switched to: $index');
+                      setState(() {
+                        initialIndex = index;
+                      });
+                    },
+                  ),
                 ],
               ),
               SizedBox(

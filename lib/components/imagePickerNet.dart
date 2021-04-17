@@ -51,7 +51,7 @@ class _UserImagePickerState extends State<UserImagePicker> {
           textColor: Colors.grey.withOpacity(.8),
           onPressed: widget.press,
           icon: Icon(Icons.image),
-          label: Text('Add Image'),
+          label: Text('choose'),
         ),
       ],
     );

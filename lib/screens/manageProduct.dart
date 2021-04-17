@@ -36,8 +36,14 @@ class Product {
   String description;
   double price;
   String picture;
-
-  Product({this.id, this.product, this.description, this.price, this.picture});
+  bool visible;
+  Product(
+      {this.id,
+      this.product,
+      this.description,
+      this.price,
+      this.picture,
+      this.visible});
 }
 
 class _ManageProduct extends State<ManageProduct> {
@@ -185,7 +191,8 @@ class _ManageProduct extends State<ManageProduct> {
                                           product: p['name'],
                                           price: (p['price'].toDouble()),
                                           description: p['description'],
-                                          picture: p['product_img']));
+                                          picture: p['product_img'],
+                                          visible: p['visible']));
                                     }
 
                                     _alreadyLoadProductsFromFirestore = true;
