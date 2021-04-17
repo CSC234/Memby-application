@@ -257,6 +257,7 @@ class _AddProductList extends State<AddProductList> {
                       if (product.length != 0)
                         for (int i = 0; i < product.length; i++)
                           ProductList(
+                            render: true,
                             picture: product[i].picture,
                             product: product[i].product,
                             description: product[i].description,

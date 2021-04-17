@@ -6,6 +6,7 @@ import 'package:memby/constants.dart';
 
 class ProductList extends StatelessWidget {
   final String picture;
+  final bool render;
   final String product;
   final String description;
   final double price;
@@ -13,6 +14,7 @@ class ProductList extends StatelessWidget {
 
   const ProductList(
       {Key key,
+      this.render,
       this.picture,
       this.product,
       this.description,
@@ -97,11 +99,18 @@ class ProductList extends StatelessWidget {
                               width: 30,
                               height: 30,
                               child: Center(
-                                  child: Text(
-                                '-',
-                                style: TextStyle(
-                                    fontSize: 15, color: Colors.white),
-                              )),
+                                  child: render
+                                      ? Text(
+                                          '-',
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.white),
+                                        )
+                                      : Icon(
+                                          Icons.create_rounded,
+                                          color: Colors.white,
+                                          size: 15,
+                                        )),
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle, color: Colors.grey),
                             ),
