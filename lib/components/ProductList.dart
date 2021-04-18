@@ -7,6 +7,8 @@ import 'package:memby/constants.dart';
 class ProductList extends StatelessWidget {
   final String picture;
   final bool render;
+  final bool visible;
+
   final String product;
   final String description;
   final double price;
@@ -14,6 +16,7 @@ class ProductList extends StatelessWidget {
 
   const ProductList(
       {Key key,
+      this.visible,
       this.render,
       this.picture,
       this.product,
@@ -26,8 +29,11 @@ class ProductList extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+    print(render.toString());
+
     return Column(children: [
       Container(
+        color: visible ? Colors.white : Colors.grey[300],
         child: Container(
           width: width * (90 / 100),
           child: Container(

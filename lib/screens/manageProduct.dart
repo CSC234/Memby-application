@@ -221,6 +221,7 @@ class _ManageProduct extends State<ManageProduct> {
                                       if (product.length != 0)
                                         for (int i = 0; i < product.length; i++)
                                           ProductList(
+                                            visible: product[i].visible,
                                             render: false,
                                             picture: product[i].picture,
                                             product: product[i].product,
