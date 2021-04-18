@@ -51,13 +51,40 @@ class _ManageProduct extends State<ManageProduct> {
   bool _alreadyLoadProductsFromFirestore = false;
   void initState() {
     super.initState();
+    for (int i = 0; i < product.length; i++) {
+      productHolder.add(Product(
+        id: product[i].id,
+        product: product[i].product,
+        price: product[i].price,
+        description: product[i].description,
+        picture: product[i].picture,
+        visible: product[i].visible,
+      ));
+    }
     _productsData = context.read<FlutterFireAuthService>().getProducts();
   }
 
+  var _filterText = TextEditingController();
+
   List<Product> product = [];
+  List<Product> productHolder = [];
 
   @override
   Widget build(BuildContext context) {
+    product = productHolder;
+    List<Product> renderFilter = product
+        .where((el) =>
+            el.product.toLowerCase().indexOf(_filterText.text.toLowerCase()) !=
+                -1 ||
+            _filterText.text.isEmpty)
+        .toList();
+    product = renderFilter;
+    print(_filterText.text);
+    if (_filterText.text.isEmpty) {
+      product = productHolder;
+    }
+    print(productHolder);
+
     final firebaseUser = context.watch<User>();
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -150,8 +177,7 @@ class _ManageProduct extends State<ManageProduct> {
                           width: width * 0.9,
                           height: 30,
                           child: TextField(
-                            // controller:
-                            //     _filterText,
+                            controller: _filterText,
                             decoration: InputDecoration(
                               prefixIcon: Icon(Icons.search),
                               hintText: 'What are you looking for?',
@@ -160,9 +186,7 @@ class _ManageProduct extends State<ManageProduct> {
                             onSubmitted: (value) {
                               setState(() {});
 
-                              // print(
-                              //     _filterText
-                              //         .text);
+                              print(_filterText.text);
                             },
                           ),
                         ),
