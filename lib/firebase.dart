@@ -286,9 +286,11 @@ class FlutterFireAuthService {
       dynamic productsRef =
           _firestore.collection("company").doc(userId).collection("product");
 
-      if (visible != null)
+      if (visible != null) {
         productsRef = productsRef.where('visible', isEqualTo: visible);
-      products = await productsRef.get();
+      }
+
+      products = await productsRef.orderBy('visible', descending: true).get();
 
       return products;
     } catch (err) {
