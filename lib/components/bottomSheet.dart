@@ -90,7 +90,6 @@ class _BottomSheet extends State<BottomSheettest> {
       ),
     ],
   );
-  ScrollController _scrollController = ScrollController();
 
   String _uploadedFileURL;
   File _image;
@@ -181,7 +180,7 @@ class _BottomSheet extends State<BottomSheettest> {
           .uploadImageToFirebase(_image);
     }
     if (_image == null) {
-      _uploadedFileURL = widget.product[widget.item].picture;
+      _uploadedFileURL = await widget.product[widget.item].picture;
       print(_uploadedFileURL);
     }
     setState(() {
@@ -215,7 +214,6 @@ class _BottomSheet extends State<BottomSheettest> {
     } else {
       visible = true;
     }
-    // print(visible);
     return Container(
       child: SingleChildScrollView(
         child: Center(
