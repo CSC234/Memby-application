@@ -90,7 +90,6 @@ class _BottomSheet extends State<BottomSheettest> {
       ),
     ],
   );
-  ScrollController _scrollController = ScrollController();
 
   String _uploadedFileURL;
   File _image;
@@ -215,7 +214,6 @@ class _BottomSheet extends State<BottomSheettest> {
     } else {
       visible = true;
     }
-    // print(visible);
     return Container(
       child: SingleChildScrollView(
         child: Center(

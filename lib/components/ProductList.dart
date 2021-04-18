@@ -46,23 +46,20 @@ class ProductList extends StatelessWidget {
                         : CircleAvatar(
                             radius: 10,
                             backgroundColor: Colors.grey.withOpacity(.5),
-                          )
-
-                    // Image.asset(
-                    //   'assets/images/product1.jpg',
-                    //   width: 70,
-                    // ),
-                    ),
+                          )),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
                       padding: EdgeInsets.only(bottom: 5, top: 15),
-                      child: Text(
-                        "name: " + product,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 15),
+                      child: Container(
+                        width: width * 0.5,
+                        child: Text(
+                          "name: " + product,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 15),
+                        ),
                       ),
                     ),
                     Container(

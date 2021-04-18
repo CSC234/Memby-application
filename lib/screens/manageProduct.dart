@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:memby/components/Register/AcknowlwdgementBox.dart';
-
 import 'package:memby/constants.dart';
 import 'package:memby/components/rounded_button.dart';
 import 'package:memby/components/ProductList.dart';
@@ -10,21 +8,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:memby/firebase.dart';
 import 'package:memby/screens/homeScreen.dart';
 import 'package:memby/components/emptyItem.dart';
-
 import 'package:memby/screens/landingScreen.dart';
 import 'package:memby/components/bottomSheet.dart';
-
-import 'package:provider/provider.dart';
-import 'package:memby/firebase.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ManageProduct extends StatefulWidget {
   @override
-  final ValueChanged<String> onChanged;
-
   const ManageProduct({
     Key key,
-    this.onChanged,
   }) : super(key: key);
 
   _ManageProduct createState() => _ManageProduct();
@@ -252,8 +243,6 @@ class _ManageProduct extends State<ManageProduct> {
                                       width: 100.0);
                                 }
                               }),
-
-                          ///////////////
                         ),
                       ),
                     ],

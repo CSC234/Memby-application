@@ -296,7 +296,7 @@ class _AddProductList extends State<AddProductList> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) {
-                                      return Landing();
+                                      return ManageProduct();
                                     },
                                   ),
                                 );
