@@ -187,8 +187,9 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
         ),
       ),
       bottomNavigationBar: Container(
-        height: 300,
+        height: 320,
         decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(25),
           color: Colors.white,
           boxShadow: <BoxShadow>[
             BoxShadow(
