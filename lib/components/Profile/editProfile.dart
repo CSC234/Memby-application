@@ -80,7 +80,7 @@ class _EditProfile extends State<EditProfile> {
                 controller: nameController,
                 minLines: 1,
                 maxLines: 2,
-                keyboardType: TextInputType.multiline,
+                keyboardType: TextInputType.text,
                 decoration: InputDecoration(
                   labelText: 'Your new company name',
                   border: OutlineInputBorder(
