@@ -8,6 +8,7 @@ import 'package:memby/components/OrderCard.dart';
 import 'package:memby/components/ProductBox.dart';
 import 'package:memby/screens/confirmOrderScreen.dart';
 import 'package:memby/components/emptyItem.dart';
+import 'package:memby/screens/landingScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -103,19 +104,49 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       body: SafeArea(
         child: Column(
           children: [
+            SizedBox(
+              height: height * 0.035,
+            ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Container(
+                    width: width * 0.15,
+                    child: IconButton(
+                        icon: Icon(Icons.arrow_back, color: Colors.grey[700]),
+                        onPressed: () =>
+                            Navigator.push(context, MaterialPageRoute(
+                              builder: (context) {
+                                return Landing();
+                              },
+                            )))),
+                SizedBox(
+                  width: width * 0.05,
+                ),
                 Text(
-                  'Create Order',
-                  style: kPrimaryHeadingTextStyle,
+                  "Create Order",
+                  style: TextStyle(
+                      fontSize: 43,
+                      fontFamily: 'Alef-Regular',
+                      color: Colors.grey[700]),
                 ),
               ],
             ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: [
+            //     Text(
+            //       'Create Order',
+            //       style: kPrimaryHeadingTextStyle,
+            //     ),
+            //   ],
+            // ),
             SizedBox(
               height: 15,
             ),

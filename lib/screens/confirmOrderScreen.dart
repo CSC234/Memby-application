@@ -5,6 +5,7 @@ import 'package:memby/models/OrderDetail.dart';
 import 'package:memby/models/Order.dart';
 import 'package:memby/components/RoundedButton.dart';
 import 'package:memby/components/OrderCard.dart';
+import 'package:memby/screens/createOrderScreen.dart';
 import 'package:memby/screens/orderRecieptScreen.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:memby/components/toggle/animated_toggle_button.dart';
@@ -108,6 +109,8 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     double getTotalPrice() {
       double totalPrice = 0;
       for (OrderDetail i in widget.order.orderDetails) {
@@ -120,12 +123,30 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
       body: SafeArea(
         child: Column(
           children: [
+            SizedBox(
+              height: height * 0.035,
+            ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Container(
+                    width: width * 0.15,
+                    child: IconButton(
+                        icon: Icon(Icons.arrow_back, color: Colors.grey[700]),
+                        onPressed: () =>
+                            Navigator.push(context, MaterialPageRoute(
+                              builder: (context) {
+                                return CreateOrderScreen();
+                              },
+                            )))),
+                SizedBox(
+                  width: width * 0.01,
+                ),
                 Text(
-                  'Confirm Order',
-                  style: kPrimaryHeadingTextStyle,
+                  "Confirm Order",
+                  style: TextStyle(
+                      fontSize: 43,
+                      fontFamily: 'Alef-Regular',
+                      color: Colors.grey[700]),
                 ),
               ],
             ),
