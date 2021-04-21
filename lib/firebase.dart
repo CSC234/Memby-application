@@ -286,9 +286,11 @@ class FlutterFireAuthService {
       dynamic productsRef =
           _firestore.collection("company").doc(userId).collection("product");
 
-      if (visible != null)
-        productsRef = productsRef.where('visible', isEqualTo: visible);
-      products = await productsRef.get();
+      if (visible != null) {
+        products = await productsRef.where('visible', isEqualTo: visible).get();
+      } else {
+        products = await productsRef.orderBy('visible', descending: true).get();
+      }
 
       return products;
     } catch (err) {
@@ -510,6 +512,26 @@ class FlutterFireAuthService {
     }).catchError((e) {
       print("Remove Img Error: $e");
     });
+  }
+
+  Future<bool> isCustomerPhoneDuplicate(String customerPhone) async {
+    final user = _firebaseAuth.currentUser;
+    final userId = user.uid;
+    print(customerPhone);
+    DocumentReference targetCompany =
+        _firestore.collection('company').doc(userId);
+    QuerySnapshot customerRef = await targetCompany
+        .collection('customer')
+        .limit(1)
+        .where('phone_no', isEqualTo: customerPhone)
+        .get()
+        .catchError((e) {
+      print(e.toString());
+    });
+    if (customerRef.size == 1) {
+      return true;
+    }
+    return false;
   }
 }
 

@@ -91,8 +91,8 @@ class _GuideState extends State<Guide> {
                         Container(
                           padding: const EdgeInsets.only(left: 20, right: 20),
                           child: Text(
-                            'Memby is an application that makes membership system be a breeze!' +
-                                'It is designed to be simple, smart and stable system. ' +
+                            'Memby is an application that makes membership system be a breeze! ' +
+                                'It is designed to be smart, simple ,and stable system. ' +
                                 'Memby helps businesses to analyze data, so they are able to gain insight of the business' +
                                 'and improve the sales significantly',
                             textAlign: TextAlign.center,

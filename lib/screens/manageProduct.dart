@@ -104,13 +104,8 @@ class _ManageProduct extends State<ManageProduct> {
                             child: IconButton(
                                 icon: Icon(Icons.arrow_back,
                                     color: Colors.grey[700]),
-                                onPressed: () =>
-                                    Navigator.push(context, MaterialPageRoute(
-                                      builder: (context) {
-                                        return Landing();
-                                      },
-                                    ))),
-                          ),
+                                onPressed: () => Navigator.of(context).pop(false))),
+                         
                           Container(
                             width: width * 0.8,
                             child: Text(

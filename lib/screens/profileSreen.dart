@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:memby/components/Profile/main.dart';
+import 'package:memby/components/Profile/changePassword.dart';
+import 'package:memby/components/Profile/editProfile.dart';
+
 import 'package:memby/constants.dart';
+import 'package:memby/screens/landingScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:memby/components/rounded_button.dart';
 
 class Profile extends StatefulWidget {
   @override
+  final String onPagee;
+  const Profile({Key key, this.onPagee}) : super(key: key);
+
   _ProfileState createState() => _ProfileState();
 }
 
@@ -18,9 +25,12 @@ class _ProfileState extends State<Profile> {
     _companyInfo = context.read<FlutterFireAuthService>().getUserInfo();
   }
 
+  String onPage = 'm';
+
   @override
   Widget build(BuildContext context) {
     final firebaseUser = context.watch<User>();
+    print(onPage);
 
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -28,6 +38,47 @@ class _ProfileState extends State<Profile> {
     return Container(
         child: Scaffold(
             appBar: AppBar(
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () {
+                  print(onPage);
+                  if (onPage == 'm') {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return Landing();
+                        },
+                      ),
+                    );
+                    // Navigator.pop(context, false);
+                  }
+                  if (onPage == 'e') {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return Profile(
+                            onPagee: 'profile',
+                          );
+                        },
+                      ),
+                    );
+                  }
+                  if (onPage == 'p') {
+                    onPage = 'profile';
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return Profile(onPagee: 'profile');
+                        },
+                      ),
+                    );
+                  }
+                },
+              ),
               backgroundColor: kPrimaryMain,
               bottomOpacity: 0.0,
               elevation: 0.0,
@@ -161,20 +212,139 @@ class _ProfileState extends State<Profile> {
                   SizedBox(
                     height: 10,
                   ),
-                  Main(onPress: () {
-                    print("Sign Out Pressed");
-                    context.read<FlutterFireAuthService>().signOut();
-                    if (Navigator.of(context).canPop()) {
-                      Navigator.of(context).pop();
-                    }
-                  }),
-                  TextButton(
-                      onPressed: () {
-                        context
-                            .read<FlutterFireAuthService>()
-                            .getCustomerSummary('d');
-                      },
-                      child: Text('TEST')),
+                  Container(
+                      child: onPage == 'm'
+                          ? Column(
+                              children: [
+                                TextButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      onPage = 'e';
+                                    });
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(left: 20),
+                                    child: Row(children: [
+                                      IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            onPage = 'e';
+                                          });
+                                        },
+                                        icon: Icon(
+                                          Icons.create_rounded,
+                                          color: Colors.grey[500],
+                                          size: 30,
+                                        ),
+                                      ),
+                                      Text(
+                                        'Edit Profile',
+                                        style: TextStyle(
+                                            color: Colors.grey[500],
+                                            fontSize: 15),
+                                      )
+                                    ]),
+                                  ),
+                                ),
+                                Divider(
+                                  height: 10,
+                                  thickness: 2,
+                                  indent: 20,
+                                  endIndent: 20,
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      onPage = 'p';
+                                    });
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(left: 20),
+                                    child: Row(children: [
+                                      IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            onPage = 'p';
+                                          });
+                                        },
+                                        icon: Icon(
+                                          Icons.lock_open_rounded,
+                                          color: Colors.grey[500],
+                                          size: 30,
+                                        ),
+                                      ),
+                                      Text(
+                                        'Change Password',
+                                        style: TextStyle(
+                                            color: Colors.grey[500],
+                                            fontSize: 15),
+                                      )
+                                    ]),
+                                  ),
+                                ),
+                                Divider(
+                                  height: 10,
+                                  thickness: 2,
+                                  indent: 20,
+                                  endIndent: 20,
+                                ),
+                                TextButton(
+                                    child: Container(
+                                      margin: EdgeInsets.only(left: 20),
+                                      child: Row(children: [
+                                        IconButton(
+                                          onPressed: () {},
+                                          icon: Icon(
+                                            Icons.exit_to_app,
+                                            color: Colors.grey[500],
+                                            size: 30,
+                                          ),
+                                        ),
+                                        Text(
+                                          'Log out',
+                                          style: TextStyle(
+                                              color: Colors.grey[500],
+                                              fontSize: 15),
+                                        )
+                                      ]),
+                                    ),
+                                    onPressed: () {
+                                      print("Sign Out Pressed");
+                                      context
+                                          .read<FlutterFireAuthService>()
+                                          .signOut();
+                                      if (Navigator.of(context).canPop()) {
+                                        Navigator.of(context).pop();
+                                      }
+                                    }),
+                                Container(
+                                    padding: EdgeInsets.all(50),
+                                    height: height * (35 / 100),
+                                    child: Stack(
+                                      children: <Widget>[
+                                        Positioned(
+                                            child: Container(
+                                          decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                            image: AssetImage(
+                                                'assets/images/Employee.png'),
+                                          )),
+                                        )),
+                                      ],
+                                    )),
+                              ],
+                            )
+                          : onPage == 'e'
+                              ? Column(
+                                  children: [
+                                    EditProfile(),
+                                  ],
+                                )
+                              : Column(
+                                  children: [
+                                    ChangePassword(),
+                                  ],
+                                )),
                 ]),
               ),
             )));

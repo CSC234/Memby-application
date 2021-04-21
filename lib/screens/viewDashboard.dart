@@ -198,56 +198,6 @@ class _DashBoardState extends State<DashBoard> {
         context.read<FlutterFireAuthService>().getCustomerSummary(startDate);
   }
 
-  // makeProductList(productSummary) {
-  //   if (clickDaily == false) {
-  //     isRender = 'daily';
-  //   }
-  //   if (clickMonthly == false) {
-  //     isRender = 'monthly';
-  //   }
-  //   if (clickYearly == false) {
-  //     isRender = 'yearly';
-  //   }
-  //   List<TotalSaleList> productHolder = [];
-  //   if (clickDaily == false) {
-  //     render = productListDaily;
-  //   }
-  //   if (clickMonthly == false) {
-  //     render = productListMonthly;
-  //   }
-  //   if (clickYearly == false) {
-  //     render = productListYearly;
-  //   }
-  //   if (render.length >= 5) {
-  //     for (int i = 0; i < 5; i++) {
-  //       var p = render[i];
-  //       productHolder.add(
-  //         TotalSaleList(
-  //           no: p.no,
-  //           name: p.name,
-  //           unit: p.unit,
-  //           totalSale: p.totalSale,
-  //         ),
-  //       );
-  //     }
-  //   }
-  //   if (render.length < 5) {
-  //     for (int i = 0; i < render.length; i++) {
-  //       var p = render[i];
-  //       productHolder.add(
-  //         TotalSaleList(
-  //           no: p.no,
-  //           name: p.name,
-  //           unit: p.unit,
-  //           totalSale: p.totalSale,
-  //         ),
-  //       );
-  //     }
-  //   }
-  //   return Column(
-  //     children: productHolder,
-  //   );
-  // }
   makeProductList(LinkedHashMap productSummary) {
     if (clickDaily == false) {
       isRender = 'daily';
@@ -281,32 +231,6 @@ class _DashBoardState extends State<DashBoard> {
       }
     });
 
-    // if (render.length >= 5) {
-    //   for (int i = 0; i < 5; i++) {
-    //     var p = render[i];
-    //     productHolder.add(
-    //       TotalSaleList(
-    //         no: p.no,
-    //         name: p.name,
-    //         unit: p.unit,
-    //         totalSale: p.totalSale,
-    //       ),
-    //     );
-    //   }
-    // }
-    // if (render.length < 5) {
-    //   for (int i = 0; i < render.length; i++) {
-    //     var p = render[i];
-    //     productHolder.add(
-    //       TotalSaleList(
-    //         no: p.no,
-    //         name: p.name,
-    //         unit: p.unit,
-    //         totalSale: p.totalSale,
-    //       ),
-    //     );
-    //   }
-    // }
     return Column(
       children: productHolder,
     );
@@ -359,41 +283,6 @@ class _DashBoardState extends State<DashBoard> {
   makeTopCustomerList(LinkedHashMap customerSummary) {
     List<TopCustomer> customerHolder = [];
 
-    // if (clickDaily == false) {
-    //   renderCustomer = popSaleListDaily;
-    // }
-    // if (clickMonthly == false) {
-    //   renderCustomer = popSaleListMonthly;
-    // }
-    // if (clickYearly == false) {
-    //   renderCustomer = popSaleListYearly;
-    // }
-    // if (renderCustomer.length >= 5) {
-    //   for (int i = 0; i < 5; i++) {
-    //     var p = renderCustomer[i];
-    //     customerHolder.add(
-    //       TopCustomer(
-    //         no: p.no,
-    //         name: p.name,
-    //         phoneNo: p.phoneNo,
-    //         totalPaid: p.totalPaid,
-    //       ),
-    //     );
-    //   }
-    // }
-    // if (renderCustomer.length < 5) {
-    //   for (int i = 0; i < renderCustomer.length; i++) {
-    //     var p = renderCustomer[i];
-    //     customerHolder.add(
-    //       TopCustomer(
-    //         no: p.no,
-    //         name: p.name,
-    //         phoneNo: p.phoneNo,
-    //         totalPaid: p.totalPaid,
-    //       ),
-    //     );
-    //   }
-    // }
     int no = 1;
     customerSummary.forEach((customerID, customer) {
       if (no <= 5) {
@@ -412,48 +301,6 @@ class _DashBoardState extends State<DashBoard> {
       children: customerHolder,
     );
   }
-  // makeTopCustomerList() {
-  //   List<TopCustomer> customerHolder = [];
-
-  //   if (clickDaily == false) {
-  //     renderCustomer = popSaleListDaily;
-  //   }
-  //   if (clickMonthly == false) {
-  //     renderCustomer = popSaleListMonthly;
-  //   }
-  //   if (clickYearly == false) {
-  //     renderCustomer = popSaleListYearly;
-  //   }
-  //   if (renderCustomer.length >= 5) {
-  //     for (int i = 0; i < 5; i++) {
-  //       var p = renderCustomer[i];
-  //       customerHolder.add(
-  //         TopCustomer(
-  //           no: p.no,
-  //           name: p.name,
-  //           phoneNo: p.phoneNo,
-  //           totalPaid: p.totalPaid,
-  //         ),
-  //       );
-  //     }
-  //   }
-  //   if (renderCustomer.length < 5) {
-  //     for (int i = 0; i < renderCustomer.length; i++) {
-  //       var p = renderCustomer[i];
-  //       customerHolder.add(
-  //         TopCustomer(
-  //           no: p.no,
-  //           name: p.name,
-  //           phoneNo: p.phoneNo,
-  //           totalPaid: p.totalPaid,
-  //         ),
-  //       );
-  //     }
-  //   }
-  //   return Column(
-  //     children: customerHolder,
-  //   );
-  // }
 
   Widget HandleViewAll() {
     return TextButton(
@@ -509,13 +356,7 @@ class _DashBoardState extends State<DashBoard> {
                                         child: IconButton(
                                             icon: Icon(Icons.arrow_back,
                                                 color: Colors.white),
-                                            onPressed: () => Navigator.push(
-                                                    context, MaterialPageRoute(
-                                                  builder: (context) {
-                                                    return Landing();
-                                                  },
-                                                ))),
-                                      ),
+                                            onPressed: () => Navigator.of(context).pop(false))),
                                       Text(
                                         'View DashBoard',
                                         style: TextStyle(
@@ -667,8 +508,16 @@ class _DashBoardState extends State<DashBoard> {
 
                                                       return Column(
                                                         children: [
-                                                          makeProductList(
-                                                              snapshot.data),
+                                                          Container(
+                                                            height: height *
+                                                                (21 / 100),
+                                                            width: width *
+                                                                (90 / 100),
+                                                            child:
+                                                                makeProductList(
+                                                                    snapshot
+                                                                        .data),
+                                                          ),
                                                           Divider(
                                                             height: 0,
                                                             thickness: 1,

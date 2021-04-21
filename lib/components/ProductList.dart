@@ -84,7 +84,7 @@ class ProductList extends StatelessWidget {
                           padding: EdgeInsets.only(top: 10),
                           height: 40,
                           width: 100,
-                          child: Text("pirce: " + price.toString()),
+                          child: Text("price: " + price.toString()),
                         ),
                       ],
                     )

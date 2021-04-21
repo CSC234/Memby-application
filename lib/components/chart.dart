@@ -88,31 +88,13 @@ class _ChartState extends State<Chart> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Container(
-                        height: height * 0.01,
-                        width: width * 0.1,
-                        color: Colors.blue,
-                      ),
-                      Container(
-                        child: Text("  UNIT"),
-                      ),
+                     /*  Container(
+                        child: Text("Product No. <-- ย้ายไปไว้ข้างๆ chart ให้หน่อย"),
+                      ), */
                     ],
                   ),
                   SizedBox(
                     height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                        height: height * 0.01,
-                        width: width * 0.1,
-                        color: Colors.blue.shade100,
-                      ),
-                      Container(
-                        child: Text("  TOTAL SALE"),
-                      ),
-                    ],
                   ),
                 ],
               ),

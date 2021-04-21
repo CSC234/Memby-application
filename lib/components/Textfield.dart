@@ -36,22 +36,23 @@ class Textfield extends StatelessWidget {
       child: Column(children: [
         TextFormField(
           onChanged: onChange,
-          // (text) {
-          //   print("First text field: $text");
-          // },
-          // textAlignVertical: TextAlignVertical.top,
-          // initialValue: value,
           minLines: min,
           maxLines: max,
           keyboardType: TextInputType.text,
           controller: controller,
           decoration: InputDecoration(
             labelText: text,
-            border: OutlineInputBorder(
-                borderSide: BorderSide(
-              width: 5,
-              color: Color(0xFFD5D8DE),
-            )),
+            fillColor: Colors.grey[200],
+            filled: true,
+            border: new OutlineInputBorder(
+              borderRadius: const BorderRadius.all(
+                const Radius.circular(10.0),
+              ),
+              borderSide: BorderSide(
+                width: 0,
+                style: BorderStyle.none,
+              ),
+            ),
           ),
         ),
         SizedBox(

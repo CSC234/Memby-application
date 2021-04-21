@@ -145,13 +145,8 @@ class _AddProductList extends State<AddProductList> {
                             child: IconButton(
                                 icon: Icon(Icons.arrow_back,
                                     color: Colors.grey[700]),
-                                onPressed: () =>
-                                    Navigator.push(context, MaterialPageRoute(
-                                      builder: (context) {
-                                        return ManageProduct();
-                                      },
-                                    ))),
-                          ),
+                              onPressed: () => Navigator.of(context).pop(false))),
+                       
                           SizedBox(
                             width: width * 0.05,
                           ),

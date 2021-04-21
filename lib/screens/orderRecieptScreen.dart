@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:memby/components/Profile/main.dart';
+
 import 'package:memby/models/Order.dart';
 import 'package:memby/constants.dart';
-import 'package:memby/components/OrderCard.dart';
+import 'package:memby/components/RoundedButton.dart';
 import 'package:memby/models/OrderDetail.dart';
 import 'package:memby/models/Product.dart';
 import 'package:memby/screens/landingScreen.dart';
@@ -172,8 +172,12 @@ class OrderRecieptScreen extends StatelessWidget {
                       : makeRecieptDescription(),
                 ),
               ),
-              TextButton(
-                  onPressed: () {
+              Container(
+                width: 200,
+                child: RoundedButton(
+                  color: kPrimaryLightColor,
+                  title: 'Back to home',
+                  onPress: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -183,7 +187,8 @@ class OrderRecieptScreen extends StatelessWidget {
                       ),
                     );
                   },
-                  child: Text("Temporary Button\n Back to Home"))
+                ),
+              ),
             ],
           ),
         ),
