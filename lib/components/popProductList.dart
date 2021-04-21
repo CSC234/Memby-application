@@ -95,7 +95,7 @@ class PopProductList extends StatelessWidget {
                                   child:
                                       VerticalDivider(color: Colors.grey[700])),
                               SizedBox(
-                                width: 7.5,
+                                width: 3.7,
                               ),
                               Column(
                                 children: [

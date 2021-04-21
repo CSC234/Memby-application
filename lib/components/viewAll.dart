@@ -417,7 +417,7 @@ class _ViewAllState extends State<ViewAll> {
                                                           Text("Product Name"),
                                                           Container(
                                                             width: width *
-                                                                (38 / 100),
+                                                                (40 / 100),
                                                             child: Row(
                                                               mainAxisAlignment:
                                                                   MainAxisAlignment
