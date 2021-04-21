@@ -513,6 +513,26 @@ class FlutterFireAuthService {
       print("Remove Img Error: $e");
     });
   }
+
+  Future<bool> isCustomerPhoneDuplicate(String customerPhone) async {
+    final user = _firebaseAuth.currentUser;
+    final userId = user.uid;
+    print(customerPhone);
+    DocumentReference targetCompany =
+        _firestore.collection('company').doc(userId);
+    QuerySnapshot customerRef = await targetCompany
+        .collection('customer')
+        .limit(1)
+        .where('phone_no', isEqualTo: customerPhone)
+        .get()
+        .catchError((e) {
+      print(e.toString());
+    });
+    if (customerRef.size == 1) {
+      return true;
+    }
+    return false;
+  }
 }
 
 // Future uploadImageToFirebase(BuildContext context) async {

@@ -1,8 +1,8 @@
 import 'package:memby/components/OverlayNotification.dart';
 import 'package:memby/firebase.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
-import 'package:provider/provider.dart';
 import 'package:memby/components/Register/TextBox.dart';
 import 'package:memby/components/Register/CalendarPicker.dart';
 import 'package:memby/components/Register/GenderPicker.dart';
@@ -209,6 +209,7 @@ class _FormBoxesState extends State<FormBoxes> {
                     textColor: fontColor,
                     require: true,
                     length: 10,
+                    checkPhone: true,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
@@ -313,6 +314,8 @@ class _FormBoxesState extends State<FormBoxes> {
                               duration: Duration(milliseconds: 4000),
                             );
                             return Navigator.of(context).pop();
+                          } else {
+                            setState(() {});
                           }
                         },
                       ),
