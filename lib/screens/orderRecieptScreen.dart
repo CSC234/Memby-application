@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:memby/components/Profile/main.dart';
+
 import 'package:memby/models/Order.dart';
 import 'package:memby/constants.dart';
-import 'package:memby/components/OrderCard.dart';
+
 import 'package:memby/models/OrderDetail.dart';
 import 'package:memby/models/Product.dart';
 import 'package:memby/screens/landingScreen.dart';
