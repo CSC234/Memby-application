@@ -132,12 +132,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                     width: width * 0.15,
                     child: IconButton(
                         icon: Icon(Icons.arrow_back, color: Colors.grey[700]),
-                        onPressed: () =>
-                            Navigator.push(context, MaterialPageRoute(
-                              builder: (context) {
-                                return CreateOrderScreen();
-                              },
-                            )))),
+                        onPressed: () => Navigator.of(context).pop(false))),
                 SizedBox(
                   width: width * 0.01,
                 ),
