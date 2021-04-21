@@ -49,23 +49,7 @@ class _RegisterState extends State<Register> {
 
     return Container(
       color: Colors.white,
-      // child:
-      // bottomNavigationBar: NavKT(
-      //   currentIndex: 1,
-      // ),
       child: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            color: themeBlue,
-            onPressed: () {
-              moveToLastScreen();
-            },
-          ),
-          backgroundColor: Colors.transparent,
-          foregroundColor: Colors.transparent,
-          shadowColor: Colors.transparent,
-        ),
         body: SingleChildScrollView(child: FormBoxes()),
       ),
     );
@@ -138,6 +122,9 @@ class _FormBoxesState extends State<FormBoxes> {
             Container(
               child: Column(
                 children: [
+                  SizedBox(
+                    height: height * 0.035,
+                  ),
                   Row(
                     children: [
                       Container(
