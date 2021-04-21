@@ -509,13 +509,7 @@ class _DashBoardState extends State<DashBoard> {
                                         child: IconButton(
                                             icon: Icon(Icons.arrow_back,
                                                 color: Colors.white),
-                                            onPressed: () => Navigator.push(
-                                                    context, MaterialPageRoute(
-                                                  builder: (context) {
-                                                    return Landing();
-                                                  },
-                                                ))),
-                                      ),
+                                            onPressed: () => Navigator.of(context).pop(false))),
                                       Text(
                                         'View DashBoard',
                                         style: TextStyle(

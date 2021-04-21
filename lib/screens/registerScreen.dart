@@ -132,12 +132,7 @@ class _FormBoxesState extends State<FormBoxes> {
                           child: IconButton(
                               icon: Icon(Icons.arrow_back,
                                   color: Colors.grey[700]),
-                              onPressed: () =>
-                                  Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) {
-                                      return Landing();
-                                    },
-                                  )))),
+                              onPressed: () => Navigator.of(context).pop(false))),
                       SizedBox(
                         width: width * 0.13,
                       ),
