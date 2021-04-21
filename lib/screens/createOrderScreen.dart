@@ -27,7 +27,8 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
   @override
   void initState() {
     super.initState();
-    _productsData = context.read<FlutterFireAuthService>().getProducts();
+    _productsData =
+        context.read<FlutterFireAuthService>().getProducts(visible: true);
   }
 
   Order order1 = Order(

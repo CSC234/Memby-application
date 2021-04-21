@@ -643,8 +643,64 @@ class _DashBoardState extends State<DashBoard> {
                                                   future: _productSummary,
                                                   builder: (context, snapshot) {
                                                     if (snapshot.hasData) {
-                                                      return makeProductList(
-                                                          snapshot.data);
+                                                      var _popRef = snapshot
+                                                          .data.entries
+                                                          .toList();
+                                                      var popularProduct = {
+                                                        'id': 'n',
+                                                        'unitSale': 0,
+                                                        'totalSale': 0.0
+                                                      };
+
+                                                      if (_popRef.length > 0) {
+                                                        _popRef = _popRef[0];
+                                                        popularProduct = {
+                                                          'id': _popRef.key,
+                                                          'unitSale':
+                                                              _popRef.value[
+                                                                  'unitSale'],
+                                                          'totalSale':
+                                                              _popRef.value[
+                                                                  'totalSale']
+                                                        };
+                                                      }
+
+                                                      return Column(
+                                                        children: [
+                                                          makeProductList(
+                                                              snapshot.data),
+                                                          Divider(
+                                                            height: 0,
+                                                            thickness: 1,
+                                                          ),
+                                                          Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .symmetric(
+                                                                    vertical:
+                                                                        10),
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceBetween,
+                                                              children: [
+                                                                Text(
+                                                                  "Popular Product",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          18),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          PopProduct(
+                                                            handleRender:
+                                                                isRender,
+                                                            product:
+                                                                popularProduct,
+                                                          )
+                                                        ],
+                                                      );
                                                     } else {
                                                       return SizedBox(
                                                           child:
@@ -653,30 +709,7 @@ class _DashBoardState extends State<DashBoard> {
                                                           width: 50.0);
                                                     }
                                                   }),
-                                              Divider(
-                                                height: 0,
-                                                thickness: 1,
-                                              ),
-                                              Container(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 10),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      "Popular Product",
-                                                      style: TextStyle(
-                                                          fontSize: 18),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              PopProduct(
-                                                handleRender: isRender,
-                                              ),
+
                                               Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment

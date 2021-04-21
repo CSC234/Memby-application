@@ -6,6 +6,9 @@ import 'package:memby/constants.dart';
 
 class ProductList extends StatelessWidget {
   final String picture;
+  final bool render;
+  final bool visible;
+
   final String product;
   final String description;
   final double price;
@@ -13,6 +16,8 @@ class ProductList extends StatelessWidget {
 
   const ProductList(
       {Key key,
+      this.visible,
+      this.render,
       this.picture,
       this.product,
       this.description,
@@ -24,8 +29,11 @@ class ProductList extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+    print(render.toString());
+
     return Column(children: [
       Container(
+        color: visible ? Colors.white : Colors.grey[300],
         child: Container(
           width: width * (90 / 100),
           child: Container(
@@ -44,23 +52,20 @@ class ProductList extends StatelessWidget {
                         : CircleAvatar(
                             radius: 10,
                             backgroundColor: Colors.grey.withOpacity(.5),
-                          )
-
-                    // Image.asset(
-                    //   'assets/images/product1.jpg',
-                    //   width: 70,
-                    // ),
-                    ),
+                          )),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
                       padding: EdgeInsets.only(bottom: 5, top: 15),
-                      child: Text(
-                        "name: " + product,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 15),
+                      child: Container(
+                        width: width * 0.5,
+                        child: Text(
+                          "name: " + product,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 15),
+                        ),
                       ),
                     ),
                     Container(
@@ -79,7 +84,7 @@ class ProductList extends StatelessWidget {
                           padding: EdgeInsets.only(top: 10),
                           height: 40,
                           width: 100,
-                          child: Text("pirce: " + price.toString()),
+                          child: Text("price: " + price.toString()),
                         ),
                       ],
                     )
@@ -97,11 +102,18 @@ class ProductList extends StatelessWidget {
                               width: 30,
                               height: 30,
                               child: Center(
-                                  child: Text(
-                                '-',
-                                style: TextStyle(
-                                    fontSize: 15, color: Colors.white),
-                              )),
+                                  child: render
+                                      ? Text(
+                                          '-',
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.white),
+                                        )
+                                      : Icon(
+                                          Icons.create_rounded,
+                                          color: Colors.white,
+                                          size: 15,
+                                        )),
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle, color: Colors.grey),
                             ),

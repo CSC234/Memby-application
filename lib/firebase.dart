@@ -29,7 +29,6 @@ class FlutterFireAuthService {
   }
 
   Future<LinkedHashMap> _getProductSummary(target) async {
-    print("-----------------Getting Product Summary-----------------");
     //Daily
     try {
       final user = _firebaseAuth.currentUser;
@@ -49,7 +48,7 @@ class FlutterFireAuthService {
           .orderBy("date")
           .startAt([startDate]).get();
       final orderDocs = orders.docs;
-      print("Order Amounts " + orderDocs.length.toString());
+
       Map<String, dynamic> productSummary = {};
       for (QueryDocumentSnapshot o in orderDocs) {
         final Map<String, dynamic> productList = o.get('product_list');
@@ -78,8 +77,6 @@ class FlutterFireAuthService {
           }
         }
       }
-      print("---------Products---------");
-      print(productSummary);
 
       var unsortedSummary = {};
       for (var i in productSummary.keys) {
@@ -93,10 +90,6 @@ class FlutterFireAuthService {
           key: (k) => k,
           value: (k) => productSummary[k]);
 
-      print("---------Sorted Products---------");
-      print(sortedProductSummary);
-      print("-------------------------------------------------");
-
       return sortedProductSummary;
     } catch (err) {
       print('Caught error: $err');
@@ -109,7 +102,6 @@ class FlutterFireAuthService {
   }
 
   Future<LinkedHashMap> _getCustomerSummary(target) async {
-    print("-----------------Getting Customer Summary-----------------");
     //Daily
     try {
       final user = _firebaseAuth.currentUser;
@@ -122,7 +114,7 @@ class FlutterFireAuthService {
               : new DateTime(now.year);
 
       QuerySnapshot orders;
-      print(startDate);
+
       orders = await _firestore
           .collection("company")
           .doc(userId)
@@ -131,13 +123,11 @@ class FlutterFireAuthService {
           .startAt([startDate]).get();
       final orderDocs = orders.docs;
 
-      print("Order Amounts " + orderDocs.length.toString());
       Map<String, dynamic> customerSummary = {};
       for (QueryDocumentSnapshot o in orderDocs) {
         final String customerId = o.get('cus_id');
         if (customerId != null) {
           if (customerSummary[customerId] == null) {
-            print(customerId);
             DocumentReference targetCustomer = _firestore
                 .collection("company")
                 .doc(userId)
@@ -145,7 +135,7 @@ class FlutterFireAuthService {
                 .doc(customerId);
 
             DocumentSnapshot customer = await targetCustomer.get();
-            print(customer.data());
+
             customerSummary[customerId] = {
               'name':
                   customer.get('firstname') + " " + customer.get('lastname'),
@@ -157,8 +147,6 @@ class FlutterFireAuthService {
           }
         }
       }
-      print("---------Customer---------");
-      print(customerSummary);
 
       var unsortedSummary = {};
       for (var i in customerSummary.keys) {
@@ -171,10 +159,6 @@ class FlutterFireAuthService {
           sortedCusotmerSummaryKeys,
           key: (k) => k,
           value: (k) => customerSummary[k]);
-
-      print("---------Sorted Customer---------");
-      print(sortedCustomerSummary);
-      print("-------------------------------------------------");
 
       return sortedCustomerSummary;
     } catch (err) {
@@ -194,7 +178,8 @@ class FlutterFireAuthService {
       'name': name,
       'description': description,
       'price': price,
-      'product_img': img
+      'product_img': img,
+      'visible': true
     };
     DocumentReference targetCompany =
         _firestore.collection('company').doc(userId);
@@ -212,6 +197,20 @@ class FlutterFireAuthService {
       'description': description,
       'price': price,
       'product_img': img
+    };
+    await _firestore
+        .collection("company")
+        .doc(userId)
+        .collection("product")
+        .doc(pid)
+        .update(product);
+  }
+
+  Future<void> updateVisible(pid, visible) async {
+    final user = _firebaseAuth.currentUser;
+    final userId = user.uid;
+    final product = {
+      'visible': visible,
     };
     await _firestore
         .collection("company")
@@ -279,17 +278,20 @@ class FlutterFireAuthService {
     });
   }
 
-  Future<QuerySnapshot> _getProducts() async {
+  Future<QuerySnapshot> _getProducts({bool visible}) async {
     try {
       final user = _firebaseAuth.currentUser;
       final userId = user.uid;
       QuerySnapshot products;
-      products = await _firestore
-          .collection("company")
-          .doc(userId)
-          .collection("product")
-          .get();
-      print(products);
+      dynamic productsRef =
+          _firestore.collection("company").doc(userId).collection("product");
+
+      if (visible != null) {
+        productsRef = productsRef.where('visible', isEqualTo: visible);
+      }
+
+      products = await productsRef.orderBy('visible', descending: true).get();
+
       return products;
     } catch (err) {
       print('Caught error: $err');
@@ -297,8 +299,8 @@ class FlutterFireAuthService {
     }
   }
 
-  getProducts() async {
-    return await _getProducts();
+  getProducts({bool visible}) async {
+    return await _getProducts(visible: visible);
   }
 
   Future<dynamic> _getUserInfo() async {
@@ -316,6 +318,43 @@ class FlutterFireAuthService {
 
   getUserInfo() async {
     return await _getUserInfo();
+  }
+
+  Future<dynamic> _getProductbyID(String id) async {
+    if (id == 'n') {
+      return {
+        'name': 'Error',
+        'description': '',
+        'product_img': 'Error',
+        'price': 999
+      };
+    }
+
+    try {
+      final user = _firebaseAuth.currentUser;
+      final userId = user.uid;
+      DocumentSnapshot product;
+      product = await _firestore
+          .collection("company")
+          .doc(userId)
+          .collection("product")
+          .doc(id)
+          .get();
+      return product;
+    } catch (err) {
+      print('Caught error: $err');
+
+      return {
+        'name': 'Error',
+        'description': 'Error',
+        'product_img': 'Error',
+        'price': 999
+      };
+    }
+  }
+
+  getProductbyID(id) async {
+    return await _getProductbyID(id);
   }
 
   Future<void> addCustomer(

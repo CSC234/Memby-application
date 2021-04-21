@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:memby/components/Register/AcknowlwdgementBox.dart';
-
 import 'package:memby/constants.dart';
 import 'package:memby/components/rounded_button.dart';
 import 'package:memby/components/ProductList.dart';
@@ -10,21 +8,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:memby/firebase.dart';
 import 'package:memby/screens/homeScreen.dart';
 import 'package:memby/components/emptyItem.dart';
-
 import 'package:memby/screens/landingScreen.dart';
 import 'package:memby/components/bottomSheet.dart';
-
-import 'package:provider/provider.dart';
-import 'package:memby/firebase.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ManageProduct extends StatefulWidget {
   @override
-  final ValueChanged<String> onChanged;
-
   const ManageProduct({
     Key key,
-    this.onChanged,
   }) : super(key: key);
 
   _ManageProduct createState() => _ManageProduct();
@@ -36,8 +27,14 @@ class Product {
   String description;
   double price;
   String picture;
-
-  Product({this.id, this.product, this.description, this.price, this.picture});
+  bool visible;
+  Product(
+      {this.id,
+      this.product,
+      this.description,
+      this.price,
+      this.picture,
+      this.visible});
 }
 
 class _ManageProduct extends State<ManageProduct> {
@@ -45,13 +42,40 @@ class _ManageProduct extends State<ManageProduct> {
   bool _alreadyLoadProductsFromFirestore = false;
   void initState() {
     super.initState();
+    for (int i = 0; i < product.length; i++) {
+      productHolder.add(Product(
+        id: product[i].id,
+        product: product[i].product,
+        price: product[i].price,
+        description: product[i].description,
+        picture: product[i].picture,
+        visible: product[i].visible,
+      ));
+    }
     _productsData = context.read<FlutterFireAuthService>().getProducts();
   }
 
+  var _filterText = TextEditingController();
+
   List<Product> product = [];
+  List<Product> productHolder = [];
 
   @override
   Widget build(BuildContext context) {
+    product = productHolder;
+    List<Product> renderFilter = product
+        .where((el) =>
+            el.product.toLowerCase().indexOf(_filterText.text.toLowerCase()) !=
+                -1 ||
+            _filterText.text.isEmpty)
+        .toList();
+    product = renderFilter;
+    print(_filterText.text);
+    if (_filterText.text.isEmpty) {
+      product = productHolder;
+    }
+    print(productHolder);
+
     final firebaseUser = context.watch<User>();
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -144,8 +168,7 @@ class _ManageProduct extends State<ManageProduct> {
                           width: width * 0.9,
                           height: 30,
                           child: TextField(
-                            // controller:
-                            //     _filterText,
+                            controller: _filterText,
                             decoration: InputDecoration(
                               prefixIcon: Icon(Icons.search),
                               hintText: 'What are you looking for?',
@@ -154,9 +177,7 @@ class _ManageProduct extends State<ManageProduct> {
                             onSubmitted: (value) {
                               setState(() {});
 
-                              // print(
-                              //     _filterText
-                              //         .text);
+                              print(_filterText.text);
                             },
                           ),
                         ),
@@ -185,7 +206,8 @@ class _ManageProduct extends State<ManageProduct> {
                                           product: p['name'],
                                           price: (p['price'].toDouble()),
                                           description: p['description'],
-                                          picture: p['product_img']));
+                                          picture: p['product_img'],
+                                          visible: p['visible']));
                                     }
 
                                     _alreadyLoadProductsFromFirestore = true;
@@ -199,6 +221,8 @@ class _ManageProduct extends State<ManageProduct> {
                                       if (product.length != 0)
                                         for (int i = 0; i < product.length; i++)
                                           ProductList(
+                                            visible: product[i].visible,
+                                            render: false,
                                             picture: product[i].picture,
                                             product: product[i].product,
                                             description: product[i].description,
@@ -220,8 +244,6 @@ class _ManageProduct extends State<ManageProduct> {
                                       width: 100.0);
                                 }
                               }),
-
-                          ///////////////
                         ),
                       ),
                     ],
