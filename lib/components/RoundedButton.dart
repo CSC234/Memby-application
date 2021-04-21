@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 class RoundedButton extends StatelessWidget {
   final Function onPress;
   final String title;
@@ -8,20 +9,26 @@ class RoundedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onPress,
-      child: Text(title),
-      style: ButtonStyle(
-        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.0),
-          ),
+    return Container(
+      height: 45,
+      child: ElevatedButton(
+        onPressed: onPress,
+        child: Text(
+          title,
+          style: TextStyle(fontSize: 16),
         ),
-        backgroundColor: MaterialStateProperty.resolveWith<Color>(
-          (Set<MaterialState> states) {
-            if (states.contains(MaterialState.pressed)) return color;
-            return color; // Use the component's default.
-          },
+        style: ButtonStyle(
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+          ),
+          backgroundColor: MaterialStateProperty.resolveWith<Color>(
+            (Set<MaterialState> states) {
+              if (states.contains(MaterialState.pressed)) return color;
+              return color; // Use the component's default.
+            },
+          ),
         ),
       ),
     );

@@ -129,7 +129,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
             Row(
               children: [
                 Container(
-                    width: width * 0.15,
+                    width: width * 0.155,
                     child: IconButton(
                         icon: Icon(Icons.arrow_back, color: Colors.grey[700]),
                         onPressed: () => Navigator.of(context).pop(false))),
