@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:memby/firebase.dart';
+import 'package:provider/provider.dart';
 
 class TextBox extends StatefulWidget {
   TextBox(
@@ -14,7 +16,8 @@ class TextBox extends StatefulWidget {
       this.minLine,
       this.maxLine,
       this.emailValidator,
-      this.length});
+      this.length,
+      this.checkPhone});
 
   final String text;
   final double width;
@@ -27,6 +30,7 @@ class TextBox extends StatefulWidget {
   final int minLine;
   final int maxLine;
   final bool emailValidator;
+  final bool checkPhone;
   int length;
   TextEditingController input = TextEditingController();
 
@@ -36,6 +40,8 @@ class TextBox extends StatefulWidget {
 
 class _TextBoxState extends State<TextBox> {
   @override
+  bool isDuplicate = true;
+
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
@@ -79,7 +85,26 @@ class _TextBoxState extends State<TextBox> {
                 return "Please enter a valid email address";
               }
             }
+            if (widget.checkPhone == true && value.length != 10) {
+              return "Please enter a valid phone number";
+            }
+            if (widget.checkPhone == true && isDuplicate == true) {
+              return "This phone number has been used";
+            }
+
             return null;
+          },
+          onChanged: (value) async {
+            if (widget.checkPhone == true && value.length == 10) {
+              // If it return false => The phoneNo is not duplicate
+              //              true  => The phoneNo is duplicated
+              bool status = await context
+                  .read<FlutterFireAuthService>()
+                  .isCustomerPhoneDuplicate(value);
+              setState(() {
+                isDuplicate = status;
+              });
+            }
           },
         ),
       ),
