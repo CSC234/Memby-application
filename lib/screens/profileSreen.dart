@@ -310,12 +310,13 @@ class _ProfileState extends State<Profile> {
                                     ),
                                     onPressed: () {
                                       print("Sign Out Pressed");
-                                      context
-                                          .read<FlutterFireAuthService>()
-                                          .signOut();
+
                                       if (Navigator.of(context).canPop()) {
                                         Navigator.of(context).pop();
                                       }
+                                      context
+                                          .read<FlutterFireAuthService>()
+                                          .signOut();
                                     }),
                                 Container(
                                     padding: EdgeInsets.all(50),
