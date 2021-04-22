@@ -100,12 +100,18 @@ class _ManageProduct extends State<ManageProduct> {
                       Row(
                         children: [
                           Container(
-                            width: width * 0.15,
-                            child: IconButton(
-                                icon: Icon(Icons.arrow_back,
-                                    color: Colors.grey[700]),
-                                onPressed: () => Navigator.of(context).pop(false))),
-                         
+                              width: width * 0.15,
+                              child: IconButton(
+                                  icon: Icon(Icons.arrow_back,
+                                      color: Colors.grey[700]),
+                                  onPressed: () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) {
+                                            return Landing();
+                                          },
+                                        ),
+                                      ))),
                           Container(
                             width: width * 0.8,
                             child: Text(
