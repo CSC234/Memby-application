@@ -70,7 +70,7 @@ class _FormBoxesState extends State<FormBoxes> {
   final _formKey = GlobalKey<FormState>();
   final String dateToday = DateTime.now().toString().split(" ")[0];
   DateTime selectedDate = DateTime.now();
-  String defaultGender = "Sex";
+  String defaultGender = "Gender";
   bool defaultCheckState = false;
 
   String changeDate(date) {
@@ -132,7 +132,8 @@ class _FormBoxesState extends State<FormBoxes> {
                           child: IconButton(
                               icon: Icon(Icons.arrow_back,
                                   color: Colors.grey[700]),
-                              onPressed: () => Navigator.of(context).pop(false))),
+                              onPressed: () =>
+                                  Navigator.of(context).pop(false))),
                       SizedBox(
                         width: width * 0.13,
                       ),

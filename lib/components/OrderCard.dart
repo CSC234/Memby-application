@@ -87,7 +87,10 @@ class OrderCard extends StatelessWidget {
                               keyboardType: TextInputType.number,
                               textAlign: TextAlign.center,
                               onChanged: (value) {
-                                setAmount(int.parse(value));
+                                int num = int.parse(value);
+                                if (num >= 1) {
+                                  setAmount(int.parse(value));
+                                }
                               },
                               controller: TextEditingController()
                                 ..text = amount.toString(),
