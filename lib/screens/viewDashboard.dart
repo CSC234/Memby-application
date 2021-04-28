@@ -351,11 +351,13 @@ class _DashBoardState extends State<DashBoard> {
                                     // left: 20,
                                     child: Row(children: [
                                       Container(
-                                        width: width * 0.15,
-                                        child: IconButton(
-                                            icon: Icon(Icons.arrow_back,
-                                                color: Colors.white),
-                                            onPressed: () => Navigator.of(context).pop(false))),
+                                          width: width * 0.15,
+                                          child: IconButton(
+                                              icon: Icon(Icons.arrow_back,
+                                                  color: Colors.white),
+                                              onPressed: () =>
+                                                  Navigator.of(context)
+                                                      .pop(false))),
                                       Text(
                                         'View DashBoard',
                                         style: TextStyle(
@@ -482,7 +484,17 @@ class _DashBoardState extends State<DashBoard> {
                                               FutureBuilder(
                                                   future: _productSummary,
                                                   builder: (context, snapshot) {
-                                                    if (snapshot.hasData) {
+                                                    if (snapshot
+                                                            .connectionState ==
+                                                        ConnectionState
+                                                            .waiting) {
+                                                      return SizedBox(
+                                                          child:
+                                                              CircularProgressIndicator(),
+                                                          height: 50.0,
+                                                          width: 50.0);
+                                                    } else if (snapshot
+                                                        .hasData) {
                                                       var _popRef = snapshot
                                                           .data.entries
                                                           .toList();
@@ -635,7 +647,17 @@ class _DashBoardState extends State<DashBoard> {
                                                     future: _customerSummary,
                                                     builder:
                                                         (context, snapshot) {
-                                                      if (snapshot.hasData) {
+                                                      if (snapshot
+                                                              .connectionState ==
+                                                          ConnectionState
+                                                              .waiting) {
+                                                        return SizedBox(
+                                                            child:
+                                                                CircularProgressIndicator(),
+                                                            height: 50.0,
+                                                            width: 50.0);
+                                                      } else if (snapshot
+                                                          .hasData) {
                                                         return makeTopCustomerList(
                                                             snapshot.data);
                                                       } else {
