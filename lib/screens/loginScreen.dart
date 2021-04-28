@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:memby/constants.dart';
-import 'package:memby/components/rounded_button.dart';
+import 'package:memby/components/publicComponent/rounded_button.dart';
 import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
-import 'package:memby/components/toggle/animated_toggle_button.dart';
-import 'package:memby/components/toggle/theme_color.dart';
+import 'package:memby/components/publicComponent/toggle/animated_toggle_button.dart';
+import 'package:memby/components/publicComponent/toggle/theme_color.dart';
 import 'package:memby/screens/guide.dart';
 
 class Login extends StatefulWidget {

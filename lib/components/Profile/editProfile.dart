@@ -5,14 +5,14 @@ import 'package:memby/screens/landingScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
 // import 'package:memby/components/Textfield.dart';
-import 'package:memby/components/rounded_button.dart';
+import 'package:memby/components/publicComponent/rounded_button.dart';
 
 import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-import 'package:memby/components/imagePicker.dart';
+import 'package:memby/components/publicComponent/imagePicker.dart';
 
 class EditProfile extends StatefulWidget {
   @override
