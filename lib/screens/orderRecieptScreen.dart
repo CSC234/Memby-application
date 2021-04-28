@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:memby/models/Order.dart';
 import 'package:memby/constants.dart';
-import 'package:memby/components/RoundedButton.dart';
+import 'package:memby/components/publicComponent/RoundedButton.dart';
 import 'package:memby/models/OrderDetail.dart';
 import 'package:memby/models/Product.dart';
 import 'package:memby/screens/landingScreen.dart';

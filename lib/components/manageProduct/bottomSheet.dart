@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:memby/components/imagePickerNet.dart';
+import 'package:memby/components/publicComponent/imagePickerNet.dart';
 import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
 
-import 'package:memby/components/Textfield.dart';
-import 'package:memby/components/rounded_button.dart';
+import 'package:memby/components/manageProduct/Textfield.dart';
+import 'package:memby/components/publicComponent/rounded_button.dart';
 import 'package:memby/constants.dart';
 import 'package:memby/screens/manageProduct.dart';
-import 'package:memby/components/toggle/toggleVisible.dart';
-import 'package:memby/components/toggle/theme_color.dart';
+import 'package:memby/components/publicComponent/toggle/toggleVisible.dart';
+import 'package:memby/components/publicComponent/toggle/theme_color.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
@@ -207,6 +207,7 @@ class _BottomSheet extends State<BottomSheettest> {
         TextEditingController(text: product1[item1].description);
     final _priceController =
         TextEditingController(text: product1[item1].price.toString());
+    double height = MediaQuery.of(context).size.height;
 
     double width = MediaQuery.of(context).size.width;
     if (initialIndex == 1) {
@@ -282,15 +283,8 @@ class _BottomSheet extends State<BottomSheettest> {
                     text: 'Description...',
                     width: width * (90 / 100),
                     min: 3,
-                    max: 5,
-                  )
-                ],
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Column(
-                children: [
+                    // max: 5,
+                  ),
                   Textfield(
                     controller: _priceController,
                     onChange: (text) {

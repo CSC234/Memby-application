@@ -7,7 +7,7 @@ import 'package:memby/screens/landingScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:memby/components/rounded_button.dart';
+import 'package:memby/components/publicComponent/rounded_button.dart';
 
 class Profile extends StatefulWidget {
   @override

@@ -1,4 +1,4 @@
-import 'package:memby/components/OverlayNotification.dart';
+import 'package:memby/components/publicComponent/OverlayNotification.dart';
 import 'package:memby/firebase.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';

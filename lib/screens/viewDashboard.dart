@@ -7,7 +7,6 @@ import 'package:memby/components/popProduct.dart';
 import 'package:memby/components/viewAll.dart';
 import 'package:memby/models/Product.dart';
 import '../constants.dart';
-import 'package:memby/components/bottomNav/nav.dart';
 import 'package:memby/screens/landingScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';

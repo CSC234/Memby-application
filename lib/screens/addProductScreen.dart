@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:memby/components/OverlayNotification.dart';
-import 'package:memby/components/Register/AcknowlwdgementBox.dart';
-import 'package:memby/components/imagePicker.dart';
+import 'package:memby/components/publicComponent/OverlayNotification.dart';
+import 'package:memby/components/publicComponent/imagePicker.dart';
 import 'package:memby/constants.dart';
-import 'package:memby/components/rounded_button.dart';
-import 'package:memby/components/ProductList.dart';
-import 'package:memby/components/Textfield.dart';
+import 'package:memby/components/publicComponent/rounded_button.dart';
+import 'package:memby/components/manageProduct/ProductList.dart';
+import 'package:memby/components/manageProduct/Textfield.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:memby/firebase.dart';
 import 'package:memby/screens/homeScreen.dart';
-import 'package:memby/components/emptyItem.dart';
-import 'package:memby/components/bottomNav/nav.dart';
+import 'package:memby/components/publicComponent/emptyItem.dart';
 import 'package:memby/screens/manageProduct.dart';
-import 'package:memby/screens/landingScreen.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 

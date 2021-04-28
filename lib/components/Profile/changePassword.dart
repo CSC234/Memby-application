@@ -3,7 +3,7 @@ import 'package:memby/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
 import 'package:memby/components/TextFieldPassword.dart';
-import 'package:memby/components/rounded_button.dart';
+import 'package:memby/components/publicComponent/rounded_button.dart';
 import 'package:memby/screens/landingScreen.dart';
 
 class ChangePassword extends StatefulWidget {
