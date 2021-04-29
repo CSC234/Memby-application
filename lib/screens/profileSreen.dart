@@ -111,15 +111,15 @@ class _ProfileState extends State<Profile> {
                                           if (snapshot.hasData) {
                                             final profileInfo = snapshot.data;
                                             final creationDate = firebaseUser
-                                                .metadata.creationTime
-                                                .toIso8601String()
-                                                .split('T')
-                                                .first;
+                                                ?.metadata?.creationTime
+                                                ?.toIso8601String()
+                                                ?.split('T')
+                                                ?.first;
                                             final lastSigninDate = firebaseUser
-                                                .metadata.lastSignInTime
-                                                .toIso8601String()
-                                                .split('T')
-                                                .first;
+                                                ?.metadata?.lastSignInTime
+                                                ?.toIso8601String()
+                                                ?.split('T')
+                                                ?.first;
 
                                             return Row(
                                               children: [
@@ -308,15 +308,18 @@ class _ProfileState extends State<Profile> {
                                         )
                                       ]),
                                     ),
-                                    onPressed: () {
+                                    onPressed: () async {
                                       print("Sign Out Pressed");
 
                                       if (Navigator.of(context).canPop()) {
                                         Navigator.of(context).pop();
                                       }
-                                      context
+                                      await context
                                           .read<FlutterFireAuthService>()
                                           .signOut();
+                                      Future.delayed(
+                                          const Duration(milliseconds: 500),
+                                          () {});
                                     }),
                                 Container(
                                     padding: EdgeInsets.all(50),

@@ -34,7 +34,6 @@ class _LandingState extends State<Landing> {
     if (firebaseUser == null) {
       return HomeScreen();
     }
-    print(" Authenticated");
 
     return Container(
       child: Scaffold(
