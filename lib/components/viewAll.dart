@@ -438,6 +438,15 @@ class _ViewAllState extends State<ViewAll> {
                                                         builder: (context,
                                                             snapshot) {
                                                           if (snapshot
+                                                                  .connectionState ==
+                                                              ConnectionState
+                                                                  .waiting) {
+                                                            return Container(
+                                                                child:
+                                                                    CircularProgressIndicator(),
+                                                                height: 50.0,
+                                                                width: 50.0);
+                                                          } else if (snapshot
                                                               .hasData) {
                                                             return Container(
                                                               height:
@@ -453,8 +462,8 @@ class _ViewAllState extends State<ViewAll> {
                                                             return SizedBox(
                                                                 child:
                                                                     CircularProgressIndicator(),
-                                                                height: 300.0,
-                                                                width: 175.0);
+                                                                height: 50.0,
+                                                                width: 50.0);
                                                           }
                                                         }),
 
@@ -478,6 +487,16 @@ class _ViewAllState extends State<ViewAll> {
                                                         builder: (context,
                                                             snapshot) {
                                                           if (snapshot
+                                                                  .connectionState ==
+                                                              ConnectionState
+                                                                  .waiting) {
+                                                            return Container(
+                                                                child:
+                                                                    CircularProgressIndicator(),
+                                                                height: 50.0,
+                                                                width: 50.0);
+                                                          }
+                                                         else if (snapshot
                                                               .hasData) {
                                                             return Chart(
                                                                 saleSummmary:
@@ -487,8 +506,8 @@ class _ViewAllState extends State<ViewAll> {
                                                             return SizedBox(
                                                                 child:
                                                                     CircularProgressIndicator(),
-                                                                height: 300.0,
-                                                                width: 175.0);
+                                                                height: 50.0,
+                                                                width: 50.0);
                                                           }
                                                         }),
 
