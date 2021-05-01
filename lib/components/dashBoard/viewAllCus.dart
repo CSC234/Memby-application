@@ -37,10 +37,11 @@ List<TotalSaleList> renderFilter = [];
 String isRender;
 
 class _ViewCustomerState extends State<ViewCustomer> {
+  
   Future _customerSummary;
 
   var _filterText = TextEditingController();
-  Future _productSummary;
+  
   String startDate;
 
   bool clickDaily = false;
@@ -54,8 +55,9 @@ class _ViewCustomerState extends State<ViewCustomer> {
     clickMonthly = widget.clickMonthly;
     clickYearly = widget.clickYearly;
     startDate = widget.startDate;
-    _productSummary =
-        context.read<FlutterFireAuthService>().getProductSummary(startDate);
+    _customerSummary =
+        context.read<FlutterFireAuthService>().getCustomerSummary(startDate);
+    
   }
 
   void handleClickChangeToggleDaily() {
@@ -64,8 +66,8 @@ class _ViewCustomerState extends State<ViewCustomer> {
       clickMonthly = true;
       clickYearly = true;
       startDate = 'd';
-      _productSummary =
-          context.read<FlutterFireAuthService>().getProductSummary(startDate);
+     _customerSummary =
+          context.read<FlutterFireAuthService>().getCustomerSummary(startDate);
     });
   }
 
@@ -75,8 +77,8 @@ class _ViewCustomerState extends State<ViewCustomer> {
       clickMonthly = false;
       clickYearly = true;
       startDate = 'm';
-      _productSummary =
-          context.read<FlutterFireAuthService>().getProductSummary(startDate);
+      _customerSummary =
+          context.read<FlutterFireAuthService>().getCustomerSummary(startDate);
       ;
     });
   }
@@ -87,8 +89,8 @@ class _ViewCustomerState extends State<ViewCustomer> {
       clickMonthly = true;
       clickYearly = false;
       startDate = 'y';
-      _productSummary =
-          context.read<FlutterFireAuthService>().getProductSummary(startDate);
+      _customerSummary =
+          context.read<FlutterFireAuthService>().getCustomerSummary(startDate);
     });
   }
    makeTopCustomerList(LinkedHashMap customerSummary) {
@@ -114,9 +116,15 @@ class _ViewCustomerState extends State<ViewCustomer> {
         no++;
       }
     });
+    List<TopCustomer> renderFilter = customerHolder
+        .where((el) =>
+            el.name.indexOf(_filterText.text) != -1 || _filterText.text.isEmpty)
+        .toList();
+    customerHolder = renderFilter;
     return Column(
       children: customerHolder,
     );
+    
   }
 
   @override
