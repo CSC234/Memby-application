@@ -217,21 +217,6 @@ class _ViewAllState extends State<ViewAll> {
     });
   }
 
-  Widget HandleViewAll() {
-    print(productListDaily.length);
-
-    if (productListDaily.length > 5) {
-      return TextButton(
-        child: Text("view less"),
-        onPressed: () {
-          Navigator.pop(context);
-        },
-      );
-    } else {
-      return Text("");
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -495,8 +480,7 @@ class _ViewAllState extends State<ViewAll> {
                                                                     CircularProgressIndicator(),
                                                                 height: 50.0,
                                                                 width: 50.0);
-                                                          }
-                                                         else if (snapshot
+                                                          } else if (snapshot
                                                               .hasData) {
                                                             return Chart(
                                                                 saleSummmary:
