@@ -308,7 +308,7 @@ class _DashBoardState extends State<DashBoard> {
                                                     padding: const EdgeInsets
                                                             .symmetric(
                                                         vertical: 13.0),
-                                                    child: Text("Total Sale",
+                                                    child: Text("Total Sales",
                                                         style: TextStyle(
                                                             fontSize: 18)),
                                                   ),
@@ -336,8 +336,8 @@ class _DashBoardState extends State<DashBoard> {
                                                             MainAxisAlignment
                                                                 .spaceBetween,
                                                         children: [
-                                                          Text("Unit Sale"),
-                                                          Text("Total Sale"),
+                                                          Text("Unit Sales"),
+                                                          Text("Total Sales"),
                                                         ],
                                                       ),
                                                     )
