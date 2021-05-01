@@ -1,12 +1,13 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import 'package:memby/components/TotalSaleList.dart';
-import 'package:memby/components/topCustomer.dart';
+import 'package:memby/components/dashBoard/TotalSaleList.dart';
+import 'package:memby/components/dashBoard/topCustomer.dart';
 import 'package:memby/components/popProduct.dart';
-import 'package:memby/components/viewAll.dart';
+import 'package:memby/components/dashBoard/viewAll.dart';
+import 'package:memby/components/dashBoard/viewAllCus.dart';
 import 'package:memby/models/Product.dart';
-import '../constants.dart';
+import '../../constants.dart';
 import 'package:memby/screens/landingScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
@@ -121,7 +122,6 @@ class _DashBoardState extends State<DashBoard> {
     });
   }
 
-  List<TopCustomer> renderCustomer = [];
   makeTopCustomerList(LinkedHashMap customerSummary) {
     List<TopCustomer> customerHolder = [];
 
@@ -158,6 +158,24 @@ class _DashBoardState extends State<DashBoard> {
           context,
           new MaterialPageRoute(
             builder: (context) => ViewAll(
+                clickMonthly: clickMonthly,
+                clickDaily: clickDaily,
+                clickYearly: clickYearly,
+                startDate: startDate),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget HandleViewAllCustomer() {
+    return TextButton(
+      child: Text("view all"),
+      onPressed: () {
+        Navigator.push(
+          context,
+          new MaterialPageRoute(
+            builder: (context) => ViewCustomer(
                 clickMonthly: clickMonthly,
                 clickDaily: clickDaily,
                 clickYearly: clickYearly,
@@ -432,6 +450,7 @@ class _DashBoardState extends State<DashBoard> {
                                                         style: TextStyle(
                                                             fontSize: 18)),
                                                   ),
+                                                  HandleViewAllCustomer()
                                                 ],
                                               ),
                                               Divider(
