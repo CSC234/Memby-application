@@ -100,7 +100,7 @@ class OrderRecieptScreen extends StatelessWidget {
       onWillPop: () async => false,
       child: SingleChildScrollView(
         child: Container(
-          height: 150,
+          height: MediaQuery.of(context).size.height,
           child: Scaffold(
             body: SafeArea(
               child: Column(
