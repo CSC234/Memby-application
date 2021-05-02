@@ -275,6 +275,8 @@ class _LandingState extends State<Landing> {
                                   Icons.person_add,
                                   color: Colors.white,
                                 ),
+                                description:
+                                    "Register the customers details in the system",
                                 press: () {
                                   Navigator.push(
                                     context,
@@ -293,6 +295,8 @@ class _LandingState extends State<Landing> {
                                   Icons.shopping_cart,
                                   color: Colors.white,
                                 ),
+                                description:
+                                    "Record transactions into the system",
                                 press: () {
                                   Navigator.push(
                                     context,
@@ -311,6 +315,7 @@ class _LandingState extends State<Landing> {
                                   Icons.add_shopping_cart,
                                   color: Colors.white,
                                 ),
+                                description: "Add or update the products",
                                 press: () {
                                   Navigator.push(
                                     context,
@@ -329,6 +334,8 @@ class _LandingState extends State<Landing> {
                                   Icons.dashboard_rounded,
                                   color: Colors.white,
                                 ),
+                                description:
+                                    "View the summarized details of the business",
                                 press: () {
                                   Navigator.push(
                                     context,
