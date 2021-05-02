@@ -63,18 +63,17 @@ class _ChartState extends State<Chart> {
               child: barChart(seriesList),
             ),
             Container(
-              margin: EdgeInsets.only(left: 40, top: 20),
+              margin: EdgeInsets.only(left: 20, top: 15),
               height: height * 0.3,
               child: Column(
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                        Container(
-                        child: Text(" X-Axis = Product No",
-                        style: TextStyle(fontSize: 16,
+                        child: Text("Product No",
+                        style: TextStyle(fontSize:18,
                         fontFamily: 'Alef-Regular',
-                        fontWeight: FontWeight.bold,
                         color: kPrimaryFont),),
                       ),
                     ],
