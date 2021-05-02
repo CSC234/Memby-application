@@ -38,7 +38,7 @@ class _PopProductState extends State<PopProduct> {
 
   makePopProductList(productInfo) {
     List<PopProductList> popProductHolder = [];
-    if (productInfo['name'] == "Error") {
+    if (productInfo['name'] == "Not Found") {
       return EmptyList(
         text: "Empty",
       );
