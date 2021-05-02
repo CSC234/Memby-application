@@ -123,7 +123,7 @@ class OrderRecieptScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            'Company Name: KTBNG Co.,Ltd',
+                            companyName,
                             style: kPrimaryHeadingTextStyle.copyWith(
                                 fontSize: 20, fontWeight: FontWeight.normal),
                           ),

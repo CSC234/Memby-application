@@ -424,15 +424,21 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                           : Color(0xFFB7B7B7),
                       title: 'ORDER',
                       onPress: isCustomerPhoneValid || isGeneralCustomer
-                          ? () {
+                          ? () async {
+                              dynamic companyInfo = await context
+                                  .read<FlutterFireAuthService>()
+                                  .getUserInfo();
+                              print(companyInfo['name']);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) {
                                     return OrderRecieptScreen(
-                                        order: widget.order,
-                                        customer: customer,
-                                        discount: discount);
+                                      order: widget.order,
+                                      customer: customer,
+                                      discount: discount,
+                                      companyName: companyInfo['name'],
+                                    );
                                   },
                                 ),
                               );
