@@ -98,177 +98,173 @@ class OrderRecieptScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async => false,
-      child: SingleChildScrollView(
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          child: Scaffold(
-            body: SafeArea(
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: SafeArea(
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Reciept',
+                      style: kPrimaryHeadingTextStyle,
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
                     children: [
-                      Text(
-                        'Reciept',
-                        style: kPrimaryHeadingTextStyle,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Company Name: KTBNG Co.,Ltd',
+                            style: kPrimaryHeadingTextStyle.copyWith(
+                                fontSize: 20, fontWeight: FontWeight.normal),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            isGeneralCustomer()
+                                ? "General Customer"
+                                : 'Member ID: ${customer.id}',
+                            style: kPrimaryHeadingTextStyle.copyWith(
+                                fontSize: 20, fontWeight: FontWeight.normal),
+                          ),
+                        ],
+                      ),
+                      isGeneralCustomer()
+                          ? Container()
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Member Name: ${customer.get("firstname") + " " + customer.get("lastname")}',
+                                  style: kPrimaryHeadingTextStyle.copyWith(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.normal),
+                                ),
+                              ],
+                            ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Date: ${getDate()}',
+                            style: kPrimaryHeadingTextStyle.copyWith(
+                                fontSize: 20, fontWeight: FontWeight.normal),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Company Name: KTBNG Co.,Ltd',
-                              style: kPrimaryHeadingTextStyle.copyWith(
-                                  fontSize: 20, fontWeight: FontWeight.normal),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              isGeneralCustomer()
-                                  ? "General Customer"
-                                  : 'Member ID: ${customer.id}',
-                              style: kPrimaryHeadingTextStyle.copyWith(
-                                  fontSize: 20, fontWeight: FontWeight.normal),
-                            ),
-                          ],
-                        ),
-                        isGeneralCustomer()
-                            ? Container()
-                            : Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Member Name: ${customer.get("firstname") + " " + customer.get("lastname")}',
-                                    style: kPrimaryHeadingTextStyle.copyWith(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                ],
-                              ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Date: ${getDate()}',
-                              style: kPrimaryHeadingTextStyle.copyWith(
-                                  fontSize: 20, fontWeight: FontWeight.normal),
-                            ),
-                          ],
-                        ),
-                      ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Container(
+                    child: Divider(
+                      height: 5,
+                      thickness: 2,
+                      indent: 20,
+                      endIndent: 20,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: Container(
-                      child: Divider(
-                        height: 5,
-                        thickness: 2,
-                        indent: 20,
-                        endIndent: 20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: order.orderDetails.isEmpty
+                      ? Text('Empty Order')
+                      : makeRecieptDescription(),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Container(
+                        child: Divider(
+                          height: 5,
+                          thickness: 2,
+                          indent: 0,
+                          endIndent: 0,
+                        ),
                       ),
-                    ),
+                      Container(
+                        width: 150,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Total: ",
+                              style: kPrimaryHeadingTextStyle.copyWith(
+                                  fontSize: 20, fontWeight: FontWeight.normal),
+                            ),
+                            Text(
+                              '${getActualPrice()}',
+                              style: kPrimaryHeadingTextStyle.copyWith(
+                                  fontSize: 20, fontWeight: FontWeight.normal),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        width: 150,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Discount: ",
+                              style: kPrimaryHeadingTextStyle.copyWith(
+                                  fontSize: 20, fontWeight: FontWeight.normal),
+                            ),
+                            Text(
+                              '-${getActualPrice() * discount / 100}',
+                              style: kPrimaryHeadingTextStyle.copyWith(
+                                  fontSize: 20, fontWeight: FontWeight.normal),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        child: Divider(
+                          height: 5,
+                          thickness: 2,
+                          indent: 0,
+                          endIndent: 0,
+                        ),
+                      ),
+                      Container(
+                        width: 150,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "NET: ",
+                              style: kPrimaryHeadingTextStyle.copyWith(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              '${getTotalPrice()}',
+                              style: kPrimaryHeadingTextStyle.copyWith(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: order.orderDetails.isEmpty
-                        ? Text('Empty Order')
-                        : makeRecieptDescription(),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Container(
-                          child: Divider(
-                            height: 5,
-                            thickness: 2,
-                            indent: 0,
-                            endIndent: 0,
-                          ),
-                        ),
-                        Container(
-                          width: 150,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Total: ",
-                                style: kPrimaryHeadingTextStyle.copyWith(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                              Text(
-                                '${getActualPrice()}',
-                                style: kPrimaryHeadingTextStyle.copyWith(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          width: 150,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Discount: ",
-                                style: kPrimaryHeadingTextStyle.copyWith(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                              Text(
-                                '-${getActualPrice() * discount / 100}',
-                                style: kPrimaryHeadingTextStyle.copyWith(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          child: Divider(
-                            height: 5,
-                            thickness: 2,
-                            indent: 0,
-                            endIndent: 0,
-                          ),
-                        ),
-                        Container(
-                          width: 150,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "NET: ",
-                                style: kPrimaryHeadingTextStyle.copyWith(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                '${getTotalPrice()}',
-                                style: kPrimaryHeadingTextStyle.copyWith(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20.0),
+                  child: Container(
                     width: 200,
                     child: RoundedButton(
                       color: kPrimaryLightColor,
@@ -285,8 +281,8 @@ class OrderRecieptScreen extends StatelessWidget {
                       },
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
