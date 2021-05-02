@@ -1,4 +1,6 @@
 import 'dart:collection';
+import 'package:memby/components/publicComponent/emptyItem.dart';
+
 import '../constants.dart';
 
 import 'package:flutter/material.dart';
@@ -20,6 +22,7 @@ class _ChartState extends State<Chart> {
     List<Sales> unit = [];
     List<Sales> totalSale = [];
     int i = 1;
+   
     widget.saleSummmary.forEach((productId, product) {
       unit.add(Sales(
         i.toString(),

@@ -477,6 +477,11 @@ class _ViewAllState extends State<ViewAll> {
                                                         future: _productSummary,
                                                         builder: (context,
                                                             snapshot) {
+                                                          print("ดูข้างล่างไอสัส");
+                                                          print(snapshot.data.isEmpty);
+                                                          print(snapshot
+                                                                  .data[0] ==
+                                                              null);
                                                           if (snapshot
                                                                   .connectionState ==
                                                               ConnectionState
@@ -487,17 +492,18 @@ class _ViewAllState extends State<ViewAll> {
                                                                 height: 50.0,
                                                                 width: 50.0);
                                                           } else if (snapshot
-                                                              .hasData) {
+                                                                  .data.isNotEmpty) {
                                                             return Chart(
                                                                 saleSummmary:
                                                                     snapshot
                                                                         .data);
-                                                          } else {
-                                                            return SizedBox(
-                                                                child:
-                                                                    CircularProgressIndicator(),
-                                                                height: 50.0,
-                                                                width: 50.0);
+                                                          } else if (snapshot
+                                                                  .data[0] ==
+                                                              null) {
+                                                            return EmptyList(
+                                                              text:
+                                                                  "Empty",
+                                                            );
                                                           }
                                                         }),
 

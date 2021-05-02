@@ -37,11 +37,10 @@ List<TotalSaleList> renderFilter = [];
 String isRender;
 
 class _ViewCustomerState extends State<ViewCustomer> {
-  
   Future _customerSummary;
 
   var _filterText = TextEditingController();
-  
+
   String startDate;
 
   bool clickDaily = false;
@@ -57,7 +56,6 @@ class _ViewCustomerState extends State<ViewCustomer> {
     startDate = widget.startDate;
     _customerSummary =
         context.read<FlutterFireAuthService>().getCustomerSummary(startDate);
-    
   }
 
   void handleClickChangeToggleDaily() {
@@ -66,7 +64,7 @@ class _ViewCustomerState extends State<ViewCustomer> {
       clickMonthly = true;
       clickYearly = true;
       startDate = 'd';
-     _customerSummary =
+      _customerSummary =
           context.read<FlutterFireAuthService>().getCustomerSummary(startDate);
     });
   }
@@ -93,7 +91,8 @@ class _ViewCustomerState extends State<ViewCustomer> {
           context.read<FlutterFireAuthService>().getCustomerSummary(startDate);
     });
   }
-   makeTopCustomerList(LinkedHashMap customerSummary) {
+
+  makeTopCustomerList(LinkedHashMap customerSummary) {
     List<TopCustomer> customerHolder = [];
 
     int no = 1;
@@ -104,17 +103,15 @@ class _ViewCustomerState extends State<ViewCustomer> {
       );
     }
     customerSummary.forEach((customerID, customer) {
-      if (no <= 5) {
-        customerHolder.add(
-          TopCustomer(
-            no: no,
-            name: customer['name'],
-            phoneNo: customer['phone'],
-            totalPaid: (customer['totalPaid'] * 100).round() / 100,
-          ),
-        );
-        no++;
-      }
+      customerHolder.add(
+        TopCustomer(
+          no: no,
+          name: customer['name'],
+          phoneNo: customer['phone'],
+          totalPaid: (customer['totalPaid'] * 100).round() / 100,
+        ),
+      );
+      no++;
     });
     List<TopCustomer> renderFilter = customerHolder
         .where((el) =>
@@ -124,7 +121,6 @@ class _ViewCustomerState extends State<ViewCustomer> {
     return Column(
       children: customerHolder,
     );
-    
   }
 
   @override
