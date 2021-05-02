@@ -493,9 +493,7 @@ class _ViewAllState extends State<ViewAll> {
                                                                 saleSummmary:
                                                                     snapshot
                                                                         .data);
-                                                          } else if (snapshot
-                                                                  .data[0] ==
-                                                              null) {
+                                                          } else {
                                                             return EmptyList(
                                                               text: "Empty",
                                                             );
