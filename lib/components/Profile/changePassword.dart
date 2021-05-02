@@ -5,6 +5,8 @@ import 'package:memby/firebase.dart';
 import 'package:memby/components/TextFieldPassword.dart';
 import 'package:memby/components/publicComponent/rounded_button.dart';
 import 'package:memby/screens/landingScreen.dart';
+import 'package:overlay_support/overlay_support.dart';
+import 'package:memby/components/publicComponent/OverlayNotification.dart';
 
 class ChangePassword extends StatefulWidget {
   @override
@@ -102,12 +104,19 @@ class _ChangePassword extends State<ChangePassword> {
             press: () async {
               if (newPasswordController.text ==
                   confirmNewPasswordController.text) {
-                bool isSuccess = await context
+                String msg = await context
                     .read<FlutterFireAuthService>()
                     .changePassword(
                         oldPassword: oldPasswordController.text,
                         newPassword: newPasswordController.text);
-                if (isSuccess) {
+                showOverlayNotification(
+                  (context) {
+                    return OverlayNotification(
+                        title: "Changing Password Status", subtitle: msg);
+                  },
+                  duration: Duration(milliseconds: 4000),
+                );
+                if (msg == "Your password has been updated!") {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -123,4 +132,3 @@ class _ChangePassword extends State<ChangePassword> {
     );
   }
 }
-

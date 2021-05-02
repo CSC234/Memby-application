@@ -8,6 +8,8 @@ import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'package:memby/components/publicComponent/toggle/animated_toggle_button.dart';
 import 'package:memby/components/publicComponent/toggle/theme_color.dart';
 import 'package:memby/screens/guide.dart';
+import 'package:overlay_support/overlay_support.dart';
+import 'package:memby/components/publicComponent/OverlayNotification.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -18,7 +20,6 @@ class Login extends StatefulWidget {
   }) : super(key: key);
   _LoginState createState() => _LoginState();
 }
-
 
 class _LoginState extends State<Login> {
   AnimationController _animationController;
@@ -266,21 +267,31 @@ class _LoginState extends State<Login> {
                 buttonSize: 0.4,
                 textColor: Colors.white,
                 text: isRegister ? "Register" : "Login",
-                press: () {
+                press: () async {
+                  String msg = '';
                   if (!isRegister)
-                    context.read<FlutterFireAuthService>().signIn(
+                    msg = await context.read<FlutterFireAuthService>().signIn(
                           email: emailController.text.trim(),
                           password: passwordController.text.trim(),
                           context: context,
                         );
                   else {
-                    context.read<FlutterFireAuthService>().signUp(
+                    msg = await context.read<FlutterFireAuthService>().signUp(
                           email: emailController.text.trim(),
                           password: passwordController.text.trim(),
                           bussinessName: bussinessNameController.text.trim(),
                           context: context,
                         );
                   }
+                  showOverlayNotification(
+                    (context) {
+                      return OverlayNotification(
+                        title: isRegister ? "Sign Up Status" : "Sign In Status",
+                        subtitle: msg,
+                      );
+                    },
+                    duration: Duration(milliseconds: 4000),
+                  );
                 }),
             SizedBox(
               height: 10,
@@ -322,7 +333,9 @@ class _LoginState extends State<Login> {
             ),
             GoogleSignInButton(
                 onPressed: () {
-                  context.read<FlutterFireAuthService>().signInWithGoogle();
+                  context
+                      .read<FlutterFireAuthService>()
+                      .signInWithGoogle(context: context);
                 },
                 splashColor: Colors.white,
                 textStyle: TextStyle(

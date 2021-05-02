@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
 // import 'package:memby/components/Textfield.dart';
 import 'package:memby/components/publicComponent/rounded_button.dart';
+import 'package:overlay_support/overlay_support.dart';
+import 'package:memby/components/publicComponent/OverlayNotification.dart';
 
 import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
@@ -111,6 +113,16 @@ class _EditProfile extends State<EditProfile> {
               context
                   .read<FlutterFireAuthService>()
                   .updateProfile(nameController.text, _uploadedFileURL);
+
+              showOverlayNotification(
+                (context) {
+                  return OverlayNotification(
+                    title: "Editing Profile Status",
+                    subtitle: "Your profile has been updated!",
+                  );
+                },
+                duration: Duration(milliseconds: 4000),
+              );
               Navigator.push(
                 context,
                 MaterialPageRoute(
