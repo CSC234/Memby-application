@@ -98,11 +98,11 @@ class OrderRecieptScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async => false,
-      child: Scaffold(
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Container(
-              height: MediaQuery.of(context).size.height,
+      child: SingleChildScrollView(
+        child: Container(
+          height: 150,
+          child: Scaffold(
+            body: SafeArea(
               child: Column(
                 children: [
                   Row(
@@ -198,102 +198,100 @@ class OrderRecieptScreen extends StatelessWidget {
   }
 }
 
-
-              // Expanded(
-              //   child: Padding(
-              //     padding: const EdgeInsets.symmetric(horizontal: 20),
-              //     child: Column(
-              //       crossAxisAlignment: CrossAxisAlignment.stretch,
-              //       children: [
-              //         Container(
-              //           child: Divider(
-              //             height: 5,
-              //             thickness: 2,
-              //             indent: 0,
-              //             endIndent: 0,
-              //           ),
-              //         ),
-              //         Container(
-              //           width: 150,
-              //           child: Row(
-              //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //             children: [
-              //               Text(
-              //                 "Total: ",
-              //                 style: kPrimaryHeadingTextStyle.copyWith(
-              //                     fontSize: 20, fontWeight: FontWeight.normal),
-              //               ),
-              //               Text(
-              //                 '${getActualPrice()}',
-              //                 style: kPrimaryHeadingTextStyle.copyWith(
-              //                     fontSize: 20, fontWeight: FontWeight.normal),
-              //               ),
-              //             ],
-              //           ),
-              //         ),
-              //         Container(
-              //           width: 150,
-              //           child: Row(
-              //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //             children: [
-              //               Text(
-              //                 "Discount: ",
-              //                 style: kPrimaryHeadingTextStyle.copyWith(
-              //                     fontSize: 20, fontWeight: FontWeight.normal),
-              //               ),
-              //               Text(
-              //                 '-${getActualPrice() * discount / 100}',
-              //                 style: kPrimaryHeadingTextStyle.copyWith(
-              //                     fontSize: 20, fontWeight: FontWeight.normal),
-              //               ),
-              //             ],
-              //           ),
-              //         ),
-              //         Container(
-              //           child: Divider(
-              //             height: 5,
-              //             thickness: 2,
-              //             indent: 0,
-              //             endIndent: 0,
-              //           ),
-              //         ),
-              //         Container(
-              //           width: 150,
-              //           child: Row(
-              //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //             children: [
-              //               Text(
-              //                 "NET: ",
-              //                 style: kPrimaryHeadingTextStyle.copyWith(
-              //                     fontSize: 20, fontWeight: FontWeight.bold),
-              //               ),
-              //               Text(
-              //                 '${getTotalPrice()}',
-              //                 style: kPrimaryHeadingTextStyle.copyWith(
-              //                     fontSize: 20, fontWeight: FontWeight.bold),
-              //               ),
-              //             ],
-              //           ),
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
-              // Container(
-              //   width: 200,
-              //   child: RoundedButton(
-              //     color: kPrimaryLightColor,
-              //     title: 'Back to home',
-              //     onPress: () {
-              //       Navigator.push(
-              //         context,
-              //         MaterialPageRoute(
-              //           builder: (context) {
-              //             return Landing();
-              //           },
-              //         ),
-              //       );
-              //     },
-              //   ),
-              // ),
-            
+// Expanded(
+//   child: Padding(
+//     padding: const EdgeInsets.symmetric(horizontal: 20),
+//     child: Column(
+//       crossAxisAlignment: CrossAxisAlignment.stretch,
+//       children: [
+//         Container(
+//           child: Divider(
+//             height: 5,
+//             thickness: 2,
+//             indent: 0,
+//             endIndent: 0,
+//           ),
+//         ),
+//         Container(
+//           width: 150,
+//           child: Row(
+//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//             children: [
+//               Text(
+//                 "Total: ",
+//                 style: kPrimaryHeadingTextStyle.copyWith(
+//                     fontSize: 20, fontWeight: FontWeight.normal),
+//               ),
+//               Text(
+//                 '${getActualPrice()}',
+//                 style: kPrimaryHeadingTextStyle.copyWith(
+//                     fontSize: 20, fontWeight: FontWeight.normal),
+//               ),
+//             ],
+//           ),
+//         ),
+//         Container(
+//           width: 150,
+//           child: Row(
+//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//             children: [
+//               Text(
+//                 "Discount: ",
+//                 style: kPrimaryHeadingTextStyle.copyWith(
+//                     fontSize: 20, fontWeight: FontWeight.normal),
+//               ),
+//               Text(
+//                 '-${getActualPrice() * discount / 100}',
+//                 style: kPrimaryHeadingTextStyle.copyWith(
+//                     fontSize: 20, fontWeight: FontWeight.normal),
+//               ),
+//             ],
+//           ),
+//         ),
+//         Container(
+//           child: Divider(
+//             height: 5,
+//             thickness: 2,
+//             indent: 0,
+//             endIndent: 0,
+//           ),
+//         ),
+//         Container(
+//           width: 150,
+//           child: Row(
+//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//             children: [
+//               Text(
+//                 "NET: ",
+//                 style: kPrimaryHeadingTextStyle.copyWith(
+//                     fontSize: 20, fontWeight: FontWeight.bold),
+//               ),
+//               Text(
+//                 '${getTotalPrice()}',
+//                 style: kPrimaryHeadingTextStyle.copyWith(
+//                     fontSize: 20, fontWeight: FontWeight.bold),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ],
+//     ),
+//   ),
+// ),
+// Container(
+//   width: 200,
+//   child: RoundedButton(
+//     color: kPrimaryLightColor,
+//     title: 'Back to home',
+//     onPress: () {
+//       Navigator.push(
+//         context,
+//         MaterialPageRoute(
+//           builder: (context) {
+//             return Landing();
+//           },
+//         ),
+//       );
+//     },
+//   ),
+// ),
