@@ -198,7 +198,6 @@ class OrderRecieptScreen extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        width: 150,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -216,7 +215,6 @@ class OrderRecieptScreen extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        width: 150,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
