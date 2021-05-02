@@ -275,8 +275,7 @@ class _LandingState extends State<Landing> {
                                   Icons.person_add,
                                   color: Colors.white,
                                 ),
-                                description:
-                                    "Register the customers details in the system",
+                                description: "Register member for new customer",
                                 press: () {
                                   Navigator.push(
                                     context,
@@ -295,8 +294,7 @@ class _LandingState extends State<Landing> {
                                   Icons.shopping_cart,
                                   color: Colors.white,
                                 ),
-                                description:
-                                    "Record transactions into the system",
+                                description: "Record customer's transactions",
                                 press: () {
                                   Navigator.push(
                                     context,
@@ -315,7 +313,7 @@ class _LandingState extends State<Landing> {
                                   Icons.add_shopping_cart,
                                   color: Colors.white,
                                 ),
-                                description: "Add or update the products",
+                                description: "Add or update products details",
                                 press: () {
                                   Navigator.push(
                                     context,
@@ -334,8 +332,7 @@ class _LandingState extends State<Landing> {
                                   Icons.dashboard_rounded,
                                   color: Colors.white,
                                 ),
-                                description:
-                                    "View the summarized details of the business",
+                                description: "Overview details of the company",
                                 press: () {
                                   Navigator.push(
                                     context,
