@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:memby/components/dashBoard/TotalSaleList.dart';
 import 'package:memby/components/chart.dart';
+import 'package:memby/components/publicComponent/emptyItem.dart';
 import '../../constants.dart';
 import 'package:memby/screens/dashBoard/viewDashboard.dart';
 import 'package:provider/provider.dart';
@@ -140,7 +141,7 @@ class _ViewAllState extends State<ViewAll> {
         context.read<FlutterFireAuthService>().getProductSummary(startDate);
   }
 
-  ListView makeProductList(LinkedHashMap productSummary) {
+  makeProductList(LinkedHashMap productSummary) {
     productHolder = [];
     if (clickDaily == false) {
       isRender = 'daily';
@@ -160,6 +161,11 @@ class _ViewAllState extends State<ViewAll> {
     }
     if (clickYearly == false) {
       render = productListYearly;
+    }
+    if (productSummary.isEmpty) {
+      return EmptyList(
+        text: "Empty Customer",
+      );
     }
     int no = 1;
     productSummary.forEach((productId, product) {
