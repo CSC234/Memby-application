@@ -468,7 +468,7 @@ class _ViewAllState extends State<ViewAll> {
                                                                     .symmetric(
                                                                 vertical: 13.0),
                                                         child: Text(
-                                                            "Total Sale",
+                                                            "Unit Sales (unit)",
                                                             style: TextStyle(
                                                                 fontSize: 18)),
                                                       ),
@@ -477,11 +477,6 @@ class _ViewAllState extends State<ViewAll> {
                                                         future: _productSummary,
                                                         builder: (context,
                                                             snapshot) {
-                                                          print("ดูข้างล่างไอสัส");
-                                                          print(snapshot.data.isEmpty);
-                                                          print(snapshot
-                                                                  .data[0] ==
-                                                              null);
                                                           if (snapshot
                                                                   .connectionState ==
                                                               ConnectionState
@@ -492,7 +487,8 @@ class _ViewAllState extends State<ViewAll> {
                                                                 height: 50.0,
                                                                 width: 50.0);
                                                           } else if (snapshot
-                                                                  .data.isNotEmpty) {
+                                                              .data
+                                                              .isNotEmpty) {
                                                             return Chart(
                                                                 saleSummmary:
                                                                     snapshot
@@ -501,8 +497,7 @@ class _ViewAllState extends State<ViewAll> {
                                                                   .data[0] ==
                                                               null) {
                                                             return EmptyList(
-                                                              text:
-                                                                  "Empty",
+                                                              text: "Empty",
                                                             );
                                                           }
                                                         }),
