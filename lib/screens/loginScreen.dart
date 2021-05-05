@@ -135,7 +135,6 @@ class _LoginState extends State<Login> {
                   : lightMode.toggleButtonColor,
               shadows: isDarkMode ? darkMode.shadow : lightMode.shadow,
               onToggleCallback: (index) {
-                print('switched to: $index');
                 setState(() {
                   initialIndex = index;
                   isRegister = index == 1;

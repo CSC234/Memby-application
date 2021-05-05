@@ -30,7 +30,6 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     final firebaseUser = context.watch<User>();
-    print(onPage);
 
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -41,7 +40,6 @@ class _ProfileState extends State<Profile> {
               leading: IconButton(
                 icon: Icon(Icons.arrow_back),
                 onPressed: () {
-                  print(onPage);
                   if (onPage == 'm') {
                     Navigator.push(
                       context,
@@ -107,7 +105,6 @@ class _ProfileState extends State<Profile> {
                                     FutureBuilder(
                                         future: _companyInfo,
                                         builder: (context, snapshot) {
-                                          print(snapshot);
                                           if (snapshot.hasData) {
                                             final profileInfo = snapshot.data;
                                             final creationDate = firebaseUser
@@ -309,8 +306,6 @@ class _ProfileState extends State<Profile> {
                                       ]),
                                     ),
                                     onPressed: () async {
-                                      print("Sign Out Pressed");
-
                                       if (Navigator.of(context).canPop()) {
                                         Navigator.of(context).pop();
                                       }

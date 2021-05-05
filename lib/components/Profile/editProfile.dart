@@ -28,7 +28,6 @@ class _EditProfile extends State<EditProfile> {
   final picker = ImagePicker();
   Future _pickImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
-    print("filename" + _image.toString());
     if (pickedFile != null) {
       setState(() {
         _image = File(pickedFile.path);
