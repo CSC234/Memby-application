@@ -181,13 +181,12 @@ class _LandingState extends State<Landing> {
                                       child: CircleAvatar(
                                         radius: 100,
                                         child: CircleAvatar(
-                                          radius: 30,
-                                          backgroundImage: snapshot.hasData
-                                              ? NetworkImage(
-                                                  snapshot.data['logo'])
-                                              : AssetImage(
-                                                  'assets/images/profile.png'),
-                                        ),
+                                            radius: 30,
+                                            backgroundImage: snapshot.hasData
+                                                ? NetworkImage(
+                                                    snapshot.data['logo'])
+                                                : NetworkImage(
+                                                    "https://firebasestorage.googleapis.com/v0/b/memby-application.appspot.com/o/Group%2051.png?alt=media&token=be571d82-c69e-4bad-b200-a12d977e813d")),
                                       ),
                                     )),
                                 Positioned(
