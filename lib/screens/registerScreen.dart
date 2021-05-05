@@ -58,6 +58,8 @@ class _FormBoxesState extends State<FormBoxes> {
   final String dateToday = DateTime.now().toString().split(" ")[0];
   DateTime selectedDate = DateTime.now();
   String defaultGender = "Gender";
+  String birthdateError = "";
+  String genderError = "";
   bool defaultCheckState = false;
 
   String changeDate(date) {
@@ -77,6 +79,27 @@ class _FormBoxesState extends State<FormBoxes> {
     setState(() {
       defaultCheckState = checkState;
     });
+  }
+
+  void checkError(date, gender) {
+    if (date.difference(DateTime.now()).inDays == 0) {
+      setState(() {
+        birthdateError = "Please select the birthdate";
+      });
+    } else {
+      setState(() {
+        birthdateError = "";
+      });
+    }
+    if (gender == "Gender") {
+      setState(() {
+        genderError = "Please select the gender";
+      });
+    } else {
+      setState(() {
+        genderError = "";
+      });
+    }
   }
 
   @override
@@ -186,46 +209,71 @@ class _FormBoxesState extends State<FormBoxes> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Theme(
-                          data: ThemeData(
-                            primaryColor: Colors.indigoAccent,
-                            primarySwatch: Colors.indigo,
-                          ),
-                          child: Container(
-                            width: width * (37.5 / 100),
-                            child: CalendarPicker(
-                              title: selectedDate.toString().split(" ")[0] ==
-                                      DateTime.now().toString().split(" ")[0]
-                                  ? "Birthdate"
-                                  : selectedDate.toString().split(" ")[0]
-                              // changeDate(selectedDate)
-                              ,
-                              color: themeBlue,
-                              onPickDate: changeDate,
+                            data: ThemeData(
+                              primaryColor: Colors.indigoAccent,
+                              primarySwatch: Colors.indigo,
                             ),
-                          ),
-                        ),
+                            child: Column(
+                              children: [
+                                Container(
+                                  width: width * (37.5 / 100),
+                                  child: CalendarPicker(
+                                    title: selectedDate
+                                                .toString()
+                                                .split(" ")[0] ==
+                                            DateTime.now()
+                                                .toString()
+                                                .split(" ")[0]
+                                        ? "Birthdate"
+                                        : selectedDate.toString().split(" ")[0]
+                                    // changeDate(selectedDate)
+                                    ,
+                                    color: themeBlue,
+                                    onPickDate: changeDate,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 10.0),
+                                  child: Text(
+                                    birthdateError,
+                                    style: TextStyle(
+                                        fontSize: 12, color: Color(0xFFFF0000)),
+                                  ),
+                                ),
+                              ],
+                            )),
                         Padding(
-                          padding: const EdgeInsets.only(left: 20.0),
-                          child: Container(
-                            height: height * (5 / 100),
-                            width: width * (41 / 100),
-                            child: GenderPicker(
-                              gender: defaultGender,
-                              onSelectGender: changeGender,
-                            ),
-                            decoration: ShapeDecoration(
-                              color: lightGrey,
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                    width: 1.0,
-                                    style: BorderStyle.solid,
-                                    color: lightGrey),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10.0)),
-                              ),
-                            ),
-                          ),
-                        )
+                            padding: const EdgeInsets.only(left: 20.0),
+                            child: Column(
+                              children: [
+                                Container(
+                                  height: height * (5 / 100),
+                                  width: width * (41 / 100),
+                                  child: GenderPicker(
+                                    gender: defaultGender,
+                                    onSelectGender: changeGender,
+                                  ),
+                                  decoration: ShapeDecoration(
+                                    color: lightGrey,
+                                    shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                          width: 1.0,
+                                          style: BorderStyle.solid,
+                                          color: lightGrey),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0)),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 10),
+                                  child: Text(genderError,
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: Color(0xFFFF0000))),
+                                ),
+                              ],
+                            ))
                       ],
                     ),
                   ),
@@ -276,6 +324,7 @@ class _FormBoxesState extends State<FormBoxes> {
                             );
                             return Navigator.of(context).pop();
                           } else {
+                            checkError(selectedDate, defaultGender);
                             setState(() {});
                           }
                         },
