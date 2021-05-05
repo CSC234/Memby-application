@@ -39,8 +39,7 @@ class PopProductList extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Expanded(
-                    flex: 8,
+                  Container(
                     child: Column(
                       children: [
                         Container(
