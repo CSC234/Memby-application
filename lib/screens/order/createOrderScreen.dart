@@ -92,7 +92,6 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
     for (OrderDetail o in order1.orderDetails) {
       Product p = o.product;
       int a = o.amount;
-      // print(p.productName + "\n amount: " + a.toString());
       orderCards.add(
         OrderCard(
           title: p.productName,
@@ -104,7 +103,6 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
         ),
       );
     }
-    print('====');
     setState(() {
       if (orderCards.isNotEmpty) {
         isHasOrder = true;
@@ -153,15 +151,6 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
                 ),
               ],
             ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: [
-            //     Text(
-            //       'Create Order',
-            //       style: kPrimaryHeadingTextStyle,
-            //     ),
-            //   ],
-            // ),
             SizedBox(
               height: 15,
             ),
@@ -200,7 +189,6 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
 
                         _alreadyLoadProductsFromFirestore = true;
                       }
-                      // print(snapshot.data.length);
                       return snapshot.data.docs.length == 0
                           ? EmptyList(
                               text: "Empty Product",
