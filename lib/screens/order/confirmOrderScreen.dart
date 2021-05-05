@@ -5,16 +5,12 @@ import 'package:memby/models/OrderDetail.dart';
 import 'package:memby/models/Order.dart';
 import 'package:memby/components/publicComponent/RoundedButton.dart';
 import 'package:memby/components/order/OrderCard.dart';
-import 'package:memby/screens/order/createOrderScreen.dart';
 import 'package:memby/screens/order/orderRecieptScreen.dart';
-import 'package:toggle_switch/toggle_switch.dart';
 import 'package:memby/components/publicComponent/toggle/animated_toggle_button.dart';
 import 'package:memby/components/publicComponent/toggle/theme_color.dart';
 import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:memby/screens/order/orderRecieptScreen.dart';
-import 'package:memby/components/Register/TextBox.dart';
 
 class ConfirmOrderScreen extends StatefulWidget {
   final Order order;
@@ -28,7 +24,6 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
   ListView makeOrderCard() {
     List<OrderCard> orderCards = [];
 
-    ////////////////////
     for (OrderDetail o in widget.order.orderDetails) {
       Product p = o.product;
       int a = o.amount;
