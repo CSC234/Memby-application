@@ -6,10 +6,6 @@ import 'package:overlay_support/overlay_support.dart';
 import 'package:memby/components/Register/TextBox.dart';
 import 'package:memby/components/Register/CalendarPicker.dart';
 import 'package:memby/components/Register/GenderPicker.dart';
-// import 'package:memby/components/Register/AcknowlwdgementBox.dart';
-// import 'package:memby/components/Register/showDialogBox.dart';
-import 'package:memby/screens/landingScreen.dart';
-// import 'package:memby/components/bottomNav/nav.dart';
 
 const grey = const Color(0xFF5A5A5A);
 const lightGrey = const Color(0xFFEAEAEA);
@@ -38,15 +34,6 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
-    void moveToLastScreen() {
-      // ShowDialogBox(
-      //   title: "Are you sure?",
-      //   content: "You will lose all of the changes",
-      //   confirmButtonYes: "Discard",
-      //   confirmButtonNo: "Cancel",
-      // );
-    }
-
     return Container(
       color: Colors.white,
       child: Scaffold(
@@ -146,7 +133,6 @@ class _FormBoxesState extends State<FormBoxes> {
                       ),
                     ],
                   ),
-
                   Text(
                     "Create Customer's Account",
                     style: TextStyle(
@@ -254,16 +240,6 @@ class _FormBoxesState extends State<FormBoxes> {
                     minLine: 4,
                     maxLine: 5,
                   ),
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(vertical: 10),
-                  //   child: Container(
-                  //     height: height * (5 / 100),
-                  //     width: width * (80 / 100),
-                  //     child: AcknowledgementBox(
-                  //         isCheck: defaultCheckState,
-                  //         currentCheckState: handleCheckState),
-                  //   ),
-                  // ),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Container(
@@ -278,7 +254,9 @@ class _FormBoxesState extends State<FormBoxes> {
                             ),
                             padding: EdgeInsets.all(12.5)),
                         onPressed: () {
-                          if (_formKey.currentState.validate()) {
+                          if (_formKey.currentState.validate() &&
+                              selectedDate != DateTime.now() &&
+                              defaultGender != "Gender") {
                             context.read<FlutterFireAuthService>().addCustomer(
                                 firstnameController.text,
                                 lastnameController.text,
