@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:memby/components/dashBoard/TotalSaleList.dart';
-import 'package:memby/components/chart.dart';
+import 'package:memby/components/dashBoard/chart.dart';
 import 'package:memby/components/publicComponent/emptyItem.dart';
 import 'package:memby/components/dashBoard/topCustomer.dart';
 import '../../constants.dart';

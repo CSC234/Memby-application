@@ -72,6 +72,7 @@ class _LoginState extends State<Login> {
   );
   int initialIndex = 0;
   bool _passwordVisible = false;
+  bool _confirmPasswordVisible = false;
 
   ScrollController _scrollController = ScrollController();
   final TextEditingController emailController = TextEditingController();
@@ -84,6 +85,7 @@ class _LoginState extends State<Login> {
     @override
     void initState() {
       _passwordVisible = false;
+      _confirmPasswordVisible = false;
     }
 
     double width = MediaQuery.of(context).size.width;
@@ -161,6 +163,7 @@ class _LoginState extends State<Login> {
                   borderRadius: BorderRadius.circular(30),
                 ),
                 child: TextField(
+                  keyboardType: TextInputType.emailAddress,
                   controller: emailController,
                   decoration: InputDecoration(
                       hintText: 'Email Address',
@@ -218,22 +221,26 @@ class _LoginState extends State<Login> {
                           ),
                           child: TextField(
                             controller: confirmPasswordController,
-                            obscureText: true,
-                            onChanged: (String value) {
-                              setState(() {
-                                // _value = value;
-                              });
-                              // widget.onChanged(value);
-                            },
+                            obscureText: !_confirmPasswordVisible,
                             decoration: InputDecoration(
                                 hintText: 'Confirm Password',
                                 icon: Icon(
                                   Icons.lock,
                                   color: Colors.black54,
                                 ),
-                                suffixIcon: Icon(
-                                  Icons.visibility,
-                                  color: Colors.black54,
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    _confirmPasswordVisible
+                                        ? Icons.visibility
+                                        : Icons.visibility_off,
+                                    color: Colors.black54,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      _confirmPasswordVisible =
+                                          !_confirmPasswordVisible;
+                                    });
+                                  },
                                 ),
                                 border: InputBorder.none),
                           )),
@@ -276,12 +283,26 @@ class _LoginState extends State<Login> {
                           context: context,
                         );
                   else {
-                    msg = await context.read<FlutterFireAuthService>().signUp(
-                          email: emailController.text.trim(),
-                          password: passwordController.text.trim(),
-                          bussinessName: bussinessNameController.text.trim(),
-                          context: context,
-                        );
+                    if (confirmPasswordController.text !=
+                        passwordController.text) {
+                      showOverlayNotification(
+                        (context) {
+                          return OverlayNotification(
+                            title:
+                                "Password and Comfirm Password doesn't match",
+                            subtitle: msg,
+                          );
+                        },
+                        duration: Duration(milliseconds: 4000),
+                      );
+                    } else {
+                      msg = await context.read<FlutterFireAuthService>().signUp(
+                            email: emailController.text.trim(),
+                            password: passwordController.text.trim(),
+                            bussinessName: bussinessNameController.text.trim(),
+                            context: context,
+                          );
+                    }
                   }
                   showOverlayNotification(
                     (context) {

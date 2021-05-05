@@ -11,7 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:memby/firebase.dart';
 import 'package:memby/screens/homeScreen.dart';
 import 'package:memby/components/publicComponent/emptyItem.dart';
-import 'package:memby/screens/manageProduct.dart';
+import 'package:memby/screens/manageProduct/manageProduct.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
