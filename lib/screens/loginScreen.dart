@@ -253,8 +253,10 @@ class _LoginState extends State<Login> {
                           ),
                           child: TextField(
                             controller: bussinessNameController,
+                            maxLength: 10,
                             decoration: InputDecoration(
                                 hintText: 'Business Name',
+                                counterText: '',
                                 icon: Icon(
                                   Icons.business,
                                   color: Colors.black54,

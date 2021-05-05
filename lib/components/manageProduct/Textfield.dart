@@ -13,9 +13,10 @@ class Textfield extends StatelessWidget {
   final int max;
   final TextInputType type;
   final Icon icon;
-
+  final int maxLength;
   const Textfield(
       {Key key,
+      this.maxLength,
       this.type,
       this.onChange,
       this.width,
@@ -39,6 +40,7 @@ class Textfield extends StatelessWidget {
           onChanged: onChange,
           minLines: min,
           maxLines: max,
+          maxLength: maxLength,
           keyboardType: type,
           controller: controller,
           decoration: InputDecoration(

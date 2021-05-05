@@ -3,6 +3,7 @@ import 'package:memby/components/Profile/changePassword.dart';
 import 'package:memby/components/Profile/editProfile.dart';
 import 'package:memby/constants.dart';
 import 'package:memby/screens/landingScreen.dart';
+import 'package:memby/screens/loginScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -301,9 +302,12 @@ class _ProfileState extends State<Profile> {
                                       ]),
                                     ),
                                     onPressed: () async {
-                                      if (Navigator.of(context).canPop()) {
-                                        Navigator.of(context).pop();
-                                      }
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => Login(),
+                                        ),
+                                      );
                                       await context
                                           .read<FlutterFireAuthService>()
                                           .signOut();
