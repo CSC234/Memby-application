@@ -257,7 +257,7 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
           children: [
             Expanded(
               child: RoundedButton(
-                color: isHasOrder ? kPrimaryLightColor : kPrimaryInput,
+                color: isHasOrder ? kPrimaryLightColor : Color(0xFFB7B7B7),
                 title: 'ORDER',
                 onPress: isHasOrder
                     ? () {
