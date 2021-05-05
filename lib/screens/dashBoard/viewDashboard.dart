@@ -344,10 +344,7 @@ class _DashBoardState extends State<DashBoard> {
                                                   ],
                                                 ),
                                               ),
-                                              // Container(
-                                              //   width: width * (90 / 100),
-                                              //   child: makeProductList(),
-                                              // ),
+
                                               FutureBuilder(
                                                   future: _productSummary,
                                                   builder: (context, snapshot) {

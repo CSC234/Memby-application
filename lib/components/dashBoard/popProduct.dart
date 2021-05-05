@@ -53,7 +53,6 @@ class _PopProductState extends State<PopProduct> {
       ),
     );
     return Column(
-      // padding: EdgeInsets.symmetric(vertical: 0),
       children: popProductHolder,
     );
   }
