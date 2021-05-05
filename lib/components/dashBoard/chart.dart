@@ -1,10 +1,9 @@
 import 'dart:collection';
-import 'package:memby/components/publicComponent/emptyItem.dart';
 
 import '../../constants.dart';
 
 import 'package:flutter/material.dart';
-import 'dart:math';
+
 import 'package:charts_flutter/flutter.dart' as charts;
 
 class Chart extends StatefulWidget {
@@ -53,7 +52,7 @@ class _ChartState extends State<Chart> {
   @override
   Widget build(BuildContext context) {
     seriesList = _createRandomData();
-    double width = MediaQuery.of(context).size.width;
+
     double height = MediaQuery.of(context).size.height;
     return Container(
       child: SingleChildScrollView(

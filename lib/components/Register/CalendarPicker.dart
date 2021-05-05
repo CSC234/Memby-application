@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class CalendarPicker extends StatefulWidget {
-  CalendarPicker({Key key, this.title, this.color, this.onPickDate})
+  CalendarPicker(
+      {Key key, this.title, this.color, this.onPickDate, this.fontColor})
       : super(key: key);
 
   String title;
   final Color color;
+  final Color fontColor;
   Function onPickDate;
 
   @override
@@ -38,16 +40,31 @@ class _CalendarPickerState extends State<CalendarPicker> {
       height: height * (4.8 / 100),
       width: width * (37.5 / 100),
       child: ElevatedButton(
-        child: Text(widget.title),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text(
+              widget.title,
+              style: TextStyle(
+                  color: Colors.grey[700],
+                  fontWeight: FontWeight.w400,
+                  fontSize: 16),
+            ),
+            Icon(
+              Icons.calendar_today_outlined,
+              color: Colors.grey[700],
+            ),
+          ],
+        ),
         onPressed: () {
           selectDate(context);
         },
         style: ElevatedButton.styleFrom(
-          primary: widget.color,
-          shape: new RoundedRectangleBorder(
-            borderRadius: new BorderRadius.circular(10.0),
-          ),
-        ),
+            primary: widget.color,
+            shape: new RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(10.0),
+            ),
+            shadowColor: Colors.transparent),
       ),
     );
   }

@@ -13,9 +13,6 @@ class OrderRecieptScreen extends StatelessWidget {
   final int discount;
   final String companyName;
   bool isGeneralCustomer() {
-    print("Checking Genneral Customer");
-    print(customer);
-    print(customer == null);
     return customer == null;
   }
 
@@ -58,11 +55,9 @@ class OrderRecieptScreen extends StatelessWidget {
         ),
       ),
     );
-    ////////////////////
     for (OrderDetail o in order.orderDetails) {
       Product p = o.product;
       int a = o.amount;
-      // print(p.productName + "\n amount: " + a.toString());
       itemsListTile.add(
         ListTile(
           leading: Text('$count. '),
@@ -87,9 +82,7 @@ class OrderRecieptScreen extends StatelessWidget {
       );
       count++;
     }
-    // print('====');
     return Column(
-      // scrollDirection: Axis.vertical,
       children: itemsListTile,
     );
   }
