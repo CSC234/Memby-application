@@ -46,13 +46,13 @@ class _CalendarPickerState extends State<CalendarPicker> {
             Text(
               widget.title,
               style: TextStyle(
-                  color: Colors.grey[700],
+                  color: Colors.grey,
                   fontWeight: FontWeight.w400,
                   fontSize: 16),
             ),
             Icon(
               Icons.calendar_today_outlined,
-              color: Colors.grey[700],
+              color: Colors.grey,
             ),
           ],
         ),

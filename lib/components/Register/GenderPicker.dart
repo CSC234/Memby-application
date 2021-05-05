@@ -21,6 +21,7 @@ class _GenderPickerState extends State<GenderPicker> {
             padding: const EdgeInsets.only(left: 10.0),
             child: Text(
               widget.gender,
+              style: TextStyle(color: Colors.grey),
             ),
           ),
           items: <String>['Female', 'Male'].map((String value) {

@@ -41,8 +41,8 @@ class TextBox extends StatefulWidget {
 }
 
 class _TextBoxState extends State<TextBox> {
-  @override
   bool isDuplicate = true;
+  bool isActive = false;
 
   Widget build(BuildContext context) {
     return Padding(
@@ -51,74 +51,81 @@ class _TextBoxState extends State<TextBox> {
         width: widget.width,
         height: widget.height,
         child: TextFormField(
-          maxLength: widget.length,
-          // ignore: deprecated_member_use
-          controller: widget.input,
-          keyboardType: widget.keyboardType,
-          minLines: widget.minLine,
-          maxLines: widget.maxLine,
-          decoration: InputDecoration(
-            labelText: widget.text,
-            prefixIcon: widget.icon,
-            contentPadding:
-                EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-            fillColor: widget.formColor,
-            filled: true,
-            border: new OutlineInputBorder(
-                borderSide: BorderSide.none,
-                borderRadius: const BorderRadius.all(
-                  const Radius.circular(10.0),
-                )),
-            focusedBorder: OutlineInputBorder(
-              borderSide: const BorderSide(
-                color: kPrimaryLightColor,
-                width: 2.0,
+            maxLength: widget.length,
+            // ignore: deprecated_member_use
+            controller: widget.input,
+            keyboardType: widget.keyboardType,
+            minLines: widget.minLine,
+            maxLines: widget.maxLine,
+            decoration: InputDecoration(
+              labelText: widget.text,
+              hintStyle: TextStyle(color: Colors.black),
+              prefixIcon: widget.icon,
+              labelStyle:
+                  TextStyle(color: isActive ? kPrimaryLightColor : Colors.grey),
+              contentPadding:
+                  EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              fillColor: widget.formColor,
+              filled: true,
+              border: new OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: const BorderRadius.all(
+                    const Radius.circular(10.0),
+                  )),
+              focusedBorder: OutlineInputBorder(
+                borderSide: const BorderSide(
+                  color: kPrimaryLightColor,
+                  width: 2.0,
+                ),
+                borderRadius: BorderRadius.circular(10.0),
               ),
-              borderRadius: BorderRadius.circular(10.0),
             ),
-          ),
-          validator: (value) {
-            if (widget.require == true) {
-              if (value == null || value.isEmpty) {
-                return 'This field is required';
+            validator: (value) {
+              if (widget.require == true) {
+                if (value == null || value.isEmpty) {
+                  return 'This field is required';
+                }
               }
-            }
-            if (widget.emailValidator == true) {
-              // ignore: unnecessary_statements
-              if (!RegExp(
-                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+.[a-zA-Z]+")
-                  .hasMatch(value)) {
-                return "Please enter a valid email address";
+              if (widget.emailValidator == true) {
+                // ignore: unnecessary_statements
+                if (!RegExp(
+                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+.[a-zA-Z]+")
+                    .hasMatch(value)) {
+                  return "Please enter a valid email address";
+                }
               }
-            }
-            if (widget.checkPhone == true) {
-              if (value.length != 10) {
-                return "Please enter a valid phone number";
+              if (widget.checkPhone == true) {
+                if (value.length != 10) {
+                  return "Please enter a valid phone number";
+                }
+                if (isDuplicate == true) {
+                  return "This phone number has been used";
+                }
+                if (!RegExp(
+                        r'^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$')
+                    .hasMatch(value)) {
+                  return "Please enter a valid phone number";
+                }
               }
-              if (isDuplicate == true) {
-                return "This phone number has been used";
+              return null;
+            },
+            onChanged: (value) async {
+              if (widget.checkPhone == true && value.length == 10) {
+                // If it return false => The phoneNo is not duplicate
+                //              true  => The phoneNo is duplicated
+                bool status = await context
+                    .read<FlutterFireAuthService>()
+                    .isCustomerPhoneDuplicate(value);
+                setState(() {
+                  isDuplicate = status;
+                });
               }
-              if (!RegExp(
-                      r'^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$')
-                  .hasMatch(value)) {
-                return "Please enter a valid phone number";
-              }
-            }
-            return null;
-          },
-          onChanged: (value) async {
-            if (widget.checkPhone == true && value.length == 10) {
-              // If it return false => The phoneNo is not duplicate
-              //              true  => The phoneNo is duplicated
-              bool status = await context
-                  .read<FlutterFireAuthService>()
-                  .isCustomerPhoneDuplicate(value);
-              setState(() {
-                isDuplicate = status;
-              });
-            }
-          },
-        ),
+            },
+            onTap: () => {
+                  setState(() {
+                    isActive = !isActive;
+                  })
+                }),
       ),
     );
   }
