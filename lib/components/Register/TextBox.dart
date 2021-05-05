@@ -87,15 +87,18 @@ class _TextBoxState extends State<TextBox> {
                 return "Please enter a valid email address";
               }
             }
-            if (widget.checkPhone == true && value.length != 10) {
-              return "Please enter a valid phone number";
-            }
-            if (widget.checkPhone == true && isDuplicate == true) {
-              return "This phone number has been used";
-            }
-            if (!RegExp(r'^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$')
-                .hasMatch(value)) {
-              return "Please enter a valid phone number";
+            if (widget.checkPhone == true) {
+              if (value.length != 10) {
+                return "Please enter a valid phone number";
+              }
+              if (isDuplicate == true) {
+                return "This phone number has been used";
+              }
+              if (!RegExp(
+                      r'^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$')
+                  .hasMatch(value)) {
+                return "Please enter a valid phone number";
+              }
             }
             return null;
           },
