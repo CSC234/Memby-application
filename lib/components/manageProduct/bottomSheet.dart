@@ -291,6 +291,7 @@ class _BottomSheet extends State<BottomSheettest> {
                   : Column(
                       children: [
                         Textfield(
+                          type: TextInputType.text,
                           onChange: (text) {
                             product1[item1].product = text;
                           },
@@ -301,6 +302,7 @@ class _BottomSheet extends State<BottomSheettest> {
                           max: 5,
                         ),
                         Textfield(
+                          type: TextInputType.text,
                           onChange: (text) {
                             product1[item1].description = text;
                           },
@@ -308,9 +310,9 @@ class _BottomSheet extends State<BottomSheettest> {
                           text: 'Description...',
                           width: width * (90 / 100),
                           min: 3,
-                          // max: 5,
                         ),
                         Textfield(
+                          type: TextInputType.number,
                           controller: _priceController,
                           onChange: (text) {
                             product1[item1].price = text;
