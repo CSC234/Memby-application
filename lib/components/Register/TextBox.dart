@@ -81,7 +81,9 @@ class _TextBoxState extends State<TextBox> {
             }
             if (widget.emailValidator == true) {
               // ignore: unnecessary_statements
-              if (!(value.contains("@") && value.contains("."))) {
+              if (!RegExp(
+                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+.[a-zA-Z]+")
+                  .hasMatch(value)) {
                 return "Please enter a valid email address";
               }
             }
@@ -91,7 +93,10 @@ class _TextBoxState extends State<TextBox> {
             if (widget.checkPhone == true && isDuplicate == true) {
               return "This phone number has been used";
             }
-
+            if (!RegExp(r'^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$')
+                .hasMatch(value)) {
+              return "Please enter a valid phone number";
+            }
             return null;
           },
           onChanged: (value) async {
