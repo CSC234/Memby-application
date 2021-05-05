@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:memby/constants.dart';
 import 'package:memby/components/publicComponent/rounded_button.dart';
 import 'package:memby/components/manageProduct/ProductList.dart';
-import 'package:memby/screens/order/addProductScreen.dart';
+import 'package:memby/screens/manageProduct/addProductScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:memby/firebase.dart';

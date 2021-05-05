@@ -6,7 +6,7 @@ import 'package:memby/firebase.dart';
 import 'package:memby/components/manageProduct/Textfield.dart';
 import 'package:memby/components/publicComponent/rounded_button.dart';
 import 'package:memby/constants.dart';
-import 'package:memby/screens/manageProduct.dart';
+import 'package:memby/screens/manageProduct/manageProduct.dart';
 import 'package:memby/components/publicComponent/toggle/toggleVisible.dart';
 import 'package:memby/components/publicComponent/toggle/theme_color.dart';
 import 'dart:io';
