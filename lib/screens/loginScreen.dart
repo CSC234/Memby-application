@@ -3,11 +3,9 @@ import 'package:memby/constants.dart';
 import 'package:memby/components/publicComponent/rounded_button.dart';
 import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
-import 'package:toggle_switch/toggle_switch.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'package:memby/components/publicComponent/toggle/animated_toggle_button.dart';
 import 'package:memby/components/publicComponent/toggle/theme_color.dart';
-import 'package:memby/screens/guide.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:memby/components/publicComponent/OverlayNotification.dart';
 
@@ -135,7 +133,6 @@ class _LoginState extends State<Login> {
                   : lightMode.toggleButtonColor,
               shadows: isDarkMode ? darkMode.shadow : lightMode.shadow,
               onToggleCallback: (index) {
-                print('switched to: $index');
                 setState(() {
                   initialIndex = index;
                   isRegister = index == 1;
@@ -290,7 +287,7 @@ class _LoginState extends State<Login> {
                           return OverlayNotification(
                             title: "Sign Up Status",
                             subtitle:
-                                'Password and Comfirm Password doesn\'t match',
+                                'Password and Comfirm Password doesn\'t match.',
                           );
                         },
                         duration: Duration(milliseconds: 4000),
@@ -302,17 +299,19 @@ class _LoginState extends State<Login> {
                             bussinessName: bussinessNameController.text.trim(),
                             context: context,
                           );
+                      showOverlayNotification(
+                        (context) {
+                          return OverlayNotification(
+                            title: isRegister
+                                ? "Sign Up Status"
+                                : "Sign In Status",
+                            subtitle: msg,
+                          );
+                        },
+                        duration: Duration(milliseconds: 4000),
+                      );
                     }
                   }
-                  showOverlayNotification(
-                    (context) {
-                      return OverlayNotification(
-                        title: isRegister ? "Sign Up Status" : "Sign In Status",
-                        subtitle: msg,
-                      );
-                    },
-                    duration: Duration(milliseconds: 4000),
-                  );
                 }),
             SizedBox(
               height: 10,

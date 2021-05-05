@@ -381,10 +381,6 @@ class _ViewAllState extends State<ViewAll> {
                                                               onSubmitted:
                                                                   (value) {
                                                                 setState(() {});
-
-                                                                print(
-                                                                    _filterText
-                                                                        .text);
                                                               },
                                                             ),
                                                           ),

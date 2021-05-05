@@ -205,7 +205,7 @@ class _ManageProduct extends State<ManageProduct> {
                                           picture: p['product_img'],
                                           visible: p['visible']));
                                     }
-                                   
+
                                     _alreadyLoadProductsFromFirestore = true;
                                   }
 
@@ -225,7 +225,6 @@ class _ManageProduct extends State<ManageProduct> {
                                             price: product[i].price,
                                             press: () {
                                               startInputAction(i);
-                                              print(product[i].product);
                                             },
                                           ),
                                       if (product.length == 0)

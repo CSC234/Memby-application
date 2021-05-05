@@ -281,10 +281,6 @@ class _ViewCustomerState extends State<ViewCustomer> {
                                                               onSubmitted:
                                                                   (value) {
                                                                 setState(() {});
-
-                                                                print(
-                                                                    _filterText
-                                                                        .text);
                                                               },
                                                             ),
                                                           ),
