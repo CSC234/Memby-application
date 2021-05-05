@@ -224,22 +224,38 @@ class _AddProductList extends State<AddProductList> {
                               textColor: Colors.white,
                               text: "add to prodct",
                               press: () {
-                                if (_productnameController.text != '' &&
-                                    _descriptionController.text != '' &&
-                                    _priceController.text != '' &&
-                                    _image != null &&
-                                    double.parse(_priceController.text) > 0) {
-                                  addProduct(
-                                      _productnameController.text,
-                                      _descriptionController.text,
-                                      _priceController.text,
-                                      _pictureController.text);
-                                  setState(() {
-                                    _image = null;
-                                    _productnameController.clear();
-                                    _descriptionController.clear();
-                                    _priceController.clear();
-                                  });
+                                if (_priceController.text != '') {
+                                  if (double.parse(_priceController.text) < 0) {
+                                    showOverlayNotification(
+                                      (context) {
+                                        return OverlayNotification(
+                                          title: "Something went wrong",
+                                          subtitle:
+                                              "price should be more than one",
+                                        );
+                                      },
+                                      duration: Duration(milliseconds: 4000),
+                                    );
+                                  }
+                                }
+                                if (_priceController.text != '') {
+                                  if (_productnameController.text != '' &&
+                                      _descriptionController.text != '' &&
+                                      _priceController.text != '' &&
+                                      _image != null &&
+                                      double.parse(_priceController.text) > 0) {
+                                    addProduct(
+                                        _productnameController.text,
+                                        _descriptionController.text,
+                                        _priceController.text,
+                                        _pictureController.text);
+                                    setState(() {
+                                      _image = null;
+                                      _productnameController.clear();
+                                      _descriptionController.clear();
+                                      _priceController.clear();
+                                    });
+                                  }
                                 } else {
                                   showOverlayNotification(
                                     (context) {
