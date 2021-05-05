@@ -276,12 +276,26 @@ class _LoginState extends State<Login> {
                           context: context,
                         );
                   else {
-                    msg = await context.read<FlutterFireAuthService>().signUp(
-                          email: emailController.text.trim(),
-                          password: passwordController.text.trim(),
-                          bussinessName: bussinessNameController.text.trim(),
-                          context: context,
-                        );
+                    if (confirmPasswordController.text !=
+                        passwordController.text) {
+                      showOverlayNotification(
+                        (context) {
+                          return OverlayNotification(
+                            title:
+                                "Password and Comfirm Password doesn't match",
+                            subtitle: msg,
+                          );
+                        },
+                        duration: Duration(milliseconds: 4000),
+                      );
+                    } else {
+                      msg = await context.read<FlutterFireAuthService>().signUp(
+                            email: emailController.text.trim(),
+                            password: passwordController.text.trim(),
+                            bussinessName: bussinessNameController.text.trim(),
+                            context: context,
+                          );
+                    }
                   }
                   showOverlayNotification(
                     (context) {
