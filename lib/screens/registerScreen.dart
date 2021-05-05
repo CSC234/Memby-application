@@ -1,4 +1,5 @@
 import 'package:memby/components/publicComponent/OverlayNotification.dart';
+import 'package:memby/constants.dart';
 import 'package:memby/firebase.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -228,7 +229,8 @@ class _FormBoxesState extends State<FormBoxes> {
                                         : selectedDate.toString().split(" ")[0]
                                     // changeDate(selectedDate)
                                     ,
-                                    color: themeBlue,
+                                    color: lightGrey,
+                                    fontColor: kPrimaryLightColor,
                                     onPickDate: changeDate,
                                   ),
                                 ),
