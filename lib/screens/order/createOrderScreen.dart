@@ -37,6 +37,8 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
     orderDetails: [],
   );
 
+  bool isHasOrder = false;
+
   ListView makeProductCard() {
     List<ProductBox> productCards = [];
 
@@ -74,6 +76,13 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
         }
         order1.orderDetails.removeAt(deletedIndex);
       }
+      setState(() {
+        if (order1.orderDetails.isNotEmpty) {
+          isHasOrder = true;
+        } else {
+          isHasOrder = false;
+        }
+      });
     });
   }
 
@@ -96,6 +105,12 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
       );
     }
     print('====');
+    setState(() {
+      if (orderCards.isNotEmpty) {
+        isHasOrder = true;
+      }
+    });
+
     return ListView(
       scrollDirection: Axis.vertical,
       children: orderCards,
@@ -185,8 +200,12 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
 
                         _alreadyLoadProductsFromFirestore = true;
                       }
-
-                      return makeProductCard();
+                      // print(snapshot.data.length);
+                      return snapshot.data.docs.length == 0
+                          ? EmptyList(
+                              text: "Empty Product",
+                            )
+                          : makeProductCard();
                     } else {
                       return SizedBox(
                           child: CircularProgressIndicator(),
@@ -238,20 +257,22 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
           children: [
             Expanded(
               child: RoundedButton(
-                color: kPrimaryLightColor,
+                color: isHasOrder ? kPrimaryLightColor : kPrimaryInput,
                 title: 'ORDER',
-                onPress: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return ConfirmOrderScreen(
-                          order: order1,
+                onPress: isHasOrder
+                    ? () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return ConfirmOrderScreen(
+                                order: order1,
+                              );
+                            },
+                          ),
                         );
-                      },
-                    ),
-                  );
-                },
+                      }
+                    : null,
               ),
             ),
           ],
