@@ -290,7 +290,7 @@ class _LoginState extends State<Login> {
                           return OverlayNotification(
                             title: "Sign Up Status",
                             subtitle:
-                                'Password and Comfirm Password doesn\'t match',
+                                'Password and Comfirm Password doesn\'t match.',
                           );
                         },
                         duration: Duration(milliseconds: 4000),
@@ -302,17 +302,19 @@ class _LoginState extends State<Login> {
                             bussinessName: bussinessNameController.text.trim(),
                             context: context,
                           );
+                      showOverlayNotification(
+                        (context) {
+                          return OverlayNotification(
+                            title: isRegister
+                                ? "Sign Up Status"
+                                : "Sign In Status",
+                            subtitle: msg,
+                          );
+                        },
+                        duration: Duration(milliseconds: 4000),
+                      );
                     }
                   }
-                  showOverlayNotification(
-                    (context) {
-                      return OverlayNotification(
-                        title: isRegister ? "Sign Up Status" : "Sign In Status",
-                        subtitle: msg,
-                      );
-                    },
-                    duration: Duration(milliseconds: 4000),
-                  );
                 }),
             SizedBox(
               height: 10,
