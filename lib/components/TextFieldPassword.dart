@@ -47,7 +47,7 @@ class Textfield extends StatelessWidget {
               hintText: text,
               suffixIcon: IconButton(
                 icon: Icon(
-                  isShow ? Icons.visibility_off : Icons.visibility,
+                  isShow ? Icons.visibility : Icons.visibility_off,
                   color: Colors.black54,
                 ),
                 onPressed: () {
