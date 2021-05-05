@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:memby/constants.dart';
 import 'package:memby/firebase.dart';
+import 'package:memby/screens/registerScreen.dart';
 import 'package:provider/provider.dart';
 
 class TextBox extends StatefulWidget {
@@ -68,8 +70,10 @@ class _TextBoxState extends State<TextBox> {
                   const Radius.circular(10.0),
                 )),
             focusedBorder: OutlineInputBorder(
-              borderSide:
-                  const BorderSide(color: Colors.blueAccent, width: 2.0),
+              borderSide: const BorderSide(
+                color: kPrimaryLightColor,
+                width: 2.0,
+              ),
               borderRadius: BorderRadius.circular(10.0),
             ),
           ),
