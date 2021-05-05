@@ -37,7 +37,7 @@ class _CalendarPickerState extends State<CalendarPicker> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Container(
-      height: height * (4.8 / 100),
+      height: height * (5 / 100),
       width: width * (37.5 / 100),
       child: ElevatedButton(
         child: Row(

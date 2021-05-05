@@ -12,6 +12,7 @@ const grey = const Color(0xFF5A5A5A);
 const lightGrey = const Color(0xFFEAEAEA);
 const fontColor = const Color(0xFFB7B7B7);
 const themeBlue = const Color(0xFF6E7CE4);
+const red = const Color(0xFFFF0000);
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -238,8 +239,7 @@ class _FormBoxesState extends State<FormBoxes> {
                                   padding: const EdgeInsets.only(top: 10.0),
                                   child: Text(
                                     birthdateError,
-                                    style: TextStyle(
-                                        fontSize: 12, color: Color(0xFFFF0000)),
+                                    style: TextStyle(fontSize: 12, color: red),
                                   ),
                                 ),
                               ],
@@ -270,9 +270,8 @@ class _FormBoxesState extends State<FormBoxes> {
                                 Padding(
                                   padding: const EdgeInsets.only(top: 10),
                                   child: Text(genderError,
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: Color(0xFFFF0000))),
+                                      style:
+                                          TextStyle(fontSize: 12, color: red)),
                                 ),
                               ],
                             ))
