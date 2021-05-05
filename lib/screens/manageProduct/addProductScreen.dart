@@ -138,12 +138,12 @@ class _AddProductList extends State<AddProductList> {
                       Row(
                         children: [
                           Container(
-                            width: width * 0.15,
-                            child: IconButton(
-                                icon: Icon(Icons.arrow_back,
-                                    color: Colors.grey[700]),
-                              onPressed: () => Navigator.of(context).pop(false))),
-                       
+                              width: width * 0.15,
+                              child: IconButton(
+                                  icon: Icon(Icons.arrow_back,
+                                      color: Colors.grey[700]),
+                                  onPressed: () =>
+                                      Navigator.of(context).pop(false))),
                           SizedBox(
                             width: width * 0.05,
                           ),
@@ -182,6 +182,7 @@ class _AddProductList extends State<AddProductList> {
                       Column(
                         children: [
                           Textfield(
+                            type: TextInputType.text,
                             controller: _productnameController,
                             text: 'Product name...',
                             width: width * (90 / 100),
@@ -189,6 +190,7 @@ class _AddProductList extends State<AddProductList> {
                             max: 5,
                           ),
                           Textfield(
+                            type: TextInputType.text,
                             controller: _descriptionController,
                             text: 'Description...',
                             width: width * (90 / 100),
@@ -203,11 +205,10 @@ class _AddProductList extends State<AddProductList> {
                       Column(
                         children: [
                           Textfield(
+                            type: TextInputType.number,
                             controller: _priceController,
                             width: width * (90 / 100),
                             text: 'Price',
-                            min: 1,
-                            max: 5,
                           ),
                         ],
                       ),
@@ -223,11 +224,49 @@ class _AddProductList extends State<AddProductList> {
                               textColor: Colors.white,
                               text: "add to prodct",
                               press: () {
-                                addProduct(
-                                    _productnameController.text,
-                                    _descriptionController.text,
-                                    _priceController.text,
-                                    _pictureController.text);
+                                if (_priceController.text != '') {
+                                  if (double.parse(_priceController.text) < 0) {
+                                    showOverlayNotification(
+                                      (context) {
+                                        return OverlayNotification(
+                                          title: "Something went wrong",
+                                          subtitle:
+                                              "price should be more than one",
+                                        );
+                                      },
+                                      duration: Duration(milliseconds: 4000),
+                                    );
+                                  }
+                                }
+                                if (_priceController.text != '') {
+                                  if (_productnameController.text != '' &&
+                                      _descriptionController.text != '' &&
+                                      _priceController.text != '' &&
+                                      _image != null &&
+                                      double.parse(_priceController.text) > 0) {
+                                    addProduct(
+                                        _productnameController.text,
+                                        _descriptionController.text,
+                                        _priceController.text,
+                                        _pictureController.text);
+                                    setState(() {
+                                      _image = null;
+                                      _productnameController.clear();
+                                      _descriptionController.clear();
+                                      _priceController.clear();
+                                    });
+                                  }
+                                } else {
+                                  showOverlayNotification(
+                                    (context) {
+                                      return OverlayNotification(
+                                        title: "Something went wrong",
+                                        subtitle: "please complete details",
+                                      );
+                                    },
+                                    duration: Duration(milliseconds: 4000),
+                                  );
+                                }
                               }),
                         ),
                       ),
@@ -275,24 +314,36 @@ class _AddProductList extends State<AddProductList> {
                               textColor: Colors.white,
                               text: "confirm",
                               press: () {
-                                addProductToFireStore();
-                                showOverlayNotification(
-                                  (context) {
-                                    return OverlayNotification(
-                                      title: "Memby Application",
-                                      subtitle: "Product added Successfully",
-                                    );
-                                  },
-                                  duration: Duration(milliseconds: 4000),
-                                );
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) {
-                                      return ManageProduct();
+                                if (product.length > 0) {
+                                  addProductToFireStore();
+                                  showOverlayNotification(
+                                    (context) {
+                                      return OverlayNotification(
+                                        title: "Memby Application",
+                                        subtitle: "Product added Successfully",
+                                      );
                                     },
-                                  ),
-                                );
+                                    duration: Duration(milliseconds: 4000),
+                                  );
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return ManageProduct();
+                                      },
+                                    ),
+                                  );
+                                } else {
+                                  showOverlayNotification(
+                                    (context) {
+                                      return OverlayNotification(
+                                        title: "Something went wrong",
+                                        subtitle: "please add product",
+                                      );
+                                    },
+                                    duration: Duration(milliseconds: 4000),
+                                  );
+                                }
                               }),
                         ),
                       ),

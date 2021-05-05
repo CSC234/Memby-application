@@ -288,9 +288,9 @@ class _LoginState extends State<Login> {
                       showOverlayNotification(
                         (context) {
                           return OverlayNotification(
-                            title:
-                                "Password and Comfirm Password doesn't match",
-                            subtitle: msg,
+                            title: "Sign Up Status",
+                            subtitle:
+                                'Password and Comfirm Password doesn\'t match',
                           );
                         },
                         duration: Duration(milliseconds: 4000),

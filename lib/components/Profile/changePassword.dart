@@ -126,6 +126,16 @@ class _ChangePassword extends State<ChangePassword> {
                     ),
                   );
                 }
+              } else {
+                showOverlayNotification(
+                  (context) {
+                    return OverlayNotification(
+                        title: "Changing Password Status",
+                        subtitle:
+                            'New Password and Comfirm New Password doesn\'t match');
+                  },
+                  duration: Duration(milliseconds: 4000),
+                );
               }
             }),
       ]),
