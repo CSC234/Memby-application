@@ -1,6 +1,6 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:memby/components/Card.dart';
+import 'package:memby/components/publicComponent/Card.dart';
 import 'package:memby/screens/dashBoard/viewDashboard.dart';
 import 'package:memby/screens/order/createOrderScreen.dart';
 import 'package:memby/constants.dart';

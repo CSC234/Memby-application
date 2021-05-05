@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:memby/components/popProductList.dart';
+import 'package:memby/components/dashBoard/popProductList.dart';
 import 'package:memby/models/Product.dart';
 import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';

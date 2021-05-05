@@ -1,7 +1,7 @@
 import 'dart:collection';
 import 'package:memby/components/publicComponent/emptyItem.dart';
 
-import '../constants.dart';
+import '../../constants.dart';
 
 import 'package:flutter/material.dart';
 import 'dart:math';
@@ -22,7 +22,7 @@ class _ChartState extends State<Chart> {
     List<Sales> unit = [];
     List<Sales> totalSale = [];
     int i = 1;
-   
+
     widget.saleSummmary.forEach((productId, product) {
       unit.add(Sales(
         i.toString(),
@@ -39,7 +39,6 @@ class _ChartState extends State<Chart> {
         measureFn: (Sales sales, _) => sales.sales,
         data: unit,
       ),
-      
     ];
   }
 
@@ -73,15 +72,17 @@ class _ChartState extends State<Chart> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                       Container(
-                        child: Text("Product No",
-                        style: TextStyle(fontSize: 16,
-                        fontFamily: 'Alef-Regular',
-                        color: kPrimaryFont),),
+                      Container(
+                        child: Text(
+                          "Product No",
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'Alef-Regular',
+                              color: kPrimaryFont),
+                        ),
                       ),
                     ],
                   ),
-                  
                 ],
               ),
             ),

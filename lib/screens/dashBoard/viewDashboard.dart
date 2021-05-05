@@ -3,7 +3,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:memby/components/dashBoard/TotalSaleList.dart';
 import 'package:memby/components/dashBoard/topCustomer.dart';
-import 'package:memby/components/popProduct.dart';
+import 'package:memby/components/dashBoard/popProduct.dart';
 import 'package:memby/components/dashBoard/viewAll.dart';
 import 'package:memby/components/dashBoard/viewAllCus.dart';
 import 'package:memby/models/Product.dart';
