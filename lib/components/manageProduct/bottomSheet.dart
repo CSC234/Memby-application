@@ -255,6 +255,7 @@ class _BottomSheet extends State<BottomSheettest> {
                 ),
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   UserImagePicker(
                     press: _pickImage,

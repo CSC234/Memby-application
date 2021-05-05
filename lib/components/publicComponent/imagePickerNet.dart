@@ -35,8 +35,8 @@ class _UserImagePickerState extends State<UserImagePicker> {
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(left: 30),
+        Container(
+          // padding: const EdgeInsets.only(left: 30),
           child: Container(
             child: CircleAvatar(
               radius: 40,

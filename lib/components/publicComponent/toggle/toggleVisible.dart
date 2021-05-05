@@ -39,7 +39,7 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return Container(
-      width: width * 0.35,
+      width: width * 0.33,
       height: width * 0.10,
       margin: EdgeInsets.all(20),
       child: Stack(
@@ -55,7 +55,7 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
               setState(() {});
             },
             child: Container(
-              width: width * 1,
+              // width: width * 0.5,
               height: width * 0.13,
               decoration: ShapeDecoration(
                 color: widget.backgroundColor,
@@ -73,7 +73,7 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
                       widget.values[index],
                       style: TextStyle(
                         // fontFamily: 'Rubik',
-                        fontSize: width * 0.035,
+                        fontSize: width * 0.033,
                         fontWeight: FontWeight.bold,
                         color: const Color(0xFF918f95),
                       ),
