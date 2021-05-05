@@ -196,7 +196,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                 offset: Offset(0.0, 0.75))
           ],
         ),
-        padding: EdgeInsets.symmetric(horizontal: 40),
+        padding: EdgeInsets.symmetric(horizontal: 30),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [

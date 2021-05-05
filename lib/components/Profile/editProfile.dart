@@ -66,9 +66,9 @@ class _EditProfile extends State<EditProfile> {
             width: width * (80 / 100),
             child: Column(children: [
               Textfield(
-                type: TextInputType.number,
+                maxLength: 10,
                 controller: nameController,
-                width: width * (100 / 100),
+                width: width * (50 / 100),
                 text: 'Your new company name',
               ),
             ])),

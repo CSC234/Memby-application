@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:memby/components/dashBoard/popProductList.dart';
-import 'package:memby/models/Product.dart';
 import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:memby/components/publicComponent/emptyItem.dart';
 
 class PopProduct extends StatefulWidget {
@@ -59,9 +57,6 @@ class _PopProductState extends State<PopProduct> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double hieght = MediaQuery.of(context).size.height;
-
     return FutureBuilder(
         future: _productInfo,
         builder: (context, snapshot) {
