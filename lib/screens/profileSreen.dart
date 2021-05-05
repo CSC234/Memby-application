@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:memby/components/Profile/changePassword.dart';
 import 'package:memby/components/Profile/editProfile.dart';
-
 import 'package:memby/constants.dart';
 import 'package:memby/screens/landingScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:memby/components/publicComponent/rounded_button.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -30,8 +28,6 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     final firebaseUser = context.watch<User>();
-    print(onPage);
-
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
@@ -41,7 +37,6 @@ class _ProfileState extends State<Profile> {
               leading: IconButton(
                 icon: Icon(Icons.arrow_back),
                 onPressed: () {
-                  print(onPage);
                   if (onPage == 'm') {
                     Navigator.push(
                       context,
@@ -51,7 +46,6 @@ class _ProfileState extends State<Profile> {
                         },
                       ),
                     );
-                    // Navigator.pop(context, false);
                   }
                   if (onPage == 'e') {
                     Navigator.push(
@@ -107,7 +101,6 @@ class _ProfileState extends State<Profile> {
                                     FutureBuilder(
                                         future: _companyInfo,
                                         builder: (context, snapshot) {
-                                          print(snapshot);
                                           if (snapshot.hasData) {
                                             final profileInfo = snapshot.data;
                                             final creationDate = firebaseUser
@@ -138,7 +131,6 @@ class _ProfileState extends State<Profile> {
                                                 Container(
                                                   margin:
                                                       EdgeInsets.only(left: 30),
-                                                  // padding: EdgeInsets.all(10),
                                                   child: Column(
                                                     children: <Widget>[
                                                       Container(
@@ -309,8 +301,6 @@ class _ProfileState extends State<Profile> {
                                       ]),
                                     ),
                                     onPressed: () async {
-                                      print("Sign Out Pressed");
-
                                       if (Navigator.of(context).canPop()) {
                                         Navigator.of(context).pop();
                                       }

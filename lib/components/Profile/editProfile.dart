@@ -1,18 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:memby/components/manageProduct/Textfield.dart';
-
 import 'package:memby/constants.dart';
 import 'package:memby/screens/landingScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
-// import 'package:memby/components/Textfield.dart';
 import 'package:memby/components/publicComponent/rounded_button.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:memby/components/publicComponent/OverlayNotification.dart';
-
-import 'package:provider/provider.dart';
-import 'package:memby/firebase.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:memby/components/publicComponent/imagePicker.dart';
@@ -29,7 +23,6 @@ class _EditProfile extends State<EditProfile> {
   final picker = ImagePicker();
   Future _pickImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
-    print("filename" + _image.toString());
     if (pickedFile != null) {
       setState(() {
         _image = File(pickedFile.path);
@@ -66,12 +59,6 @@ class _EditProfile extends State<EditProfile> {
         Container(
             width: 250,
             child: UserImagePicker(press: _pickImage, pickedImage: _image)),
-        // Container(
-        //     height: 100,
-        //     width: 100,
-        //     child: CircleAvatar(
-        //       backgroundColor: Colors.grey[300],
-        //     )),
         SizedBox(
           height: 20,
         ),
@@ -101,7 +88,6 @@ class _EditProfile extends State<EditProfile> {
                     .read<FlutterFireAuthService>()
                     .uploadImageToFirebase(_image);
               }
-
               context
                   .read<FlutterFireAuthService>()
                   .updateProfile(nameController.text, _uploadedFileURL);

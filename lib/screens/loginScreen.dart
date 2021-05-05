@@ -3,11 +3,9 @@ import 'package:memby/constants.dart';
 import 'package:memby/components/publicComponent/rounded_button.dart';
 import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
-import 'package:toggle_switch/toggle_switch.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'package:memby/components/publicComponent/toggle/animated_toggle_button.dart';
 import 'package:memby/components/publicComponent/toggle/theme_color.dart';
-import 'package:memby/screens/guide.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:memby/components/publicComponent/OverlayNotification.dart';
 
@@ -135,7 +133,6 @@ class _LoginState extends State<Login> {
                   : lightMode.toggleButtonColor,
               shadows: isDarkMode ? darkMode.shadow : lightMode.shadow,
               onToggleCallback: (index) {
-                print('switched to: $index');
                 setState(() {
                   initialIndex = index;
                   isRegister = index == 1;

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:memby/components/publicComponent/imagePickerNet.dart';
 import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
-
 import 'package:memby/components/manageProduct/Textfield.dart';
 import 'package:memby/components/publicComponent/rounded_button.dart';
 import 'package:memby/constants.dart';
@@ -128,7 +127,7 @@ class _BottomSheet extends State<BottomSheettest> {
         visible: widget.product[i].visible,
       ));
     }
-    if (!product1.isEmpty) {
+    if (product1.isNotEmpty) {
       if (product1[widget.item].visible == true) {
         initialIndex = 1;
       } else {
@@ -158,7 +157,6 @@ class _BottomSheet extends State<BottomSheettest> {
     } else {
       initialIndex = 1;
     }
-    print('init of init' + initialIndex.toString());
     super.initState();
   }
 
@@ -194,7 +192,6 @@ class _BottomSheet extends State<BottomSheettest> {
   bool visible;
 
   void updateProduct(productName, description, price, picture) async {
-    print(_image);
     if (_image != null) {
       _uploadedFileURL = await context
           .read<FlutterFireAuthService>()
@@ -224,8 +221,6 @@ class _BottomSheet extends State<BottomSheettest> {
 
   @override
   Widget build(BuildContext context) {
-    print('initBuild' + initialIndex.toString());
-
     @override
     final _productnameController =
         TextEditingController(text: product1[item1].product);
@@ -279,7 +274,6 @@ class _BottomSheet extends State<BottomSheettest> {
                         : lightMode.toggleButtonColor,
                     shadows: isDarkMode ? darkMode.shadow : lightMode.shadow,
                     onToggleCallback: (index) {
-                      print('switched to: $index');
                       setState(() {
                         initialIndex = index;
                       });
