@@ -275,13 +275,23 @@ class _LoginState extends State<Login> {
                 text: isRegister ? "Register" : "Login",
                 press: () async {
                   String msg = '';
-                  if (!isRegister)
+                  if (!isRegister) {
                     msg = await context.read<FlutterFireAuthService>().signIn(
                           email: emailController.text.trim(),
                           password: passwordController.text.trim(),
                           context: context,
                         );
-                  else {
+                    showOverlayNotification(
+                      (context) {
+                        return OverlayNotification(
+                          title:
+                              isRegister ? "Sign Up Status" : "Sign In Status",
+                          subtitle: msg,
+                        );
+                      },
+                      duration: Duration(milliseconds: 4000),
+                    );
+                  } else {
                     if (confirmPasswordController.text !=
                         passwordController.text) {
                       showOverlayNotification(
