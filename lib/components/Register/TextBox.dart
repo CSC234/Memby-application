@@ -41,8 +41,23 @@ class TextBox extends StatefulWidget {
 }
 
 class _TextBoxState extends State<TextBox> {
-  @override
   bool isDuplicate = true;
+  FocusNode myFocusNode = new FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+
+    myFocusNode = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    // Clean up the focus node when the Form is disposed.
+    myFocusNode.dispose();
+
+    super.dispose();
+  }
 
   Widget build(BuildContext context) {
     return Padding(
@@ -51,6 +66,8 @@ class _TextBoxState extends State<TextBox> {
         width: widget.width,
         height: widget.height,
         child: TextFormField(
+          textInputAction: TextInputAction.go,
+          focusNode: myFocusNode,
           maxLength: widget.length,
           // ignore: deprecated_member_use
           controller: widget.input,
@@ -59,7 +76,9 @@ class _TextBoxState extends State<TextBox> {
           maxLines: widget.maxLine,
           decoration: InputDecoration(
             labelText: widget.text,
+            hintStyle: TextStyle(color: Colors.black),
             prefixIcon: widget.icon,
+            labelStyle: TextStyle(color: Colors.grey),
             contentPadding:
                 EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
             fillColor: widget.formColor,
@@ -71,7 +90,7 @@ class _TextBoxState extends State<TextBox> {
                 )),
             focusedBorder: OutlineInputBorder(
               borderSide: const BorderSide(
-                color: kPrimaryLightColor,
+                color: Colors.grey,
                 width: 2.0,
               ),
               borderRadius: BorderRadius.circular(10.0),
@@ -117,6 +136,16 @@ class _TextBoxState extends State<TextBox> {
                 isDuplicate = status;
               });
             }
+          },
+          onTap: () => {
+            setState(() {
+              FocusScope.of(context).requestFocus(myFocusNode);
+            })
+          },
+          onEditingComplete: () => {
+            setState(() {
+              myFocusNode.nextFocus();
+            })
           },
         ),
       ),

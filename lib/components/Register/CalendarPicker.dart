@@ -37,7 +37,7 @@ class _CalendarPickerState extends State<CalendarPicker> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Container(
-      height: height * (4.8 / 100),
+      height: height * (5 / 100),
       width: width * (37.5 / 100),
       child: ElevatedButton(
         child: Row(
@@ -46,13 +46,13 @@ class _CalendarPickerState extends State<CalendarPicker> {
             Text(
               widget.title,
               style: TextStyle(
-                  color: Colors.grey[700],
+                  color: Colors.grey,
                   fontWeight: FontWeight.w400,
                   fontSize: 16),
             ),
             Icon(
               Icons.calendar_today_outlined,
-              color: Colors.grey[700],
+              color: Colors.grey,
             ),
           ],
         ),
