@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:memby/screens/loginScreen.dart';
+
 import 'package:memby/screens/guide.dart';
 
 class HomeScreen extends StatefulWidget {

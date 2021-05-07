@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:memby/constants.dart';
 import 'package:memby/firebase.dart';
+import 'package:memby/screens/registerScreen.dart';
 import 'package:provider/provider.dart';
 
 class TextBox extends StatefulWidget {
@@ -39,8 +41,23 @@ class TextBox extends StatefulWidget {
 }
 
 class _TextBoxState extends State<TextBox> {
-  @override
   bool isDuplicate = true;
+  FocusNode myFocusNode = new FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+
+    myFocusNode = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    // Clean up the focus node when the Form is disposed.
+    myFocusNode.dispose();
+
+    super.dispose();
+  }
 
   Widget build(BuildContext context) {
     return Padding(
@@ -49,6 +66,8 @@ class _TextBoxState extends State<TextBox> {
         width: widget.width,
         height: widget.height,
         child: TextFormField(
+          textInputAction: TextInputAction.go,
+          focusNode: myFocusNode,
           maxLength: widget.length,
           // ignore: deprecated_member_use
           controller: widget.input,
@@ -57,7 +76,9 @@ class _TextBoxState extends State<TextBox> {
           maxLines: widget.maxLine,
           decoration: InputDecoration(
             labelText: widget.text,
+            hintStyle: TextStyle(color: Colors.black),
             prefixIcon: widget.icon,
+            labelStyle: TextStyle(color: Colors.grey),
             contentPadding:
                 EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
             fillColor: widget.formColor,
@@ -68,8 +89,10 @@ class _TextBoxState extends State<TextBox> {
                   const Radius.circular(10.0),
                 )),
             focusedBorder: OutlineInputBorder(
-              borderSide:
-                  const BorderSide(color: Colors.blueAccent, width: 2.0),
+              borderSide: const BorderSide(
+                color: Colors.grey,
+                width: 2.0,
+              ),
               borderRadius: BorderRadius.circular(10.0),
             ),
           ),
@@ -81,17 +104,25 @@ class _TextBoxState extends State<TextBox> {
             }
             if (widget.emailValidator == true) {
               // ignore: unnecessary_statements
-              if (!(value.contains("@") && value.contains("."))) {
+              if (!RegExp(
+                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+.[a-zA-Z]+")
+                  .hasMatch(value)) {
                 return "Please enter a valid email address";
               }
             }
-            if (widget.checkPhone == true && value.length != 10) {
-              return "Please enter a valid phone number";
+            if (widget.checkPhone == true) {
+              if (value.length != 10) {
+                return "Please enter a valid phone number";
+              }
+              if (isDuplicate == true) {
+                return "This phone number has been used";
+              }
+              if (!RegExp(
+                      r'^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$')
+                  .hasMatch(value)) {
+                return "Please enter a valid phone number";
+              }
             }
-            if (widget.checkPhone == true && isDuplicate == true) {
-              return "This phone number has been used";
-            }
-
             return null;
           },
           onChanged: (value) async {
@@ -105,6 +136,16 @@ class _TextBoxState extends State<TextBox> {
                 isDuplicate = status;
               });
             }
+          },
+          onTap: () => {
+            setState(() {
+              FocusScope.of(context).requestFocus(myFocusNode);
+            })
+          },
+          onEditingComplete: () => {
+            setState(() {
+              myFocusNode.nextFocus();
+            })
           },
         ),
       ),

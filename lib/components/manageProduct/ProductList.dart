@@ -28,9 +28,6 @@ class ProductList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-    print(render.toString());
-
     return Column(children: [
       Container(
         color: visible ? Colors.white : Colors.grey[300],
@@ -124,7 +121,6 @@ class ProductList extends StatelessWidget {
                     ))
               ],
             ),
-            // height: 150,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
             ),

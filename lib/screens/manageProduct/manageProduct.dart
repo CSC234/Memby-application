@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:memby/constants.dart';
-import 'package:memby/components/rounded_button.dart';
-import 'package:memby/components/ProductList.dart';
-import 'package:memby/screens/addProductScreen.dart';
+import 'package:memby/components/publicComponent/rounded_button.dart';
+import 'package:memby/components/manageProduct/ProductList.dart';
+import 'package:memby/screens/manageProduct/addProductScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:memby/firebase.dart';
 import 'package:memby/screens/homeScreen.dart';
-import 'package:memby/components/emptyItem.dart';
+import 'package:memby/components/publicComponent/emptyItem.dart';
 import 'package:memby/screens/landingScreen.dart';
-import 'package:memby/components/bottomSheet.dart';
+import 'package:memby/components/manageProduct/bottomSheet.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ManageProduct extends StatefulWidget {
@@ -70,18 +70,15 @@ class _ManageProduct extends State<ManageProduct> {
             _filterText.text.isEmpty)
         .toList();
     product = renderFilter;
-    print(_filterText.text);
+
     if (_filterText.text.isEmpty) {
       product = productHolder;
     }
-    print(productHolder);
 
     final firebaseUser = context.watch<User>();
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     if (firebaseUser == null) {
-      print("Not Authenticated");
-      print("Return To Home Page");
       return HomeScreen();
     }
     return Scaffold(
@@ -177,8 +174,6 @@ class _ManageProduct extends State<ManageProduct> {
                             ),
                             onSubmitted: (value) {
                               setState(() {});
-
-                              print(_filterText.text);
                             },
                           ),
                         ),

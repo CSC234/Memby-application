@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:memby/components/imagePickerNet.dart';
+import 'package:memby/components/publicComponent/imagePickerNet.dart';
 import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
-
-import 'package:memby/components/Textfield.dart';
-import 'package:memby/components/rounded_button.dart';
+import 'package:memby/components/manageProduct/Textfield.dart';
+import 'package:memby/components/publicComponent/rounded_button.dart';
 import 'package:memby/constants.dart';
-import 'package:memby/screens/manageProduct.dart';
-import 'package:memby/components/toggle/toggleVisible.dart';
-import 'package:memby/components/toggle/theme_color.dart';
+import 'package:memby/screens/manageProduct/manageProduct.dart';
+import 'package:memby/components/publicComponent/toggle/toggleVisible.dart';
+import 'package:memby/components/publicComponent/toggle/theme_color.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
@@ -98,7 +97,6 @@ class _BottomSheet extends State<BottomSheettest> {
 
   Future _pickImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
-    print("filename" + _image.toString());
 
     setState(() {
       _image = File(pickedFile.path);
@@ -117,7 +115,7 @@ class _BottomSheet extends State<BottomSheettest> {
   String name = 'test';
 
   @override
-  void initState() {
+  void bestFunction() {
     _imageUrlFocusNode.addListener(_updateImageUrl);
     for (int i = 0; i < widget.product.length; i++) {
       product1.add(Product1(
@@ -129,16 +127,36 @@ class _BottomSheet extends State<BottomSheettest> {
         visible: widget.product[i].visible,
       ));
     }
-    if (product1[widget.item].visible == true) {
-      initialIndex = 1;
-    } else {
-      initialIndex = 0;
-    }
-    print(product1[widget.item].visible);
-    print(product1[widget.item].product);
-    item1 = widget.item;
-    print('-----2--------');
+    if (product1.isNotEmpty) {
+      if (product1[widget.item].visible == true) {
+        initialIndex = 1;
+      } else {
+        initialIndex = 0;
+      }
 
+      item1 = widget.item;
+    }
+  }
+
+  void initState() {
+    bestFunction();
+
+    product1 = [];
+    for (int i = 0; i < widget.product.length; i++) {
+      product1.add(Product1(
+        id: widget.product[i].id,
+        product: widget.product[i].product,
+        price: widget.product[i].price,
+        description: widget.product[i].description,
+        picture: widget.product[i].picture,
+        visible: widget.product[i].visible,
+      ));
+    }
+    if (product1[widget.item].visible == true) {
+      initialIndex = 0;
+    } else {
+      initialIndex = 1;
+    }
     super.initState();
   }
 
@@ -147,6 +165,7 @@ class _BottomSheet extends State<BottomSheettest> {
     _imageUrlFocusNode.removeListener(_updateImageUrl);
     _imageUrlController.dispose();
     _imageUrlFocusNode.dispose();
+
     super.dispose();
   }
 
@@ -163,8 +182,8 @@ class _BottomSheet extends State<BottomSheettest> {
     widget.testBoy(pid, name, description, price, picture);
   }
 
-  void updateProductVisibleToFireStore(pid, visible) {
-    context.read<FlutterFireAuthService>().updateVisible(pid, visible);
+  void updateProductVisibleToFireStore(pid, visibleFirebase) {
+    context.read<FlutterFireAuthService>().updateVisible(pid, visibleFirebase);
   }
 
   String nameUpdate;
@@ -173,7 +192,6 @@ class _BottomSheet extends State<BottomSheettest> {
   bool visible;
 
   void updateProduct(productName, description, price, picture) async {
-    print(_image);
     if (_image != null) {
       _uploadedFileURL = await context
           .read<FlutterFireAuthService>()
@@ -181,7 +199,6 @@ class _BottomSheet extends State<BottomSheettest> {
     }
     if (_image == null) {
       _uploadedFileURL = await widget.product[widget.item].picture;
-      print(_uploadedFileURL);
     }
     setState(() {
       _image = null;
@@ -189,8 +206,13 @@ class _BottomSheet extends State<BottomSheettest> {
       descriptionUpdate = description;
       priceUpdate = double.parse(price);
     });
-    print(nameUpdate);
-    updateProductVisibleToFireStore(widget.product[widget.item].id, visible);
+
+    if (initialIndex == 0) {
+      updateProductVisibleToFireStore(widget.product[widget.item].id, true);
+    }
+    if (initialIndex == 1) {
+      updateProductVisibleToFireStore(widget.product[widget.item].id, false);
+    }
     updateProductToFireStore(widget.product[widget.item].id, nameUpdate,
         descriptionUpdate, priceUpdate, _uploadedFileURL);
   }
@@ -207,6 +229,7 @@ class _BottomSheet extends State<BottomSheettest> {
         TextEditingController(text: product1[item1].description);
     final _priceController =
         TextEditingController(text: product1[item1].price.toString());
+    double height = MediaQuery.of(context).size.height;
 
     double width = MediaQuery.of(context).size.width;
     if (initialIndex == 1) {
@@ -232,6 +255,7 @@ class _BottomSheet extends State<BottomSheettest> {
                 ),
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   UserImagePicker(
                     press: _pickImage,
@@ -251,7 +275,6 @@ class _BottomSheet extends State<BottomSheettest> {
                         : lightMode.toggleButtonColor,
                     shadows: isDarkMode ? darkMode.shadow : lightMode.shadow,
                     onToggleCallback: (index) {
-                      print('switched to: $index');
                       setState(() {
                         initialIndex = index;
                       });
@@ -262,47 +285,46 @@ class _BottomSheet extends State<BottomSheettest> {
               SizedBox(
                 height: 10,
               ),
-              Column(
-                children: [
-                  Textfield(
-                    onChange: (text) {
-                      product1[item1].product = text;
-                    },
-                    controller: _productnameController,
-                    text: 'Product name...',
-                    width: width * (90 / 100),
-                    min: 1,
-                    max: 5,
-                  ),
-                  Textfield(
-                    onChange: (text) {
-                      product1[item1].description = text;
-                    },
-                    controller: _descriptionController,
-                    text: 'Description...',
-                    width: width * (90 / 100),
-                    min: 3,
-                    max: 5,
-                  )
-                ],
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Column(
-                children: [
-                  Textfield(
-                    controller: _priceController,
-                    onChange: (text) {
-                      product1[item1].price = text;
-                    },
-                    width: width * (90 / 100),
-                    text: 'Price',
-                    min: 1,
-                    max: 5,
-                  ),
-                ],
-              ),
+              product1.isEmpty
+                  ? Column(
+                      children: [],
+                    )
+                  : Column(
+                      children: [
+                        Textfield(
+                          type: TextInputType.text,
+                          onChange: (text) {
+                            product1[item1].product = text;
+                          },
+                          controller: _productnameController,
+                          text: 'Product name...',
+                          width: width * (90 / 100),
+                          min: 1,
+                          max: 5,
+                        ),
+                        Textfield(
+                          type: TextInputType.text,
+                          onChange: (text) {
+                            product1[item1].description = text;
+                          },
+                          controller: _descriptionController,
+                          text: 'Description...',
+                          width: width * (90 / 100),
+                          min: 3,
+                        ),
+                        Textfield(
+                          type: TextInputType.number,
+                          controller: _priceController,
+                          onChange: (text) {
+                            product1[item1].price = text;
+                          },
+                          width: width * (90 / 100),
+                          text: 'Price',
+                          min: 1,
+                          max: 5,
+                        ),
+                      ],
+                    ),
               Container(
                 child: Align(
                   alignment: Alignment.center,
@@ -342,6 +364,15 @@ class _BottomSheet extends State<BottomSheettest> {
                               ),
                             );
                           },
+                        );
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return ManageProduct();
+                            },
+                          ),
                         );
                       }),
                 ),

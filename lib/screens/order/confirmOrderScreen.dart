@@ -3,17 +3,17 @@ import 'package:memby/constants.dart';
 import 'package:memby/models/Product.dart';
 import 'package:memby/models/OrderDetail.dart';
 import 'package:memby/models/Order.dart';
-import 'package:memby/components/RoundedButton.dart';
-import 'package:memby/components/OrderCard.dart';
-import 'package:memby/screens/createOrderScreen.dart';
-import 'package:memby/screens/orderRecieptScreen.dart';
+import 'package:memby/components/publicComponent/RoundedButton.dart';
+import 'package:memby/components/order/OrderCard.dart';
+import 'package:memby/screens/order/createOrderScreen.dart';
+import 'package:memby/screens/order/orderRecieptScreen.dart';
 import 'package:toggle_switch/toggle_switch.dart';
-import 'package:memby/components/toggle/animated_toggle_button.dart';
-import 'package:memby/components/toggle/theme_color.dart';
+import 'package:memby/components/publicComponent/toggle/animated_toggle_button.dart';
+import 'package:memby/components/publicComponent/toggle/theme_color.dart';
 import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:memby/screens/orderRecieptScreen.dart';
+import 'package:memby/screens/order/orderRecieptScreen.dart';
 import 'package:memby/components/Register/TextBox.dart';
 
 class ConfirmOrderScreen extends StatefulWidget {
@@ -32,7 +32,6 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
     for (OrderDetail o in widget.order.orderDetails) {
       Product p = o.product;
       int a = o.amount;
-      // print(p.productName + "\n amount: " + a.toString());
       orderCards.add(
         OrderCard(
           title: p.productName,
@@ -44,7 +43,6 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
         ),
       );
     }
-    print('====');
     return ListView(
       scrollDirection: Axis.vertical,
       children: orderCards,
@@ -198,7 +196,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                 offset: Offset(0.0, 0.75))
           ],
         ),
-        padding: EdgeInsets.symmetric(horizontal: 40),
+        padding: EdgeInsets.symmetric(horizontal: 30),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -218,7 +216,6 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                         : lightMode.toggleButtonColor,
                     shadows: isDarkMode ? darkMode.shadow : lightMode.shadow,
                     onToggleCallback: (index) {
-                      print('switched to: $index');
                       setState(() {
                         customerName = "Please Enter Customer Phone";
                         customerPhone = "";
@@ -236,25 +233,6 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                       });
                     },
                   ),
-                  // ToggleSwitch(
-                  //   minWidth: 100.0,
-                  //   minHeight: 50,
-                  //   initialLabelIndex: initialIndex,
-                  //   cornerRadius: 30.0,
-                  //   fontSize: 15,
-                  //   activeFgColor: Colors.white,
-                  //   inactiveBgColor: Color(0xFF61656D),
-                  //   inactiveFgColor: Colors.white,
-                  //   labels: ['Member', 'Normal'],
-                  //   activeBgColors: [kPrimaryLightColor, kPrimaryLightColor],
-                  //   onToggle: (index) {
-                  //     print('switched to: $index');
-                  //     setState(() {
-                  //       initialIndex = index;
-                  //       isMember = index == 1;
-                  //     });
-                  //   },
-                  // ),
                 ),
               ],
             ),
@@ -275,7 +253,6 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                             onChanged: (value) async {
                               if (value.length == 10) {
                                 String customerPhone = value;
-                                print(customerPhone);
                                 customer = await context
                                     .read<FlutterFireAuthService>()
                                     .getCustomerFromPhoneNo(customerPhone);
@@ -297,8 +274,6 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                                 });
                               }
                             },
-                            // controller: TextEditingController()
-                            //   ..text = amount.toString(),
                             decoration: kTextFieldDecoration.copyWith(
                               hintText: 'Customer\'s Phone no.',
                             ),
@@ -374,7 +349,6 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                                 setState(() {
                                   double input = double.parse(value);
                                   discount = input.floor();
-                                  print(discount);
                                   discount = discount > 100
                                       ? 100
                                       : discount < 0
@@ -387,8 +361,6 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                                 });
                               }
                             },
-                            // controller: TextEditingController()
-                            //   ..text = amount.toString(),
                             decoration: kTextFieldDecoration.copyWith(
                               hintText: 'Discount(%)',
                             ),
@@ -424,15 +396,20 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                           : Color(0xFFB7B7B7),
                       title: 'ORDER',
                       onPress: isCustomerPhoneValid || isGeneralCustomer
-                          ? () {
+                          ? () async {
+                              dynamic companyInfo = await context
+                                  .read<FlutterFireAuthService>()
+                                  .getUserInfo();
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) {
                                     return OrderRecieptScreen(
-                                        order: widget.order,
-                                        customer: customer,
-                                        discount: discount);
+                                      order: widget.order,
+                                      customer: customer,
+                                      discount: discount,
+                                      companyName: companyInfo['name'],
+                                    );
                                   },
                                 ),
                               );
@@ -448,7 +425,6 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                               orderDetails.forEach((item) {
                                 String productId = item.product.id;
                                 _productList[productId] = item.amount;
-                                print(_productList);
                               });
                               Map<String, dynamic> productList =
                                   new Map<String, dynamic>.from(_productList);

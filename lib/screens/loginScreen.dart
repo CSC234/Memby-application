@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:memby/constants.dart';
-import 'package:memby/components/rounded_button.dart';
+import 'package:memby/components/publicComponent/rounded_button.dart';
 import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
-import 'package:toggle_switch/toggle_switch.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
-import 'package:memby/components/toggle/animated_toggle_button.dart';
-import 'package:memby/components/toggle/theme_color.dart';
-import 'package:memby/screens/guide.dart';
+import 'package:memby/components/publicComponent/toggle/animated_toggle_button.dart';
+import 'package:memby/components/publicComponent/toggle/theme_color.dart';
+import 'package:overlay_support/overlay_support.dart';
+import 'package:memby/components/publicComponent/OverlayNotification.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -18,7 +18,6 @@ class Login extends StatefulWidget {
   }) : super(key: key);
   _LoginState createState() => _LoginState();
 }
-
 
 class _LoginState extends State<Login> {
   AnimationController _animationController;
@@ -71,6 +70,7 @@ class _LoginState extends State<Login> {
   );
   int initialIndex = 0;
   bool _passwordVisible = false;
+  bool _confirmPasswordVisible = false;
 
   ScrollController _scrollController = ScrollController();
   final TextEditingController emailController = TextEditingController();
@@ -83,6 +83,7 @@ class _LoginState extends State<Login> {
     @override
     void initState() {
       _passwordVisible = false;
+      _confirmPasswordVisible = false;
     }
 
     double width = MediaQuery.of(context).size.width;
@@ -132,7 +133,6 @@ class _LoginState extends State<Login> {
                   : lightMode.toggleButtonColor,
               shadows: isDarkMode ? darkMode.shadow : lightMode.shadow,
               onToggleCallback: (index) {
-                print('switched to: $index');
                 setState(() {
                   initialIndex = index;
                   isRegister = index == 1;
@@ -160,6 +160,7 @@ class _LoginState extends State<Login> {
                   borderRadius: BorderRadius.circular(30),
                 ),
                 child: TextField(
+                  keyboardType: TextInputType.emailAddress,
                   controller: emailController,
                   decoration: InputDecoration(
                       hintText: 'Email Address',
@@ -217,22 +218,26 @@ class _LoginState extends State<Login> {
                           ),
                           child: TextField(
                             controller: confirmPasswordController,
-                            obscureText: true,
-                            onChanged: (String value) {
-                              setState(() {
-                                // _value = value;
-                              });
-                              // widget.onChanged(value);
-                            },
+                            obscureText: !_confirmPasswordVisible,
                             decoration: InputDecoration(
                                 hintText: 'Confirm Password',
                                 icon: Icon(
                                   Icons.lock,
                                   color: Colors.black54,
                                 ),
-                                suffixIcon: Icon(
-                                  Icons.visibility,
-                                  color: Colors.black54,
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    _confirmPasswordVisible
+                                        ? Icons.visibility
+                                        : Icons.visibility_off,
+                                    color: Colors.black54,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      _confirmPasswordVisible =
+                                          !_confirmPasswordVisible;
+                                    });
+                                  },
                                 ),
                                 border: InputBorder.none),
                           )),
@@ -248,8 +253,10 @@ class _LoginState extends State<Login> {
                           ),
                           child: TextField(
                             controller: bussinessNameController,
+                            maxLength: 10,
                             decoration: InputDecoration(
                                 hintText: 'Business Name',
+                                counterText: '',
                                 icon: Icon(
                                   Icons.business,
                                   color: Colors.black54,
@@ -266,20 +273,56 @@ class _LoginState extends State<Login> {
                 buttonSize: 0.4,
                 textColor: Colors.white,
                 text: isRegister ? "Register" : "Login",
-                press: () {
-                  if (!isRegister)
-                    context.read<FlutterFireAuthService>().signIn(
+                press: () async {
+                  String msg = '';
+                  if (!isRegister) {
+                    msg = await context.read<FlutterFireAuthService>().signIn(
                           email: emailController.text.trim(),
                           password: passwordController.text.trim(),
                           context: context,
                         );
-                  else {
-                    context.read<FlutterFireAuthService>().signUp(
-                          email: emailController.text.trim(),
-                          password: passwordController.text.trim(),
-                          bussinessName: bussinessNameController.text.trim(),
-                          context: context,
+                    showOverlayNotification(
+                      (context) {
+                        return OverlayNotification(
+                          title:
+                              isRegister ? "Sign Up Status" : "Sign In Status",
+                          subtitle: msg,
                         );
+                      },
+                      duration: Duration(milliseconds: 4000),
+                    );
+                  } else {
+                    if (confirmPasswordController.text !=
+                        passwordController.text) {
+                      showOverlayNotification(
+                        (context) {
+                          return OverlayNotification(
+                            title: "Sign Up Status",
+                            subtitle:
+                                'Password and Comfirm Password doesn\'t match.',
+                          );
+                        },
+                        duration: Duration(milliseconds: 4000),
+                      );
+                    } else {
+                      msg = await context.read<FlutterFireAuthService>().signUp(
+                            email: emailController.text.trim(),
+                            password: passwordController.text.trim(),
+                            bussinessName: bussinessNameController.text.trim(),
+                            context: context,
+                          );
+                      showOverlayNotification(
+                        (context) {
+                          return OverlayNotification(
+                            title: isRegister
+                                ? "Sign Up Status"
+                                : "Sign In Status",
+                            subtitle: msg,
+                          );
+                        },
+                        duration: Duration(milliseconds: 4000),
+                      );
+                    }
                   }
                 }),
             SizedBox(
@@ -322,7 +365,9 @@ class _LoginState extends State<Login> {
             ),
             GoogleSignInButton(
                 onPressed: () {
-                  context.read<FlutterFireAuthService>().signInWithGoogle();
+                  context
+                      .read<FlutterFireAuthService>()
+                      .signInWithGoogle(context: context);
                 },
                 splashColor: Colors.white,
                 textStyle: TextStyle(

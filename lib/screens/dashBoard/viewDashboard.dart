@@ -1,179 +1,17 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import 'package:memby/components/TotalSaleList.dart';
-import 'package:memby/components/topCustomer.dart';
-import 'package:memby/components/popProduct.dart';
-import 'package:memby/components/viewAll.dart';
+import 'package:memby/components/dashBoard/TotalSaleList.dart';
+import 'package:memby/components/dashBoard/topCustomer.dart';
+import 'package:memby/components/dashBoard/popProduct.dart';
+import 'package:memby/components/dashBoard/viewAll.dart';
+import 'package:memby/components/dashBoard/viewAllCus.dart';
 import 'package:memby/models/Product.dart';
-import '../constants.dart';
-import 'package:memby/components/bottomNav/nav.dart';
+import '../../constants.dart';
 import 'package:memby/screens/landingScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
-
-List<TotalSaleList> productListYearly = [
-  TotalSaleList(
-    no: 1,
-    name: "Selsun Selenium sulfide1",
-    unit: 1,
-    totalSale: 1,
-  ),
-  TotalSaleList(
-    no: 2,
-    name: "Selsun Selenium sulfide2",
-    unit: 2,
-    totalSale: 200,
-  ),
-  TotalSaleList(
-    no: 3,
-    name: "Selsun Selenium sulfide3",
-    unit: 3,
-    totalSale: 31,
-  ),
-  TotalSaleList(
-    no: 4,
-    name: "Selsun Selenium sulfide3",
-    unit: 4,
-    totalSale: 124,
-  ),
-];
-List<TotalSaleList> productListMonthly = [
-  TotalSaleList(
-    no: 1,
-    name: "Selsun Selenium sulfide1",
-    unit: 1341,
-    totalSale: 153254,
-  ),
-  TotalSaleList(
-    no: 2,
-    name: "Selsun Selenium sulfide2",
-    unit: 244,
-    totalSale: 21554,
-  ),
-  TotalSaleList(
-    no: 3,
-    name: "Selsun Selenium sulfide3",
-    unit: 123244,
-    totalSale: 12554,
-  ),
-];
-List<TotalSaleList> productListDaily = [
-  TotalSaleList(
-    no: 1,
-    name: "Selsun Selenium sulfide1",
-    unit: 134,
-    totalSale: 15541,
-  ),
-  TotalSaleList(
-    no: 2,
-    name: "Selsun Selenium sulfide2",
-    unit: 213244,
-    totalSale: 1554,
-  ),
-  TotalSaleList(
-    no: 3,
-    name: "Selsun Selenium sulfide3",
-    unit: 12344,
-    totalSale: 1554,
-  ),
-  TotalSaleList(
-    no: 4,
-    name: "Selsun Selenium sulfide4",
-    unit: 2344,
-    totalSale: 1554,
-  ),
-  TotalSaleList(
-    no: 5,
-    name: "Selsun Selenium sulfide5",
-    unit: 2244,
-    totalSale: 11,
-  ),
-  TotalSaleList(
-    no: 6,
-    name: "Selsun Selenium sulfide5",
-    unit: 2244,
-    totalSale: 0,
-  ),
-];
-List<TopCustomer> popSaleListYearly = [
-  TopCustomer(
-    no: 1,
-    name: 'katak',
-    phoneNo: "095955238",
-    totalPaid: 123123,
-  ),
-  TopCustomer(
-    no: 2,
-    name: 'katak',
-    phoneNo: "011928437",
-    totalPaid: 55112,
-  ),
-  TopCustomer(
-    no: 3,
-    name: 'katak',
-    phoneNo: "1234567890",
-    totalPaid: 20,
-  ),
-  TopCustomer(
-    no: 4,
-    name: 'katak',
-    phoneNo: "12345677",
-    totalPaid: 2201,
-  ),
-];
-List<TopCustomer> popSaleListMonthly = [
-  TopCustomer(
-    no: 1,
-    name: 'Gun',
-    phoneNo: "095955238",
-    totalPaid: 1002,
-  ),
-  TopCustomer(
-    no: 2,
-    name: 'Gun',
-    phoneNo: "011928437",
-    totalPaid: 55030,
-  ),
-  TopCustomer(
-    no: 3,
-    name: 'Gun',
-    phoneNo: "1234567890",
-    totalPaid: 2110,
-  ),
-  TopCustomer(
-    no: 4,
-    name: 'Gun',
-    phoneNo: "12345677",
-    totalPaid: 2220,
-  ),
-];
-List<TopCustomer> popSaleListDaily = [
-  TopCustomer(
-    no: 1,
-    name: 'Best',
-    phoneNo: "095955238",
-    totalPaid: 100,
-  ),
-  TopCustomer(
-    no: 2,
-    name: 'Best',
-    phoneNo: "011928437",
-    totalPaid: 5500,
-  ),
-  TopCustomer(
-    no: 3,
-    name: 'Best',
-    phoneNo: "1234567890",
-    totalPaid: 20,
-  ),
-  TopCustomer(
-    no: 4,
-    name: 'Best',
-    phoneNo: "12345677",
-    totalPaid: 220,
-  ),
-];
+import 'package:memby/components/publicComponent/emptyItem.dart';
 
 class DashBoard extends StatefulWidget {
   @override
@@ -219,6 +57,11 @@ class _DashBoardState extends State<DashBoard> {
       render = productListYearly;
     }
     int no = 1;
+    if (productSummary.isEmpty) {
+      return EmptyList(
+        text: "Empty Product",
+      );
+    }
     productSummary.forEach((productId, product) {
       if (no <= 5) {
         productHolder.add(TotalSaleList(
@@ -279,11 +122,16 @@ class _DashBoardState extends State<DashBoard> {
     });
   }
 
-  List<TopCustomer> renderCustomer = [];
   makeTopCustomerList(LinkedHashMap customerSummary) {
     List<TopCustomer> customerHolder = [];
 
     int no = 1;
+
+    if (customerSummary.isEmpty) {
+      return EmptyList(
+        text: "Empty Customer",
+      );
+    }
     customerSummary.forEach((customerID, customer) {
       if (no <= 5) {
         customerHolder.add(
@@ -310,6 +158,24 @@ class _DashBoardState extends State<DashBoard> {
           context,
           new MaterialPageRoute(
             builder: (context) => ViewAll(
+                clickMonthly: clickMonthly,
+                clickDaily: clickDaily,
+                clickYearly: clickYearly,
+                startDate: startDate),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget HandleViewAllCustomer() {
+    return TextButton(
+      child: Text("view all"),
+      onPressed: () {
+        Navigator.push(
+          context,
+          new MaterialPageRoute(
+            builder: (context) => ViewCustomer(
                 clickMonthly: clickMonthly,
                 clickDaily: clickDaily,
                 clickYearly: clickYearly,
@@ -352,11 +218,13 @@ class _DashBoardState extends State<DashBoard> {
                                     // left: 20,
                                     child: Row(children: [
                                       Container(
-                                        width: width * 0.15,
-                                        child: IconButton(
-                                            icon: Icon(Icons.arrow_back,
-                                                color: Colors.white),
-                                            onPressed: () => Navigator.of(context).pop(false))),
+                                          width: width * 0.15,
+                                          child: IconButton(
+                                              icon: Icon(Icons.arrow_back,
+                                                  color: Colors.white),
+                                              onPressed: () =>
+                                                  Navigator.of(context)
+                                                      .pop(false))),
                                       Text(
                                         'View DashBoard',
                                         style: TextStyle(
@@ -440,7 +308,7 @@ class _DashBoardState extends State<DashBoard> {
                                                     padding: const EdgeInsets
                                                             .symmetric(
                                                         vertical: 13.0),
-                                                    child: Text("Total Sale",
+                                                    child: Text("Total Sales",
                                                         style: TextStyle(
                                                             fontSize: 18)),
                                                   ),
@@ -468,22 +336,29 @@ class _DashBoardState extends State<DashBoard> {
                                                             MainAxisAlignment
                                                                 .spaceBetween,
                                                         children: [
-                                                          Text("Unit Sale"),
-                                                          Text("Total Sale"),
+                                                          Text("Unit Sales"),
+                                                          Text("Total Sales"),
                                                         ],
                                                       ),
                                                     )
                                                   ],
                                                 ),
                                               ),
-                                              // Container(
-                                              //   width: width * (90 / 100),
-                                              //   child: makeProductList(),
-                                              // ),
+
                                               FutureBuilder(
                                                   future: _productSummary,
                                                   builder: (context, snapshot) {
-                                                    if (snapshot.hasData) {
+                                                    if (snapshot
+                                                            .connectionState ==
+                                                        ConnectionState
+                                                            .waiting) {
+                                                      return SizedBox(
+                                                          child:
+                                                              CircularProgressIndicator(),
+                                                          height: 50.0,
+                                                          width: 50.0);
+                                                    } else if (snapshot
+                                                        .hasData) {
                                                       var _popRef = snapshot
                                                           .data.entries
                                                           .toList();
@@ -554,8 +429,8 @@ class _DashBoardState extends State<DashBoard> {
                                                       return SizedBox(
                                                           child:
                                                               CircularProgressIndicator(),
-                                                          height: 50.0,
-                                                          width: 50.0);
+                                                          height: 20.0,
+                                                          width: 20.0);
                                                     }
                                                   }),
 
@@ -572,6 +447,7 @@ class _DashBoardState extends State<DashBoard> {
                                                         style: TextStyle(
                                                             fontSize: 18)),
                                                   ),
+                                                  HandleViewAllCustomer()
                                                 ],
                                               ),
                                               Divider(
@@ -629,25 +505,30 @@ class _DashBoardState extends State<DashBoard> {
                                                 ),
                                               ),
 
-                                              Container(
-                                                height: height * (21 / 100),
-                                                width: width * (90 / 100),
-                                                child: FutureBuilder(
-                                                    future: _customerSummary,
-                                                    builder:
-                                                        (context, snapshot) {
-                                                      if (snapshot.hasData) {
-                                                        return makeTopCustomerList(
-                                                            snapshot.data);
-                                                      } else {
-                                                        return SizedBox(
-                                                            child:
-                                                                CircularProgressIndicator(),
-                                                            height: 50.0,
-                                                            width: 50.0);
-                                                      }
-                                                    }),
-                                              ),
+                                              FutureBuilder(
+                                                  future: _customerSummary,
+                                                  builder: (context, snapshot) {
+                                                    if (snapshot
+                                                            .connectionState ==
+                                                        ConnectionState
+                                                            .waiting) {
+                                                      return SizedBox(
+                                                          child:
+                                                              CircularProgressIndicator(),
+                                                          height: 50.0,
+                                                          width: 50.0);
+                                                    } else if (snapshot
+                                                        .hasData) {
+                                                      return makeTopCustomerList(
+                                                          snapshot.data);
+                                                    } else {
+                                                      return SizedBox(
+                                                          child:
+                                                              CircularProgressIndicator(),
+                                                          height: 50.0,
+                                                          width: 50.0);
+                                                    }
+                                                  }),
                                               ////////-------------- history ------------------
                                               SizedBox(
                                                 height: 220,

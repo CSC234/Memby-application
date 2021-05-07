@@ -3,11 +3,11 @@ import 'package:memby/constants.dart';
 import 'package:memby/models/Product.dart';
 import 'package:memby/models/OrderDetail.dart';
 import 'package:memby/models/Order.dart';
-import 'package:memby/components/RoundedButton.dart';
-import 'package:memby/components/OrderCard.dart';
-import 'package:memby/components/ProductBox.dart';
-import 'package:memby/screens/confirmOrderScreen.dart';
-import 'package:memby/components/emptyItem.dart';
+import 'package:memby/components/publicComponent/RoundedButton.dart';
+import 'package:memby/components/order/OrderCard.dart';
+import 'package:memby/components/order/ProductBox.dart';
+import 'package:memby/screens/order/confirmOrderScreen.dart';
+import 'package:memby/components/publicComponent/emptyItem.dart';
 import 'package:memby/screens/landingScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
@@ -36,6 +36,8 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
     id: '00001',
     orderDetails: [],
   );
+
+  bool isHasOrder = false;
 
   ListView makeProductCard() {
     List<ProductBox> productCards = [];
@@ -74,6 +76,13 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
         }
         order1.orderDetails.removeAt(deletedIndex);
       }
+      setState(() {
+        if (order1.orderDetails.isNotEmpty) {
+          isHasOrder = true;
+        } else {
+          isHasOrder = false;
+        }
+      });
     });
   }
 
@@ -83,7 +92,6 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
     for (OrderDetail o in order1.orderDetails) {
       Product p = o.product;
       int a = o.amount;
-      // print(p.productName + "\n amount: " + a.toString());
       orderCards.add(
         OrderCard(
           title: p.productName,
@@ -95,7 +103,12 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
         ),
       );
     }
-    print('====');
+    setState(() {
+      if (orderCards.isNotEmpty) {
+        isHasOrder = true;
+      }
+    });
+
     return ListView(
       scrollDirection: Axis.vertical,
       children: orderCards,
@@ -138,15 +151,6 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
                 ),
               ],
             ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: [
-            //     Text(
-            //       'Create Order',
-            //       style: kPrimaryHeadingTextStyle,
-            //     ),
-            //   ],
-            // ),
             SizedBox(
               height: 15,
             ),
@@ -185,8 +189,11 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
 
                         _alreadyLoadProductsFromFirestore = true;
                       }
-
-                      return makeProductCard();
+                      return snapshot.data.docs.length == 0
+                          ? EmptyList(
+                              text: "Empty Product",
+                            )
+                          : makeProductCard();
                     } else {
                       return SizedBox(
                           child: CircularProgressIndicator(),
@@ -238,20 +245,22 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
           children: [
             Expanded(
               child: RoundedButton(
-                color: kPrimaryLightColor,
+                color: isHasOrder ? kPrimaryLightColor : Color(0xFFB7B7B7),
                 title: 'ORDER',
-                onPress: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return ConfirmOrderScreen(
-                          order: order1,
+                onPress: isHasOrder
+                    ? () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return ConfirmOrderScreen(
+                                order: order1,
+                              );
+                            },
+                          ),
                         );
-                      },
-                    ),
-                  );
-                },
+                      }
+                    : null,
               ),
             ),
           ],

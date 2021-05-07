@@ -8,6 +8,7 @@ class CardButton extends StatelessWidget {
   final Color colorCircle, textColor;
   final double buttonSize;
   final Icon icon;
+  final String description;
 
   const CardButton(
       {Key key,
@@ -17,7 +18,8 @@ class CardButton extends StatelessWidget {
       this.textColor,
       this.buttonSize,
       this.icon,
-      this.fontsize})
+      this.fontsize,
+      this.description})
       : super(key: key);
 
   @override
@@ -78,8 +80,7 @@ class CardButton extends StatelessWidget {
                     Container(
                         child: Container(
                       alignment: Alignment.topLeft,
-                      child: Text(
-                          'Lorem ipsum, or lipsum as it is sometimes known',
+                      child: Text(description,
                           style: TextStyle(fontFamily: 'Alef-Regular')),
                     )),
                   ],

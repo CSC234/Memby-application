@@ -1,98 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:memby/components/TotalSaleList.dart';
-import 'package:memby/components/chart.dart';
-import '../constants.dart';
-import 'package:memby/screens/viewDashboard.dart';
+import 'package:memby/components/dashBoard/TotalSaleList.dart';
+import 'package:memby/components/dashBoard/chart.dart';
+import 'package:memby/components/publicComponent/emptyItem.dart';
+import 'package:memby/components/dashBoard/topCustomer.dart';
+import '../../constants.dart';
+import 'package:memby/screens/dashBoard/viewDashboard.dart';
 import 'package:provider/provider.dart';
 import 'package:memby/firebase.dart';
 import 'dart:collection';
 
-List<TotalSaleList> productListDaily = [
-  TotalSaleList(
-    no: 1,
-    name: "Selsun Selenium sulfide1",
-    unit: 134,
-    totalSale: 1754,
-  ),
-  TotalSaleList(
-    no: 2,
-    name: "Selsun Selenium sulfide2",
-    unit: 213244,
-    totalSale: 1554,
-  ),
-  TotalSaleList(
-    no: 3,
-    name: "Selsun Selenium sulfide3",
-    unit: 12344,
-    totalSale: 1554,
-  ),
-  TotalSaleList(
-    no: 4,
-    name: "Selsun Selenium sulfide4",
-    unit: 2344,
-    totalSale: 1554,
-  ),
-  TotalSaleList(
-    no: 5,
-    name: "Selsun Selenium sulfide5",
-    unit: 2244,
-    totalSale: 1554,
-  ),
-  TotalSaleList(
-    no: 6,
-    name: "Selsun Selenium sulfide5",
-    unit: 2244,
-    totalSale: 1554,
-  ),
-];
-List<TotalSaleList> productListYearly = [
-  TotalSaleList(
-    no: 1,
-    name: "Selsun Selenium sulfide1",
-    unit: 1,
-    totalSale: 1,
-  ),
-  TotalSaleList(
-    no: 2,
-    name: "Selsun Selenium sulfide2",
-    unit: 2,
-    totalSale: 2,
-  ),
-  TotalSaleList(
-    no: 3,
-    name: "Selsun Selenium sulfide3",
-    unit: 3,
-    totalSale: 3,
-  ),
-  TotalSaleList(
-    no: 4,
-    name: "Selsun Selenium sulfide3",
-    unit: 4,
-    totalSale: 4,
-  ),
-];
-List<TotalSaleList> productListMonthly = [
-  TotalSaleList(
-    no: 1,
-    name: "Selsun Selenium sulfide1",
-    unit: 1341,
-    totalSale: 1524,
-  ),
-  TotalSaleList(
-    no: 2,
-    name: "Selsun Selenium sulfide2",
-    unit: 244,
-    totalSale: 2554,
-  ),
-  TotalSaleList(
-    no: 3,
-    name: "Selsun Selenium sulfide3",
-    unit: 123244,
-    totalSale: 12554,
-  ),
-];
-
-class ViewAll extends StatefulWidget {
+class ViewCustomer extends StatefulWidget {
   @override
   final bool clickDaily;
   final bool clickMonthly;
@@ -101,7 +18,7 @@ class ViewAll extends StatefulWidget {
   final Function handleClickChangeToggleMonthly;
   final Function handleClickChangeToggleYearly;
   final String startDate;
-  const ViewAll(
+  const ViewCustomer(
       {Key key,
       this.clickDaily,
       this.clickMonthly,
@@ -111,7 +28,7 @@ class ViewAll extends StatefulWidget {
       this.handleClickChangeToggleYearly,
       this.startDate})
       : super(key: key);
-  _ViewAllState createState() => _ViewAllState();
+  _ViewCustomerState createState() => _ViewCustomerState();
 }
 
 List<TotalSaleList> render = [];
@@ -119,15 +36,16 @@ List<TotalSaleList> renderFilter = [];
 
 String isRender;
 
-class _ViewAllState extends State<ViewAll> {
+class _ViewCustomerState extends State<ViewCustomer> {
+  Future _customerSummary;
+
   var _filterText = TextEditingController();
-  Future _productSummary;
+
   String startDate;
 
   bool clickDaily = false;
   bool clickMonthly = true;
   bool clickYearly = true;
-  List<TotalSaleList> productHolder = [];
 
   @override
   void initState() {
@@ -136,51 +54,8 @@ class _ViewAllState extends State<ViewAll> {
     clickMonthly = widget.clickMonthly;
     clickYearly = widget.clickYearly;
     startDate = widget.startDate;
-    _productSummary =
-        context.read<FlutterFireAuthService>().getProductSummary(startDate);
-  }
-
-  ListView makeProductList(LinkedHashMap productSummary) {
-    productHolder = [];
-    if (clickDaily == false) {
-      isRender = 'daily';
-    }
-    if (clickMonthly == false) {
-      isRender = 'monthly';
-    }
-    if (clickYearly == false) {
-      isRender = 'yearly';
-    }
-
-    if (clickDaily == false) {
-      render = productListDaily;
-    }
-    if (clickMonthly == false) {
-      render = productListMonthly;
-    }
-    if (clickYearly == false) {
-      render = productListYearly;
-    }
-    int no = 1;
-    productSummary.forEach((productId, product) {
-      productHolder.add(TotalSaleList(
-        no: no,
-        name: product['name'],
-        unit: product['unitSale'],
-        totalSale: (product['totalSale'] * 100).round() / 100,
-      ));
-      no++;
-    });
-
-    List<TotalSaleList> renderFilter = productHolder
-        .where((el) =>
-            el.name.indexOf(_filterText.text) != -1 || _filterText.text.isEmpty)
-        .toList();
-    productHolder = renderFilter;
-    return ListView(
-      padding: EdgeInsets.symmetric(vertical: 0),
-      children: productHolder,
-    );
+    _customerSummary =
+        context.read<FlutterFireAuthService>().getCustomerSummary(startDate);
   }
 
   void handleClickChangeToggleDaily() {
@@ -189,8 +64,8 @@ class _ViewAllState extends State<ViewAll> {
       clickMonthly = true;
       clickYearly = true;
       startDate = 'd';
-      _productSummary =
-          context.read<FlutterFireAuthService>().getProductSummary(startDate);
+      _customerSummary =
+          context.read<FlutterFireAuthService>().getCustomerSummary(startDate);
     });
   }
 
@@ -200,8 +75,8 @@ class _ViewAllState extends State<ViewAll> {
       clickMonthly = false;
       clickYearly = true;
       startDate = 'm';
-      _productSummary =
-          context.read<FlutterFireAuthService>().getProductSummary(startDate);
+      _customerSummary =
+          context.read<FlutterFireAuthService>().getCustomerSummary(startDate);
       ;
     });
   }
@@ -212,24 +87,40 @@ class _ViewAllState extends State<ViewAll> {
       clickMonthly = true;
       clickYearly = false;
       startDate = 'y';
-      _productSummary =
-          context.read<FlutterFireAuthService>().getProductSummary(startDate);
+      _customerSummary =
+          context.read<FlutterFireAuthService>().getCustomerSummary(startDate);
     });
   }
 
-  Widget HandleViewAll() {
-    print(productListDaily.length);
+  makeTopCustomerList(LinkedHashMap customerSummary) {
+    List<TopCustomer> customerHolder = [];
 
-    if (productListDaily.length > 5) {
-      return TextButton(
-        child: Text("view less"),
-        onPressed: () {
-          Navigator.pop(context);
-        },
+    int no = 1;
+
+    if (customerSummary.isEmpty) {
+      return EmptyList(
+        text: "Empty Customer",
       );
-    } else {
-      return Text("");
     }
+    customerSummary.forEach((customerID, customer) {
+      customerHolder.add(
+        TopCustomer(
+          no: no,
+          name: customer['name'],
+          phoneNo: customer['phone'],
+          totalPaid: (customer['totalPaid'] * 100).round() / 100,
+        ),
+      );
+      no++;
+    });
+    List<TopCustomer> renderFilter = customerHolder
+        .where((el) =>
+            el.name.indexOf(_filterText.text) != -1 || _filterText.text.isEmpty)
+        .toList();
+    customerHolder = renderFilter;
+    return Column(
+      children: customerHolder,
+    );
   }
 
   @override
@@ -361,7 +252,7 @@ class _ViewAllState extends State<ViewAll> {
                                                                   vertical:
                                                                       13.0),
                                                           child: Text(
-                                                              "Total Sale",
+                                                              "All customer",
                                                               style: TextStyle(
                                                                   fontSize:
                                                                       18)),
@@ -390,10 +281,6 @@ class _ViewAllState extends State<ViewAll> {
                                                               onSubmitted:
                                                                   (value) {
                                                                 setState(() {});
-
-                                                                print(
-                                                                    _filterText
-                                                                        .text);
                                                               },
                                                             ),
                                                           ),
@@ -414,81 +301,77 @@ class _ViewAllState extends State<ViewAll> {
                                                             MainAxisAlignment
                                                                 .spaceBetween,
                                                         children: [
-                                                          Text("Product Name"),
+                                                          Text(
+                                                            "Name",
+                                                            style: TextStyle(
+                                                                color:
+                                                                    kPrimaryFont,
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
                                                           Container(
                                                             width: width *
-                                                                (40 / 100),
+                                                                (45 / 100),
                                                             child: Row(
                                                               mainAxisAlignment:
                                                                   MainAxisAlignment
                                                                       .spaceBetween,
                                                               children: [
                                                                 Text(
-                                                                    "Unit Sale"),
+                                                                  "Phone NO.",
+                                                                  style: TextStyle(
+                                                                      color:
+                                                                          kPrimaryFont,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold),
+                                                                ),
                                                                 Text(
-                                                                    "Total Sale"),
+                                                                  "Total Paid",
+                                                                  style: TextStyle(
+                                                                      color:
+                                                                          kPrimaryFont,
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold),
+                                                                ),
                                                               ],
                                                             ),
-                                                          )
+                                                          ),
                                                         ],
                                                       ),
                                                     ),
-                                                    FutureBuilder(
-                                                        future: _productSummary,
-                                                        builder: (context,
-                                                            snapshot) {
-                                                          if (snapshot
-                                                              .hasData) {
-                                                            return Container(
-                                                              height:
-                                                                  height * 0.25,
-                                                              width: width *
-                                                                  (90 / 100),
-                                                              child:
-                                                                  makeProductList(
-                                                                      snapshot
-                                                                          .data),
-                                                            );
-                                                          } else {
-                                                            return SizedBox(
-                                                                child:
-                                                                    CircularProgressIndicator(),
-                                                                height: 300.0,
-                                                                width: 175.0);
-                                                          }
-                                                        }),
 
-                                                    SizedBox(
-                                                      height: 10,
-                                                    ),
-                                                    Row(children: [
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .symmetric(
-                                                                vertical: 13.0),
-                                                        child: Text(
-                                                            "Total Sale",
-                                                            style: TextStyle(
-                                                                fontSize: 18)),
-                                                      ),
-                                                    ]),
                                                     FutureBuilder(
-                                                        future: _productSummary,
+                                                        future:
+                                                            _customerSummary,
                                                         builder: (context,
                                                             snapshot) {
                                                           if (snapshot
+                                                                  .connectionState ==
+                                                              ConnectionState
+                                                                  .waiting) {
+                                                            return SizedBox(
+                                                                child:
+                                                                    CircularProgressIndicator(),
+                                                                height: 50.0,
+                                                                width: 50.0);
+                                                          } else if (snapshot
                                                               .hasData) {
-                                                            return Chart(
-                                                                saleSummmary:
-                                                                    snapshot
-                                                                        .data);
+                                                            return makeTopCustomerList(
+                                                                snapshot.data);
                                                           } else {
                                                             return SizedBox(
                                                                 child:
                                                                     CircularProgressIndicator(),
-                                                                height: 300.0,
-                                                                width: 175.0);
+                                                                height: 50.0,
+                                                                width: 50.0);
                                                           }
                                                         }),
 

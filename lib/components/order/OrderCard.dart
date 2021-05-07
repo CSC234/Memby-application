@@ -20,7 +20,6 @@ class OrderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -87,7 +86,10 @@ class OrderCard extends StatelessWidget {
                               keyboardType: TextInputType.number,
                               textAlign: TextAlign.center,
                               onChanged: (value) {
-                                setAmount(int.parse(value));
+                                int num = int.parse(value);
+                                if (num >= 1) {
+                                  setAmount(int.parse(value));
+                                }
                               },
                               controller: TextEditingController()
                                 ..text = amount.toString(),

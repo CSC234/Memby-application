@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:memby/components/Profile/changePassword.dart';
 import 'package:memby/screens/landingScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:path/path.dart';
-import 'package:memby/models/OrderDetail.dart';
-import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:collection';
 
@@ -17,422 +12,46 @@ class FlutterFireAuthService {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   FlutterFireAuthService(this._firebaseAuth);
-
   Stream<User> get authStateChanges => _firebaseAuth.idTokenChanges();
 
-  Future<void> signOut() async {
-    await _firebaseAuth.signOut();
-    bool isSignedWithGoogle = await _googleSignIn.isSignedIn();
-    if (isSignedWithGoogle) {
-      await _googleSignIn.signOut();
-    }
-  }
+  // Genneral Function
 
-  Future<LinkedHashMap> _getProductSummary(target) async {
-    //Daily
-    try {
-      final user = _firebaseAuth.currentUser;
-      final userId = user.uid;
-      DateTime now = new DateTime.now();
-      DateTime startDate = target == 'd'
-          ? new DateTime(now.year, now.month, now.day)
-          : target == 'm'
-              ? new DateTime(now.year, now.month)
-              : new DateTime(now.year);
-
-      QuerySnapshot orders;
-      orders = await _firestore
-          .collection("company")
-          .doc(userId)
-          .collection("order")
-          .orderBy("date")
-          .startAt([startDate]).get();
-      final orderDocs = orders.docs;
-
-      Map<String, dynamic> productSummary = {};
-      for (QueryDocumentSnapshot o in orderDocs) {
-        final Map<String, dynamic> productList = o.get('product_list');
-        for (String productId in productList.keys) {
-          int amount = productList[productId];
-          if (productSummary[productId] == null) {
-            DocumentReference targetProduct = _firestore
-                .collection("company")
-                .doc(userId)
-                .collection("product")
-                .doc(productId);
-
-            DocumentSnapshot product = await targetProduct.get();
-            productSummary[productId] = {
-              'name': product.get('name'),
-              'price': product.get('price'),
-              'unitSale': amount,
-              'totalSale':
-                  amount * product.get('price') * (1 - o.get('discount_rate'))
-            };
-          } else {
-            productSummary[productId]['unitSale'] += amount;
-            productSummary[productId]['totalSale'] += amount *
-                productSummary[productId]['price'] *
-                (1 - o.get('discount_rate'));
-          }
-        }
-      }
-
-      var unsortedSummary = {};
-      for (var i in productSummary.keys) {
-        unsortedSummary[i] = productSummary[i]['totalSale'];
-      }
-      var sortedProductSummaryKeys = unsortedSummary.keys.toList(
-          growable: false)
-        ..sort((k2, k1) => unsortedSummary[k1].compareTo(unsortedSummary[k2]));
-      LinkedHashMap sortedProductSummary = new LinkedHashMap.fromIterable(
-          sortedProductSummaryKeys,
-          key: (k) => k,
-          value: (k) => productSummary[k]);
-
-      return sortedProductSummary;
-    } catch (err) {
-      print('Caught error: $err');
-      return null;
-    }
-  }
-
-  getProductSummary(target) async {
-    return await _getProductSummary(target);
-  }
-
-  Future<LinkedHashMap> _getCustomerSummary(target) async {
-    //Daily
-    try {
-      final user = _firebaseAuth.currentUser;
-      final userId = user.uid;
-      DateTime now = new DateTime.now();
-      DateTime startDate = target == 'd'
-          ? new DateTime(now.year, now.month, now.day)
-          : target == 'm'
-              ? new DateTime(now.year, now.month)
-              : new DateTime(now.year);
-
-      QuerySnapshot orders;
-
-      orders = await _firestore
-          .collection("company")
-          .doc(userId)
-          .collection("order")
-          .orderBy("date")
-          .startAt([startDate]).get();
-      final orderDocs = orders.docs;
-
-      Map<String, dynamic> customerSummary = {};
-      for (QueryDocumentSnapshot o in orderDocs) {
-        final String customerId = o.get('cus_id');
-        if (customerId != null) {
-          if (customerSummary[customerId] == null) {
-            DocumentReference targetCustomer = _firestore
-                .collection("company")
-                .doc(userId)
-                .collection("customer")
-                .doc(customerId);
-
-            DocumentSnapshot customer = await targetCustomer.get();
-
-            customerSummary[customerId] = {
-              'name':
-                  customer.get('firstname') + " " + customer.get('lastname'),
-              'phone': customer.get('phone_no'),
-              'totalPaid': o.get('total_price')
-            };
-          } else {
-            customerSummary[customerId]['totalPaid'] += o.get('total_price');
-          }
-        }
-      }
-
-      var unsortedSummary = {};
-      for (var i in customerSummary.keys) {
-        unsortedSummary[i] = customerSummary[i]['totalPaid'];
-      }
-      var sortedCusotmerSummaryKeys = unsortedSummary.keys.toList(
-          growable: false)
-        ..sort((k2, k1) => unsortedSummary[k1].compareTo(unsortedSummary[k2]));
-      LinkedHashMap sortedCustomerSummary = new LinkedHashMap.fromIterable(
-          sortedCusotmerSummaryKeys,
-          key: (k) => k,
-          value: (k) => customerSummary[k]);
-
-      return sortedCustomerSummary;
-    } catch (err) {
-      print('Caught error: $err');
-      return null;
-    }
-  }
-
-  getCustomerSummary(target) async {
-    return await _getCustomerSummary(target);
-  }
-
-  Future<void> addProduct(name, description, price, img) async {
+  String _getUserId() {
     final user = _firebaseAuth.currentUser;
     final userId = user.uid;
-    final product = {
-      'name': name,
-      'description': description,
-      'price': price,
-      'product_img': img,
-      'visible': true
-    };
-    DocumentReference targetCompany =
-        _firestore.collection('company').doc(userId);
-    CollectionReference productCollection = targetCompany.collection('product');
-    await productCollection.add(product).catchError((e) {
-      print(e.toString());
-    });
+    return userId;
   }
 
-  Future<void> updateProduct(pid, name, description, price, img) async {
-    final user = _firebaseAuth.currentUser;
-    final userId = user.uid;
-    final product = {
-      'name': name,
-      'description': description,
-      'price': price,
-      'product_img': img
-    };
-    await _firestore
-        .collection("company")
-        .doc(userId)
-        .collection("product")
-        .doc(pid)
-        .update(product);
+  DocumentReference _getCompanyDoc() {
+    return _firestore.collection("company").doc(_getUserId());
   }
 
-  Future<void> updateVisible(pid, visible) async {
-    final user = _firebaseAuth.currentUser;
-    final userId = user.uid;
-    final product = {
-      'visible': visible,
-    };
-    await _firestore
-        .collection("company")
-        .doc(userId)
-        .collection("product")
-        .doc(pid)
-        .update(product);
-  }
+  // USER AUTHENTICATION  API
 
-  Future<void> updateProfile(companyName, logoImg) async {
-    final user = _firebaseAuth.currentUser;
-    final userId = user.uid;
-    final profile = logoImg != null
-        ? {'name': companyName, 'logo': logoImg}
-        : {'name': companyName};
-    await _firestore.collection("company").doc(userId).update(profile);
-  }
-
-  Future<QueryDocumentSnapshot> getCustomerFromPhoneNo(
-      String customerPhone) async {
-    final user = _firebaseAuth.currentUser;
-    final userId = user.uid;
-    print(customerPhone);
-    DocumentReference targetCompany =
-        _firestore.collection('company').doc(userId);
-    QuerySnapshot customerRef = await targetCompany
-        .collection('customer')
-        .limit(1)
-        .where('phone_no', isEqualTo: customerPhone)
-        .get()
-        .catchError((e) {
-      print(e.toString());
-    });
-    if (customerRef.size == 0) {
-      print("Not found");
-      return null;
-    }
-    print(customerRef.docs[0]);
-    // String customerName = customerRef.docs[0].get('firstname') +
-    //     " " +
-    //     customerRef.docs[0].get('lastname');
-
-    return customerRef.docs[0];
-  }
-
-  Future<void> addOrder(
-      customerId, discountRate, actualPrice, totalPrice, productList) async {
-    final user = _firebaseAuth.currentUser;
-    final userId = user.uid;
-
-    Map<String, dynamic> order = {};
-    DocumentReference targetCompany =
-        _firestore.collection('company').doc(userId);
-
-    order['cus_id'] = customerId;
-    order['discount_rate'] = discountRate;
-    order['product_list'] = productList;
-    order['total_price'] = totalPrice;
-    order['actual_price'] = actualPrice;
-    order['date'] = FieldValue.serverTimestamp();
-    print(order);
-    CollectionReference orderCollection = targetCompany.collection('order');
-    await orderCollection.add(order).catchError((e) {
-      print(e.toString());
-    });
-  }
-
-  Future<QuerySnapshot> _getProducts({bool visible}) async {
-    try {
-      final user = _firebaseAuth.currentUser;
-      final userId = user.uid;
-      QuerySnapshot products;
-      dynamic productsRef =
-          _firestore.collection("company").doc(userId).collection("product");
-
-      if (visible != null) {
-        products = await productsRef.where('visible', isEqualTo: visible).get();
-      } else {
-        products = await productsRef.orderBy('visible', descending: true).get();
-      }
-
-      return products;
-    } catch (err) {
-      print('Caught error: $err');
-      return null;
-    }
-  }
-
-  getProducts({bool visible}) async {
-    return await _getProducts(visible: visible);
-  }
-
-  Future<dynamic> _getUserInfo() async {
-    try {
-      final user = _firebaseAuth.currentUser;
-      final userId = user.uid;
-      dynamic userInfo;
-      userInfo = await _firestore.collection("company").doc(userId).get();
-      return userInfo;
-    } catch (err) {
-      print('Caught error: $err');
-      return {'name': 'Error', 'logo': 'Error'};
-    }
-  }
-
-  getUserInfo() async {
-    return await _getUserInfo();
-  }
-
-  Future<dynamic> _getProductbyID(String id) async {
-    if (id == 'n') {
-      return {
-        'name': 'Error',
-        'description': '',
-        'product_img': 'Error',
-        'price': 999
-      };
-    }
-
-    try {
-      final user = _firebaseAuth.currentUser;
-      final userId = user.uid;
-      DocumentSnapshot product;
-      product = await _firestore
-          .collection("company")
-          .doc(userId)
-          .collection("product")
-          .doc(id)
-          .get();
-      return product;
-    } catch (err) {
-      print('Caught error: $err');
-
-      return {
-        'name': 'Error',
-        'description': 'Error',
-        'product_img': 'Error',
-        'price': 999
-      };
-    }
-  }
-
-  getProductbyID(id) async {
-    return await _getProductbyID(id);
-  }
-
-  Future<void> addCustomer(
-      firstName, lastName, email, phone, birthdate, gender, address) async {
-    final user = _firebaseAuth.currentUser;
-    final userId = user.uid;
-    final customer = {
-      'firstname': firstName,
-      'lastname': lastName,
-      'email': email,
-      "phone_no": phone,
-      'birthdate': birthdate,
-      'gender': gender,
-      'address': address
-    };
-    DocumentReference targetCompany =
-        _firestore.collection('company').doc(userId);
-    CollectionReference productCollection =
-        targetCompany.collection('customer');
-    await productCollection.add(customer).catchError((e) {
-      print(e.toString());
-    });
+  void _redirectToHomePage(context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Landing(),
+      ),
+    );
   }
 
   Future<String> signIn(
       {String email, String password, BuildContext context}) async {
     try {
-      print("email and password" + email.toString() + password.toString());
       await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
-
-      print("Signed In");
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => Landing(),
-        ),
-      );
-      return "Success";
+      _redirectToHomePage(context);
+      return "Welcome Back to Memby Application!";
     } on FirebaseAuthException catch (e) {
-      print(e.toString());
+      return e.message;
     } on PlatformException catch (e) {
-      print(e.toString());
+      return ("Invaild Username or Password!");
     }
   }
 
-  Future<bool> changePassword({
-    String oldPassword,
-    String newPassword,
-  }) async {
-    try {
-      final user = _firebaseAuth.currentUser;
-      final email = user.email;
-      if (email != '' && oldPassword != '' && newPassword != "") {
-        UserCredential result = await _firebaseAuth.signInWithEmailAndPassword(
-            email: email, password: oldPassword);
-
-        if (result.user == null) {
-          return false;
-        } else {
-          await user.updatePassword(newPassword).catchError((error) {
-            print('Can not change password : ' + error.toString());
-            return false;
-          });
-          return true;
-        }
-      }
-    } on FirebaseAuthException catch (e) {
-      print(e.toString());
-      return false;
-    } on PlatformException catch (e) {
-      print(e.toString());
-      return false;
-    }
-    return false;
-  }
-
-  Future<String> signInWithGoogle() async {
+  Future<String> signInWithGoogle({BuildContext context}) async {
     // Trigger the authentication flow
     final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
 
@@ -445,18 +64,65 @@ class FlutterFireAuthService {
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
-    UserCredential authUser =
-        await FirebaseAuth.instance.signInWithCredential(credential);
-    if (authUser.additionalUserInfo.isNewUser) {
-      var bussinessProfile = authUser.additionalUserInfo.profile;
+    try {
+      UserCredential authUser =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+      if (authUser.additionalUserInfo.isNewUser) {
+        var bussinessProfile = authUser.additionalUserInfo.profile;
 
-      await _firestore.collection('company').doc(authUser.user.uid).set({
-        'id': authUser.user.uid,
-        'name': bussinessProfile['given_name'],
-        'logo': bussinessProfile['picture']
-      });
+        await _firestore.collection('company').doc(authUser.user.uid).set({
+          'id': authUser.user.uid,
+          'name': bussinessProfile['given_name'],
+          'logo': bussinessProfile['picture']
+        });
+      }
+      _redirectToHomePage(context);
+    } on FirebaseAuthException catch (e) {
+      return e.message;
     }
-    return "Success";
+
+    return "Welcome to Memby Application!";
+  }
+
+  Future<void> signOut() async {
+    await _firebaseAuth.signOut();
+    bool isSignedWithGoogle = await _googleSignIn.isSignedIn();
+    if (isSignedWithGoogle) {
+      await _googleSignIn.signOut();
+    }
+  }
+
+  Future<String> changePassword({
+    String oldPassword,
+    String newPassword,
+  }) async {
+    try {
+      final user = _firebaseAuth.currentUser;
+      final email = user.email;
+      final bool isNotEmpty =
+          email != '' && oldPassword != '' && newPassword != "";
+      if (!isNotEmpty) {
+        return "Failed to change your password";
+      }
+
+      UserCredential result = await _firebaseAuth.signInWithEmailAndPassword(
+          email: email, password: oldPassword);
+      if (result.user == null) {
+        return "Failed to change your password";
+      }
+      await user.updatePassword(newPassword);
+      return "Your password has been updated!";
+    } on FirebaseAuthException catch (e) {
+      return e.message;
+    }
+  }
+
+  Future<void> updateProfile(companyName, logoImg) async {
+    final userId = _getUserId();
+    final profile = logoImg != null
+        ? {'name': companyName, 'logo': logoImg}
+        : {'name': companyName};
+    await _firestore.collection("company").doc(userId).update(profile);
   }
 
   Future<String> signUp(
@@ -480,47 +146,209 @@ class FlutterFireAuthService {
           builder: (context) => Landing(),
         ),
       );
-      return "Success";
+      return "Welcome to Memby Application!";
     } on FirebaseAuthException catch (e) {
       print(e.toString());
       return e.message;
     }
   }
 
-  Future<String> uploadImageToFirebase(img) async {
-    final String userId = _firebaseAuth.currentUser.uid;
-    // String fileName = userId + DateTime.now().toString();
+// Dashbaard Function
 
-    String fileName = userId + DateTime.now().microsecond.toString();
-    Reference firebaseStorageRef =
-        FirebaseStorage.instance.ref().child('products/$fileName');
-    UploadTask uploadTask = firebaseStorageRef.putFile(img);
-    String url;
-    await uploadTask.whenComplete(() async {
-      url = await uploadTask.snapshot.ref.getDownloadURL();
-    }).catchError((onError) {
-      print(onError);
-    });
-    return url;
+  DateTime _getDashboardDate(timeInterval) {
+    DateTime now = new DateTime.now();
+    DateTime startDate = timeInterval == 'd'
+        ? new DateTime(now.year, now.month, now.day)
+        : timeInterval == 'm'
+            ? new DateTime(now.year, now.month)
+            : new DateTime(now.year);
+    return startDate;
   }
 
-  Future<void> removeImageFromFirebase(imgUrl) async {
-    print(imgUrl);
-    // FirebaseStorage.instance.ref(imgUrl).delete().
-    FirebaseStorage.instance.refFromURL(imgUrl).delete().then((_) {
-      print('Remove Img Successfully');
-    }).catchError((e) {
-      print("Remove Img Error: $e");
+  Future<List<QueryDocumentSnapshot>> _getOrdersDoc(timeInterval) async {
+    final DateTime startDate = _getDashboardDate(timeInterval);
+    final QuerySnapshot orders = await _getCompanyDoc()
+        .collection("order")
+        .orderBy("date")
+        .startAt([startDate]).get();
+    return orders.docs;
+  }
+
+  LinkedHashMap _getSortedDashboardSummary(
+      Map<String, dynamic> summary, String sortBy) {
+    var unsortedSummary = {};
+    for (var i in summary.keys) {
+      unsortedSummary[i] = summary[i][sortBy];
+    }
+    var sortedSummaryKeys = unsortedSummary.keys.toList(growable: false)
+      ..sort((k2, k1) => unsortedSummary[k1].compareTo(unsortedSummary[k2]));
+    LinkedHashMap sortedSummary = new LinkedHashMap.fromIterable(
+        sortedSummaryKeys,
+        key: (k) => k,
+        value: (k) => summary[k]);
+
+    return sortedSummary;
+  }
+
+  Future<LinkedHashMap> _sumUpTopCustomer(orderDocs) async {
+    Map<String, dynamic> customerSummary = {};
+    for (QueryDocumentSnapshot o in orderDocs) {
+      final String customerId = o.get('cus_id');
+      if (customerId != null) {
+        if (customerSummary[customerId] == null) {
+          DocumentReference targetCustomer =
+              _getCompanyDoc().collection("customer").doc(customerId);
+
+          DocumentSnapshot customer = await targetCustomer.get();
+          customerSummary[customerId] = {
+            'name': customer.get('firstname') + " " + customer.get('lastname'),
+            'phone': customer.get('phone_no'),
+            'totalPaid': o.get('total_price')
+          };
+        } else {
+          customerSummary[customerId]['totalPaid'] += o.get('total_price');
+        }
+      }
+    }
+    return _getSortedDashboardSummary(customerSummary, 'totalPaid');
+  }
+
+  Future<LinkedHashMap> _sumUpTopProduct(orderDocs) async {
+    Map<String, dynamic> productSummary = {};
+    for (QueryDocumentSnapshot o in orderDocs) {
+      final Map<String, dynamic> productList = o.get('product_list');
+      for (String productId in productList.keys) {
+        int amount = productList[productId];
+        if (productSummary[productId] == null) {
+          DocumentReference targetProduct =
+              _getCompanyDoc().collection("product").doc(productId);
+          DocumentSnapshot product = await targetProduct.get();
+          productSummary[productId] = {
+            'name': product.get('name'),
+            'price': product.get('price'),
+            'unitSale': amount,
+            'totalSale':
+                amount * product.get('price') * (1 - o.get('discount_rate'))
+          };
+        } else {
+          productSummary[productId]['unitSale'] += amount;
+          productSummary[productId]['totalSale'] += amount *
+              productSummary[productId]['price'] *
+              (1 - o.get('discount_rate'));
+        }
+      }
+    }
+    return _getSortedDashboardSummary(productSummary, 'totalSale');
+  }
+
+// Getter Function
+
+  Future<dynamic> _getUserInfo() async {
+    try {
+      dynamic userInfo = await _getCompanyDoc().get();
+      return userInfo;
+    } catch (err) {
+      print('Caught error: $err');
+      return {'name': 'Error', 'logo': 'Error'};
+    }
+  }
+
+  Future<dynamic> _getProductbyID(String id) async {
+    dynamic product = {
+      'name': 'Not Found',
+      'description': '',
+      'product_img': '',
+      'price': 0
+    };
+    if (id == 'n') {
+      return product;
+    }
+    try {
+      product = await _getCompanyDoc().collection("product").doc(id).get();
+    } catch (err) {
+      print('Caught error: $err');
+    }
+    return product;
+  }
+
+  Future<QuerySnapshot> _getProducts({bool visible}) async {
+    try {
+      QuerySnapshot products;
+      CollectionReference productsRef = _getCompanyDoc().collection("product");
+      if (visible != null) {
+        products = await productsRef.where('visible', isEqualTo: visible).get();
+      } else {
+        products = await productsRef.orderBy('visible', descending: true).get();
+      }
+      return products;
+    } catch (err) {
+      print('Caught error: $err');
+      return null;
+    }
+  }
+
+  Future<LinkedHashMap> _getProductSummary(timeInterval) async {
+    //Daily
+    try {
+      final orderDocs = await _getOrdersDoc(timeInterval);
+      return await _sumUpTopProduct(orderDocs);
+    } catch (err) {
+      print('Caught error: $err');
+      return null;
+    }
+  }
+
+  Future<LinkedHashMap> _getCustomerSummary(targetTime) async {
+    try {
+      final orderDocs = await _getOrdersDoc(targetTime);
+      return await _sumUpTopCustomer(orderDocs);
+    } catch (err) {
+      print('Caught error: $err');
+      return null;
+    }
+  }
+
+// GET API
+
+  getProductSummary(timeInterval) async {
+    return await _getProductSummary(timeInterval);
+  }
+
+  getCustomerSummary(timeInterval) async {
+    return await _getCustomerSummary(timeInterval);
+  }
+
+  getProducts({bool visible}) async {
+    return await _getProducts(visible: visible);
+  }
+
+  getUserInfo() async {
+    return await _getUserInfo();
+  }
+
+  getProductbyID(id) async {
+    return await _getProductbyID(id);
+  }
+
+  Future<QueryDocumentSnapshot> getCustomerFromPhoneNo(
+      String customerPhone) async {
+    QuerySnapshot customerRef = await _getCompanyDoc()
+        .collection('customer')
+        .limit(1)
+        .where('phone_no', isEqualTo: customerPhone)
+        .get()
+        .catchError((e) {
+      print(e.toString());
     });
+    if (customerRef.size == 0) {
+      print("Not found");
+      return null;
+    }
+    return customerRef.docs[0];
   }
 
   Future<bool> isCustomerPhoneDuplicate(String customerPhone) async {
-    final user = _firebaseAuth.currentUser;
-    final userId = user.uid;
-    print(customerPhone);
-    DocumentReference targetCompany =
-        _firestore.collection('company').doc(userId);
-    QuerySnapshot customerRef = await targetCompany
+    QuerySnapshot customerRef = await _getCompanyDoc()
         .collection('customer')
         .limit(1)
         .where('phone_no', isEqualTo: customerPhone)
@@ -533,15 +361,103 @@ class FlutterFireAuthService {
     }
     return false;
   }
-}
 
-// Future uploadImageToFirebase(BuildContext context) async {
-//   String fileName = basename(_image.path);
-//   StorageReference firebaseStorageRef =
-//       FirebaseStorage.instance.ref().child('uploads/$fileName');
-//   StorageUploadTask uploadTask = firebaseStorageRef.putFile(_imageFile);
-//   StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
-//   taskSnapshot.ref.getDownloadURL().then(
-//         (value) => print("Done: $value"),
-//       );
-// }
+// INSERT API
+
+  Future<void> addProduct(name, description, price, img) async {
+    final product = {
+      'name': name,
+      'description': description,
+      'price': price,
+      'product_img': img,
+      'visible': true
+    };
+    CollectionReference productCollection =
+        _getCompanyDoc().collection('product');
+    await productCollection.add(product).catchError((e) {
+      print(e.toString());
+    });
+  }
+
+  Future<void> addOrder(
+      customerId, discountRate, actualPrice, totalPrice, productList) async {
+    Map<String, dynamic> order = {};
+
+    order['cus_id'] = customerId;
+    order['discount_rate'] = discountRate;
+    order['product_list'] = productList;
+    order['total_price'] = totalPrice;
+    order['actual_price'] = actualPrice;
+    order['date'] = FieldValue.serverTimestamp();
+    CollectionReference orderCollection = _getCompanyDoc().collection('order');
+    try {
+      await orderCollection.add(order);
+    } catch (err) {
+      print('Caught error: $err');
+    }
+  }
+
+  Future<void> addCustomer(
+      firstName, lastName, email, phone, birthdate, gender, address) async {
+    final customer = {
+      'firstname': firstName,
+      'lastname': lastName,
+      'email': email,
+      "phone_no": phone,
+      'birthdate': birthdate,
+      'gender': gender,
+      'address': address
+    };
+    final CollectionReference productCollection =
+        _getCompanyDoc().collection('customer');
+    try {
+      await productCollection.add(customer);
+    } catch (err) {
+      print('Caught error: $err');
+    }
+  }
+
+// UPDATE API
+
+  Future<void> updateProduct(pid, name, description, price, img) async {
+    final product = {
+      'name': name,
+      'description': description,
+      'price': price,
+      'product_img': img
+    };
+    await _getCompanyDoc().collection("product").doc(pid).update(product);
+  }
+
+  Future<void> updateVisible(pid, visible) async {
+    final product = {
+      'visible': visible,
+    };
+    await _getCompanyDoc().collection("product").doc(pid).update(product);
+  }
+
+// FIREBASE STROAGE API
+
+  Future<String> uploadImageToFirebase(img) async {
+    final String fileName =
+        _getUserId() + DateTime.now().microsecond.toString();
+    final Reference firebaseStorageRef =
+        FirebaseStorage.instance.ref().child('products/$fileName');
+    final UploadTask uploadTask = firebaseStorageRef.putFile(img);
+    String url;
+    await uploadTask.whenComplete(() async {
+      url = await uploadTask.snapshot.ref.getDownloadURL();
+    }).catchError((onError) {
+      print(onError);
+    });
+    return url;
+  }
+
+  Future<void> removeImageFromFirebase(imgUrl) async {
+    FirebaseStorage.instance.refFromURL(imgUrl).delete().then((_) {
+      print('Remove Img Successfully');
+    }).catchError((e) {
+      print("Remove Img Error: $e");
+    });
+  }
+}

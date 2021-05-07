@@ -1,10 +1,10 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:memby/components/Card.dart';
-import 'package:memby/screens/viewDashboard.dart';
-import 'package:memby/screens/createOrderScreen.dart';
+import 'package:memby/components/publicComponent/Card.dart';
+import 'package:memby/screens/dashBoard/viewDashboard.dart';
+import 'package:memby/screens/order/createOrderScreen.dart';
 import 'package:memby/constants.dart';
-import 'package:memby/screens/manageProduct.dart';
+import 'package:memby/screens/manageProduct/manageProduct.dart';
 import 'package:memby/screens/registerScreen.dart';
 import 'package:memby/screens/homeScreen.dart';
 import 'package:memby/screens/profileSreen.dart';
@@ -34,7 +34,6 @@ class _LandingState extends State<Landing> {
     if (firebaseUser == null) {
       return HomeScreen();
     }
-    print(" Authenticated");
 
     return Container(
       child: Scaffold(
@@ -182,13 +181,12 @@ class _LandingState extends State<Landing> {
                                       child: CircleAvatar(
                                         radius: 100,
                                         child: CircleAvatar(
-                                          radius: 30,
-                                          backgroundImage: snapshot.hasData
-                                              ? NetworkImage(
-                                                  snapshot.data['logo'])
-                                              : AssetImage(
-                                                  'assets/images/profile.png'),
-                                        ),
+                                            radius: 30,
+                                            backgroundImage: snapshot.hasData
+                                                ? NetworkImage(
+                                                    snapshot.data['logo'])
+                                                : NetworkImage(
+                                                    "https://firebasestorage.googleapis.com/v0/b/memby-application.appspot.com/o/Group%2051.png?alt=media&token=be571d82-c69e-4bad-b200-a12d977e813d")),
                                       ),
                                     )),
                                 Positioned(
@@ -276,6 +274,7 @@ class _LandingState extends State<Landing> {
                                   Icons.person_add,
                                   color: Colors.white,
                                 ),
+                                description: "Register member for new customer",
                                 press: () {
                                   Navigator.push(
                                     context,
@@ -294,6 +293,7 @@ class _LandingState extends State<Landing> {
                                   Icons.shopping_cart,
                                   color: Colors.white,
                                 ),
+                                description: "Record customer's transactions",
                                 press: () {
                                   Navigator.push(
                                     context,
@@ -312,6 +312,7 @@ class _LandingState extends State<Landing> {
                                   Icons.add_shopping_cart,
                                   color: Colors.white,
                                 ),
+                                description: "Add or update products details",
                                 press: () {
                                   Navigator.push(
                                     context,
@@ -330,6 +331,7 @@ class _LandingState extends State<Landing> {
                                   Icons.dashboard_rounded,
                                   color: Colors.white,
                                 ),
+                                description: "Overview details of the company",
                                 press: () {
                                   Navigator.push(
                                     context,

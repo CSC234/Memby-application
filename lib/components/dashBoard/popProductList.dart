@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dotted_decoration/dotted_decoration.dart';
-import '../constants.dart';
+import '../../constants.dart';
 
 class PopProductList extends StatelessWidget {
   PopProductList({
@@ -39,8 +39,7 @@ class PopProductList extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Expanded(
-                    flex: 8,
+                  Container(
                     child: Column(
                       children: [
                         Container(
