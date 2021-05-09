@@ -146,7 +146,7 @@ class _ManageProduct extends State<ManageProduct> {
                                   fontsize: 15,
                                   buttonSize: 0.4,
                                   textColor: Colors.white,
-                                  text: "Add prodct",
+                                  text: "Add product",
                                   press: () {
                                     Navigator.push(
                                       context,
